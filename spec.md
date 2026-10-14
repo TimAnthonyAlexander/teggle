@@ -90,7 +90,7 @@ The player starts each level with 10 balls. More come only from the bucket, high
 | Shot score 25,000 | First threshold in one shot | +1 |
 | Shot score 75,000 | Second threshold | +1 |
 | Shot score 125,000 | Third threshold | +1 |
-| Coin flip | Shot hits zero pegs; a coin spins | +1 on a win; odds *undocumented* |
+| Coin flip | Shot hits zero pegs; a coin spins | +1 on a win; 50/50 (section 14.1) |
 
 Style points do not count toward the thresholds. Multiball spawns and the bucket can stack with the thresholds; fans report up to 6 free balls from one shot (*unverified*).
 
@@ -217,7 +217,7 @@ Each campaign stage belongs to one master, and that master's power is what the 2
 | Stages | 11 of 5 | 12 of 5 |
 | Challenges | 75 | 65 per fan wiki; 60 per publisher |
 
-Which campaign Teggle follows is open. The data below is for the base game.
+Teggle follows the base game (section 14.1). The data below is for the base game.
 
 **Campaign structure (base game).**
 - Stages 1 to 10: one master each, 5 levels each.
@@ -358,12 +358,12 @@ Quirks backed by the patent, Wikipedia or the fan editor are requirements. Unver
 | Quick disappear pegs | Some pegs vanish soon after the hit instead of at shot end | Fan editor docs | Requirement |
 | Lit pegs persist | Hit pegs stay as obstacles until the shot ends | Patent | Requirement |
 | Zero-hit coin flip | A shot that hits no peg spins a coin for a possible free ball | Patent | Requirement |
-| Coin-flip weighting | Odds reportedly favor the player more when few balls are left | Fan wiki | Unverified, open |
+| Coin-flip weighting | Odds reportedly favor the player more when few balls are left | Fan wiki | Not implemented (14.1) |
 | Bucket speed-up | Holding the right mouse button between shots speeds up the bucket | Patent | Requirement |
 | Multiplier freeze | With more than 25 orange pegs, the fever meter does not move until 25 remain | Fan wiki | Requirement |
 | Thresholds exclude style | The 25k / 75k / 125k free-ball thresholds use the shot score only | Patent | Requirement |
-| Last-ball assist | On first campaign play with 2 or fewer balls left, the game reportedly nudges the shot toward a better result | Fan document | Unverified, open |
-| Long Shot bug | Long Shot reportedly only counts when the non-blue pegs are the first pegs hit | Fan wiki | Unverified, open |
+| Last-ball assist | On first campaign play with 2 or fewer balls left, the game reportedly nudges the shot toward a better result | Fan document | Not implemented (14.1) |
+| Long Shot bug | Long Shot reportedly only counts when the non-blue pegs are the first pegs hit | Fan wiki | Not implemented (14.1) |
 | Fever slow motion | Time slows and the camera zooms only when the ball is about to hit the last orange peg | Wikipedia | Requirement; parameters undocumented |
 | Win is immediate | Hitting the last orange peg wins, even on the last ball in play | Patent | Requirement |
 | Loss | Running out of balls with orange pegs left restarts the level | Patent, Wikipedia | Requirement |
@@ -416,7 +416,7 @@ A level built from the element catalog in section 9: round pegs, bricks, solid s
 
 | Property | Target | Source |
 | --- | --- | --- |
-| Colored objects per level | 85 to 134, median 103 (4:3 board; scaling to 16:9 is open) | Fan wiki infoboxes |
+| Colored objects per level | 85 to 134, median 103 on the 4:3 board; scaled by playfield area for 16:9 (14.1) | Fan wiki infoboxes |
 | Difficulty ramp | Stage averages rise from about 97 (stage 1) to about 117 (stage 11) | Same data |
 | Brick share across a set | About 42% | Same data |
 | Round pegs only | About 1 level in 3 (17 of 55) | Same data |
@@ -446,7 +446,7 @@ The flagged set must be larger than the orange count it serves: 25 normally, up 
 
 The live game runs in any browser engine (for example Safari's JavaScriptCore or Chrome's V8). Self-play runs headless (for example V8 in Node). A replay of a live shot must give the same result in both.
 
-**Why this needs a requirement.** The review of this spec reported that ECMA-262 leaves Math.sin, Math.cos, Math.atan2, Math.exp and similar functions implementation-approximated, so their results can differ between engines. This was not checked against the spec text.
+**Why this needs a requirement.** ECMA-262 leaves Math.sin, Math.cos, Math.atan2, Math.exp and similar functions implementation-approximated, so their results can differ between engines. Checked against the spec text and measured on 2026-10-14 (section 14.1).
 
 **Requirement.** The physics step and anything feeding it must produce bit-identical results across engines. Ways to meet it:
 - Fixed timestep, with no dependence on frame time.
@@ -496,18 +496,34 @@ Self-play gives an estimate, not a proof. As the Angry Birds generator research 
 | 4. Calibration (stretch) | Agent error tuned to Tim's play | Agent and Tim's clear rates are close on the test set |
 | 5. Search loop (stretch) | Generate, evaluate, mutate, keep the best | The generator produces levels inside the target bands without hand editing |
 
-## 14. Open questions
+## 14. Decisions and open questions
 
-**Scope**
-- Base game campaign (55 levels, 10 masters), expansion campaign (60 levels, adds the Squid, different stage order), or both
-- Duel ball count, 5 or 6 (Duel is post-MVP)
+### 14.1 Decisions
 
-**Platform**
-- Touch equivalents for fine aim (mouse wheel, arrow keys) and bucket speed-up (right mouse button)
-- Mobile orientation for a 16:9 board
-- Whether object counts scale up from the original 4:3 levels to the wider 16:9 board
+Decided 2026-10-14 unless dated otherwise. Where a decision conflicts with an earlier section, the decision wins.
 
-**Rules not documented in any source**
+| Topic | Decision |
+| --- | --- |
+| Campaign | Base game: 55 levels, 10 masters, 75 challenges (Duel ones post-MVP). Expansion content is out of scope: the Squid, Off the Wall, ace scores, the trophy room. |
+| Look | The 2007 original's visual and UI language, with none of its trademarks, names, logos or character designs. The guide is `docs/design/visual-language.md`. |
+| Language | English only. |
+| Hidden assists | None. No coin-flip weighting, no last-ball assist, no Long Shot bug. |
+| Coin flip | A shot that hits no peg flips a coin: 50/50, and on a win the ball returns to the stock. |
+| 16:9 density | Object counts scale by the ratio of Teggle's playfield area to the original's. |
+| Stack | TypeScript, Vite, Canvas 2D, Vitest, Playwright. No backend. Progress is stored in the browser. |
+| Physics | Teggle's own deterministic engine in TypeScript with a fixed timestep (section 13.4). No WASM engine. |
+| Determinism basis | Verified against the ECMA-262 text: `Math.sin`, `cos`, `atan2`, `exp`, `pow`, `hypot` and `**` are implementation-approximated; `Math.sqrt`, `round`, `abs`, `imul` and basic arithmetic are exact. Measured: native sin/cos/atan2 over 24,000 inputs give different bits in V8 (Node) and JavaScriptCore (Bun); Teggle's ports in `src/core/dmath.ts` give identical bits. |
+| Target browsers | Chromium, WebKit (Safari) and Firefox, plus Node for headless runs. |
+| Mobile orientation | Landscape. Portrait shows a prompt to rotate. |
+| Touch controls | Fine aim by dragging at reduced sensitivity. Bucket speed-up by holding an on-screen button between shots. |
+| Lines in the editor | A line produces either bricks or round pegs, chosen per line. |
+| Art and audio sources | Master characters, backgrounds without a free original and other art are generated. Sound effects are synthesized. "Ode to Joy" is synthesized from the public-domain score. Every asset's source is recorded in an asset manifest. |
+| Undocumented constants | Set by tuning and recorded in section 14.2 as they are chosen. |
+
+### 14.2 Rules not documented in any source
+
+Each is decided during implementation and its value recorded here.
+
 - Whether green and purple pegs must come from pegs flagged "can be orange"
 - Whether a multiplier step during a shot raises the value of pegs hit later in that same shot
 - Power stacking: what a green hit does while the same power is running (extend Guide, Pyramid or Flippers; a second extra ball; a second Spooky return)
@@ -516,22 +532,15 @@ Self-play gives an estimate, not a proof. As the Angry Birds generator research 
 - Aim guide length
 - Bucket width and speed, and the speed-up factor
 - Stuck-ball timeout, and which peg is removed first
-- Coin-flip odds
 - Fever slow-motion factor, zoom, trigger distance
 - Space Blast radius, Lucky Spin odds, Zen Ball search method
 - Size of the "can be orange" set per original level
 - Exact style-shot detection rules (how Long Shot distance is measured, what counts as a slide)
 
-**Unverified behaviors**
-- Implement or skip: coin-flip weighting, last-ball assist, Long Shot bug
+### 14.3 Still open
 
-**Editor and assets**
-- Can a line also produce round pegs, or do round pegs only come from the generator's fill?
-- Smoothing method, and the curvature threshold between straight and curved bricks
-- Source of master characters, sound effects and music
-
-**Simulation**
-- Physics approach that meets the determinism requirement: own deterministic JS step, or a WASM engine
+- Duel ball count, 5 or 6 (Duel is post-MVP)
+- Line smoothing method, and the curvature threshold between straight and curved bricks (decided in the editor work)
 
 ## 15. Level data (base game campaign)
 

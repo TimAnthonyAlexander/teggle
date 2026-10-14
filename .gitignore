@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+test-results/
+playwright-report/
+.vite/
+*.log
+.DS_Store
+
+# Screenshots and files of the original game, kept for reference only. Never committed.
+reference/

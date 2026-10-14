@@ -1,0 +1,51 @@
+# Teggle
+
+A web rebuild of the 2007 PC pachinko shooter, for personal play. `spec.md` is the source of truth for scope and rules. Decisions live in spec section 14.1; every undocumented rule or constant chosen during implementation gets a line in section 14.2. Production grade throughout, even though it is never published.
+
+## Commands
+
+- `npm run dev`: Vite dev server
+- `npm run check`: typecheck, lint, format check, unit tests. Must pass before a wave is done.
+- `npm test`: Vitest unit tests (`src/**/*.test.ts`, `tools/**/*.test.ts`)
+- `npm run format`: Prettier (Markdown is excluded on purpose; never reformat `spec.md`)
+
+## Layout
+
+| Path | Contents | Deterministic |
+| --- | --- | --- |
+| `src/core/` | `dmath` (deterministic trig), `rng` (seeded sfc32), `digest` (bit-exact hashes) | yes |
+| `src/sim/` | Physics: shapes, collision, movement, fixed-step world, events | yes |
+| `src/rules/` | Game rules: colors, scoring, fever meter, free balls, style shots, powers, shot and level state | yes |
+| `src/level/` | Level file format, Zod schema, loader | yes |
+| `src/gen/` | Level generator and its validity, reachability and stuck checks | yes |
+| `src/agents/` | Self-play agents and metrics (stretch) | yes |
+| `src/game/` | Browser runtime: screens, Canvas 2D renderer, input, audio, saves | no |
+| `src/editor/` | Hidden background line editor | no |
+| `tools/` | Node CLIs (level generation, replay checks) | no |
+| `public/` | Static assets the game loads (levels, backgrounds, audio) | |
+| `docs/` | Design guide and research notes | |
+| `reference/` | Screenshots and files of the original game. Gitignored, never committed, never shipped. | |
+
+## Determinism (spec 13.4)
+
+Everything in the deterministic directories must give bit-identical results in V8, JavaScriptCore and SpiderMonkey. ESLint enforces the mechanical part.
+
+- No `Math.sin/cos/tan/atan2/exp/log/pow/hypot/random`, no `**`. Use `src/core/dmath.ts`. `Math.sqrt`, `Math.round`, `Math.abs`, `Math.min/max`, `Math.imul` and `+ - * /` are exact and allowed.
+- No `Date`, `performance`, `window`, `document`, timers or ambient randomness. Time is a tick counter. Randomness comes from an `Rng` passed in.
+- Fixed timestep. Rendering speed, slow motion and frame drops never change the simulation.
+- A shot is stored and replayed as its launch direction vector plus its launch tick and inputs, never as an angle.
+- Any change to sim output must be deliberate: golden digests in tests pin the bits.
+
+## Code
+
+- TypeScript strict. No `any`, no non-null assertions to silence the checker, no `console` in `src/`.
+- Validate untrusted data (level files, saves) with Zod at the boundary.
+- The simulation hot path mutates in place and avoids per-step allocation; that is deliberate. Elsewhere prefer immutable updates.
+- Unit tests sit next to the code (`foo.ts`, `foo.test.ts`).
+- American English in code, comments, docs and every UI string (color, gray, center, behavior, canceled).
+
+## Content
+
+- No placeholder content, fake data, lorem ipsum or stub screens presented as finished.
+- Never use the original's trademarks: its name, its publisher's marks, its master names or character designs, or branded phrases. The spec's naming table (section 1) and master names (section 7) are binding. `docs/design/visual-language.md` lists the exclusions.
+- Original game art is never committed or shipped. Reused backgrounds must come from a free source, recorded in the asset manifest with URL and license.

@@ -1,0 +1,6 @@
+dist/
+coverage/
+reference/
+public/levels/
+package-lock.json
+*.md
