@@ -552,10 +552,36 @@ Decided in the physics engine on 2026-10-14. Values live in `src/sim/tuning.ts`;
 - Contact solver: surfaces sit 0.01 px inside the touching distance; an overlap is ignored while the ball already separates faster than 0.2 px/tick; a ball that is separating gets no velocity change; after 20 contacts in one tick the ball stays at the last contact point.
 - Slide on moving surfaces: the decompiled slide line is read with the ball's velocity relative to the surface. Read literally, a ball resting on a moving platform would gain the platform's speed every tick.
 - Movement readings: verticalArc swings over the right half of the ellipse (the decompiled line moves along a diagonal); rotate ignores maxAngle (the decompiled code then holds a constant angle); rotateAroundCircle on an ellipse faces along the ellipse's outward normal (the decompiled screen-space atan2 turns the other way than on a circle); clock arithmetic uses a floor modulo. Parents move before their children in the same tick, and a child's anchor is its position in the file plus its parent's displacement since tick 0.
-- Stuck counter: +1 per tick. Every 10 ticks the ball compares its position with its last 6 samples: a 2 px move resets the counter, a 0.2 px move takes 5 off. Peg removals and contacts with ballStopReset objects reset it. The removal threshold and which peg goes stay with the rules layer (open above).
+- Stuck counter: +1 per tick. Every 10 ticks the ball compares its position with its last 6 samples: a 2 px move resets the counter, a 0.2 px move takes 5 off. Peg removals and contacts with ballStopReset objects reset it. The removal threshold and which peg goes stay with the rules layer (decided below).
 - Quick disappear: the crumble count starts at 3 when the peg lights, by contact or by a power, and the peg goes at 100, 97 ticks later.
 - Teleports fire on entry only: a ball placed inside a trigger has to leave it before it fires again.
 - Lit pegs leave the simulation together when the shot ends; popping them one at a time is presentation.
+
+Decided in the rules engine on 2026-10-15. Values live in `src/rules/tuning.ts`.
+
+- Green and purple pegs come from the pegs flagged "can be orange", like the orange ones; unflagged pegs fill in only when the flagged set runs out. The game's own name for the flag is "variable" (the randomizer may change the peg), and section 3 already budgets three flagged pegs beyond the orange count.
+- Designer-placed greens, when used, are placed before the orange pegs are drawn, so they never turn orange.
+- A multiplier step applies at once: a peg is worth its base value times the multiplier for the orange pegs left before it lit, so pegs lit after a step in the same shot score more. The original's meter fills during the shot and its popups show each hit's multiplied value.
+- The purple peg moves after every shot that does not end the level, a zero-hit shot included: to a random blue peg still on the board other than itself, flagged pegs first. With no other blue peg it stays; if it was hit and no blue peg is left, there is no purple. This is the patent's rule with no extra conditions.
+- Aim guide length unit: simulation ticks. 40 ticks from the barrel tip cover about 200 px straight down, the path length measured on screen (visual guide 5.3).
+- Long Shot: the straight line between the ball's centers at two contacts with non-blue pegs, the second one lighting its peg, is at least 1/3 of the board width (305 px on the 916 board); Super Long Shot from 2/3 (611 px). A contact with any other peg in between, a teleport or a Spooky return breaks the chain; walls, solids and the bucket do not. Touching the first peg again moves the start point. The spec states the distance as a share of the screen width, so it scales with the wider board.
+- Double Long Shot: a Long or Super Long hop that starts at the peg where the previous hop ended, with no peg in between, also scores Double Long Shot; each hop still scores its own Long Shot. The table lists it as a bonus of its own.
+- Bucket Bounce: the ball lands in the bucket having touched exactly one peg or brick (any number of times) and nothing at all after its last contact with it.
+- Bucket Kick: the ball that lights the last orange peg touched a part of the free ball bucket (rim, Pyramid slope or cover) more recently than any peg; walls and solids in between are allowed.
+- Lucky Bounce: after a contact with the bucket, the ball rises at least 1/4 of the board height (140 px) above that contact point, then lands in the bucket. Other contacts in between are allowed; a teleport or a Spooky return stops the measurement.
+- Bucket Streak: a shot counts when at least one of its balls lands in the bucket. 5 in a row score Bucket Streak, 10 Big Bucket Streak, then the count starts over (shot 15 scores Bucket Streak again).
+- Long Slide: 12 different pegs or bricks touched with slide contacts (at or below the rolliness threshold, section 9) in one run. A bounce off anything, a teleport or 25 ticks without a slide contact ends the run. Once per shot.
+- Orange Rush: orange pegs lit in the shot by any cause, against the table for the orange pegs left before the shot; with fewer than 5 left there is none. Once per shot.
+- Clean Finish: the shot lit at least one peg before the last orange, the last orange left exactly one unlit peg on the board, and the next peg lit is that one.
+- Double Power: the second green peg lit in the same shot, by the ball or by a power.
+- Style points show at once and join the score at shot end with the shot score. They never count toward the free ball thresholds.
+- Free balls: one per ball the bucket catches. A threshold ball comes the moment the running shot score of all the shot's balls passes 25,000, 75,000 or 125,000, as the ball counter's tubes fill during the shot.
+- Coin flip: only after a shot that lit no peg and put no ball in the bucket; a ball in the bucket already came back.
+- Fever: the result is a win from the moment the last orange lights. Every ball that lands in a Fever bucket pays it (Multiball can land two); no source says otherwise. Full Clear is judged as the ball lands: every peg lit or gone. Unused balls convert after the last shot's free balls.
+- Stuck ball: at a stuck count of 500 (the decompiled KILLBALL_TIME3) the rules remove the lit peg the ball touched most recently within the last 100 ticks, the nearest on a tie; the removal resets every ball's count. A ball that touches no lit peg leaves play at 1,500 (KILLBALL_TIME1). Removing the peg the ball rests on is what the patent describes; taking the ball is the last resort the constant's name suggests.
+- A shot ends after 30,000 ticks (5 minutes) at the latest: every ball still in play is removed. A safety net for loops that never stall, long enough for any flipper rally.
+- Pegs lit by a power score and count like pegs lit by the ball. Power effects stack by default: a second grant while the same effect runs or waits adds its shots; each power may choose otherwise.
+- The campaign clear bonus needs a campaign try number; Quick Play and challenges get none.
 
 ### 14.3 Still open
 
