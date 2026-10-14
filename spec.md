@@ -55,7 +55,7 @@ Every level has the same color mix: 25 orange, 2 green, 1 purple per shot, and b
 | Purple | 1 per shot (from level 4) | 500 | Bonus peg. Moves to a different blue peg after every shot. |
 
 **Shapes.** Each colored object is either a round peg or a brick.
-- Bricks are straight or curved. Fan editor defaults: 30 long, 20 wide; curved bricks are defined by radius and sector angle.
+- Bricks are straight or curved. Fan editor defaults: 30 long, 20 wide; curved bricks are defined by radius and sector angle. In the shipped levels straight bricks are mostly 35 long and all bricks are 20 wide (`docs/research/original-levels.md`).
 - No source gives bricks a separate value, so they score like round pegs of the same color.
 - Across the 55 base-game levels, 42% of colored objects are bricks. 17 levels use only round pegs and 5 use only bricks.
 
@@ -430,7 +430,7 @@ A level built from the element catalog in section 9: round pegs, bricks, solid s
 | Green / purple | 2 / 1, chosen at runtime | Patent |
 | Balls | 10 | Patent |
 
-The flagged set must be larger than the orange count it serves: 25 normally, up to 55 in challenges. Otherwise every attempt has the same orange pegs. How much larger the original levels made it is undocumented; measuring it requires parsing the original level files with the fan editor's reader.
+The flagged set must be larger than the orange count it serves: 25 normally, up to 55 in challenges. Otherwise every attempt has the same orange pegs. Measured in the original files: the median level flags every scoring object, the lowest flags 53%, and none flags fewer than 64 (`docs/research/original-levels.md`).
 
 ### 13.3 Generator requirements
 
@@ -533,13 +533,12 @@ Each is decided during implementation and its value recorded here.
 - Whether a multiplier step during a shot raises the value of pegs hit later in that same shot
 - Power stacking: what a green hit does while the same power is running (extend Guide, Pyramid or Flippers; a second extra ball; a second Spooky return)
 - Unit of the aim guide length (the length is 40, or 80 with Guide)
-- Bucket width (speed: about 6 s per cycle per fans; speed-up: whole game 8x, both from section 4)
-- Wall and ceiling geometry, Fever bucket layout
 - Stuck-ball timeout, and which peg is removed first
 - Fever zoom and trigger distance (slow motion defaults to 0.25x in the decompiled code)
 - Space Blast radius, Lucky Spin odds, Zen Ball search method
-- Size of the "can be orange" set per original level
 - Exact style-shot detection rules (how Long Shot distance is measured, what counts as a slide)
+
+Measured from the owner's copy of the original on 2026-10-14 (`docs/research/original-levels.md`), so no longer open: walls and ceiling (the top is closed at y ≈ 9.4), bucket size and travel (catch zone 130 wide, about 176 wide overall, 600-tick cycle), Fever bucket and bumper layout, flipper geometry, peg radius (10 everywhere), and the can-be-orange set (median 100% of scoring objects, minimum 53%, never fewer than 64 pegs).
 
 ### 14.3 Still open
 

@@ -43,7 +43,15 @@ const deterministicDirs = [
 
 export default defineConfig(
   {
-    ignores: ['dist/', 'coverage/', 'reference/', 'public/', 'playwright-report/', 'test-results/'],
+    ignores: [
+      'dist/',
+      'coverage/',
+      'reference/',
+      'Peggle.Deluxe/',
+      'public/',
+      'playwright-report/',
+      'test-results/',
+    ],
   },
   js.configs.recommended,
   tseslint.configs.strictTypeChecked,
