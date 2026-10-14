@@ -583,6 +583,16 @@ Decided in the rules engine on 2026-10-15. Values live in `src/rules/tuning.ts`.
 - Pegs lit by a power score and count like pegs lit by the ball. Power effects stack by default: a second grant while the same effect runs or waits adds its shots; each power may choose otherwise.
 - The campaign clear bonus needs a campaign try number; Quick Play and challenges get none.
 
+Decided in the play screen on 2026-10-15. Values live in `src/game/play/timing.ts` and `src/game/play/aim.ts`; all of it is presentation and input, none of it changes the simulation.
+
+- Fever slow motion starts when the rules predict that a ball lights the last orange peg within 25 ticks (about 1 s of real time at 0.25x). It holds 3 s of real time after the hit, or until the ball lands, then ramps back by 20 per mille per tick as in the decompiled code. A click ends it at once.
+- Fever zoom: toward the first ball, 1.5x over 0.55 s while closing in, then 2x over 0.5 s after the hit, back to 1x over 0.26 s. The machine fades out by 1.14x and a thin frame replaces it; the camera stays inside the playfield opening.
+- Shot end: the tally's first line fades in over 170 ms; the first lit peg pops 12 ticks after the ball leaves, the rest clamp(8 - remaining/10, 1, 5) ticks apart; the finished tally holds 25 ticks before the purple peg moves and the next ball loads. Pegs removed during the shot (quick disappear, stuck ball) pop as they go and count in the tally.
+- Coin flip: the coin spins 1.3 s (the length of the original's spin sound) and shows its face for 1.1 s; a won ball joins the counter when the face shows.
+- Click jitter: a mouse click within 10 ticks of the barrel leaving an angle it held for 30 ticks fires at that angle only if the barrel moved less than 1 degree, so deliberate quick swings fire where they point.
+- Touch: a finger points the cannon at itself; dragging turns the aim by 0.001 rad per world unit of drag across the aim line; a tap (under 7 units of movement and 350 ms) fires as soon as the barrel points at it; a tap on the launcher fires without re-aiming.
+- Fast forward (8x) runs only between shots; the original's in-shot speed-up is a cheat toggle.
+
 ### 14.3 Still open
 
 - Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)

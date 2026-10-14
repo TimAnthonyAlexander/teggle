@@ -4,7 +4,7 @@
 
 import { color } from '../ui/tokens';
 import { darken, lighten, rgba } from '../ui/color';
-import { drawLayer, layers } from './cache';
+import { drawLayer, layers, type Layer } from './cache';
 import { circlePath, linear, radial, rivet, type Ctx } from './paint';
 import { drawBall } from './ball';
 import { CANNON_BALL_REACH } from '../layout';
@@ -179,9 +179,7 @@ function paintGuideDot(ctx: Ctx, tint: string, core: string): void {
  */
 export function drawAimGuide(ctx: Ctx, k: number, points: ArrayLike<number>, count: number): void {
   if (count < 1) return;
-  const dot = layers.get('guide-dot', k, -7.5, -7.5, 15, 15, (c) => {
-    paintGuideDot(c, '#62d6c4', color.guideDotHot);
-  });
+  const dot = guideDotSprite(k);
   for (let i = 0; i < count; i++) {
     const x = points[2 * i] ?? 0;
     const y = points[2 * i + 1] ?? 0;
@@ -203,7 +201,15 @@ export function drawAimGuide(ctx: Ctx, k: number, points: ArrayLike<number>, cou
   }
 }
 
-function drawGuideArrow(ctx: Ctx, x: number, y: number, angle: number): void {
+/** One aim guide dot, 15 units square, centered on the origin. */
+export function guideDotSprite(k: number): Layer {
+  return layers.get('guide-dot', k, -7.5, -7.5, 15, 15, (c) => {
+    paintGuideDot(c, '#62d6c4', color.guideDotHot);
+  });
+}
+
+/** The arrowhead at the end of the aim guide, pointing along `angle` (radians, screen). */
+export function drawGuideArrow(ctx: Ctx, x: number, y: number, angle: number): void {
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate(angle);

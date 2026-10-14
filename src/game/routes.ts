@@ -7,6 +7,10 @@ import { TitleScreen } from './screens/title';
 
 export async function routeScreen(route: Route): Promise<Screen> {
   const [first, second] = route.segments;
+  if (first === 'play') {
+    const { playRoute } = await import('./play/route');
+    return playRoute(route);
+  }
   if (first === 'dev') {
     // DEV ONLY review routes.
     if (second === 'kit') {

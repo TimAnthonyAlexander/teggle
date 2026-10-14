@@ -4,7 +4,7 @@
 
 import { color } from '../ui/tokens';
 import { rgba } from '../ui/color';
-import { layers, drawLayer } from './cache';
+import { layers, drawLayer, type Layer } from './cache';
 import { circlePath, linear, radial, type Ctx } from './paint';
 
 function paintBall(ctx: Ctx, r: number): void {
@@ -54,12 +54,16 @@ function paintBall(ctx: Ctx, r: number): void {
   ctx.fill();
 }
 
-/** Steel ball, cached per radius and resolution. */
-export function drawBall(ctx: Ctx, k: number, x: number, y: number, r = 6): void {
-  const layer = layers.get(`ball:${r}`, k, -r - 0.5, -r - 0.5, 2 * r + 1, 2 * r + 1, (c) => {
+/** Steel ball sprite centered on the origin, cached per radius and resolution. */
+export function ballSprite(k: number, r = 6): Layer {
+  return layers.get(`ball:${r}`, k, -r - 0.5, -r - 0.5, 2 * r + 1, 2 * r + 1, (c) => {
     paintBall(c, r);
   });
-  drawLayer(ctx, layer, x, y);
+}
+
+/** Steel ball, cached per radius and resolution. */
+export function drawBall(ctx: Ctx, k: number, x: number, y: number, r = 6): void {
+  drawLayer(ctx, ballSprite(k, r), x, y);
 }
 
 /** Ball shadow: a disc offset like the object shadows. */

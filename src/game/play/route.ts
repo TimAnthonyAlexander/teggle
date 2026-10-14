@@ -1,0 +1,56 @@
+// The play route: #/play/<level path under public/levels/>, with optional query parameters
+// seed (first attempt's seed), theme (0 to 9), balls, orange (orange pegs to clear) and
+// campaign=1 (tries count for the campaign clear bonus).
+// Loads and checks the level, makes the first attempt, and hands both to the play screen; any
+// failure shows a message instead.
+
+import { AttemptSetupError } from '../../rules/colors';
+import { numberParam, type Route } from '../app/router';
+import type { Screen } from '../app/screens';
+import { WORLD_H, WORLD_W } from '../layout';
+import { MessageScreen } from '../screens/message';
+import { PlayScreen, type PlayOptions } from '../screens/play';
+import { plainBackdrop, type BackdropPainter } from './backdrop';
+import { checkLevelPath, loadLevel, LevelLoadError } from './load';
+
+function options(route: Route): PlayOptions {
+  const seed = route.params.get('seed');
+  const balls = numberParam(route, 'balls', 0);
+  const orange = numberParam(route, 'orange', 0);
+  return {
+    seed: seed === undefined || !/^\d+$/.test(seed) ? null : Number(seed) >>> 0,
+    theme: Math.trunc(numberParam(route, 'theme', 0)),
+    campaign: route.params.get('campaign') === '1',
+    balls: Number.isInteger(balls) && balls >= 1 && balls <= 99 ? balls : null,
+    orange: Number.isInteger(orange) && orange >= 1 && orange <= 55 ? orange : null,
+  };
+}
+
+/** Picks the painter for a level's background id. Only the dev picture exists so far. */
+async function backdropFor(id: string): Promise<BackdropPainter> {
+  if (id === 'dev-backdrop') {
+    // DEV picture for dev and example levels; loaded lazily so it stays out of the main bundle.
+    const { drawDevBackdrop } = await import('../dev/backdrop');
+    return (ctx, k) => {
+      ctx.fillStyle = '#1d1f5c';
+      ctx.fillRect(0, 0, WORLD_W, WORLD_H);
+      drawDevBackdrop(ctx, k);
+    };
+  }
+  return plainBackdrop;
+}
+
+export async function playRoute(route: Route): Promise<Screen> {
+  try {
+    const path = checkLevelPath(route.segments.slice(1));
+    const loaded = await loadLevel(path, import.meta.env.BASE_URL);
+    const opts = options(route);
+    const first = PlayScreen.firstAttempt(loaded, opts);
+    return new PlayScreen(loaded, await backdropFor(loaded.level.background), opts, first);
+  } catch (err) {
+    if (err instanceof LevelLoadError || err instanceof AttemptSetupError) {
+      return new MessageScreen('Level Not Playable', err.message, 'Back to Title', '#/');
+    }
+    throw err;
+  }
+}

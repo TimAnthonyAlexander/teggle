@@ -1,0 +1,12 @@
+{
+  "formatVersion": 1,
+  "name": "Dev Level: Full Clear Check",
+  "background": "dev-backdrop",
+  "board": { "width": 916, "height": 560 },
+  "elements": [
+    {"kind":"peg","id":1,"x":612.14,"y":139.1},
+    {"kind":"peg","id":2,"x":709.32,"y":135.9},
+    {"kind":"peg","id":3,"x":744.55,"y":234.88},
+    {"kind":"peg","id":4,"x":853.87,"y":266.49}
+  ]
+}

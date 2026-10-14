@@ -14,7 +14,7 @@ import {
   type PegColor,
   type PegPalette,
 } from '../ui/tokens';
-import { LayerCache, drawLayer, layers } from './cache';
+import { LayerCache, drawLayer, layers, type Layer } from './cache';
 import { circlePath, linear, radial, type Ctx, type Stops } from './paint';
 
 // ---------------------------------------------------------------------------------------------
@@ -81,18 +81,10 @@ function paintPeg(ctx: Ctx, x: number, y: number, r: number, p: PegPalette, lit:
   ctx.fill();
 }
 
-/** Draws a round peg (sprite cached per color, state, radius and resolution). */
-export function drawPeg(
-  ctx: Ctx,
-  k: number,
-  x: number,
-  y: number,
-  color: PegColor,
-  lit: boolean,
-  r = 10,
-): void {
+/** Round peg sprite centered on the origin, cached per color, state, radius and resolution. */
+export function pegSprite(k: number, color: PegColor, lit: boolean, r = 10): Layer {
   const pad = 1;
-  const layer = layers.get(
+  return layers.get(
     `peg:${color}:${lit ? 1 : 0}:${r}`,
     k,
     -r - pad,
@@ -103,10 +95,36 @@ export function drawPeg(
       paintPeg(c, 0, 0, r, pegPalette[color][lit ? 'lit' : 'normal'], lit);
     },
   );
-  drawLayer(ctx, layer, x, y);
 }
 
-function glowSprite(k: number, tint: string, radius: number) {
+/** Draws a round peg (sprite cached per color, state, radius and resolution). */
+export function drawPeg(
+  ctx: Ctx,
+  k: number,
+  x: number,
+  y: number,
+  color: PegColor,
+  lit: boolean,
+  r = 10,
+): void {
+  drawLayer(ctx, pegSprite(k, color, lit, r), x, y);
+}
+
+/** Additive halo sprite of a lit peg in its color, centered on the origin (glow.peg). */
+export function pegGlowSprite(
+  k: number,
+  color: PegColor,
+  radius: number = shapeTokens.pegGlowRadius,
+): Layer {
+  return glowSprite(k, pegGlow[color], radius);
+}
+
+/** Soft white glow disc centered on the origin, for flashes. */
+export function whiteGlowSprite(k: number, radius: number): Layer {
+  return glowSprite(k, '#ffffff', radius);
+}
+
+function glowSprite(k: number, tint: string, radius: number): Layer {
   return layers.get(`glow:${tint}:${radius}`, k, -radius, -radius, 2 * radius, 2 * radius, (c) => {
     // Flat bright center falling off to nothing, like the original's glow sprite (4.2).
     c.fillStyle = radial(c, 0, 0, 0, 0, 0, radius, [
@@ -418,11 +436,14 @@ function brickKey(b: BrickShape): string {
     : `c:${b.rotation.toFixed(4)}:${b.innerRadius}:${b.width}:${b.sector.toFixed(4)}:${b.points}`;
 }
 
-/** Draws a straight or curved brick in its color and state. */
-export function drawBrick(ctx: Ctx, k: number, b: BrickShape, color: PegColor, lit: boolean): void {
+/**
+ * Brick sprite with the brick's rotation baked in, positioned relative to the brick's position
+ * (draw it with drawLayer at b.x, b.y). Cached per shape, rotation, color, state and resolution.
+ */
+export function brickSprite(k: number, b: BrickShape, color: PegColor, lit: boolean): Layer {
   const local = brickWorldVertices({ ...b, x: 0, y: 0 });
   const bb = bounds(local, 1.5);
-  const layer = brickLayers.get(
+  return brickLayers.get(
     `${brickKey(b)}:${color}:${lit ? 1 : 0}`,
     k,
     bb.x,
@@ -434,23 +455,20 @@ export function drawBrick(ctx: Ctx, k: number, b: BrickShape, color: PegColor, l
       paintBrickLocal(c, b, brickPalette[color][lit ? 'lit' : 'normal']);
     },
   );
-  drawLayer(ctx, layer, b.x, b.y);
 }
 
-/** Additive glow around a lit brick (the original uses a 62x54 glow on a 35x20 brick). */
-export function drawBrickGlow(
-  ctx: Ctx,
-  k: number,
-  b: BrickShape,
-  color: PegColor,
-  intensity = 1,
-): void {
-  if (intensity <= 0) return;
+/** Draws a straight or curved brick in its color and state. */
+export function drawBrick(ctx: Ctx, k: number, b: BrickShape, color: PegColor, lit: boolean): void {
+  drawLayer(ctx, brickSprite(k, b, color, lit), b.x, b.y);
+}
+
+/** Additive glow sprite of a lit brick, relative to the brick's position like brickSprite. */
+export function brickGlowSprite(k: number, b: BrickShape, color: PegColor): Layer {
   const local = brickWorldVertices({ ...b, x: 0, y: 0 });
   const pad = 16;
   const bb = bounds(local, pad);
   const tint = pegGlow[color];
-  const layer = brickLayers.get(`glow:${brickKey(b)}:${tint}`, k, bb.x, bb.y, bb.w, bb.h, (c) => {
+  return brickLayers.get(`glow:${brickKey(b)}:${tint}`, k, bb.x, bb.y, bb.w, bb.h, (c) => {
     c.save();
     c.shadowColor = rgba(tint, 0.95);
     c.shadowBlur = 11 * k;
@@ -465,6 +483,18 @@ export function drawBrickGlow(
     c.fill();
     c.restore();
   });
+}
+
+/** Additive glow around a lit brick (the original uses a 62x54 glow on a 35x20 brick). */
+export function drawBrickGlow(
+  ctx: Ctx,
+  k: number,
+  b: BrickShape,
+  color: PegColor,
+  intensity = 1,
+): void {
+  if (intensity <= 0) return;
+  const layer = brickGlowSprite(k, b, color);
   ctx.save();
   ctx.globalCompositeOperation = 'lighter';
   ctx.globalAlpha *= Math.min(1, intensity);
