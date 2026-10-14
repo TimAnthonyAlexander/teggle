@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="rim" x1="0.15" y1="0.1" x2="0.8" y2="0.95">
+      <stop offset="0" stop-color="#e3a066"/>
+      <stop offset="0.45" stop-color="#e2bb7d"/>
+      <stop offset="1" stop-color="#8a6236"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#682a0a"/>
+      <stop offset="0.5" stop-color="#7f2b10"/>
+      <stop offset="1" stop-color="#4a1c06"/>
+    </linearGradient>
+    <radialGradient id="body" cx="0.38" cy="0.3" r="0.75">
+      <stop offset="0" stop-color="#f27a4f"/>
+      <stop offset="0.45" stop-color="#e05a35"/>
+      <stop offset="1" stop-color="#9a3018"/>
+    </radialGradient>
+    <radialGradient id="spec" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff6dc"/>
+      <stop offset="0.5" stop-color="#fff6dc" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#fff6dc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="31" fill="#2a1608"/>
+  <circle cx="32" cy="32" r="28" fill="url(#rim)"/>
+  <circle cx="32" cy="32" r="21.5" fill="url(#ring)"/>
+  <circle cx="32" cy="32" r="17.5" fill="url(#body)"/>
+  <circle cx="25.5" cy="24.5" r="6" fill="url(#spec)"/>
+</svg>
