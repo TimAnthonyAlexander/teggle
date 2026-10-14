@@ -541,6 +541,22 @@ Each is decided during implementation and its value recorded here.
 
 Measured from the owner's copy of the original on 2026-10-14 (`docs/research/original-levels.md`), so no longer open: walls and ceiling (the top is closed at y ≈ 9.4), bucket size and travel (catch zone 130 wide, about 176 wide overall, 600-tick cycle), Fever bucket and bumper layout, flipper geometry, peg radius (10 everywhere), and the can-be-orange set (median 100% of scoring objects, minimum 53%, never fewer than 64 pegs).
 
+Decided in the physics engine on 2026-10-14. Values live in `src/sim/tuning.ts`; the base geometry is a function of the board width.
+
+- Walls and ceiling: the walls' inner edges sit at x = 0 and x = board width, the ceiling's bottom edge at y = 9.375 across the full width. Bounciness 0.75; the walls' slide threshold is 1e-5, so they always bounce. Both as in the original's base level.
+- Free ball bucket: the original's rims, catch box (130 x 20), Pyramid slopes and Fireball cover, mirrored about the rims' axis (the original's parts sit up to 1.1 px off it). The center runs from 66 to width - 66 on a cosine, starting in the middle moving left. The cycle keeps the original's peak speed (260 px either way in 600 ticks): round(600 * (width/2 - 66) / 260) ticks, 905 on the 916 board. Travel changes from powers animate by 1 px every 2 ticks.
+- Fever buckets: the original's x positions, box widths and divider radii scale by width / 650 (on the 916 board: boxes 112.7 wide, dividers radius 52.1), so each bucket keeps its share of the width. Dividers keep their tops at the original height (y = 554). They rise 30 px over 5 ticks when Fever starts.
+- Flippers: the original's polygons on its rotate-back-and-forth mover (period 30, swing 0.5236 rad). Holding the button runs the mover clock up to 15 ticks (about 60 degrees), releasing runs it back. Pivots 2.5 px from the left wall and 3 px from the right wall.
+- Launch: the ball starts 86 + its radius along the launch direction from the pivot (board width / 2, 30). The original's extra 1 px sideways offset is dropped, so a straight-down shot is symmetric. The cannon does not collide.
+- Leaving play: a ball is out once its center is 50 px below the board's bottom edge, below the Fever buckets. A Spooky return puts it back at the same x with its center 0.5 px clear of the ceiling, velocity kept.
+- Contact solver: surfaces sit 0.01 px inside the touching distance; an overlap is ignored while the ball already separates faster than 0.2 px/tick; a ball that is separating gets no velocity change; after 20 contacts in one tick the ball stays at the last contact point.
+- Slide on moving surfaces: the decompiled slide line is read with the ball's velocity relative to the surface. Read literally, a ball resting on a moving platform would gain the platform's speed every tick.
+- Movement readings: verticalArc swings over the right half of the ellipse (the decompiled line moves along a diagonal); rotate ignores maxAngle (the decompiled code then holds a constant angle); rotateAroundCircle on an ellipse faces along the ellipse's outward normal (the decompiled screen-space atan2 turns the other way than on a circle); clock arithmetic uses a floor modulo. Parents move before their children in the same tick, and a child's anchor is its position in the file plus its parent's displacement since tick 0.
+- Stuck counter: +1 per tick. Every 10 ticks the ball compares its position with its last 6 samples: a 2 px move resets the counter, a 0.2 px move takes 5 off. Peg removals and contacts with ballStopReset objects reset it. The removal threshold and which peg goes stay with the rules layer (open above).
+- Quick disappear: the crumble count starts at 3 when the peg lights, by contact or by a power, and the peg goes at 100, 97 ticks later.
+- Teleports fire on entry only: a ball placed inside a trigger has to leave it before it fires again.
+- Lit pegs leave the simulation together when the shot ends; popping them one at a time is presentation.
+
 ### 14.3 Still open
 
 - Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)

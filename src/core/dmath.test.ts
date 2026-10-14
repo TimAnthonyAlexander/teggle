@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { atan, atan2, cos, HALF_PI, PI, sin, wrapAngle } from './dmath';
+import { atan, atan2, cos, HALF_PI, PI, sin, sincos, wrapAngle } from './dmath';
 import { digestNumbers } from './digest';
 
 const samples: number[] = [];
@@ -32,6 +32,15 @@ describe('dmath', () => {
     expect(Object.is(atan2(-0, 1), -0)).toBe(true);
     expect(atan2(1, 0)).toBe(HALF_PI);
     expect(atan2(Infinity, Infinity)).toBe(Math.atan2(Infinity, Infinity));
+  });
+
+  it('sincos gives exactly the bits of sin and cos', () => {
+    const out = { sin: 0, cos: 0 };
+    for (const x of [...samples, Infinity, Number.NaN]) {
+      sincos(x, out);
+      expect(Object.is(out.sin, sin(x))).toBe(true);
+      expect(Object.is(out.cos, cos(x))).toBe(true);
+    }
   });
 
   it('wrapAngle lands in [-PI, PI)', () => {

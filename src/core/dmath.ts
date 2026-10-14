@@ -91,6 +91,49 @@ export function cos(x: number): number {
   }
 }
 
+export interface SinCos {
+  sin: number;
+  cos: number;
+}
+
+/**
+ * Sine and cosine of one angle with a single argument reduction. Gives exactly the bits of
+ * sin(x) and cos(x); it only saves the second reduction on the simulation's hot path.
+ */
+export function sincos(x: number, out: SinCos): SinCos {
+  if (!Number.isFinite(x)) {
+    out.sin = Number.NaN;
+    out.cos = Number.NaN;
+    return out;
+  }
+  if (Math.abs(x) <= PIO4) {
+    out.sin = x === 0 ? x : kernelSin(x, 0);
+    out.cos = kernelCos(x, 0);
+    return out;
+  }
+  const quadrant = reduce(x);
+  const s = kernelSin(reducedHead, reducedTail);
+  const c = kernelCos(reducedHead, reducedTail);
+  switch (quadrant) {
+    case 0:
+      out.sin = s;
+      out.cos = c;
+      break;
+    case 1:
+      out.sin = c;
+      out.cos = -s;
+      break;
+    case 2:
+      out.sin = -s;
+      out.cos = -c;
+      break;
+    default:
+      out.sin = -c;
+      out.cos = s;
+  }
+  return out;
+}
+
 const ATAN_HI = [
   4.63647609000806093515e-1, 7.85398163397448278999e-1, 9.82793723247329054082e-1,
   1.570796326794896558,
