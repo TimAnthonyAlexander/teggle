@@ -7,9 +7,52 @@ import type { PegColor } from '../../rules/scoring';
 import type { FreeBallReason } from '../../rules/events';
 import type { StyleShot } from '../../rules/style';
 
+/** Power ids (spec 7), as the rules registry names them. */
+export type PowerId =
+  | 'guide'
+  | 'multiball'
+  | 'pyramid'
+  | 'spaceBlast'
+  | 'flippers'
+  | 'spookyBall'
+  | 'flowerPower'
+  | 'luckySpin'
+  | 'fireball'
+  | 'zenBall';
+
+/** The moments of a power that make their own sound, beyond the green hit itself. */
+export type PowerMoment =
+  /** Multiball: the second ball leaves the green peg. */
+  | 'multiballSpawn'
+  /** Pyramid or Fireball: the bucket changes shape or gets its cover, or changes back. */
+  | 'bucketChange'
+  /** Space Blast: the blast that lights the pegs around the green peg. */
+  | 'spaceBlast'
+  /** Flower Power: the nearest orange pegs light. */
+  | 'flowerPower'
+  /** Flippers: a flipper swings up or drops back. */
+  | 'flipperUp'
+  | 'flipperDown'
+  /** Spooky Ball: the ball falls out and comes back in at the top. */
+  | 'spookyReturn'
+  /** Lucky Spin: the wheel starts, passes a segment, stops. */
+  | 'spinStart'
+  | 'spinTick'
+  | 'spinResult'
+  /** Fireball: the burning ball leaves the cannon; a peg burns away under it. */
+  | 'fireballLaunch'
+  | 'fireballBurn'
+  /** Zen Ball: the cannon swings to the better shot it found. */
+  | 'zenShot'
+  /** A lasting power ran out. */
+  | 'powerEnd';
+
 export type AudioEvent =
   /** The cannon fired (cannon shot). */
   | { readonly type: 'cannonFire' }
+  /** A green peg lit and triggered its power (powerup). */
+  | { readonly type: 'powerGranted'; readonly power: PowerId }
+  | { readonly type: 'powerMoment'; readonly power: PowerId; readonly moment: PowerMoment }
   /** A peg or brick lit. `index` is its 0-based place in the shot: the pitch rises with it. */
   | { readonly type: 'pegHit'; readonly index: number; readonly color: PegColor }
   /** A lit peg popped after the shot; `index` counts the pops of this shot from 0. */
