@@ -21,6 +21,10 @@ export async function routeScreen(route: Route): Promise<Screen> {
       const { DevBoardScreen } = await import('./dev/board');
       return new DevBoardScreen();
     }
+    if (second === 'level') {
+      const { DevLevelScreen } = await import('./dev/level');
+      return new DevLevelScreen();
+    }
   }
   return new TitleScreen();
 }

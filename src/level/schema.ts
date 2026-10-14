@@ -240,6 +240,8 @@ export const levelSchema = z
       .strictObject({
         generatorVersion: z.string().min(1),
         seed: z.int().min(0).max(0xffffffff),
+        /** The generator input: templates and their parameters (src/gen/recipe.ts). */
+        recipe: z.json().optional(),
       })
       .optional(),
   })

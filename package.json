@@ -19,6 +19,8 @@
     "test:engines": "tsx tools/test-engines.ts",
     "bench:sim": "tsx tools/bench-sim.ts",
     "shots": "tsx tools/screenshot.ts",
+    "gen:level": "tsx tools/gen-level.ts",
+    "shots:levels": "tsx tools/level-shots.ts",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run test"
   },
   "dependencies": {

@@ -593,6 +593,17 @@ Decided in the play screen on 2026-10-15. Values live in `src/game/play/timing.t
 - Touch: a finger points the cannon at itself; dragging turns the aim by 0.001 rad per world unit of drag across the aim line; a tap (under 7 units of movement and 350 ms) fires as soon as the barrel points at it; a tap on the launcher fires without re-aiming.
 - Fast forward (8x) runs only between shots; the original's in-shot speed-up is a cheat toggle.
 
+Decided in the level generator on 2026-10-15. Values live in `src/gen/constants.ts` and `src/gen/check.ts`.
+
+- Minimum gap between objects: 12.5 px. Found by testing in the simulation (`tools/gap-probe.ts`): two objects (peg/peg, peg/flat brick, peg/standing brick, two bricks in a V at 30 and 60 degrees, two flat bricks, two curved bricks, peg/wall) set a free gap apart along an axis tilted 0 to 45 degrees, balls dropped over the gap at 36 offsets, speeds and heights. A ball came to rest touching both objects in every configuration at every gap up to 11.9 px (the ball's diameter is 12, its contact surface 0.01 inside); from 12.0 px up no ball stayed in any configuration. Teggle keeps a 0.5 px margin. The original's 5th-percentile peg spacing, 31.8 (an 11.8 px gap), is just under this; Teggle's pegs are at least 32.5 apart.
+- Bricks may instead join: neighbors at most 1.5 px apart (the generator leaves a 1 px seam) count as one surface. Any free distance between 1.5 and 12.5 px is rejected, between any two objects.
+- Placement limits: nothing within 110 px of the cannon pivot (the ball leaves the barrel at 92 px, so its edge reaches 98; the original keeps peg centers at least 120 away); nothing below y 520 (the bucket's rims rise to about 532.7, minus the gap); nothing closer than the gap to the walls or the ceiling.
+- Moving parts are checked at every tick of the level's full cycle (the least common multiple of all movement cycles) when that is at most 6,000 ticks, else at 3,000 evenly spread ticks; cycles longer than 200,000 ticks are not followed further.
+- Brick chains along paths: straight bricks where the bulge over a brick's length is under 0.35 px, curved bricks (an arc through both ends and the middle of the stretch) elsewhere; target length 35, at most 30 degrees per curved brick, inner radius at least 25. Where a bend is too tight for that, the chain opens a full gap rather than leave a crack.
+- Reachability: 14 playouts of 7 board states each (the full board, then after each of 6 seeded advancing shots that light something), every state swept with 120 shots over the cannon's whole range, at 6 launch times spread over the movement cycle on levels with moving parts (cycles longer than 24,000 ticks are sampled within that horizon). Can-be-orange objects that no sweep shot hits lose the flag.
+- Stuck spots: a ball whose stuck counter reaches 150 ticks, or that stays inside a 40 px box for 600 ticks, or whose shot passes 4,000 ticks, records the objects it touches; the check frees it by removing a lit peg it touches, as the rules do at 500. Every scoring object at a spot gets quick disappear, then the check runs again (up to 3 rounds; the last round only verifies). A spot that touches no scoring object fails the level.
+- Generated levels need at least 58 can-be-orange objects after the checks (a 55-orange challenge plus green and purple).
+
 ### 14.3 Still open
 
 - Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)
