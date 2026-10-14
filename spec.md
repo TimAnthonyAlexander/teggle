@@ -75,10 +75,10 @@ Every level has the same color mix: 25 orange, 2 green, 1 purple per shot, and b
 The player starts each level with 10 balls. More come only from the bucket, high-scoring shots, or a coin flip after a shot that hits nothing (*verified*, patent).
 
 **Cannon and aiming.**
-- Fixed position at top center. The angle follows the pointer.
-- On desktop the original also uses the mouse wheel or arrow keys for fine aim. Touch equivalents are open.
-- The aim guide shows the first stretch of the curved path. It shows no bounces unless the Guide power is active.
-- Launch speed is constant and the path curves under gravity. Speed, gravity and guide length are *undocumented*.
+- Fixed position at top center: pivot at (325, 30) on the 650 x 560 original board. The angle follows the pointer, up to 97° either side of straight down; the barrel turns at up to 0.2 rad per tick (*verified*, decompiled code).
+- On desktop the original also uses the mouse wheel (0.1° per notch) or arrow keys for fine aim. Touch equivalents are in section 14.1.
+- The aim guide shows the first stretch of the curved path. It shows no bounces unless the Guide power is active. Maximum length 40, or 80 with the Guide power; the unit is unknown (*verified*, decompiled code).
+- Launch speed is constant and the path curves under gravity: 4 px/tick (400 px/s) launch, 0.05 px/tick² (500 px/s²) gravity, speed capped at 15 px/tick (*verified*, decompiled code). The simulation runs at 100 ticks per second.
 
 **Ball counter.** Shows the balls left, with warnings at 3, 2 and 1. Its glass tubes fill with green light during a shot and reach the top at 25,000 shot points.
 
@@ -94,7 +94,7 @@ The player starts each level with 10 balls. More come only from the bucket, high
 
 Style points do not count toward the thresholds. Multiball spawns and the bucket can stack with the thresholds; fans report up to 6 free balls from one shot (*unverified*).
 
-**Free ball bucket.** Slides left and right along the bottom at a steady pace and reverses at the walls. Holding the right mouse button between shots speeds it up; the touch equivalent is open. During Fever the five Fever buckets replace it.
+**Free ball bucket.** Slides left and right along the bottom and slows to a stop at each end; fans time one full cycle at about 6 s (*unverified*). Holding the right mouse button between shots runs the whole game 8x faster, which is what speeds up the bucket (*verified*, decompiled code); the touch equivalent is in section 14.1. During Fever the five Fever buckets replace it. Bucket width and the Fever bucket layout live in a base level that is not public (*undocumented*).
 
 ## 5. Scoring
 
@@ -194,10 +194,10 @@ Each campaign stage belongs to one master, and that master's power is what the 2
 | 1 | Unicorn | Guide | Aim guide shows the full path through the first bounce. Nudging the aim near a peg edge changes the bounce angle. | 3 shots, starting with the next |
 | 2 | Gopher | Multiball | A second ball spawns from the green peg that was hit. | Current shot |
 | 3 | Cat | Pyramid | Bucket turns into a wider pyramid with long sloped edges. | 5 shots, starting now |
-| 4 | Alien | Space Blast | Lights every peg within a large radius of the green peg (radius undocumented). | Current shot |
+| 4 | Alien | Space Blast | Lights every peg within a large radius of the green peg, "e.g., four pegs wide" (patent). | Current shot |
 | 5 | Lobster | Flippers | Two pinball flippers in the bottom corners, controlled by the player. | 3 shots, starting now |
 | 6 | Pumpkin | Spooky Ball | When the ball falls out the bottom, it reappears at the top once. | Current shot |
-| 7 | Sunflower | Flower Power | Lights about 20% of the remaining orange pegs, the ones nearest the green peg (fan wiki). | Current shot |
+| 7 | Sunflower | Flower Power | Lights the nearest one fifth (rounded up) of the remaining orange pegs (patent). | Current shot |
 | 8 | Rabbit | Lucky Spin | A wheel picks one of: bigger ball hitbox, triple score, a random other power, an extra ball. Odds undocumented. | Hitbox and triple score: 2 shots |
 | 9 | Wyvern | Fireball | Ball burns through pegs without bouncing; a metal dome covers the bucket. | Next shot |
 | 10 | Owl | Zen Ball | The game replaces the player's shot with a better one found by testing nearby angles. Search method undocumented. | Next shot |
@@ -277,10 +277,12 @@ Challenges start unlocking after stage 3 and are fully unlocked after the campai
 A campaign level is a hand-drawn background picture with 85 to 134 colored objects laid out to match it (median 103, mean 106), plus optional solid shapes and moving parts (*verified*, fan wiki infoboxes and fan editor).
 
 **Original board.**
-- Game window 800 x 600. The fan editor draws level coordinates at an offset of (73, 43) inside the window. The ball counter sits left of the board, the fever meter right.
-- Default round peg radius in the fan editor is 10 px. Shipped levels are not confirmed to use it.
-- Bricks default to 30 x 20 px. Curved bricks are arc segments built from 4 curve points by default.
+- Game window 800 x 600. The board is 650 x 560, drawn at (75, 40) in the window; x points right, y down (*verified*, decompiled code; the fan editor's (73, 43) is off by a few pixels). The ball counter sits left of the board, the fever meter right.
+- Standard round peg radius 10 px, ball radius 6 px (*verified*, decompiled code). No source measures every shipped peg.
+- Bricks default to 30 x 20 px. Curved bricks are arc segments built from 4 curve points by default, inner radius 35.
+- Walls, ceiling, the free ball bucket and the Fever buckets are not in the level files; they live in a base level that is not public.
 - Teggle's board is 16:9 (section 1).
+- Full technical reference: `docs/research/original-tech.md`.
 
 **Element catalog (from the fan editor's reading of the level files).**
 
@@ -298,8 +300,10 @@ Every element has these properties:
 - collision on or off
 - visibility
 - draw layer
-- a bounciness multiplier (1.0 = default)
-- a "rolliness" multiplier (1.0 = default)
+- a bounciness coefficient that replaces the default (0 = default: 0.9 on circles, 0.82 on lines, bricks and polygons)
+- a "rolliness" threshold that replaces the default (0 = default: 1.0 on circles, 1.4 on lines and bricks); a contact at or below it slides instead of bouncing
+
+The fan editor calls the last two multipliers; the decompiled code shows they are absolute overrides (*verified*).
 
 Pegs carry two designer flags:
 - **can be orange**: cleared on pegs that are hard to reach.
@@ -314,14 +318,15 @@ Movement types:
 - horizontal or vertical arc
 - rotate in place, rotate back and forth
 - wrap around the screen vertically or horizontally
-- rotate around a circle, retrace a circle
+- rotate around a circle ("retrace a circle" is expansion-only)
 
 Parameters:
-- period (tenths of a second)
+- period in ticks of 1/100 s
 - two radii, phase, angle
-- speed in px/s
 - two pause points with durations
 - reverse, rotation offset
+
+The fan editor shows a speed in px/s, but that is derived, not stored. Exact movement math: `docs/research/original-tech.md` section 3.
 
 Movements can be nested: an element moves on an anchor that itself moves.
 
@@ -371,7 +376,8 @@ Quirks backed by the patent, Wikipedia or the fan editor are requirements. Unver
 ## 11. Audio and visual feedback
 
 Documented:
-- Lit pegs glow until the shot ends, then disappear together.
+- Lit pegs glow until the shot ends, then pop one at a time, every clamp(8 - remaining/10, 1, 5) ticks (decompiled code).
+- Peg hit sound rises in pitch with each further hit in one shot (patent).
 - Ball counter tubes fill with green light as the shot score grows, reaching the top at 25,000.
 - The fever meter fills with each orange hit and steps up at 10, 15, 19 and 22 orange hits.
 - Style shot banners name the bonus.
@@ -380,7 +386,6 @@ Documented:
 - Low-ball warning at 3, 2 and 1 balls.
 
 Unverified:
-- Peg hit sound rises in pitch with each further hit in one shot.
 - Score popups at each hit peg, and a shot total when the ball leaves play.
 - The master character beside the board reacts to shots and powers.
 
@@ -388,8 +393,8 @@ Unverified:
 
 Most art is generated with Claude Code's help. Level backgrounds may reuse the original's backgrounds where they are free to use, never art made by the original developer.
 
-- **Backgrounds:** Claude Code downloads and analyzes the reusable originals. Each reused background keeps a record of its source.
-- **Master characters, sounds, music:** source not decided.
+- **Backgrounds:** none of the original's are free to use. The publisher's making-of credits every level background to its own artist (`docs/research/original-tech.md` section 7). All Teggle backgrounds are therefore generated.
+- **Master characters, sounds, music:** see section 14.1.
 
 **Background line editor.** Picture-outline levels are built from lines drawn over a background.
 
@@ -511,7 +516,7 @@ Decided 2026-10-14 unless dated otherwise. Where a decision conflicts with an ea
 | Coin flip | A shot that hits no peg flips a coin: 50/50, and on a win the ball returns to the stock. |
 | 16:9 density | Object counts scale by the ratio of Teggle's playfield area to the original's. |
 | Stack | TypeScript, Vite, Canvas 2D, Vitest, Playwright. No backend. Progress is stored in the browser. |
-| Physics | Teggle's own deterministic engine in TypeScript with a fixed timestep (section 13.4). No WASM engine. |
+| Physics | Teggle's own deterministic engine in TypeScript (section 13.4). It ports the original's constants and order of operations from the decompiled code: 100 ticks per second, swept movement per tick, the collision responses in `docs/research/original-tech.md` section 4. Bit-matching the original is not a goal; it differed between its own display modes. No WASM engine. |
 | Determinism basis | Verified against the ECMA-262 text: `Math.sin`, `cos`, `atan2`, `exp`, `pow`, `hypot` and `**` are implementation-approximated; `Math.sqrt`, `round`, `abs`, `imul` and basic arithmetic are exact. Measured: native sin/cos/atan2 over 24,000 inputs give different bits in V8 (Node) and JavaScriptCore (Bun); Teggle's ports in `src/core/dmath.ts` give identical bits. |
 | Target browsers | Chromium, WebKit (Safari) and Firefox, plus Node for headless runs. |
 | Mobile orientation | Landscape. Portrait shows a prompt to rotate. |
@@ -527,19 +532,18 @@ Each is decided during implementation and its value recorded here.
 - Whether green and purple pegs must come from pegs flagged "can be orange"
 - Whether a multiplier step during a shot raises the value of pegs hit later in that same shot
 - Power stacking: what a green hit does while the same power is running (extend Guide, Pyramid or Flippers; a second extra ball; a second Spooky return)
-- Launch speed, gravity, restitution, friction
-- Peg radius and ball radius in shipped levels
-- Aim guide length
-- Bucket width and speed, and the speed-up factor
+- Unit of the aim guide length (the length is 40, or 80 with Guide)
+- Bucket width (speed: about 6 s per cycle per fans; speed-up: whole game 8x, both from section 4)
+- Wall and ceiling geometry, Fever bucket layout
 - Stuck-ball timeout, and which peg is removed first
-- Fever slow-motion factor, zoom, trigger distance
+- Fever zoom and trigger distance (slow motion defaults to 0.25x in the decompiled code)
 - Space Blast radius, Lucky Spin odds, Zen Ball search method
 - Size of the "can be orange" set per original level
 - Exact style-shot detection rules (how Long Shot distance is measured, what counts as a slide)
 
 ### 14.3 Still open
 
-- Duel ball count, 5 or 6 (Duel is post-MVP)
+- Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)
 - Line smoothing method, and the curvature threshold between straight and curved bricks (decided in the editor work)
 
 ## 15. Level data (base game campaign)
