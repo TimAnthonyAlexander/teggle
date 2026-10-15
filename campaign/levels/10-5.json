@@ -1,0 +1,36 @@
+{
+  "id": "10-5",
+  "name": "Willow Strands",
+  "draft": true,
+  "concept": {
+    "subject": "Two silver willows at the forest's edges whose long hanging strands sway in the dawn breeze, and two ribbons of mist that ripple across the middle.",
+    "composition": "The willows' rounded crowns fill the upper corners; their strands hang in two curtains down both side edges to three quarters of the height, each curtain two wavy strands weaving around a line. Across the middle, a little below half height, two ribbons of mist drift side by side from one curtain to the other, one rising where the other dips. River stones lie below the ribbons; the top center is open dawn sky.",
+    "layout": "Round pegs only, 178. The helix template in wiggle mode: a standing helix by each wall for the willow strands and one horizontal band across the middle for the mist ribbons, every peg bobbing across its strand's line with the phase running along it, so waves travel down the strands; the side helices stop above the flippers' swing. The willows' crowns and the river stones are static peg lines."
+  },
+  "plan": {
+    "archetypes": ["helix", "outline"],
+    "templates": ["outline", "helix"],
+    "fill": "none",
+    "pegs": 178,
+    "bricks": 0,
+    "moving": [
+      { "what": "the willow strands, a standing helix by each wall", "type": "horizontalCycle" },
+      { "what": "the mist ribbons, a band across the middle", "type": "verticalCycle" }
+    ],
+    "features": [
+      "Wiggling double-helix strands (spec 8): willow strands at the sides and mist ribbons across the middle"
+    ],
+    "difficulty": {
+      "target": 0.13,
+      "note": "The stage's hardest: almost every peg moves, and half of them hang by the walls, far from the bucket's path."
+    }
+  },
+  "background": {
+    "id": "silverwood-willows",
+    "prompt": "Two silver willows grow at the left and right edges of a birch forest at misty dawn, their rounded crowns in the upper corners and their long, thin hanging strands falling in two soft curtains down both side edges to about three quarters of the picture height, swaying in a gentle breeze so that each curtain forms two wavy strands weaving around a straight line. Across the middle of the picture, a little below half its height, two long ribbons of pale silver-blue mist drift side by side from the left curtain to the right one, rippling in gentle waves, one rising where the other dips. Small round river stones lie below the ribbons. Slender white birches stand in the background; the top center is open, pale dawn sky; the lower corners are plain moss."
+  },
+  "recipe": {
+    "seed": 1005,
+    "targetCount": 178
+  }
+}

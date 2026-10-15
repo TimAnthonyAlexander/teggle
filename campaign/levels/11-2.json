@@ -1,0 +1,37 @@
+{
+  "id": "11-2",
+  "name": "The Great Orrery",
+  "draft": true,
+  "concept": {
+    "subject": "A giant orrery on the summit, its three tilted rings of brass and silver turning at different speeds around a small sun, each ring carrying one planet.",
+    "composition": "Seen at a tilt, the three rings are wide concentric ellipses centered at 56 percent of the height: the outer one from 8 to 92 percent of the width and three fifths of the height tall, the middle and inner ones about three quarters and half its size. Each ring is broken by two or three small gaps and carries one small planet. The small sun sits at the center; two curved support arms rise from a stand at the bottom center and hold the outer ring at its sides; the top center is open sky.",
+    "layout": "Bricks only, 189, the second Master level with the original's 134 bricks. Each ring is a train of curved bricks that travels around its ellipse, the three at different speeds and in alternating directions, so the gaps line up only now and then; each planet is a small ring of curved bricks riding on its orbit. The sun is a small static ring of curved bricks, and the support arms and the stand are static brick slides that lean toward the middle."
+  },
+  "plan": {
+    "archetypes": ["rotating", "outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 0,
+    "bricks": 189,
+    "moving": [
+      {
+        "what": "three elliptical rings of curved bricks with their planets, gliding around their orbits",
+        "type": "rotateAroundCircle"
+      }
+    ],
+    "features": ["Two levels of 134 bricks (spec 8): the second, 189 bricks scaled"],
+    "needs": ["line-movers"],
+    "difficulty": {
+      "target": 0.16,
+      "note": "Shot timing decides it: the inner rings are reached only when gaps in the outer ones line up."
+    }
+  },
+  "background": {
+    "id": "starlit-summit-orrery",
+    "prompt": "A giant orrery stands on the snowy summit above all the worlds at twilight, seen at a slight tilt. Its three thin rings of muted brass and silver are wide concentric ellipses centered at about 56 percent of the picture height: the outer ring spans from about 8 to 92 percent of the picture width and about three fifths of the picture height, the middle ring about three quarters of its size and the inner ring about half. Each ring is broken by two or three small gaps and carries one small round planet of pearl, pale ice blue or soft gold. A small pale-gold sun sits at the center. Two curved support arms rise from a stand at the bottom center and hold the outer ring at its left and right ends. The sky is a luminous medium teal with small gold and silver stars, open at the top center; the lower corners are plain snow."
+  },
+  "recipe": {
+    "seed": 1102,
+    "targetCount": 189
+  }
+}

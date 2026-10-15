@@ -1,0 +1,40 @@
+{
+  "id": "7-3",
+  "name": "Soap Bubbles",
+  "draft": true,
+  "concept": {
+    "subject": "Soap bubbles drifting over the flower terraces, floating in slow circles above low stone walls topped with blossoms.",
+    "composition": "Eight round bubbles, each a tenth of the picture wide, float in two loose rows: four in an upper row at a third of the height, at 15, 33, 67 and 85 percent of the width, leaving the top center open; four in a lower row at three fifths of the height, at 24, 42, 58 and 76 percent. Low terrace walls step down from both sides toward the middle at three quarters of the height; hedges fill the lower corners.",
+    "layout": "Bricks only, 127. Each bubble is a ring of curved bricks with a small opening at the bottom, the whole ring floating on its own small circle like the platforms template's floaters but without their center peg; neighboring bubbles circle in opposite directions so the gaps between them open and close. The terrace walls are brick steps that lean toward the middle."
+  },
+  "plan": {
+    "archetypes": ["platforms", "outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 0,
+    "bricks": 127,
+    "moving": [
+      {
+        "what": "eight bubbles, each a ring of curved bricks floating on a small circle",
+        "type": "circle"
+      }
+    ],
+    "features": [
+      "Floating circles (spec 8): soap bubbles",
+      "Bricks only (spec 8): the first of stage 7's two bricks-only levels"
+    ],
+    "needs": ["line-movers"],
+    "difficulty": {
+      "target": 0.28,
+      "note": "Second easiest: every object is a brick in an open, airy board; the moving gaps make it uneven, not hard."
+    }
+  },
+  "background": {
+    "id": "petal-terraces-bubbles",
+    "prompt": "Soap bubbles drift over sunny terraced flower gardens in late spring. Eight round, clear soap bubbles with thin pearly rims and a faint pastel sheen float in two loose rows across the picture: four in an upper row at about one third of the picture height, at about 15, 33, 67 and 85 percent of the width, each about a tenth of the picture wide, leaving the top center open; and four in a lower row at about three fifths of the height, at about 24, 42, 58 and 76 percent of the width. Below them, low terrace walls of pale stone step down from both sides toward the middle at about three quarters of the height, topped with blossoms in dusty rose, cream and butter yellow. A clear, soft sky; the lower corners are low sage hedges."
+  },
+  "recipe": {
+    "seed": 703,
+    "targetCount": 127
+  }
+}

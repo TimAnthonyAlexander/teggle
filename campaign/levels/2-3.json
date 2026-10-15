@@ -1,0 +1,29 @@
+{
+  "id": "2-3",
+  "name": "Mushroom Grotto",
+  "draft": true,
+  "concept": {
+    "subject": "An underground grotto where seven tall mushrooms stand at different heights, their wide domed caps stepping down like a staircase of umbrellas.",
+    "composition": "The meadow's ground line, fringed with roots, forms the grotto's ceiling at a fifth of the height. A large mushroom stands in the middle with its cap at two fifths of the height; two medium ones at a quarter and three quarters of the width reach a third of the height; two small ones near the side walls have their caps at half height; two low ones left and right of the center at two thirds. The floor is a smooth sandy mound and the lower corners stay plain.",
+    "layout": "81 round pegs and 68 bricks. Each cap's top is a brick dome that sheds balls to both sides, the largest in the middle and the others stepping outward and down; the thick stems are solid posts that block straight drops. Pegs line the caps' undersides (the gills), the root fringe and the floor, and a few spores float between the caps."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["solids", "outline"],
+    "fill": "none",
+    "pegs": 81,
+    "bricks": 68,
+    "difficulty": {
+      "target": 0.3,
+      "note": "Middle of the stage: the domes spread the ball sideways, and the stems shield the low caps from straight drops."
+    }
+  },
+  "background": {
+    "id": "clover-burrows-mushrooms",
+    "prompt": "An underground grotto beneath a clover meadow, seen in cross-section. The meadow's ground line, with a fringe of fine pale roots hanging from it, forms the grotto's ceiling at about one fifth of the picture height; the top center above it is open sky. Seven mushrooms with thick pale stems and wide, smooth domed caps stand on the grotto floor: a large one in the middle whose cap spans from about 38 to 62 percent of the width at about two fifths of the height; two medium ones centered at about one quarter and three quarters of the width with their caps at about one third of the height; two small ones close to the side edges with their caps at about half the height; and two low ones left and right of the center with their caps at about two thirds of the height. The caps are muted cream, dusty rose-beige and pale sand with soft spots, their undersides showing fine gills. The floor is a smooth mound of light sand; the lower corners and the lowest strip are calm and plain."
+  },
+  "recipe": {
+    "seed": 203,
+    "targetCount": 149
+  }
+}

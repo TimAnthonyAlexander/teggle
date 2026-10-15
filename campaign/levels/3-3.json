@@ -1,0 +1,29 @@
+{
+  "id": "3-3",
+  "name": "The Bell Tower",
+  "draft": true,
+  "concept": {
+    "subject": "A stone bell tower with an open arched belfry and a great bell, rising between two lower round towers that are linked to it by arched bridges.",
+    "composition": "The bell tower stands in the middle from a third of the height down to the bottom, its pointed roof below the open top center; its round-arched belfry, a fifth of the picture wide, holds the bell at about half height. Two lower round towers with conical roofs stand at a fifth and four fifths of the width with their tips at two fifths of the height; two arched bridges link them to the bell tower at three fifths of the height. Low roofs fill the lower corners.",
+    "layout": "106 round pegs and 46 bricks. The belfry arch and the two bridge arches are brick arches whose tops shed balls; the side towers' conical roofs are brick chevrons. The bell is a peg outline with a peg clapper inside the arch, the tower windows and the bridges' railings are peg rows, and each lantern under the bridges is a single peg."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 106,
+    "bricks": 46,
+    "difficulty": {
+      "target": 0.3,
+      "note": "Second easiest: the arches spread the ball to both halves; the bell inside its arch takes aim."
+    }
+  },
+  "background": {
+    "id": "golden-rooftops-bell",
+    "prompt": "A stone bell tower at golden hour rises in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, its pointed slate-blue roof ending well below the open top center. Halfway up, an open round-arched belfry about a fifth of the picture wide holds one great pale bronze bell with a clearly visible round rim. On the left and right, at about one fifth and four fifths of the width, stand two lower round towers with conical slate-blue roofs whose tips are at about two fifths of the height. Two stone bridges with round arches link the side towers to the bell tower at about three fifths of the height, with small lanterns hanging under them. Honey and cream stone walls under a calm sky fading from pale butter yellow to soft blue; the lower corners show only low roofs."
+  },
+  "recipe": {
+    "seed": 303,
+    "targetCount": 152
+  }
+}

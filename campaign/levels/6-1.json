@@ -1,0 +1,29 @@
+{
+  "id": "6-1",
+  "name": "Curling Vines",
+  "draft": true,
+  "concept": {
+    "subject": "Two giant pumpkin vines climbing from the hollow's floor and curling over it in great tendrils, round burgundy pumpkins hanging along them, under a huge silver moon.",
+    "composition": "The vines grow from the floor at a quarter and three quarters of the width, rise and sweep outward to a sixth and five sixths of the width at a third of the height, then curl back inward into loose spiral tips at a quarter of the height, clear of the open top center. Broad leaves grow along them and pumpkins hang on their inner side at about half height. A crooked fence rail slopes toward the middle on each side at three quarters of the height; the moon rises low on the right; the lower corners are misty ground.",
+    "layout": "62 round pegs and 89 bricks. Each vine is a long brick chain with leaves as short brick slides along it, and its curling tip a small brick spiral; the fence rails are brick slides that turn balls back toward the middle. The pumpkins are small peg rings on the vines' inner side, and tendrils between the leaves are short peg curls."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 62,
+    "bricks": 89,
+    "difficulty": {
+      "target": 0.34,
+      "note": "The stage opener and its easiest level: the open middle and the fence slides keep balls near the bucket."
+    }
+  },
+  "background": {
+    "id": "moonlit-hollow-vines",
+    "prompt": "A moonlit pumpkin hollow at dusk. Two giant pumpkin vines grow from the hollow's floor at about one quarter and three quarters of the picture width and climb in great smooth arches, mirror images of each other: each vine rises, sweeps outward to about one sixth and five sixths of the width at about one third of the picture height, then curls back inward into a loose spiral tip at about one quarter of the height, leaving the top center open. Broad leaves grow along the vines, and round burgundy and plum pumpkins, each about a twelfth of the picture wide, hang on their inner side at about half the height. A crooked wooden fence rail slopes down toward the middle on each side at about three quarters of the height. A huge pale silver moon rises low on the right behind the vines; silver mist lies along the floor, and the lower corners are plain misty ground."
+  },
+  "recipe": {
+    "seed": 601,
+    "targetCount": 151
+  }
+}

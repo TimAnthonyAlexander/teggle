@@ -1,0 +1,29 @@
+{
+  "id": "3-4",
+  "name": "Laundry Day",
+  "draft": true,
+  "concept": {
+    "subject": "Washing lines strung between the rooftops in long sagging curves, hung with sheets, shirts and towels drying in the evening sun.",
+    "composition": "Four ropes sag across the picture: the highest from the upper corners dipping to a third of the height beside the open top center, the next two from edge to edge dipping to half and three fifths of the height, the lowest across the middle three fifths of the width at three quarters of the height. Square sheets, towels and shirts hang from them in a staggered pattern; chimneys and roof slopes frame the left and right edges.",
+    "layout": "Round pegs only, 141. Each washing line is a peg line along its sagging curve with a peg at every clothespin; the hanging cloths are small closed peg outlines below the lines, staggered so no two hang one above the other. The lowest line stays above the flippers' swing, and the posts where the lines are tied are single pegs."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 141,
+    "bricks": 0,
+    "difficulty": {
+      "target": 0.26,
+      "note": "The stage's hardest: long rows of pegs bounce the ball along the lines, and the cloth outlines hide orange pegs behind other pegs."
+    }
+  },
+  "background": {
+    "id": "golden-rooftops-laundry",
+    "prompt": "Washing lines strung across the rooftops of a hill town at golden hour. Four thin ropes hang in long, smooth sagging curves across the picture: the highest from the upper left and upper right corners, dipping to about one third of the picture height beside the open top center, which stays plain sky; the second from edge to edge, dipping to about half the height; the third to about three fifths of the height; and the lowest across the middle three fifths of the width at about three quarters of the height. Small square sheets, towels and shirts in cream, pale blue and dusty rose hang from the ropes by wooden clothespins, staggered so that no piece hangs directly above another. Muted slate-blue roofs with chimneys rise at the left and right edges where the ropes are tied; the lower corners show only roof slopes."
+  },
+  "recipe": {
+    "seed": 304,
+    "targetCount": 141
+  }
+}

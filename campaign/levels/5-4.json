@@ -1,0 +1,31 @@
+{
+  "id": "5-4",
+  "name": "The Ship's Wheel",
+  "draft": true,
+  "concept": {
+    "subject": "A great wooden ship's wheel mounted at the end of a pier, turning slowly, with an anchor hanging from a post on each side and coiled ropes on the planks.",
+    "composition": "The wheel fills the middle, centered at about 58 percent of the height and two thirds of the picture height across, with six spokes and short handles around its rim. Two anchors hang from posts at a sixth and five sixths of the width with their arms at half height; a coiled rope lies beside each post. The pier's planks run along the bottom; water and sky behind, the top center open.",
+    "layout": "72 round pegs and 96 bricks. The wheel is the rotating template's single wheel: a rim of curved bricks broken into slots and spokes of pegs, turning slowly around a static hub peg. Each anchor's curved arms are a brick arc that sheds balls toward the middle, its shank a peg line; each coiled rope is a short brick spiral with a peg at its center."
+  },
+  "plan": {
+    "archetypes": ["rotating", "outline"],
+    "templates": ["outline", "rotating"],
+    "fill": "none",
+    "pegs": 72,
+    "bricks": 96,
+    "moving": [{ "what": "the wheel's rim and spokes", "type": "rotateAroundCircle" }],
+    "features": ["Moving elements (spec 8): a turning ship's wheel"],
+    "difficulty": {
+      "target": 0.27,
+      "note": "Middle of the stage: the turning rim guards the spokes, and the anchors catch balls that miss it."
+    }
+  },
+  "background": {
+    "id": "lighthouse-cove-helm",
+    "prompt": "A great wooden ship's wheel stands at the end of a pier in a sunny cove, turning slowly. The wheel fills the middle of the picture, centered at about 58 percent of the picture height, its round rim about two thirds of the picture height across, in honey-colored weathered wood with fittings of soft muted brass, with six spokes meeting at a round hub and short turned handles sticking out from the rim. On the left and right, at about one sixth and five sixths of the width, two soft gray iron anchors hang from wooden posts, their curved arms at about half the picture height. A coiled rope lies on the planks beside each post. The pier's planks run along the bottom; behind them, clear aqua water and a soft blue sky, open at the top center; the lower corners are plain planks."
+  },
+  "recipe": {
+    "seed": 504,
+    "targetCount": 168
+  }
+}

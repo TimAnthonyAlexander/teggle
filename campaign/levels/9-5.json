@@ -1,0 +1,34 @@
+{
+  "id": "9-5",
+  "name": "Sky Lanterns",
+  "draft": true,
+  "concept": {
+    "subject": "Paper sky lanterns rising over the highland in four tall columns past the basalt cliffs, with a ring of lanterns still waiting on a stone platform.",
+    "composition": "Four straight columns of small round lanterns rise from the ground to the top: two on the left at a fifth and a third of the width, two on the right at two thirds and four fifths, the lanterns an eighth of the picture height apart. In the middle a ring of lanterns waits on a low round platform at four fifths of the height, and a few single lanterns float higher on both sides of the open top center. Basalt cliffs frame the side edges.",
+    "layout": "Round pegs only, 145. Each column of lanterns is a row of pegs that rises and wraps from the bottom of its band back to the top, all four on one vertical wrap with their phases stepped so the columns rise as steady streams; their bands stay clear of the cannon and of the flippers' swing. The ring on the platform, the floating lanterns and the cliffs' ledges are static pegs."
+  },
+  "plan": {
+    "archetypes": ["outline", "platforms"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 145,
+    "bricks": 0,
+    "moving": [
+      { "what": "four columns of rising lanterns, about eight each", "type": "verticalWrap" }
+    ],
+    "features": ["One level round pegs only (spec 8): 103 pegs scaled to 145"],
+    "needs": ["line-movers"],
+    "difficulty": {
+      "target": 0.12,
+      "note": "The stage's hardest: a third of the pegs never stand still and nothing slides balls back toward the bucket."
+    }
+  },
+  "background": {
+    "id": "ember-highlands-lanterns",
+    "prompt": "Paper sky lanterns rise over a volcanic highland under a hazy pale-gold evening sky. Four tall, straight columns of small round lanterns in cream and pale gold, each with a tiny ember-colored flame, drift upward from the ground to the top of the picture: two on the left at about one fifth and one third of the picture width and two on the right at about two thirds and four fifths, the lanterns in each column about an eighth of the picture height apart. In the middle, a ring of lanterns waits on a low round stone platform at about four fifths of the height, and a few single lanterns float higher up on both sides of the open top center. Cliffs of blue-gray basalt columns frame the left and right edges; the lower corners are plain rock."
+  },
+  "recipe": {
+    "seed": 905,
+    "targetCount": 145
+  }
+}

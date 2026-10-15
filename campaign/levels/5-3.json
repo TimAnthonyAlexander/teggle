@@ -1,0 +1,29 @@
+{
+  "id": "5-3",
+  "name": "The Drying Net",
+  "draft": true,
+  "concept": {
+    "subject": "A big fishing net hung to dry between two tall poles on the beach, sagging in one deep curve, with cork floats along its lower edge.",
+    "composition": "The poles stand at a sixth and five sixths of the width, from the sand up to a quarter of the height. The net's top rope sags from the pole tops to a third of the height at the center, below the open top center; the net hangs from it as one deep rounded bag whose lower edge curves down to three quarters of the height at the center and back up to the poles. Water and sky behind; the lower corners are smooth sand.",
+    "layout": "Round pegs only, 141. The net's outline is a closed peg line and its mesh a lattice fill inside that outline; the cork floats are a peg line along the lower edge. The poles are short peg columns that end above the flippers' swing."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "lattice",
+    "pegs": 141,
+    "bricks": 0,
+    "difficulty": {
+      "target": 0.29,
+      "note": "Second easiest: the even mesh lights pegs on almost any drop; the floats along the bottom edge are the hard ones."
+    }
+  },
+  "background": {
+    "id": "lighthouse-cove-net",
+    "prompt": "A sunny beach in a seaside cove where one big fishing net hangs to dry between two tall wooden poles. The poles stand at about one sixth and five sixths of the picture width, from the sand up to about one quarter of the picture height. The net's top rope is tied to the pole tops and sags in a smooth curve to about one third of the height at the center, leaving open sky above it at the top center. The net itself hangs below the rope as one deep, rounded bag of even diamond mesh in pale sand and soft gray-blue, its lower edge curving down to about three quarters of the height at the center and back up to the poles, with a row of small round cork floats in faded cream along that edge. Behind it, clear aqua water with a white foam line and a soft blue sky; the lower corners and the lowest strip are smooth pale sand."
+  },
+  "recipe": {
+    "seed": 503,
+    "targetCount": 141
+  }
+}

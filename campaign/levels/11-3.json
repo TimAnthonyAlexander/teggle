@@ -1,0 +1,29 @@
+{
+  "id": "11-3",
+  "name": "Star Gates",
+  "draft": true,
+  "concept": {
+    "subject": "Two archways of clear ice at the summit's edges, linked to each other, with constellations of stars drawn across the sky between them.",
+    "composition": "The archways stand at the left and right edges a little below half height, their openings facing each other. Between them the constellations are star patterns joined by faint lines: a five-pointed crown in the middle at two fifths of the height, below the open top center; an hourglass on each side at a third of the height, at a quarter and three quarters of the width; a long key lying across the lower middle at two thirds of the height. Snowy ridges run along the bottom.",
+    "layout": "Round pegs only, 141. The portals template's wrap pair sits in the two archways, a portal by each wall, each the other's exit. Each constellation is a peg line with a peg on every star, the crown and the key centered and the hourglasses mirrored; the snowy ridges are low peg lines above the flippers' swing."
+  },
+  "plan": {
+    "archetypes": ["portals", "outline"],
+    "templates": ["outline", "portals"],
+    "fill": "none",
+    "pegs": 141,
+    "bricks": 0,
+    "difficulty": {
+      "target": 0.12,
+      "note": "Middle of the Master levels: sparse, open constellations with nothing to steer the ball; the wrap gates only give side shots a second pass."
+    }
+  },
+  "background": {
+    "id": "starlit-summit-gates",
+    "prompt": "The snowy summit above all the worlds at twilight, where two archways of clear ice stand at the left and right edges a little below half the picture height, their round openings facing each other across the picture. Between them, constellations of small gold and silver stars are drawn in the luminous medium teal sky, each joined by thin, faint lines: a five-pointed crown in the middle at about two fifths of the picture height, below the open top center; an hourglass on each side at about one third of the height, at about one quarter and three quarters of the width; and a long key lying across the lower middle at about two thirds of the height. Low snowy ridges run along the bottom; the lower corners are plain snow."
+  },
+  "recipe": {
+    "seed": 1103,
+    "targetCount": 141
+  }
+}

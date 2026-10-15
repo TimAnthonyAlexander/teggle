@@ -1,0 +1,30 @@
+{
+  "id": "11-1",
+  "name": "Ice Spires",
+  "draft": true,
+  "concept": {
+    "subject": "Clusters of tall ice crystal spires on the summit, with frozen terraces stepping between them and two ice arches spanning the gaps.",
+    "composition": "Nine slender pointed spires stand in three clusters: three in the middle, the tallest tip at two fifths of the height below the open top center, and three near each side edge with tips at a quarter of the height. Two ice arches span from the middle cluster to the side clusters at half height; frozen terraces step down toward the middle on three tiers below them, fringed with short icicles. The lower corners are plain snow.",
+    "layout": "Bricks only, 189, the first of the two Master levels with the original's 134 bricks. Each spire is a pointed brick chevron whose faceted sides are steep slides; the ice arches are brick arches; the terraces are brick ledges tilted toward the middle, with short standing bricks for the icicles under their edges."
+  },
+  "plan": {
+    "archetypes": ["outline", "architecture"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 0,
+    "bricks": 189,
+    "features": ["Two levels of 134 bricks (spec 8): the first, 189 bricks scaled"],
+    "difficulty": {
+      "target": 0.2,
+      "note": "The easiest Master level: a static board whose terraces lead balls toward the middle, though its 189 objects tie 11-2 for the most in the campaign."
+    }
+  },
+  "background": {
+    "id": "starlit-summit-spires",
+    "prompt": "The snowy summit above all the worlds at twilight. Tall ice crystal spires rise from the snow in three clusters: a middle cluster of three spires whose tallest tip reaches about two fifths of the picture height, below the open top center, and a cluster of three spires near each side edge whose tips reach about one quarter of the height. Each spire is a long, slender, pointed crystal with flat, faceted sides in pale ice blue and pearl. Two arches of clear ice span from the middle cluster to the side clusters at about half the height, and below them frozen terraces of smooth ice step down toward the middle on three tiers, fringed with short icicles. The sky is a luminous medium teal with small gold and silver stars; the lower corners are plain snow."
+  },
+  "recipe": {
+    "seed": 1101,
+    "targetCount": 189
+  }
+}

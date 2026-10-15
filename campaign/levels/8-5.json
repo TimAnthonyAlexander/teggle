@@ -1,0 +1,31 @@
+{
+  "id": "8-5",
+  "name": "The Prize Wheel",
+  "draft": true,
+  "concept": {
+    "subject": "A giant prize wheel spinning on its booth, framed by an arch of marquee light bulbs, with prize shelves on both sides.",
+    "composition": "The wheel fills the middle, centered at about 58 percent of the height and two thirds of the picture height across, twelve wedge segments around a round hub with a pointer at the top. The marquee arch rises from the side edges to a fifth of the height on both sides of the open top center. Two wooden prize shelves on each side slope down toward the wheel; the lower corners are plain boards.",
+    "layout": "43 round pegs and 101 bricks, the stage's finale. The wheel is the rotating template's single wheel: its rim curved bricks broken into slots, its spokes pegs, turning around a static hub. The booth's arch is a long brick arch on both sides of the cannon, and the prize shelves are brick slides that lean toward the wheel; the marquee bulbs are pegs along the arch."
+  },
+  "plan": {
+    "archetypes": ["rotating", "outline"],
+    "templates": ["outline", "rotating"],
+    "fill": "none",
+    "pegs": 43,
+    "bricks": 101,
+    "moving": [{ "what": "the wheel's rim and spokes", "type": "rotateAroundCircle" }],
+    "features": ["Brick-heavy throughout (spec 8): 101 of 144 objects"],
+    "difficulty": {
+      "target": 0.16,
+      "note": "The stage's hardest: the shelves feed the spinning rim, whose slots decide whether a ball reaches the spokes."
+    }
+  },
+  "background": {
+    "id": "ribbon-fair-prize-wheel",
+    "prompt": "A giant prize wheel stands on its booth at a country fair on a breezy afternoon. The wheel fills the middle of the picture, centered at about 58 percent of the picture height, its round rim about two thirds of the picture height across, divided into twelve wedge-shaped segments in alternating cream, pale teal, straw yellow and muted brick red, with a round hub in the center and a small pointer at the top of the rim. A wide arch of round unlit marquee light bulbs frames the booth, rising from the left and right edges to about one fifth of the picture height on both sides of the open top center. On each side of the wheel, two wooden prize shelves slope gently down toward it, holding wrapped prize boxes and ribbons. A soft turquoise sky shows above the arch; the lower corners are plain wooden boards."
+  },
+  "recipe": {
+    "seed": 805,
+    "targetCount": 144
+  }
+}

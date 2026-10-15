@@ -1,0 +1,30 @@
+{
+  "id": "4-3",
+  "name": "Comet Shower",
+  "draft": true,
+  "concept": {
+    "subject": "Four comets streaking down through the lilac sky on long curving tails, two from each upper corner, toward a small moon below.",
+    "composition": "On each side, mirror images: the upper comet flies from the upper corner and ends with its head at half height beside the center, at 40 and 60 percent of the width; the lower comet starts on the side edge at a quarter of the height and curves down to end at three quarters of the height, at 30 and 70 percent. A small moon peeks up at the bottom center; stars fill the gaps; the top center is open space.",
+    "layout": "62 round pegs and 82 bricks. Each tail is a long brick slide that carries balls from the side down toward the middle, two on each side; each comet's head is a small peg ring at its slide's lower end. Star pegs scatter between the tails, and the moon at the bottom center is a short peg arc above the bucket's path."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 62,
+    "bricks": 82,
+    "features": ["Mostly bricks (spec 8): 82 of 144 objects"],
+    "difficulty": {
+      "target": 0.3,
+      "note": "Second easiest: four slides deliver balls toward the middle, and the comet heads at their ends are easy targets."
+    }
+  },
+  "background": {
+    "id": "lilac-orbit-comets",
+    "prompt": "Four comets streak through a soft lilac and periwinkle outer space, two from each upper corner, mirror images on the left and right. Each comet has a round pale-gold head about a twentieth of the picture wide and a long, smooth, gently curving tail of pale silver light trailing back up toward its corner. The upper comet on each side flies from its corner in a curve that ends with its head at about half the picture height, just beside the center, at about 40 and 60 percent of the width. The lower comet on each side starts lower on the side edge, at about one quarter of the height, and curves down to end with its head at about three quarters of the height, at about 30 and 70 percent of the width. A small pearl-gray moon peeks up at the bottom center. Thin scatterings of small stars fill the gaps; the top center is open, calm space; the lower corners are plain nebula haze."
+  },
+  "recipe": {
+    "seed": 403,
+    "targetCount": 144
+  }
+}

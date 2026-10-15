@@ -1,0 +1,30 @@
+{
+  "id": "2-5",
+  "name": "The Great Burrow",
+  "draft": true,
+  "concept": {
+    "subject": "The gopher's grand underground hall: a domed central chamber on pillars of twisted roots, flanked by smaller arched storerooms, with stairs dug down from the meadow at both upper corners.",
+    "composition": "The ground line crosses at a fifth of the height. The great dome stands in the center from a third to four fifths of the height, a third of the picture wide; two smaller arched storerooms step outward on each side; stairs of five or six steps descend from both upper corners toward the middle, ending at two fifths of the height. The lower corners are plain earth.",
+    "layout": "59 round pegs and 104 bricks, the stage's brick-heavy finale. The architecture template's temple builds the dome, the root pillars, the side arches and the stairs from bricks; pegs sit on the stairs' landings, inside the side arches as stored seeds and in a ring under the dome."
+  },
+  "plan": {
+    "archetypes": ["architecture", "outline"],
+    "templates": ["outline", "architecture"],
+    "fill": "none",
+    "pegs": 59,
+    "bricks": 104,
+    "features": ["Brick-heavy last level (spec 8): 104 of its 163 objects are bricks"],
+    "difficulty": {
+      "target": 0.27,
+      "note": "The stage's hardest: the arches shield the stored seeds and the ring under the dome, so the last orange pegs hide under bricks."
+    }
+  },
+  "background": {
+    "id": "clover-burrows-hall",
+    "prompt": "A grand underground hall seen in cross-section under a clover meadow. The meadow's ground line runs across the picture at about one fifth of its height; the top center above it is open sky. A great domed chamber stands in the center, from about one third to four fifths of the picture height and about a third of the picture wide, its smooth round dome carried on thick pillars of twisted pale roots. On each side of it stand two smaller round-arched storerooms, stepping outward, filled with neat piles of seeds and nuts. From both upper corners, wide stairs dug into the earth descend toward the middle in five or six even steps, ending at about two fifths of the height. The walls of the hall are smooth light clay; the lower corners and the lowest strip are plain, calm earth."
+  },
+  "recipe": {
+    "seed": 205,
+    "targetCount": 163
+  }
+}

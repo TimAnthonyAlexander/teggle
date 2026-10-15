@@ -763,9 +763,12 @@ export class Editor {
         if (id === this.doc?.source.id) mine = true;
       }
     }
-    const notes = mine
-      ? []
-      : [`${this.doc?.source.id ?? ''} is not in ${paths.stages}, so the build will not build it.`];
+    const docId = this.doc?.source.id ?? '';
+    const notes = !mine
+      ? [`${docId} is not in ${paths.stages}, so the build will not build it.`]
+      : this.doc?.source.draft === true
+        ? [`${docId} is a draft: the build skips it and the manifest leaves it out.`]
+        : [];
     const manifest = composeManifest(stages.stages, listed);
     const what = await this.repo.write(paths.manifest, `${JSON.stringify(manifest, null, 2)}\n`);
     return [`${paths.manifest}: ${what}`, ...notes];

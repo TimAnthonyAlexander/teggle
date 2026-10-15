@@ -1,0 +1,29 @@
+{
+  "id": "6-4",
+  "name": "The Old Well",
+  "draft": true,
+  "concept": {
+    "subject": "An old stone well in the middle of the hollow with a little peaked roof and a winch, silver mist curling up from it into two loose spirals.",
+    "composition": "The well stands in the lower middle, a fifth of the picture wide, its rim at three quarters of the height and its roof reaching half height. Two wisps of mist rise from it and curl outward into spirals centered at 30 and 70 percent of the width at a third of the height, leaving the top center open. Bare trees at the side edges reach their branches inward, small lanterns hanging from them; the moon hangs high on the right.",
+    "layout": "Round pegs only, 148. The well's rim, its peaked roof and the winch are peg outlines; the two mist wisps are peg lines that rise from the well and curl into spirals; the trees' branches are peg lines reaching inward, with a single peg for each lantern. The trunks end above the flippers' swing."
+  },
+  "plan": {
+    "archetypes": ["outline", "spiral"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 148,
+    "bricks": 0,
+    "difficulty": {
+      "target": 0.25,
+      "note": "Second hardest: the spirals' inner pegs and the well under its roof are hard to reach, with no slide to help."
+    }
+  },
+  "background": {
+    "id": "moonlit-hollow-well",
+    "prompt": "An old round stone well stands in the lower middle of a moonlit pumpkin hollow at dusk, about a fifth of the picture wide, its rim at about three quarters of the picture height and its small peaked shingle roof on two posts reaching up to about half the height, with a wooden winch and a rope. From the well, two soft wisps of silver mist rise and curl outward into two loose spirals, one on each side at about one third of the height, centered at about 30 and 70 percent of the width, leaving the top center open. Two bare, twisting trees stand near the left and right edges with their branches reaching inward and small unlit lanterns hanging from them. A huge pale silver moon hangs high on the right. Silver mist lies along the bottom; the lower corners are plain misty ground."
+  },
+  "recipe": {
+    "seed": 604,
+    "targetCount": 148
+  }
+}

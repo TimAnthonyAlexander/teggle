@@ -1,0 +1,29 @@
+{
+  "id": "10-4",
+  "name": "Standing Stones",
+  "draft": true,
+  "concept": {
+    "subject": "A ring of tall standing stones in a misty clearing, seen from the front as a row of five stone gateways, each two uprights with a ridged stone laid across their tops.",
+    "composition": "The middle gateway is the lowest, its top at two fifths of the height below the open top center; the two beside it rise to a third of the height and the two outer ones, near the side edges, to a quarter. All stand on the ground at four fifths of the height. Small cairns and ferns stand between and inside the gateways, and a band of mist drifts through them at three fifths of the height.",
+    "layout": "65 round pegs and 121 bricks. Each upright is a pair of standing brick walls and each top stone a low brick chevron that sheds balls to both sides; the uprights by the walls end above the flippers' swing. The cairns are stacked peg rings, the ferns peg arcs, and the mist a peg line through the gateways."
+  },
+  "plan": {
+    "archetypes": ["architecture", "outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 65,
+    "bricks": 121,
+    "difficulty": {
+      "target": 0.15,
+      "note": "Second hardest: 186 objects behind narrow gateways; the cairns inside them are only reached straight through."
+    }
+  },
+  "background": {
+    "id": "silverwood-stones",
+    "prompt": "A ring of tall standing stones in a misty clearing of a silver birch forest at dawn, seen from the front as a row of five stone gateways, each made of two upright pale gray stones with a flat stone laid across their tops, the top stones slightly ridged. The middle gateway is the lowest, its top at about two fifths of the picture height, below the open top center; the two gateways beside it rise to about one third of the height, and the two outer ones, near the side edges, to about one quarter. The uprights stand on the ground at about four fifths of the height. Small cairns of round river stones and curling ferns stand between and inside the gateways; a band of pale silver-blue mist drifts through them at about three fifths of the height. Slender white birches stand behind; the lower corners are plain moss."
+  },
+  "recipe": {
+    "seed": 1004,
+    "targetCount": 186
+  }
+}

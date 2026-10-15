@@ -1,0 +1,30 @@
+{
+  "id": "2-4",
+  "name": "The Corkscrews",
+  "draft": true,
+  "concept": {
+    "subject": "Two corkscrew burrows that coil down into the earth left and right of the middle, a pair of spiral tunnels in a cutaway.",
+    "composition": "The ground line crosses at a fifth of the height. Under it two spiral tunnels, mirror images, are centered at a quarter and three quarters of the width a little below half height, each about two fifths of the picture tall, coiling inward over two and a half turns; a column of seed pockets runs down the middle between them, below the open top center. The lower corners are plain earth.",
+    "layout": "66 round pegs and 73 bricks. The twin spirals are the spiral template's mirror-image pair: bricks on the outer turns, where they work as curved slides, pegs on the inner turns, no hub. Peg lines follow the ground beside the cannon, and the column of seed pockets is a peg line down the middle."
+  },
+  "plan": {
+    "archetypes": ["spiral", "outline"],
+    "templates": ["outline", "spiral"],
+    "fill": "none",
+    "pegs": 66,
+    "bricks": 73,
+    "features": ["Spiral layout (spec 8): twin corkscrew burrows"],
+    "difficulty": {
+      "target": 0.29,
+      "note": "Harder than the grotto: the outer brick turns carry balls around and out of the spirals, and the inner pegs stay shielded until the outer ones are cleared."
+    }
+  },
+  "background": {
+    "id": "clover-burrows-corkscrews",
+    "prompt": "Two corkscrew burrows seen in cross-section under a clover meadow. The meadow's ground line runs across the picture at about one fifth of its height; the top center above it is open sky. Below it, two round spiral tunnels coil into the light sandy earth, one on each side of the center, mirror images of each other: each spiral is centered at about one quarter and three quarters of the picture width and a little below half the picture height, about two fifths of the picture height across, and winds inward over two and a half smooth turns with an even gap between the turns, the left one turning clockwise and the right one counterclockwise. Between the spirals, a single column of small round seed pockets runs from just under the ground down the middle. The tunnel walls are a slightly deeper clay color; the lower corners and the lowest strip are plain, calm earth with a few pebbles."
+  },
+  "recipe": {
+    "seed": 204,
+    "targetCount": 139
+  }
+}

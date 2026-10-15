@@ -1,0 +1,29 @@
+{
+  "id": "9-2",
+  "name": "Hot Springs",
+  "draft": true,
+  "concept": {
+    "subject": "Terraced hot springs stepping down a hillside, each milky pool held by a rounded lip of pale mineral rock, steam drifting up from the water.",
+    "composition": "Seven pools, each a sixth of the picture wide, sit in three tiers: two high near the side edges at a third of the height, three across the middle at half height at 25, 50 and 75 percent of the width, and two low beside the center at three quarters of the height at 37 and 63 percent. Each lip bulges outward and spills to the tier below; basalt slopes frame the sides; the top center is open sky.",
+    "layout": "54 round pegs and 93 bricks. Each pool's lip is a low brick arch that sheds balls over its edge to the tier below, seven in all; the basalt slopes at the sides are brick slides that lean inward. The steam wisps above the pools are short peg lines and the pebbles along the lips single pegs."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 54,
+    "bricks": 93,
+    "difficulty": {
+      "target": 0.2,
+      "note": "Middle of the stage: the lips spread balls from tier to tier, but the low pools sit under the middle tier's lips."
+    }
+  },
+  "background": {
+    "id": "ember-highlands-springs",
+    "prompt": "Terraced hot springs step down a hillside in a volcanic highland under a hazy pale-gold sky. Seven round pools of milky pale-aqua water sit in three tiers, each held by a smooth, rounded lip of pale cream and sandstone mineral rock that bulges outward and spills down to the tier below: two pools high on the left and right at about one third of the picture height, near the side edges; three across the middle at about half the height, at about 25, 50 and 75 percent of the width; and two low beside the center at about three quarters of the height, at about 37 and 63 percent of the width. Each pool is about a sixth of the picture wide. Soft plumes of pale steam rise from the water. Blue-gray basalt slopes frame both sides; the top center is open sky; the lower corners are plain rock."
+  },
+  "recipe": {
+    "seed": 902,
+    "targetCount": 147
+  }
+}

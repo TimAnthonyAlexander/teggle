@@ -1,0 +1,30 @@
+{
+  "id": "4-1",
+  "name": "Ringed Giant",
+  "draft": true,
+  "concept": {
+    "subject": "A huge pastel planet with a wide tilted ring, two small moons high beside it and faint stars around.",
+    "composition": "The planet's disk sits in the middle from a third to four fifths of the height, a third of the picture wide. Its ring is a wide ellipse from a tenth to nine tenths of the width; the front arc passes in front of the planet's lower half and the back arc hides behind it. Two small moons float at a quarter of the height near a fifth and four fifths of the width; the top center is open space.",
+    "layout": "54 round pegs and 93 bricks. The ring's front arc and its two outer ends are long brick curves, a wide shallow bowl under the planet that rolls balls back toward the middle; its lowest bricks get quick disappear if the stuck check finds a resting spot. The back arc is left out where the planet covers it, so balls fall through there. The planet's cloud bands are peg lines across the disk, the moons are small peg rings, and single pegs mark the brightest stars."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 54,
+    "bricks": 93,
+    "features": ["Mostly bricks (spec 8): 93 of 147 objects"],
+    "difficulty": {
+      "target": 0.34,
+      "note": "The stage opener: the ring's bowl sends balls back to the middle and the planet's bands are open to direct shots."
+    }
+  },
+  "background": {
+    "id": "lilac-orbit-ringed-planet",
+    "prompt": "A huge pastel ringed planet floats in a soft lilac and periwinkle outer space. Its round disk sits in the center of the picture, from about one third to four fifths of the picture height and about a third of the picture wide, with soft horizontal cloud bands in pale lavender, cream and dusty teal. A wide, flat ring circles it as a long ellipse tilted only slightly, spanning from about one tenth to nine tenths of the picture width; its front arc passes in front of the lower half of the planet and its back arc is hidden behind the planet. Two small cratered moons in pearl gray float high on the left and right, at about one quarter of the height and about one fifth and four fifths of the width. Small pale silver stars are scattered thinly; the top center is open, calm space; the lower corners are plain nebula haze."
+  },
+  "recipe": {
+    "seed": 401,
+    "targetCount": 147
+  }
+}

@@ -7,7 +7,8 @@
 // sources always give the same bytes; the report says which files changed.
 //
 // A level is written only when it has exactly its object count, at least 58 can-be-orange
-// objects, no stuck spot left, every solid in place and every manual edit applied.
+// objects, no stuck spot left, every solid in place and every manual edit applied. Drafts
+// (planned levels without a final layout) are skipped and never enter the manifest.
 //
 // Usage: npm run campaign:build [-- <id> ...]   (default: every level, e.g. 1-3)
 // Options: --no-check (validity and counts only; writes an unchecked draft to
@@ -166,10 +167,14 @@ async function main(): Promise<void> {
     .filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--workers');
   const unknown = wanted.filter((id) => !campaign.levels.some((l) => l.level.id === id));
   if (unknown.length > 0) throw new Error(`No campaign level ${unknown.join(', ')}.`);
-  const levels =
+  const chosen =
     wanted.length === 0
       ? campaign.levels
       : campaign.levels.filter((l) => wanted.includes(l.level.id));
+  // Drafts are planned but have no final layout yet; they are never built.
+  const drafts = chosen.filter((l) => l.level.draft === true).map((l) => l.level.id);
+  if (drafts.length > 0) console.log(`${drafts.length} draft(s) skipped: ${drafts.join(' ')}`);
+  const levels = chosen.filter((l) => l.level.draft !== true);
   const check = !flag('no-check');
   const pool = check ? new CheckPool(Number(arg('workers') ?? availableParallelism())) : null;
   let failed = 0;

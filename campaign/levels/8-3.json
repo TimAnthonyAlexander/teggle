@@ -1,0 +1,30 @@
+{
+  "id": "8-3",
+  "name": "Ring Toss",
+  "draft": true,
+  "concept": {
+    "subject": "A ring toss stall: rows of short wooden posts on stepped shelves, a third of them ringed by thrown hoops, under the stall's striped awning.",
+    "composition": "The awning runs along the top on both sides of the open center at a fifth of the height, hung with light bulbs. Three long shelves step down across the stall at two fifths, three fifths and four fifths of the height, each sloping gently from the sides toward the middle; short posts stand evenly along them, and hoops ring about a third of the posts, some lying flat, some leaning.",
+    "layout": "47 round pegs and 85 bricks. The posts are pegs; each hoop is a ring of curved bricks around its post, open at the bottom so a ball can drop out; the shelves are brick slides stepping down toward the middle; the awning's two halves are brick slopes beside the cannon. The light bulbs along the awning are single pegs."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 47,
+    "bricks": 85,
+    "features": ["Brick-heavy throughout (spec 8): 85 of 132 objects"],
+    "difficulty": {
+      "target": 0.22,
+      "note": "Middle of the stage: the ringed posts hide inside their hoops, and the shelves pull balls to the middle before they reach the lower rows."
+    }
+  },
+  "background": {
+    "id": "ribbon-fair-ring-toss",
+    "prompt": "A ring toss stall at a country fair, seen from the front. A striped awning in cream and muted brick red runs along the top of the stall on both sides of the open top center, at about one fifth of the picture height, with a string of round unlit light bulbs along its edge. Inside, three long wooden shelves step down across the picture, each sloping gently down from the sides toward the middle, at about two fifths, three fifths and four fifths of the height. Short round wooden posts stand evenly along each shelf, and about a third of them are ringed by thrown wooden hoops in cream and pale teal, each hoop about a fifteenth of the picture wide, some lying flat around a post, some leaning. The stall's back wall is pale weathered wood; the lower corners are plain wooden boards."
+  },
+  "recipe": {
+    "seed": 803,
+    "targetCount": 132
+  }
+}

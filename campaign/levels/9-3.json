@@ -1,0 +1,29 @@
+{
+  "id": "9-3",
+  "name": "Geysers",
+  "draft": true,
+  "concept": {
+    "subject": "Three geysers erupting from round mounds of mineral rock, their tall columns of water and steam spreading into puffy crowns.",
+    "composition": "The mounds stand in the middle and at a fifth and four fifths of the width, their tops at three quarters of the height, each a sixth of the picture wide. The side plumes rise to a quarter of the height, the middle plume only to two fifths, leaving the top center open; each spreads at its top into a round crown. Ledges of basalt columns step along both side edges.",
+    "layout": "81 round pegs and 68 bricks. Each mound is a brick dome that sheds balls to both sides; each plume is a narrow column of pegs that opens into a ring-shaped crown of pegs; the basalt ledges at the sides are brick slides that lean inward above the flippers' swing."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 81,
+    "bricks": 68,
+    "difficulty": {
+      "target": 0.16,
+      "note": "Second hardest: the crowns are small, high targets, and the domes below shed balls toward the sides rather than the bucket."
+    }
+  },
+  "background": {
+    "id": "ember-highlands-geysers",
+    "prompt": "Three geysers erupt in a volcanic highland under a hazy pale-gold sky. Each rises from a round, smooth mound of pale cream mineral rock: one in the middle of the picture and two at about one fifth and four fifths of the width, the mounds' tops at about three quarters of the picture height, each mound about a sixth of the picture wide. From each mound a tall, narrow column of white water and steam shoots straight up and spreads at its top into a round, puffy crown: the side plumes reach about one quarter of the picture height, the middle plume only about two fifths, leaving the top center open. Ledges of blue-gray basalt columns step along both side edges; a few tiny embers glow in cracks at the mounds' feet; the lower corners are plain rock."
+  },
+  "recipe": {
+    "seed": 903,
+    "targetCount": 149
+  }
+}

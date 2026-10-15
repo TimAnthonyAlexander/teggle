@@ -139,3 +139,58 @@ describe('campaign sources', () => {
     ]);
   });
 });
+
+describe('draft levels', () => {
+  const plan = {
+    archetypes: ['spiral', 'outline'],
+    templates: ['outline', 'spiral'],
+    fill: 'none',
+    pegs: 36,
+    bricks: 24,
+    moving: [{ what: 'the spiral arms', type: 'rotateAroundCircle' }],
+    features: ['Spiral layout'],
+    difficulty: { target: 0.3, note: 'Middle of the stage.' },
+  };
+
+  function draft(fields: Record<string, unknown>) {
+    return levelSourceSchema.safeParse({
+      id: '1-2',
+      name: 'Planned',
+      draft: true,
+      concept: { subject: 's', composition: 'c', layout: 'l' },
+      plan,
+      background: { id: 'test-1-2', prompt: 'A spiral.' },
+      recipe: { seed: 102, targetCount: 60 },
+      ...fields,
+    });
+  }
+
+  it('accepts a plan whose pegs and bricks make the count, with no lines yet', () => {
+    const r = draft({});
+    expect(r.success).toBe(true);
+    expect(r.data?.plan).toMatchObject({ pegs: 36, bricks: 24, needs: [] });
+  });
+
+  it('needs a plan, and a plan that adds up to the recipe count', () => {
+    expect(draft({ plan: undefined }).error?.issues[0]?.message).toMatch(/a draft needs its plan/);
+    expect(draft({ plan: { ...plan, pegs: 35 } }).error?.issues[0]?.message).toMatch(
+      /35 pegs and 24 bricks are not the recipe's 60 objects/,
+    );
+  });
+
+  it('keeps a plan to what a campaign recipe can place', () => {
+    const two = draft({ plan: { ...plan, templates: ['outline', 'spiral', 'rotating'] } });
+    expect(two.error?.issues[0]?.message).toMatch(/at most one template besides/);
+    const filled = draft({ plan: { ...plan, pegs: 0, bricks: 60, fill: 'lattice' } });
+    expect(filled.error?.issues[0]?.message).toMatch(/bricks-only level has no fill/);
+    const moving = draft({ plan: { ...plan, moving: [{ what: 'x', type: 'teleport' }] } });
+    expect(moving.success).toBe(false);
+  });
+
+  it('stays out of the manifest', () => {
+    const planned = draft({}).data;
+    if (planned === undefined) throw new Error('the draft did not parse');
+    const m = composeManifest(stages.stages, [source({}), { stage, level: planned, lines }]);
+    expect(m.stages[0]?.levels.map((l) => l.id)).toEqual(['1-1']);
+  });
+});

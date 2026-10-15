@@ -1,0 +1,29 @@
+{
+  "id": "9-1",
+  "name": "Stone Bridges",
+  "draft": true,
+  "concept": {
+    "subject": "Natural stone arch bridges on two tiers spanning a steaming canyon in the highlands.",
+    "composition": "A row of four round arches on thick pillars crosses the whole picture with the arches' tops at three fifths of the height; on each side of the open top center an upper tier of two smaller arches stands at a third of the height. Steam rises from the canyon floor between the pillars, small lanterns hang under the arches, and sandstone ledges step down along both side edges.",
+    "layout": "43 round pegs and 135 bricks. The architecture template's colonnade builds the arches and the pillars on two tiers from bricks; the sandstone ledges at the sides are brick slides that lean inward. Pegs mark the steam plumes rising between the pillars and the lanterns under the arches."
+  },
+  "plan": {
+    "archetypes": ["architecture", "outline"],
+    "templates": ["outline", "architecture"],
+    "fill": "none",
+    "pegs": 43,
+    "bricks": 135,
+    "difficulty": {
+      "target": 0.27,
+      "note": "The stage opener and its easiest level: the arches' tops shed balls into the open spans between the pillars."
+    }
+  },
+  "background": {
+    "id": "ember-highlands-bridges",
+    "prompt": "A deep canyon in a volcanic highland under a hazy pale-gold sky, spanned by natural stone bridges. A row of four round stone arches on thick pillars crosses the whole picture, the arches' tops at about three fifths of the picture height; above it, on each side of the open top center, an upper tier of two smaller arches stands at about one third of the height. The stone is soft blue-gray basalt and warm sandstone. Thin plumes of pale steam rise from the canyon floor between the pillars, and a few small lanterns with tiny ember-colored flames hang under the arches. Sandstone ledges step down along both side edges; a smoking volcano stands far off in the haze; the lower corners are plain rock."
+  },
+  "recipe": {
+    "seed": 901,
+    "targetCount": 178
+  }
+}

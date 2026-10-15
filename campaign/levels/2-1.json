@@ -1,0 +1,29 @@
+{
+  "id": "2-1",
+  "name": "Potato Rows",
+  "draft": true,
+  "concept": {
+    "subject": "A vegetable bed seen in cross-section, where round potatoes hang from fine roots in neat staggered rows under a line of leafy potato plants.",
+    "composition": "The meadow's ground line crosses the top at a fifth of the height, with potato plants left and right of the open center. Below it the bed of soft earth forms a wide funnel, from a twelfth to eleven twelfths of the width just under the ground, narrowing to two fifths of the width at four fifths of the height, packed with staggered rows of potatoes; outside the funnel the earth is plain, and the lower corners hold only pebbles.",
+    "layout": "Round pegs only, 158 of them. The potatoes are a plinko grid in a funnel envelope, about a dozen staggered rows that narrow toward the bucket; short peg lines follow the plants' leaves and the ground line beside the cannon. The funnel's narrowing keeps the lower corners free for the flippers."
+  },
+  "plan": {
+    "archetypes": ["plinko", "outline"],
+    "templates": ["outline", "plinko"],
+    "fill": "none",
+    "pegs": 158,
+    "bricks": 0,
+    "difficulty": {
+      "target": 0.32,
+      "note": "The stage's easiest level: an open grid where most drops light several pegs, a gentle step from stage 1's counts up to stage 2's."
+    }
+  },
+  "background": {
+    "id": "clover-burrows-potatoes",
+    "prompt": "A vegetable garden bed seen in cross-section, like a cutaway page of a picture book. The meadow's ground line runs straight across the picture at about one fifth of its height, with small leafy potato plants standing on it left and right of the open top center, none in the middle third. Below the ground, the bed of soft, light sandy earth forms a wide funnel shape: from about one twelfth to eleven twelfths of the picture width just under the ground, narrowing evenly to about two fifths of the width at four fifths of the height. Inside the funnel, round pale cream-tan potatoes hang from thin pale roots in about a dozen neat staggered rows, each potato about a thirtieth of the picture wide, all evenly spaced. Outside the funnel the earth is plainer, slightly deeper sand with a few small pebbles; the lower corners and the lowest strip are smooth, calm soil."
+  },
+  "recipe": {
+    "seed": 201,
+    "targetCount": 158
+  }
+}

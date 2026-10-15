@@ -1,0 +1,29 @@
+{
+  "id": "11-4",
+  "name": "Frozen Lake",
+  "draft": true,
+  "concept": {
+    "subject": "A frozen lake on the summit, its ice carved with the looping tracks of skates, slanted blocks of clear ice standing up through it and stars reflected in it.",
+    "composition": "The lake fills the lower two thirds below a snowy far shore at a third of the height. Two large figure-eight loops of skate tracks lie on the left and right halves at three fifths of the height with smaller curls between them. Four slanted ice blocks, each a tenth of the picture wide, stand at half height at 20, 40, 60 and 80 percent of the width, the left two leaning right and the right two leaning left. The top center is open sky.",
+    "layout": "Round pegs only, 120, the fewest in the campaign. The skate tracks are peg lines that loop and curl across the ice; the far shore is a peg line; reflected stars are single pegs. The four ice blocks are solid polygons, slanted so they shield the loops behind them from straight shots and turn balls sideways."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["solids", "outline"],
+    "fill": "none",
+    "pegs": 120,
+    "bricks": 0,
+    "difficulty": {
+      "target": 0.09,
+      "note": "Second hardest: the solid blocks stand between the cannon and most pegs, so many orange pegs are reached only off a bounce."
+    }
+  },
+  "background": {
+    "id": "starlit-summit-lake",
+    "prompt": "A frozen lake lies on the snowy summit above all the worlds at twilight, filling the lower two thirds of the picture below a snowy far shore at about one third of the picture height. The smooth pale ice is carved with long looping tracks of skates: two large figure-eight loops on the left and right halves at about three fifths of the height, and smaller curls between them. Four slanted blocks of clear ice stand up through the lake at about half the height, at about 20, 40, 60 and 80 percent of the width, each about a tenth of the picture wide, the left two leaning to the right and the right two leaning to the left. Small gold and silver stars are reflected in the ice. The sky above the shore is a luminous medium teal with small stars, open at the top center; the lower corners are plain ice."
+  },
+  "recipe": {
+    "seed": 1104,
+    "targetCount": 120
+  }
+}

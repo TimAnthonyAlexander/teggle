@@ -1,0 +1,29 @@
+{
+  "id": "2-2",
+  "name": "The Forked Burrow",
+  "draft": true,
+  "concept": {
+    "subject": "A gopher's front burrow: a shaft drops from a little entrance mound and forks into two smooth tunnels that loop back toward the middle into two stocked chambers.",
+    "composition": "The ground line crosses at a fifth of the height with the entrance mound just below the open top center. The shaft forks at a third of the height; the tunnels swing out to a fifth and four fifths of the width at half height and curve back down and in, ending in two round chambers left and right of the center at three quarters of the height. Roots hang between the tunnels and the walls; the lower corners are plain earth.",
+    "layout": "79 round pegs and 62 bricks. Each tunnel's outer floor is one long brick slide that carries balls back toward the middle, and the shaft's walls are short brick chains below the cannon's clearance. Pegs follow the tunnels' inner walls, ring the two chambers with a few acorns inside and hang from the roots; a single peg sits on the fork."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 79,
+    "bricks": 62,
+    "difficulty": {
+      "target": 0.31,
+      "note": "Close to the opener: the slides return balls to the middle, where the bucket runs; the acorns inside the chambers are the hard pegs."
+    }
+  },
+  "background": {
+    "id": "clover-burrows-fork",
+    "prompt": "A gopher burrow seen in cross-section under a clover meadow. The meadow's ground line runs across the picture at about one fifth of its height, with a small rounded mound and a round burrow entrance just below the open top center. From the entrance a short shaft drops to about one third of the picture height, where the burrow forks into two wide, smooth tunnels about a twelfth of the picture high: they curve outward and down to about one fifth and four fifths of the picture width at half the height, then bend back inward, ending at about three quarters of the height in two round chambers left and right of the center, each about a seventh of the picture wide and stocked with a few acorns. Fine pale roots hang from the meadow into the earth between the tunnels and the side edges. The lower corners and the lowest strip are plain, light sandy earth."
+  },
+  "recipe": {
+    "seed": 202,
+    "targetCount": 141
+  }
+}

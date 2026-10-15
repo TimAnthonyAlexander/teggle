@@ -1,0 +1,34 @@
+{
+  "id": "4-5",
+  "name": "Supernova",
+  "draft": true,
+  "concept": {
+    "subject": "A star bursting in the middle of the nebula, its shock waves spreading out in broken rings with short rays between them.",
+    "composition": "The star's small core sits at the center of the picture at three fifths of the height. Around it a round shock ring, two thirds of the picture height across, is broken into four arcs. Outside it, on the left and right, two nested crescents of an outer shock wave curve around the ring from a quarter to four fifths of the height, each broken into three arcs with short rays pointing outward from the gaps. The top center is open space.",
+    "layout": "34 round pegs and 127 bricks, the stage's last level with the original's split of 24 pegs and 90 bricks scaled. The inner shock ring is the rotating template's single wheel: curved bricks broken into four slots, turning around the core with short peg spokes. The nested crescents on each side are static curved brick arcs and the rays straight bricks; pegs sit on the core, along the spokes and at the rays' tips."
+  },
+  "plan": {
+    "archetypes": ["rotating", "web", "outline"],
+    "templates": ["outline", "rotating"],
+    "fill": "none",
+    "pegs": 34,
+    "bricks": 127,
+    "moving": [{ "what": "the inner shock ring and its spokes", "type": "rotateAroundCircle" }],
+    "features": [
+      "Mostly bricks (spec 8): 127 of 161 objects",
+      "Last level of 24 pegs and 90 bricks (spec 8), scaled to 34 and 127"
+    ],
+    "difficulty": {
+      "target": 0.23,
+      "note": "The stage's hardest: with only 34 pegs, most orange objects are bricks in the turning ring or behind the crescents."
+    }
+  },
+  "background": {
+    "id": "lilac-orbit-supernova",
+    "prompt": "A star bursts in a soft lilac and periwinkle outer space. Its small, bright pale-gold core sits in the center of the picture at about three fifths of the picture height. Around it a round ring of shock wave in pale silver-lilac, about two thirds of the picture height across, is broken into four equal arcs by four even gaps, with faint streaks running from the core to the ring. Outside it, on the left and right, two nested crescent-shaped arcs of an outer shock wave curve around the ring from about one quarter to four fifths of the picture height, each crescent broken into three arcs, with short straight rays of light pointing outward from the gaps. Thin scatterings of small stars; the top center is open, calm space; the lower corners are plain nebula haze."
+  },
+  "recipe": {
+    "seed": 405,
+    "targetCount": 161
+  }
+}

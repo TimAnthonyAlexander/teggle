@@ -1,0 +1,29 @@
+{
+  "id": "6-3",
+  "name": "Pumpkin Patch",
+  "draft": true,
+  "concept": {
+    "subject": "Rows of round pumpkins on curling vines along the crests of three moonlit hills, with crooked fence posts between them.",
+    "composition": "A wide low hill spans the bottom third with its crest at two thirds of the height; two smaller hills rise on the left and right with their crests at two fifths of the height near the side edges. Five pumpkins sit along the wide hill's crest and three along each side hill's, linked by curling vines; crooked fence posts stand at the side hills' inner ends. The moon hangs high on the left; the top center is open sky.",
+    "layout": "Round pegs only, 141. Each pumpkin is a small ring of seven pegs set on its hill's crest, and the vines between them are peg lines with curls; the hills' crests below the pumpkins are loose peg lines. The fence posts are solid posts, blockers that turn balls back toward the middle."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["solids", "outline"],
+    "fill": "none",
+    "pegs": 141,
+    "bricks": 0,
+    "difficulty": {
+      "target": 0.3,
+      "note": "Second easiest: the pumpkin rings are open targets and the fence posts keep balls in play."
+    }
+  },
+  "background": {
+    "id": "moonlit-hollow-patch",
+    "prompt": "A moonlit pumpkin patch at dusk across three soft rolling hills. A wide low hill spans the bottom third of the picture with its crest at about two thirds of the height; two smaller hills rise on the left and right with their crests at about two fifths of the height near the side edges. Along each hill's crest sit round pumpkins in burgundy, plum and dusty cream, each about a fourteenth of the picture wide, evenly spaced and linked by curling vines and broad leaves: five on the wide hill and three on each side hill. Crooked wooden fence posts stand at the inner ends of the side hills. A huge pale silver moon hangs high on the left; silver mist drifts between the hills. The top center is open sky; the lower corners are plain misty slopes."
+  },
+  "recipe": {
+    "seed": 603,
+    "targetCount": 141
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "3-1",
+  "name": "Gable Row",
+  "draft": true,
+  "concept": {
+    "subject": "A row of tall, narrow town houses with steep triangular gables standing shoulder to shoulder against a golden sky.",
+    "composition": "Five gabled houses fill the lower two thirds. The two tallest stand at a quarter and three quarters of the width with their peaks at a quarter of the height; two shorter ones stand by the side walls and a low, wide one in the middle, both with peaks at two fifths of the height, below the open top center. Square chimneys rise beside the tallest gables, narrow gaps of sky separate the houses, and a low wall runs along the bottom.",
+    "layout": "109 round pegs and 32 bricks. The four outer gables are brick chevrons, two roof slopes of about four bricks each, so balls slide off into the gaps between the houses; the middle gable and the house fronts are pegs: window rims, balcony rails and eaves. The chimneys are solid blocks. Pegs on the houses by the walls stop above the flippers' swing."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["solids", "outline"],
+    "fill": "none",
+    "pegs": 109,
+    "bricks": 32,
+    "difficulty": {
+      "target": 0.34,
+      "note": "The stage opener and its easiest level: open gaps between the houses and short roof slides."
+    }
+  },
+  "background": {
+    "id": "golden-rooftops-gables",
+    "prompt": "A row of five tall, narrow town houses with steep triangular gables, seen from the front against a calm golden-hour sky, standing shoulder to shoulder across the lower two thirds of the picture. The two tallest stand at about one quarter and three quarters of the width, each about a sixth of the picture wide, their gable peaks at about one quarter of the picture height; two shorter houses stand close to the side edges and a low, wide house stands in the middle, all three with their peaks at about two fifths of the height, so the top center stays open sky. The roofs are muted slate blue, the walls honey and cream stone; each front has two round windows and a small balcony, and narrow gaps of sky separate the houses. A square chimney rises beside each of the two tallest gables. The houses stand on a low stone wall along the bottom; the house fronts near the lower corners are plain stone without windows."
+  },
+  "recipe": {
+    "seed": 301,
+    "targetCount": 141
+  }
+}

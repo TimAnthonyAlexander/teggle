@@ -1,0 +1,30 @@
+{
+  "id": "4-2",
+  "name": "Spinning Station",
+  "draft": true,
+  "concept": {
+    "subject": "A wheel-shaped space station turning slowly among the stars, with six spokes, a round hub and four docking gaps in its rim.",
+    "composition": "The station's wheel fills the middle, centered at about 58 percent of the height and two thirds of the picture height across. Two small satellites with flat solar panels float in the upper left and upper right corners; loose clusters of stars drift along both sides; the top center is open space.",
+    "layout": "105 round pegs and 42 bricks. The station is the rotating template's single wheel: a rim of curved bricks broken into four slots and six spokes of pegs, turning slowly around a static hub peg. The satellites' solar panels are short brick rows with peg bodies, and the star clusters at the sides are loose peg lines."
+  },
+  "plan": {
+    "archetypes": ["rotating", "outline"],
+    "templates": ["outline", "rotating"],
+    "fill": "none",
+    "pegs": 105,
+    "bricks": 42,
+    "moving": [{ "what": "the station's rim and spokes", "type": "rotateAroundCircle" }],
+    "difficulty": {
+      "target": 0.28,
+      "note": "Middle of the stage: the turning rim opens and closes the way to the spokes, so the timing of a shot matters for the first time in the stage."
+    }
+  },
+  "background": {
+    "id": "lilac-orbit-station",
+    "prompt": "A wheel-shaped space station turns slowly in a soft lilac and periwinkle outer space. The station is a large round wheel in the middle of the picture, centered at about 58 percent of the picture height, its outer rim about two thirds of the picture height across, made of smooth pearl-gray hull segments with four wide docking gaps evenly spaced around it. Six thin spokes run from the rim to a small round hub in the center. Two small satellites with flat rectangular solar panels float in the upper left and upper right corners, and loose clusters of small pale silver stars drift along both sides. The top center is open, calm space; the lower corners are plain nebula haze."
+  },
+  "recipe": {
+    "seed": 402,
+    "targetCount": 147
+  }
+}

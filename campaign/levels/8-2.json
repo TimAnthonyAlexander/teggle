@@ -1,0 +1,30 @@
+{
+  "id": "8-2",
+  "name": "The Carousel",
+  "draft": true,
+  "concept": {
+    "subject": "A carousel seen from the front, with its striped conical canopy, a valance of small round arches, twisted poles and empty bench seats on a round platform, between two ticket booths.",
+    "composition": "The canopy spans from a fifth to four fifths of the width, its peak at three tenths of the height with a pennant on top, its two slopes running down to the valance at two fifths. Eight poles run from the valance to the platform, whose rim curves gently across at four fifths of the height. Two small ticket booths with peaked roofs stand near the side edges at half height; the top center is open sky.",
+    "layout": "29 round pegs and 110 bricks. The canopy's two slopes are long brick slides from the peak; the valance is a row of small brick arches that shed balls between the poles; the platform's rim is a wide, gentle brick arc; the booths' roofs are brick chevrons and their counters brick ledges that lean inward. The eight poles are short peg columns, the only pegs besides the finial on the peak."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 29,
+    "bricks": 110,
+    "features": ["Brick-heavy throughout (spec 8): 110 of 139 objects"],
+    "difficulty": {
+      "target": 0.25,
+      "note": "Second easiest: the canopy throws balls wide, but the poles under the valance are only reached through its arches."
+    }
+  },
+  "background": {
+    "id": "ribbon-fair-carousel",
+    "prompt": "A carousel at a country fair on a breezy afternoon, seen from the front. Its conical striped canopy in cream and muted brick red spans from about one fifth to four fifths of the picture width, its peak at about three tenths of the picture height with a small pennant on top, its two straight slopes running down to a valance at about two fifths of the height whose lower edge is a row of small round arches. Below the valance, eight twisted pale-gold poles run down to the carousel's round wooden platform, whose rim curves gently across the picture at about four fifths of the height; between the poles stand only empty bench seats, no animals and no riders. Near the left and right edges, two small ticket booths with peaked roofs stand at about half the height. A soft turquoise sky with puffy clouds, open at the top center; the lower corners are straw-covered ground."
+  },
+  "recipe": {
+    "seed": 802,
+    "targetCount": 139
+  }
+}

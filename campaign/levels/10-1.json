@@ -1,0 +1,30 @@
+{
+  "id": "10-1",
+  "name": "Knothole Passage",
+  "draft": true,
+  "concept": {
+    "subject": "Two great old birches near the upper corners, each with a round hollow in its trunk, and two fallen logs below whose knotholes lead through the forest into the hollow on the other side.",
+    "composition": "The birch trunks stand near the side edges; their hollows, each a sixth of the picture wide, are centered at a seventh and six sevenths of the width at a quarter of the height. The fallen logs lie low on each side with their knotholes facing the viewer at a sixth and five sixths of the width and four fifths of the height. In the middle three small cairns stand on a mossy rise among ferns, and a band of mist drifts across at half height; the top center is open dawn sky.",
+    "layout": "105 round pegs and 34 bricks; portals are introduced. The portals template builds the two vaults: each hollow is a ring of bricks open at the bottom with pegs inside, and each knothole is a portal that sends the ball up into the hollow on the other side. The logs' tops are short brick slides. The cairns are stacked peg rings, the ferns peg arcs, and the mist peg lines across the middle."
+  },
+  "plan": {
+    "archetypes": ["portals", "outline"],
+    "templates": ["outline", "portals"],
+    "fill": "none",
+    "pegs": 105,
+    "bricks": 34,
+    "features": ["Portals introduced (spec 8): knotholes that lead into the far birch's hollow"],
+    "difficulty": {
+      "target": 0.25,
+      "note": "The stage opener and its easiest level: the portals only ever help, sending low balls back up into the hollows' pegs."
+    }
+  },
+  "background": {
+    "id": "silverwood-hollows",
+    "prompt": "A quiet silver birch forest at misty dawn. Two great old birch trunks stand near the left and right edges, white and silver with soft gray markings, each with one large round hollow in its trunk, the hollows centered at about one seventh and six sevenths of the picture width and one quarter of the picture height, each about a sixth of the picture wide, with a soft shadowed silver-gray inside and a clearly drawn round rim. Low on each side, at about one sixth and five sixths of the width and four fifths of the height, a fallen mossy log shows a round knothole facing the viewer. In the middle, three small cairns of smooth round river stones stand on a mossy rise with curling ferns between them; a band of pale silver-blue mist drifts across at about half the height. The top center is open, pale dawn sky; the lower corners are plain moss."
+  },
+  "recipe": {
+    "seed": 1001,
+    "targetCount": 139
+  }
+}

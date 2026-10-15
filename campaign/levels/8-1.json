@@ -1,0 +1,30 @@
+{
+  "id": "8-1",
+  "name": "Helter Skelter",
+  "draft": true,
+  "concept": {
+    "subject": "A tall striped helter-skelter tower at the fair, its slide winding down around it in long zigzag runs, with bunting strung from its pointed roof to two booth tents.",
+    "composition": "The tower stands in the middle from a third of the height to the bottom, a seventh of the picture wide, its pointed roof below the open top center. Five sloping slide runs cross in front of it in a zigzag, each reaching out past its sides to a quarter and three quarters of the width, the lowest ending at four fifths of the height. Pennant strings run from the roof's tip down to two small booth tents near the side edges; straw covers the lower corners.",
+    "layout": "51 round pegs and 108 bricks. Each slide run is a long brick slide, the runs alternating left and right down the tower, so a ball that lands on one rides it out and drops to the next; the roof and the two booth tents' roofs are brick chevrons. Pegs follow the pennant strings, the tower's round windows between the runs and the tents' poles."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 51,
+    "bricks": 108,
+    "features": ["Brick-heavy throughout (spec 8): 108 of 159 objects"],
+    "difficulty": {
+      "target": 0.28,
+      "note": "The stage opener and its easiest level: the long runs carry balls across many objects on every drop."
+    }
+  },
+  "background": {
+    "id": "ribbon-fair-helter-skelter",
+    "prompt": "A tall helter-skelter tower at a country fair on a breezy afternoon stands in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, striped in cream and muted brick red, with a pointed roof and a small flag on top below the open top center. Its wooden slide winds down around it: seen from the front, five long sloping runs cross in front of the tower in a zigzag, each reaching out past the tower's sides to about one quarter and three quarters of the picture width, the first sloping down to the left, the next to the right and so on, the lowest ending at about four fifths of the height. Strings of small triangular pennants run from the roof's tip down to two small booth tents near the left and right edges. A soft turquoise sky with puffy clouds; the lower corners are straw-covered ground."
+  },
+  "recipe": {
+    "seed": 801,
+    "targetCount": 159
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "3-2",
+  "name": "Lantern Loop",
+  "draft": true,
+  "concept": {
+    "subject": "A festival string of round paper lanterns hung in a figure-eight loop between two chimney stacks above the rooftops, the lanterns gliding around and around the loop.",
+    "composition": "Two tall chimney stacks rise at a fifth and four fifths of the width up to a quarter of the height. Between them one wire loops in a figure eight lying on its side, from a quarter to three quarters of the width and from a third to two thirds of the height, crossing itself at the center of the picture. Roofs fill the bottom third, sloping down toward the middle; the top center is open sky.",
+    "layout": "93 round pegs and 48 bricks. Sixteen lantern pegs ride the figure eight, all on one horizontal infinity path with their phases spread evenly, so the string of lanterns glides around the loop. The chimney stacks are peg columns; the roofs along the bottom third are brick slopes that slide balls toward the middle, with peg tiles and windows above them."
+  },
+  "plan": {
+    "archetypes": ["outline", "rotating"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 93,
+    "bricks": 48,
+    "moving": [
+      {
+        "what": "16 lanterns traveling around the figure eight, phases spread evenly",
+        "type": "horizontalInfinity"
+      }
+    ],
+    "features": ["Pegs in an infinity shape that spin in a loop (spec 8): a lantern string"],
+    "needs": ["line-movers"],
+    "difficulty": {
+      "target": 0.29,
+      "note": "Middle of the stage: the moving lanterns are easy to hit by luck and hard to hit on purpose; the roofs below are open."
+    }
+  },
+  "background": {
+    "id": "golden-rooftops-lanterns",
+    "prompt": "A festival above a hill town's rooftops at golden hour. Two tall stone chimney stacks rise on the left and right, at about one fifth and four fifths of the picture width, from the roofs up to about one quarter of the picture height. Between them, one long thin wire is strung in a single smooth figure-eight loop lying on its side, spanning from about one quarter to three quarters of the picture width and from about one third to two thirds of the height, its two loops equal in size and crossing at the center of the picture. About sixteen round paper lanterns in cream and pale gold hang evenly along the wire. Below, the town's roofs fill the bottom third: muted slate-blue roof slopes on each side that descend toward the middle, with small round windows under them. The top center is open sky; the lower corners are plain roof slopes."
+  },
+  "recipe": {
+    "seed": 302,
+    "targetCount": 141
+  }
+}

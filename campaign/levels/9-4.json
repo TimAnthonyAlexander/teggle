@@ -1,0 +1,30 @@
+{
+  "id": "9-4",
+  "name": "Basalt Steps",
+  "draft": true,
+  "concept": {
+    "subject": "A cliff of hexagonal basalt columns of different heights, their flat tops forming one great stairway that climbs from the middle toward both sides.",
+    "composition": "The columns stand side by side across the picture; the lowest in the middle have their tops at four fifths of the height and each column outward is a step taller, about ten steps on each side, the tallest at the side edges reaching a quarter of the height. A round natural arch opens through the columns on each side at a third and two thirds of the width, at three fifths of the height. Steam rises from the gap in the middle; the top center is open sky.",
+    "layout": "Bricks only, 152. The columns' tops are short brick steps, each tilted a little toward the middle so no ball rests on them; the columns' front edges are standing bricks that end above the flippers' swing; the two arches are brick arches through the stairway."
+  },
+  "plan": {
+    "archetypes": ["architecture", "outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 0,
+    "bricks": 152,
+    "features": ["One level bricks only (spec 8): 108 bricks scaled to 152"],
+    "difficulty": {
+      "target": 0.23,
+      "note": "Second easiest: the stairway rolls every ball toward the middle, where the bucket runs; the bricks under the arches are the hard ones."
+    }
+  },
+  "background": {
+    "id": "ember-highlands-basalt",
+    "prompt": "A cliff of tall hexagonal basalt columns in a volcanic highland under a hazy pale-gold sky. The columns stand side by side across the whole picture, soft blue-gray with lighter sandstone tops, and their flat tops form one great stairway shaped like a wide V: the lowest columns stand in the middle with their tops at about four fifths of the picture height, and each column to the left and right is a step taller, about ten steps on each side, the tallest at the side edges reaching about one quarter of the height. Through the columns on each side, at about one third and two thirds of the width, a round natural arch opens at about three fifths of the height. Thin plumes of steam rise from the gap in the middle; the top center is open sky; the lower corners are plain blue-gray rock."
+  },
+  "recipe": {
+    "seed": 904,
+    "targetCount": 152
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "7-1",
+  "name": "Pinwheel Garden",
+  "draft": true,
+  "concept": {
+    "subject": "Two big garden pinwheels spinning on tall sticks above curving flower beds, a garland of blossoms arched between them.",
+    "composition": "The pinwheels turn in the lower half at a quarter and three quarters of the width and three fifths of the height, each half the picture height across, with five curved blades. A garland of small blossoms arches across the middle at a third of the height, below the open top center; curving beds edged with pale stone run along the bottom and between the pinwheels; low hedges fill the lower corners.",
+    "layout": "110 round pegs and 45 bricks. The two pinwheels are the rotating template's windmill pair: sails of straight bricks along five spokes with pegs at the sail tips, turning in opposite directions around static hub pegs. The garland is a peg arc over the middle, blossoms in the beds are peg clusters, and the beds' stone edging is short brick slides that lean toward the middle."
+  },
+  "plan": {
+    "archetypes": ["rotating", "outline"],
+    "templates": ["outline", "rotating"],
+    "fill": "none",
+    "pegs": 110,
+    "bricks": 45,
+    "moving": [{ "what": "the two pinwheels' sails and tip pegs", "type": "rotateAroundCircle" }],
+    "features": ["Rotating windmill bricks (spec 8): two garden pinwheels"],
+    "difficulty": {
+      "target": 0.3,
+      "note": "The stage opener and its easiest level: the pinwheels turn low at the sides, and the garland and the beds are open to direct shots."
+    }
+  },
+  "background": {
+    "id": "petal-terraces-pinwheels",
+    "prompt": "Terraced flower gardens on a sunny hillside in late spring. Two big garden pinwheels on tall slender sticks spin in the lower half of the picture, centered at about one quarter and three quarters of the width and about three fifths of the height, each about half the picture height across, with five broad curved blades in cream and dusty rose around a round center. A garland of small blossoms in blush pink and cream arches across the middle of the picture between them at about one third of the height, below the open top center. Curving flower beds edged with pale stone run along the bottom and between the pinwheels, with butter-yellow and soft peach blossoms and muted sage leaves. A clear, soft sky; the lower corners are low gray-green hedges."
+  },
+  "recipe": {
+    "seed": 701,
+    "targetCount": 155
+  }
+}

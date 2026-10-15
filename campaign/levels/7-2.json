@@ -1,0 +1,29 @@
+{
+  "id": "7-2",
+  "name": "Rose Trellis",
+  "draft": true,
+  "concept": {
+    "subject": "A garden path passing under three round-arched rose trellises, one behind the other, climbing roses spilling over their arches.",
+    "composition": "Seen from the front the three arches nest inside each other, all standing on one ground line at four fifths of the height: the front arch spans from a fifth to four fifths of the width with its top at a quarter of the height, below the open top center; the middle arch is two thirds its size, the back arch a third. Roses cluster on the arches' tops and sides; stepping stones lead through them; low stone walls with flowers run along the sides.",
+    "layout": "60 round pegs and 72 bricks. The three trellis arches are concentric brick arches; a ball that drops between two of them rides the lower arch down toward its foot. The rose clusters are peg groups along the arches' crowns and sides, the stepping stones a short peg line under the smallest arch, and the side walls' flowers single pegs above the flippers' swing."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 60,
+    "bricks": 72,
+    "difficulty": {
+      "target": 0.27,
+      "note": "Middle of the stage: the nested arches keep balls rolling, but the roses inside the back arch are shielded by two arches."
+    }
+  },
+  "background": {
+    "id": "petal-terraces-trellis",
+    "prompt": "A garden path in sunny terraced flower gardens passes under three round-arched rose trellises standing one behind the other, seen from the front so that their arches nest inside each other. The front arch is the largest, spanning from about one fifth to four fifths of the picture width with its top at about one quarter of the picture height, below the open top center; the middle arch is about two thirds of its size and the back arch about a third, all three standing on the same ground line at about four fifths of the height. The arches are slender pale wood, and climbing roses in dusty rose, blush pink and cream spill over their tops and down their sides in clusters. Round stepping stones lead along the path through the arches. Low stone walls with soft peach and butter-yellow flowers run along both sides; the lower corners are low sage hedges."
+  },
+  "recipe": {
+    "seed": 702,
+    "targetCount": 132
+  }
+}

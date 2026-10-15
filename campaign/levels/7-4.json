@@ -1,0 +1,39 @@
+{
+  "id": "7-4",
+  "name": "The Water Mill",
+  "draft": true,
+  "concept": {
+    "subject": "A little garden water mill: a big overshot wheel fed by a wooden chute, a smaller gear wheel turning beside it, and the mill stream flowing past below them.",
+    "composition": "The big wheel turns left of center, centered at a third of the width and two fifths of the height, two fifths of the picture height across, fed from the upper left by a wooden chute that ends above its top. The small gear wheel turns right of center at two thirds of the width and a third of the height, a quarter of the picture height across, below the slope of the mill house's roof at the upper right. The stream crosses the whole picture at two thirds of the height; flowery banks slope toward the middle below it; the top center is open sky.",
+    "layout": "Bricks only, 141. The two wheels are rings of curved bricks with straight brick paddles or teeth, each turning about its own hub; the stream is two rows of short brick ripples that flow across the board and wrap from one side to the other, the moving ground. The chute and the mill roof are brick slides at the upper sides, and the banks below the stream are brick slides that lean toward the middle above the flippers' swing."
+  },
+  "plan": {
+    "archetypes": ["rotating", "platforms", "outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 0,
+    "bricks": 141,
+    "moving": [
+      { "what": "the big water wheel", "type": "rotateAroundCircle" },
+      { "what": "the small gear wheel, turning the other way", "type": "rotateAroundCircle" },
+      { "what": "two rows of stream ripples", "type": "horizontalWrap" }
+    ],
+    "features": [
+      "Moving ground and brick wheels (spec 8): the mill stream and two mill wheels",
+      "Bricks only (spec 8): the second of stage 7's two bricks-only levels"
+    ],
+    "needs": ["line-movers"],
+    "difficulty": {
+      "target": 0.26,
+      "note": "Second hardest: three kinds of motion at once, and the ripples carry balls sideways away from the bucket."
+    }
+  },
+  "background": {
+    "id": "petal-terraces-mill",
+    "prompt": "A little water mill in a sunny terraced garden in late spring. A big wooden overshot water wheel with flat paddles turns left of the center, centered at about one third of the picture width and two fifths of the picture height, about two fifths of the picture height across; a wooden chute comes in from the upper left and ends just above the wheel's top. Right of the center, a smaller round wooden gear wheel, about a quarter of the picture height across, turns at about two thirds of the width and one third of the height, below the soft gray-blue roof slope of the mill house at the upper right. The mill stream flows straight across the whole picture at about two thirds of the height in a narrow band of clear pale-aqua water with rows of small curved ripples. Below it, grassy banks with dusty rose and cream flowers slope gently toward the middle. The top center is open sky; the lower corners are low sage hedges."
+  },
+  "recipe": {
+    "seed": 704,
+    "targetCount": 141
+  }
+}

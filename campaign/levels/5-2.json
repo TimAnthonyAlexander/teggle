@@ -1,0 +1,32 @@
+{
+  "id": "5-2",
+  "name": "The Fish Boat",
+  "draft": true,
+  "concept": {
+    "subject": "A little wooden boat built in the shape of a fish, with a round porthole for an eye and a fan-shaped tail rudder, sailing back and forth across the cove.",
+    "composition": "The fish boat floats in the middle of the picture at half height, a third of the picture wide, on a waterline at three fifths of the height. Rows of gentle wave crests fill the water below, evenly spaced to the bottom; two buoys bob near the side edges at the waterline. The sky above is clear and the top center open.",
+    "layout": "Round pegs only, 147. The fish boat is a closed peg outline with a porthole ring, a fin and a fan of tail pegs, about 30 pegs that move together left and right across the middle on one horizontal cycle and keep the band they sweep free. Below it, the wave crests are peg lines that stay above the flippers' swing; the buoys are short peg columns and a few cloud pegs float in the sky beside the cannon."
+  },
+  "plan": {
+    "archetypes": ["outline", "platforms"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 147,
+    "bricks": 0,
+    "moving": [{ "what": "the fish boat, about 30 pegs moving as one", "type": "horizontalCycle" }],
+    "features": ["A moving fish shape (spec 8): a fish-shaped boat crossing the cove"],
+    "needs": ["line-movers"],
+    "difficulty": {
+      "target": 0.26,
+      "note": "Second hardest: the boat's orange pegs come and go, and while it passes it shields the wave rows below it."
+    }
+  },
+  "background": {
+    "id": "lighthouse-cove-fish-boat",
+    "prompt": "A little wooden boat built in the shape of a fish floats on the calm water of a sunny cove, in the middle of the picture at about half its height, about a third of the picture wide: a rounded fish-shaped hull of pale weathered wood with soft gray-blue stripes, a round porthole window near its front like an eye, a small fin-shaped sail on top and a wide fan-shaped tail rudder at the back. The waterline runs straight across the picture at about three fifths of its height; below it the clear aqua water shows rows of gentle wave crests in soft white lines, evenly spaced down to the bottom. Two round buoys in faded cream and pale teal bob near the left and right edges at the waterline. Above, a soft blue sky with a few small flat clouds; the top center is open sky; the lower corners are calm water."
+  },
+  "recipe": {
+    "seed": 502,
+    "targetCount": 147
+  }
+}

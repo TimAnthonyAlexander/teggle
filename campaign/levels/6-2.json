@@ -1,0 +1,30 @@
+{
+  "id": "6-2",
+  "name": "Moonlit Web",
+  "draft": true,
+  "concept": {
+    "subject": "A great dewy web strung between two bare branches in front of the rising moon, every thread beaded with drops of dew, with no spider anywhere.",
+    "composition": "The web fills the middle as a wide oval from a sixth to five sixths of the width, centered a little above half height, its top opening a gap under the cannon. Twelve straight spokes and five or six rings of sagging thread; two small quarter webs fill the upper corners; bare branches frame the sides; the moon shines behind the web's center.",
+    "layout": "Round pegs only, 173: the stage's spiderweb. The web template builds it: concentric rings of dew-drop pegs strung as straight threads between twelve spokes and sagging slightly toward the center, a peg at the hub, and quarter webs in both upper corners. The cannon's clearance opens the gap at the top of the web."
+  },
+  "plan": {
+    "archetypes": ["web"],
+    "templates": ["web"],
+    "fill": "none",
+    "pegs": 173,
+    "bricks": 0,
+    "features": ["Spiderweb layout with many round pegs (spec 8): 123 pegs scaled to 173"],
+    "difficulty": {
+      "target": 0.28,
+      "note": "Middle of the stage: the dense rings give many hits per shot, but the hub's pegs sit behind four or five rings."
+    }
+  },
+  "background": {
+    "id": "moonlit-hollow-web",
+    "prompt": "A great spider web strung in front of a huge pale silver moon in a moonlit pumpkin hollow at dusk, with no spider anywhere. The web is a wide oval centered in the picture a little above half height, from about one sixth to five sixths of the picture width and from about one eighth of the height down to near the bottom, made of twelve straight spokes and five or six rings of thread strung straight from spoke to spoke and sagging slightly toward the center, every thread beaded with small round drops of dew. Two smaller quarter webs fill the upper left and upper right corners. Bare, twisting branches frame the web at both sides; silver mist lies along the bottom. The top center shows only open, moonlit sky through a gap at the top of the web; the lower corners are plain mist."
+  },
+  "recipe": {
+    "seed": 602,
+    "targetCount": 173
+  }
+}

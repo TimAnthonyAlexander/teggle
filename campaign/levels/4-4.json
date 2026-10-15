@@ -1,0 +1,30 @@
+{
+  "id": "4-4",
+  "name": "Moon Phases",
+  "draft": true,
+  "concept": {
+    "subject": "Seven moons in their phases hanging along one wide arc, thin crescents at the ends growing to a full moon at the bottom of the arc.",
+    "composition": "The arc is shaped like a smile: it starts near the side edges at a third of the height and dips to two thirds of the height at the center. Seven moons, each a ninth of the picture wide, sit evenly along it; the crescents on the left are lit on their right side and those on the right on their left side, mirror images. Stars fill the space above the arc; the top center is open space.",
+    "layout": "56 round pegs and 85 bricks. Each crescent's lit edge is a curved brick arc, longer toward the full moon, so the crescents on each side face the middle. The full moon at the bottom of the arc is a peg ring with crater pegs inside, the other moons' craters are single pegs in the dark part of each crescent, and stars are loose pegs above the arc."
+  },
+  "plan": {
+    "archetypes": ["outline"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 56,
+    "bricks": 85,
+    "features": ["Mostly bricks (spec 8): 85 of 141 objects"],
+    "difficulty": {
+      "target": 0.26,
+      "note": "Second hardest: the crescents' brick arcs face different ways and hide the crater pegs behind them."
+    }
+  },
+  "background": {
+    "id": "lilac-orbit-moon-phases",
+    "prompt": "A row of seven moons in their phases hangs across a soft lilac and periwinkle outer space along one wide, smooth arc shaped like a smile: it starts high on the left at about one third of the picture height near the side edge, dips to about two thirds of the height at the center and rises again to the same height near the right edge. The moons are evenly spaced along the arc, each about a ninth of the picture wide: thin crescents at both ends, growing fuller toward the middle, and one full round moon at the bottom center. The crescents on the left are lit on their right side and those on the right on their left side, mirror images. The moons are pearl gray and pale cream with soft round craters. Thin scatterings of small silver stars fill the space above the arc; the top center is open, calm space; the lower corners are plain nebula haze."
+  },
+  "recipe": {
+    "seed": 404,
+    "targetCount": 141
+  }
+}

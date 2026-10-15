@@ -1,0 +1,33 @@
+{
+  "id": "11-5",
+  "name": "Aurora Twist",
+  "draft": true,
+  "concept": {
+    "subject": "Ribbons of aurora twisting around each other across the summit sky and turning as they twist, with two aurora curtains at the edges and snowy peaks below.",
+    "composition": "Two pairs of ribbons cross the picture from near the left edge to near the right: one pair at half height, one at three quarters; each pair twists around a straight line in gentle waves. At the side edges two narrow aurora curtains hang straight down in the same twisting pattern. A row of low snowy peaks runs along the bottom; the top center is open sky.",
+    "layout": "Round pegs only, 185, the campaign's finale. The helix template in spin mode: two horizontal bands and a standing pair by each wall, every peg circling its own spot with the circles' angles turning along the strand, so the ribbons seem to spin as they twist; the side pairs stop above the flippers' swing. The snowy peaks are static peg lines."
+  },
+  "plan": {
+    "archetypes": ["helix", "outline"],
+    "templates": ["outline", "helix"],
+    "fill": "none",
+    "pegs": 185,
+    "bricks": 0,
+    "moving": [
+      { "what": "every peg of the ribbons and curtains, circling its spot", "type": "circle" }
+    ],
+    "features": ["Spinning double helix (spec 8): twisting aurora ribbons"],
+    "difficulty": {
+      "target": 0.06,
+      "note": "The campaign's hardest level: almost every peg is in motion and nothing on the board steers the ball."
+    }
+  },
+  "background": {
+    "id": "starlit-summit-aurora",
+    "prompt": "The snowy summit above all the worlds at twilight. Across the luminous medium teal sky, two long aurora ribbons in pale ice blue and soft gold twist around each other in gentle waves, one pair across the middle of the picture at about half its height and a second pair lower, at about three quarters of the height, each pair stretching from near the left edge to near the right edge. At the left and right edges, two narrow curtains of aurora hang straight down in the same twisting pattern. Small gold and silver stars dot the sky; a row of low snowy peaks runs along the bottom; the top center is open sky; the lower corners are plain snow."
+  },
+  "recipe": {
+    "seed": 1105,
+    "targetCount": 185
+  }
+}

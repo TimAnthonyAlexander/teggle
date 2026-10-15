@@ -1,0 +1,32 @@
+{
+  "id": "10-3",
+  "name": "Mirror Pools",
+  "draft": true,
+  "concept": {
+    "subject": "A chain of still pools stepping down through the birches, with a hollow log lying at each edge of the forest: a ball that rolls into one log comes out of the other.",
+    "composition": "Three round pools with smooth stone rims sit in tiers: one in the middle at three quarters of the height, a third of the picture wide, and two smaller ones at half height at a quarter and three quarters of the width. The hollow logs lie at the side edges a little below half height, their open ends facing each other across the picture. Reeds and ferns stand around the pools and mist drifts across at a third of the height; the top center is open dawn sky.",
+    "layout": "Round pegs only, 123. The portals template's wrap pair sits in the mouths of the two logs: a portal by each wall, each the other's exit, so a ball keeps its speed from one side to the other. The pools' rims are peg arcs in three tiers, the reeds short peg lines and the mist a peg line across the upper middle."
+  },
+  "plan": {
+    "archetypes": ["portals", "outline"],
+    "templates": ["outline", "portals"],
+    "fill": "none",
+    "pegs": 123,
+    "bricks": 0,
+    "features": [
+      "Portals (spec 8): the stage's second portal level, a wrap pair at the side walls"
+    ],
+    "difficulty": {
+      "target": 0.21,
+      "note": "Second easiest: the fewest objects in the stage and open pools; the wrap portals give side shots a second pass."
+    }
+  },
+  "background": {
+    "id": "silverwood-pools",
+    "prompt": "A chain of still pools steps down through a silver birch forest at misty dawn. Three round pools with smooth stone rims sit in tiers: one in the middle at about three quarters of the picture height, about a third of the picture wide, and two smaller ones higher on the left and right at about half the height, at about one quarter and three quarters of the width; each pool mirrors the pale sky. Two hollow birch logs lie at the left and right edges a little below half the height, their round open ends facing each other across the picture. Thin reeds and curling ferns stand around the pools; a band of pale silver-blue mist drifts across at about one third of the height. Slender white birch trunks rise in the background; the top center is open, pale dawn sky; the lower corners are plain moss."
+  },
+  "recipe": {
+    "seed": 1003,
+    "targetCount": 123
+  }
+}

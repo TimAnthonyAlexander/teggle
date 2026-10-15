@@ -1,0 +1,29 @@
+{
+  "id": "10-2",
+  "name": "The Footbridge",
+  "draft": true,
+  "concept": {
+    "subject": "A wooden arched footbridge over a still forest pool, its round arch and its reflection together making an almost complete circle, with rings of ripples on the water and stepping stones below.",
+    "composition": "The bridge's arch spans from a quarter to three quarters of the width with its top at a third of the height, below the open top center; the waterline crosses at three fifths of the height and the reflection mirrors the arch beneath it. Two or three flat rings of ripples spread on each side of the bridge; stepping stones cross the pool below the reflection; birch trunks stand at the side edges.",
+    "layout": "42 round pegs and 127 bricks. The arch and its reflection are two long brick arcs that almost close into a circle, with gaps at the waterline where balls pass through; the railings are brick slides along the arch's top. The ripples on each side are broken rings of curved bricks, flattened into ellipses; the railing posts and the stepping stones are pegs."
+  },
+  "plan": {
+    "archetypes": ["outline", "web"],
+    "templates": ["outline"],
+    "fill": "none",
+    "pegs": 42,
+    "bricks": 127,
+    "difficulty": {
+      "target": 0.18,
+      "note": "Middle of the stage: the pegs inside the circle are reached only through the gaps at the waterline, and the stepping stones lie under it."
+    }
+  },
+  "background": {
+    "id": "silverwood-footbridge",
+    "prompt": "A wooden arched footbridge crosses a still pool in a silver birch forest at misty dawn. The bridge's round arch spans the middle of the picture from about one quarter to three quarters of the width, its top at about one third of the picture height, below the open top center; its pale weathered wood and simple railings are mirrored perfectly in the calm water below, the waterline crossing the picture at about three fifths of the height, so that the arch and its reflection together form an almost complete circle. On each side of the bridge, two or three flat oval rings of gentle ripples spread across the water's surface. Round stepping stones cross the pool below the reflection. Slender white birch trunks stand at the left and right edges, pale silver-blue mist drifts between them, and the lower corners are plain still water."
+  },
+  "recipe": {
+    "seed": 1002,
+    "targetCount": 169
+  }
+}

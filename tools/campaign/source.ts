@@ -2,7 +2,7 @@
 // what is composed from them (recipe, manifest, prompt) live in src/gen/campaign-source.ts, which
 // the line editor shares; this module adds the paths and the loader.
 
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { z } from 'zod';
 import {
@@ -11,7 +11,8 @@ import {
   type CampaignLevelSource,
   type StageSource,
 } from '../../src/gen/campaign-source';
-import { parseLines, type LinesFile } from '../../src/gen/lines';
+import { BOARD_H, BOARD_W } from '../../src/gen/constants';
+import { LINES_FORMAT_VERSION, parseLines, type LinesFile } from '../../src/gen/lines';
 
 export {
   composeManifest,
@@ -51,6 +52,26 @@ async function readJson(file: string): Promise<unknown> {
   }
 }
 
+/** True when the file exists (a draft's lines file may not yet). */
+async function exists(file: string): Promise<boolean> {
+  try {
+    await access(file);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** The lines of a draft that has none traced yet: an empty file on the standard board. */
+function noLines(background: string): LinesFile {
+  return parseLines({
+    formatVersion: LINES_FORMAT_VERSION,
+    background,
+    board: { width: BOARD_W, height: BOARD_H },
+    lines: [],
+  });
+}
+
 function parseWith<T>(schema: z.ZodType<T>, json: unknown, file: string): T {
   const r = schema.safeParse(json);
   if (!r.success) {
@@ -59,7 +80,7 @@ function parseWith<T>(schema: z.ZodType<T>, json: unknown, file: string): T {
   return r.data;
 }
 
-/** Reads and checks every source file the stages list. */
+/** Reads and checks every source file the stages list; a draft may have no lines file yet. */
 export async function loadCampaign(): Promise<CampaignSource> {
   const stagesFile = path.join(SOURCE_DIR, 'stages.json');
   const stages = parseWith(stagesFileSchema, await readJson(stagesFile), stagesFile);
@@ -72,7 +93,10 @@ export async function loadCampaign(): Promise<CampaignSource> {
       const linesFile = path.join(LEVELS_DIR, `${id}.lines.json`);
       let lines: LinesFile;
       try {
-        lines = parseLines(await readJson(linesFile));
+        lines =
+          level.draft === true && !(await exists(linesFile))
+            ? noLines(level.background.id)
+            : parseLines(await readJson(linesFile));
       } catch (err) {
         throw new Error(`${path.relative(ROOT, linesFile)}: ${(err as Error).message}`, {
           cause: err,
