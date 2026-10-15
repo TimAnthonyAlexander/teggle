@@ -39,6 +39,8 @@ export {
   type InputRecord,
   type ShotRecord,
 } from './record';
+export { MASTERS, masterOfPower, masterOfStage, type Master } from './masters';
+export * from './powers';
 export { playAttempt, playShot, type ShotChoice, type ShotChooser } from './runner';
 export {
   baseValue,

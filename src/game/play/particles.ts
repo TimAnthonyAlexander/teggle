@@ -7,7 +7,7 @@ import { circlePath, radial, type Ctx } from '../render/paint';
 import { lighten, rgba } from '../ui/color';
 import { color as tokens } from '../ui/tokens';
 
-/** Particle colors: the rainbow (0 to 6), then white, gold, green, blue, pink. */
+/** Particle colors: the rainbow (0 to 6), then white, gold, green, blue, pink, violet, flame. */
 export const PARTICLE_COLORS: readonly string[] = [
   ...tokens.rainbow,
   '#ffffff',
@@ -15,12 +15,16 @@ export const PARTICLE_COLORS: readonly string[] = [
   '#7cff5a',
   '#4fb8ff',
   '#ff6ae6',
+  '#b58cff',
+  '#ff7a1a',
 ];
 export const WHITE = 7;
 export const GOLD = 8;
 export const GREEN = 9;
 export const BLUE = 10;
 export const PINK = 11;
+export const VIOLET = 12;
+export const FLAME = 13;
 
 export const SPARK = 0;
 export const STAR = 1;

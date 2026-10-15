@@ -299,7 +299,8 @@ export class Presenter {
     for (const e of events) this.handle(e, attempt);
   }
 
-  private handle(e: RulesEvent, attempt: Attempt): void {
+  /** One rules event (the play screen holds some back while the Lucky Spin wheel turns). */
+  handle(e: RulesEvent, attempt: Attempt): void {
     switch (e.type) {
       case 'shotStart':
         this.ready = false;
@@ -371,6 +372,8 @@ export class Presenter {
             `${formatNumber(e.threshold)} POINTS`,
             700,
           );
+        } else {
+          this.addCallout('notice', 170, 150, 'FREE BALL!', 'LUCKY SPIN', 700);
         }
         break;
       case 'coinFlip':
@@ -420,8 +423,10 @@ export class Presenter {
         break;
       case 'greenHit':
       case 'effect':
+      case 'powerAction':
       case 'stuck':
       case 'fever':
+        // Powers show in PowerShow; Fever in FeverShow.
         break;
     }
   }
@@ -727,6 +732,8 @@ export class Presenter {
       this.particles.burst(x, y, 20, 2.2, [GOLD], rand);
     }
     const t = now - f.t0;
+    const archIn = f.archStart > 0 && t >= f.archStart && t - TICK_MS < f.archStart;
+    if (archIn) this.audio.emit({ type: 'rainbow' });
     if (t >= f.fadeStart && this.scoreTarget !== this.lastScore) this.setScore(this.lastScore);
     if (t >= f.dialogAt && this.won && this.settle === 'done' && this.endRequest === null) {
       this.endRequest = 'won';

@@ -16,6 +16,7 @@ import type { Vec2 } from '../level/geometry';
 import type { PegLitCause, SimEvent } from '../sim/events';
 import type { World } from '../sim/world';
 import type { AttemptView } from './attempt';
+import type { PowerAction } from './events';
 import type { PegColor } from './scoring';
 import type { PowerStyleShotId } from './style';
 import { AIM_GUIDE_TICKS } from './tuning';
@@ -84,6 +85,8 @@ export interface PowerContext {
   style(shot: PowerStyleShotId, points: number, x: number, y: number): void;
   /** Runs another power's onGreen for this green hit (Lucky Spin's random power). */
   trigger(power: string, green: GreenHit): void;
+  /** Tells the presentation what the power did: a `powerAction` rules event. */
+  announce(action: PowerAction): void;
 }
 
 /**

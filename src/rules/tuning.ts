@@ -2,6 +2,8 @@
 // decompiled code (docs/research/original-tech.md 4.4, 4.5, 4.9) are marked with their source;
 // everything else is a Teggle choice recorded in spec section 14.2.
 
+import { PI } from '../core/dmath';
+
 /** Orange pegs per level unless a challenge sets more (spec 3; research 4.9). */
 export const DEFAULT_ORANGE_COUNT = 25;
 /** Balls at the start of a level (spec 4; research 4.9). */
@@ -66,3 +68,51 @@ export const BIG_BUCKET_STREAK_SHOTS = 10;
  * cover about 200 px straight down, the length measured on screen (visual guide 5.3).
  */
 export const AIM_GUIDE_TICKS = 40;
+
+// Powers (spec 7 and 14.2). Durations count shots; "now" includes the shot that granted it.
+/** Guide: the next 3 shots, aim guide 80 ticks long through the first bounce (research 4.5). */
+export const GUIDE_SHOTS = 3;
+export const GUIDE_AIM_TICKS = 80;
+/** Pyramid: 5 shots starting now. */
+export const PYRAMID_SHOTS = 5;
+/**
+ * The Pyramid takes this much off the bucket's travel, so the wider bucket stays near the board
+ * (the original sets 200 instead of 260 for one of its two bucket states, research 4.6).
+ */
+export const PYRAMID_TRAVEL_CUT = 60;
+/** Flippers: 3 shots starting now. */
+export const FLIPPER_SHOTS = 3;
+/**
+ * While the flippers are up the bucket's center stays this far from either wall: the original
+ * narrows its travel to 130 on the 650 board (research 4.6), 195 from each wall.
+ */
+export const FLIPPER_TRAVEL_INSET = 195;
+/** Multiball: the new ball leaves the green peg's side toward the board's other half. */
+export const MULTIBALL_SPEED_X = 3;
+export const MULTIBALL_SPEED_UP = 2;
+/** Gap between the green peg and the new ball as it appears, px. */
+export const MULTIBALL_GAP = 1;
+/** Space Blast lights every peg and brick whose position is this close to the green peg's. */
+export const SPACE_BLAST_RADIUS = 80;
+/** Flower Power lights the nearest 1 / FLOWER_POWER_SHARE of the orange pegs left, rounded up. */
+export const FLOWER_POWER_SHARE = 5;
+/** Lucky Spin: Triple Score covers this shot and the next; Big Ball the next two. */
+export const LUCKY_SPIN_SHOTS = 2;
+export const TRIPLE_SCORE_FACTOR = 3;
+/** Big Ball's radius (the plain ball's is 6, the Fireball's 10). */
+export const BIG_BALL_RADIUS = 9;
+/** Fireball and Zen Ball: the next shot. */
+export const FIREBALL_SHOTS = 1;
+export const ZEN_SHOTS = 1;
+/**
+ * Zen Ball's search: the player's shot and the angles ZEN_STEP apart up to ZEN_STEPS steps either
+ * side of it (inside the cannon's range), each played out on a copy of the attempt for at most
+ * ZEN_TICK_LIMIT ticks. A candidate's value is its score gain (style points included) plus these
+ * weights for orange pegs lit, free balls won (not the coin flip) and a win.
+ */
+export const ZEN_STEP = (0.1 * PI) / 180;
+export const ZEN_STEPS = 40;
+export const ZEN_TICK_LIMIT = 3000;
+export const ZEN_ORANGE_WEIGHT = 10000;
+export const ZEN_BALL_WEIGHT = 25000;
+export const ZEN_WIN_WEIGHT = 1000000;

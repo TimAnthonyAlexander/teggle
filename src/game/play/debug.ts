@@ -9,10 +9,10 @@ export interface PlayDebug {
   setAim(angle: number): void;
   /**
    * An angle found by trying every 0.01 rad on a copy of the attempt: the one that lights the
-   * most orange pegs ('best'), or the first that hits nothing and flips the coin ('coin', NaN if
-   * there is none).
+   * most orange pegs ('best'), the best of those that light a green peg ('green', NaN if none
+   * does), or the first that hits nothing and flips the coin ('coin', NaN if there is none).
    */
-  pickAim(goal?: 'best' | 'coin'): number;
+  pickAim(goal?: 'best' | 'coin' | 'green'): number;
   /** Render and frame-interval statistics over the last few seconds, ms. */
   perf(): Record<string, number>;
 }

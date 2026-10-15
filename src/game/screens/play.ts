@@ -6,15 +6,19 @@
 // Controls (spec 4, 14.1): the cannon follows the mouse; a click fires; the wheel and arrow keys
 // fine-tune; holding the right button or the green button runs the game 8x between shots. On
 // touch, a finger aims, dragging fine-tunes at a reduced rate, a quick tap fires, and a tap on
-// the cannon fires without re-aiming. Escape or the menu button pauses.
+// the cannon fires without re-aiming. Escape or the menu button pauses. While the Flippers stand
+// (spec 7), holding the left button, Space, Shift, Z or X, or a finger anywhere on the board
+// raises them; during a shot a touch only works the flippers.
 
 import { Attempt } from '../../rules/attempt';
 import { attemptConfig } from '../../rules/config';
 import type { RulesEvent } from '../../rules/events';
+import { BASE_POWERS, type PowerId } from '../../rules/powers';
 import { aimDirection } from '../../sim/aim';
 import { TrajectoryPreview } from '../../sim/preview';
 import { CANNON_PIVOT_Y } from '../../sim/tuning';
 import { audioBus } from '../audio/bus';
+import { hoverCue, setGamePaused } from '../audio/cues';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { WORLD_H, WORLD_W, layout } from '../layout';
 import {
@@ -22,6 +26,7 @@ import {
   drawCatchGlow,
   drawFeverBuckets,
   drawFeverLandingGlow,
+  drawFlippers,
 } from '../render/buckets';
 import { drawFrameShadow } from '../render/frame';
 import { drawMachine } from '../render/machine';
@@ -36,6 +41,7 @@ import { Dialog, type DialogAction } from '../play/dialogs';
 import { FeverShow } from '../play/fever';
 import type { LoadedLevel } from '../play/load';
 import { Overlay } from '../play/overlay';
+import { PowerShow, type BannerState } from '../play/powers';
 import { CATCH_MS, GONE, Presenter } from '../play/presenter';
 import { ScoreLedger } from '../play/summary';
 import { slowMotionDue, SLOW_MOTION_LEAD_TICKS } from '../play/timing';
@@ -52,7 +58,14 @@ export interface PlayOptions {
   readonly balls: number | null;
   /** Orange pegs to clear instead of 25 (challenges use 35, 45 or 55; spec 3). */
   readonly orange: number | null;
+  /** The master's power the green pegs trigger, or null for none. */
+  readonly power: PowerId | null;
 }
+
+/** Keys that raise the flippers while held. */
+const FLIPPER_KEYS = ['Space', 'ShiftLeft', 'ShiftRight', 'KeyZ', 'KeyX'] as const;
+/** With the Guide, the wheel and arrow keys aim this much finer (research 4.5). */
+const GUIDE_FINE_AIM = 0.25;
 
 /** A touch that moved less than this (world units) and was short counts as a tap. */
 const TAP_SLOP = 7;
@@ -82,7 +95,7 @@ interface MutableMachine {
   fever: { orangeHit: number; sinceHitMs?: number; timeMs: number };
   scoreLeft: { line1: string; line2: string; value: number };
   scoreRight: { line1: string; line2: string; value: number };
-  power: { name: string; active: boolean };
+  power: BannerState;
   cannonAngle: number;
   cannonLoaded: boolean;
   menuButton: ButtonState;
@@ -103,6 +116,12 @@ export class PlayScreen implements Screen {
   private ledger = new ScoreLedger();
   private readonly preview: TrajectoryPreview;
   private guideCount = 0;
+  private guideBounce = false;
+  private readonly powers: PowerShow;
+  private readonly flipperPrev = new Float64Array(2);
+  /** Rules events waiting while the Lucky Spin wheel turns. */
+  private held: RulesEvent[] = [];
+  private flipperHeld = false;
   private dialog: Dialog | null = null;
   private readonly theme: Theme;
   private readonly pivotX: number;
@@ -152,6 +171,13 @@ export class PlayScreen implements Screen {
     this.attempt = first;
     this.board = new BoardRenderer(this.level);
     this.pres = new Presenter(this.level, audioBus, this.board.offX, this.board.offY);
+    this.powers = new PowerShow(
+      audioBus,
+      options.power,
+      this.board.offX,
+      this.board.offY,
+      this.pres.particles,
+    );
     this.preview = new TrajectoryPreview(this.level, GUIDE_MAX_TICKS);
     this.theme = themeAt(options.theme);
     this.pivotX = this.board.offX + this.level.width / 2;
@@ -192,8 +218,13 @@ export class PlayScreen implements Screen {
       ...(options.balls === null ? {} : { balls: options.balls }),
       ...(options.orange === null ? {} : { orangeCount: options.orange }),
       campaignTry: options.campaign ? tryNumber : null,
+      power: options.power,
     });
-    return new Attempt(loaded.compiled, { levelId: loaded.path, seed, config });
+    return new Attempt(
+      loaded.compiled,
+      { levelId: loaded.path, seed, config },
+      { powers: BASE_POWERS },
+    );
   }
 
   // -------------------------------------------------------------------------------------------
@@ -225,6 +256,7 @@ export class PlayScreen implements Screen {
     }
     this.removeDebug();
     this.app = null;
+    setGamePaused(false);
   }
 
   letterbox(): string {
@@ -238,6 +270,9 @@ export class PlayScreen implements Screen {
     this.attempt = attempt;
     this.ledger = new ScoreLedger();
     this.pres.reset(attempt);
+    this.powers.reset(attempt.world);
+    this.held = [];
+    this.flipperHeld = false;
     this.fever.reset();
     this.overlay.resetAttempt();
     this.dialog = null;
@@ -263,25 +298,72 @@ export class PlayScreen implements Screen {
       this.pres.ready &&
       this.dialog === null &&
       !this.fever.active &&
+      !this.powers.holding &&
       this.attempt.ballsLeft > 0
     );
   }
 
   private launch(mouse: boolean): void {
     const angle = this.aim.shotAngle(mouse);
-    this.attempt.launch(aimDirection(angle));
-    this.consumeRules();
+    const direction = aimDirection(angle);
     this.guideCount = 0;
+    if (this.powers.zenReady(this.attempt)) {
+      // Zen Ball searches first; the shot leaves once the cannon has swung (step).
+      this.powers.startZen(this.attempt, direction, angle);
+      return;
+    }
+    this.attempt.launch(direction);
+    this.consumeRules();
+  }
+
+  /** Zen Ball's search is done: the player's shot leaves along the direction it found. */
+  private launchZen(direction: { x: number; y: number }, angle: number): void {
+    if (this.attempt.phase !== 'aim') return;
+    this.attempt.launch(direction);
+    this.aim.angle = angle;
+    this.aim.prev = angle;
+    this.consumeRules();
   }
 
   private consumeRules(): void {
     const events = this.attempt.takeEvents();
     if (events.length === 0) return;
-    for (const e of events) {
+    for (const e of events) this.held.push(e);
+    this.drainHeld();
+  }
+
+  /** Hands the waiting rules events to the show, until the Lucky Spin wheel holds the rest. */
+  private drainHeld(): void {
+    let n = 0;
+    while (n < this.held.length && !this.powers.holding) {
+      const e = this.held[n++];
+      if (e === undefined) break;
       this.ledger.add(e);
       if (e.type === 'fever') this.onFever(e);
+      this.powers.handle(e, this.attempt);
+      this.pres.handle(e, this.attempt);
     }
-    this.pres.handleRules(events, this.attempt);
+    if (n > 0) this.held.splice(0, n);
+  }
+
+  /** The flipper button: held while the flippers stand and a shot is in play (spec 7). */
+  private updateFlippers(app: AppServices): void {
+    const attempt = this.attempt;
+    let held = false;
+    if (this.dialog === null && attempt.phase === 'shot' && attempt.world.flippers) {
+      held = app.input.pointer.down;
+      for (const key of FLIPPER_KEYS) held ||= app.input.isKeyDown(key);
+    }
+    if (held === this.flipperHeld) return;
+    this.flipperHeld = held;
+    attempt.setFlipperInput(held);
+    if (attempt.world.flippers) {
+      audioBus.emit({
+        type: 'powerMoment',
+        power: 'flippers',
+        moment: held ? 'flipperUp' : 'flipperDown',
+      });
+    }
   }
 
   private onFever(e: Extract<RulesEvent, { type: 'fever' }>): void {
@@ -309,7 +391,7 @@ export class PlayScreen implements Screen {
     if (app === null || this.dialog?.kind === 'pause') return;
     if (this.dialog === null) {
       const axis = app.input.arrowAxis;
-      if (axis !== 0) this.aim.nudge(axis * ARROW_STEP);
+      if (axis !== 0) this.aim.nudge(axis * ARROW_STEP * this.aimFineness());
     }
     this.aim.tick();
     if (this.fireRequest !== null) {
@@ -320,16 +402,26 @@ export class PlayScreen implements Screen {
       this.tapFire = false;
       if (this.canFire()) this.launch(false);
     }
+    const zen = this.powers.takeZenLaunch();
+    if (zen !== null) this.launchZen(zen.direction, zen.angle);
 
     const attempt = this.attempt;
     const world = attempt.world;
     this.board.capture(world);
-    attempt.step();
-    this.pres.handleSim(world.events);
-    this.consumeRules();
+    // The Lucky Spin wheel and Zen Ball's search hold the board; the show goes on meanwhile.
+    if (!this.powers.holding) this.drainHeld();
+    const holding = this.powers.holding;
+    if (!holding) {
+      this.updateFlippers(app);
+      this.captureFlippers();
+      attempt.step();
+      this.pres.handleSim(world.events);
+      this.powers.handleSim(world.events, world);
+      this.consumeRules();
+    }
 
     // Slow motion as the ball closes in on the last orange peg (spec 6).
-    if (attempt.phase === 'shot' && !this.fever.active && attempt.orangeLeft === 1) {
+    if (!holding && attempt.phase === 'shot' && !this.fever.active && attempt.orangeLeft === 1) {
       if (slowMotionDue(attempt.ticksToLastOrange(SLOW_MOTION_LEAD_TICKS))) {
         this.fever.approach(this.showMs);
       }
@@ -339,7 +431,7 @@ export class PlayScreen implements Screen {
       this.fever.fullClear(this.showMs);
     }
     this.fever.tick();
-    if (this.fever.trailOn) {
+    if (this.fever.trailOn && !holding) {
       const ball = world.balls[0];
       if (ball !== undefined && attempt.phase === 'shot') {
         const x = ball.x + this.board.offX;
@@ -361,8 +453,14 @@ export class PlayScreen implements Screen {
       }
     }
     this.pres.tick(attempt);
+    this.powers.tick(attempt);
     if (this.pres.endRequest !== null && this.dialog === null) this.openEnd(this.pres.endRequest);
     this.updateGuide();
+  }
+
+  /** Fine aim step factor: finer with the Guide's long guide. */
+  private aimFineness(): number {
+    return this.guideBounce ? GUIDE_FINE_AIM : 1;
   }
 
   private updateGuide(): void {
@@ -371,6 +469,7 @@ export class PlayScreen implements Screen {
       return;
     }
     const guide = this.attempt.aimGuide();
+    this.guideBounce = guide.throughFirstBounce;
     this.guideCount = this.preview.run(this.attempt.world, aimDirection(this.aim.angle), {
       ticks: Math.min(GUIDE_MAX_TICKS, guide.ticks),
       throughFirstBounce: guide.throughFirstBounce,
@@ -425,6 +524,8 @@ export class PlayScreen implements Screen {
         continue;
       }
       if (p.kind === 'touch') {
+        // During a shot a finger works the flippers; it neither aims nor fires.
+        if (this.attempt.phase !== 'aim' || this.powers.holding) continue;
         this.touchId = p.id;
         this.touchStart = now;
         this.touchMoved = 0;
@@ -466,7 +567,9 @@ export class PlayScreen implements Screen {
       }
     }
     const wheel = input.consumeWheel();
-    if (wheel !== 0 && this.dialog === null) this.aim.nudge(wheel * WHEEL_STEP);
+    if (wheel !== 0 && this.dialog === null) {
+      this.aim.nudge(wheel * WHEEL_STEP * this.aimFineness());
+    }
   }
 
   private act(action: DialogAction): void {
@@ -509,11 +612,13 @@ export class PlayScreen implements Screen {
     const frameMs = Math.min(100, Math.max(0, f.frameMs));
     this.uiMs += frameMs;
     const paused = this.dialog?.kind === 'pause';
+    setGamePaused(paused);
     if (!paused) this.showMs += frameMs;
     this.handleInput();
     const attempt = this.attempt;
     const world = attempt.world;
     this.fever.frame(this.showMs, world.ballsInPlay > 0);
+    this.powers.frame(this.showMs, paused);
     app.clock.timeScale = this.fever.speed;
     app.clock.fastForward =
       app.input.fastForwardHeld &&
@@ -522,7 +627,8 @@ export class PlayScreen implements Screen {
       attempt.phase !== 'shot';
 
     const { ctx, k } = f;
-    const alpha = paused ? 1 : f.alpha;
+    const alpha = paused || this.powers.holding ? 1 : f.alpha;
+    this.renderAlpha = alpha;
     const zoom = this.fever.zoom(this.showMs);
     const machineAlpha = 1 - Math.min(1, Math.max(0, (zoom - 1) / MACHINE_FADE_ZOOM));
     const zoomed = zoom > 1.0001;
@@ -561,10 +667,12 @@ export class PlayScreen implements Screen {
     this.overlay.drawTally(ctx, pres);
     this.overlay.drawWarning(ctx, pres);
     this.overlay.drawCoin(ctx, k, pres);
+    this.powers.drawOver(ctx, k, this.overlay.sprites);
     this.overlay.drawFeverFinish(ctx, k, pres);
     this.overlay.drawFeverTitle(ctx, k, this.fever, this.showMs);
     if (this.dialog !== null) {
       const p = app.input.pointer;
+      hoverCue(this.dialog, p.kind !== 'touch' && this.dialog.hovering(p.x, p.y, this.uiMs));
       this.dialog.render(ctx, k, this.uiMs, p.x, p.y, p.down);
     }
     const t1 = performance.now();
@@ -614,17 +722,84 @@ export class PlayScreen implements Screen {
         );
       }
     }
-    board.drawBalls(ctx, world, alpha);
+    if (world.flippers) this.drawFlippers(ctx, k, alpha);
+    this.powers.drawUnder(ctx, k);
+    board.drawBalls(ctx, world, alpha, this.showMs);
+    this.powers.drawBallAuras(ctx, k, world, this.ballXAt, this.ballYAt, this.zenShotInPlay());
     pres.particles.draw(ctx, k, alpha);
     board.drawValues(ctx, k, world, pres, this.overlay.sprites, alpha);
     this.overlay.drawCallouts(ctx, k, pres);
+    this.powers.drawLabels(ctx, k, this.overlay.sprites);
     if (this.guideCount > 1 && this.dialog === null) {
-      board.drawGuide(ctx, this.preview.points, this.guideCount, GUIDE_DOT_STEP);
+      const p = this.preview;
+      if (this.guideBounce) {
+        board.drawGuideBounce(
+          ctx,
+          p.points,
+          this.guideCount,
+          GUIDE_DOT_STEP,
+          p.bounceIndex,
+          p.bounceX,
+          p.bounceY,
+          this.showMs,
+        );
+      } else {
+        board.drawGuide(ctx, p.points, this.guideCount, GUIDE_DOT_STEP);
+      }
     }
     if (machineAlpha > 0) {
       ctx.globalAlpha = machineAlpha;
       drawMachine(ctx, k, this.machineState(alpha));
       ctx.globalAlpha = 1;
+    }
+    this.powers.drawOverMachine(ctx, k);
+  }
+
+  /** Interpolated ball positions for the power auras, in board coordinates. */
+  private renderAlpha = 1;
+  private readonly ballXAt = (id: number, x: number): number =>
+    this.board.ballX(id, x, this.renderAlpha);
+  private readonly ballYAt = (id: number, y: number): number =>
+    this.board.ballY(id, y, this.renderAlpha);
+
+  /** The shot in play is a Zen Ball shot. */
+  private zenShotInPlay(): boolean {
+    const a = this.attempt;
+    if (a.phase !== 'shot') return false;
+    for (const fx of a.effects) if (fx.tag === 'zenBall' && !fx.pending) return true;
+    return false;
+  }
+
+  /** The Flippers in the bottom corners, swung by the world's flipper bodies (spec 7). */
+  private drawFlippers(ctx: Ctx, k: number, alpha: number): void {
+    const bodies = this.attempt.world.bodies;
+    let left = 0;
+    let right = 0;
+    for (const i of this.level.flipperBodies) {
+      const b = bodies[i];
+      const rest = this.level.initialPoses[i]?.rotation ?? 0;
+      if (b === undefined) continue;
+      const prev = this.flipperPrev[b.def.side === 'right' ? 1 : 0] ?? b.rotation;
+      const a = prev + (b.rotation - prev) * alpha - rest;
+      if (b.def.side === 'right') right = a;
+      else left = a;
+    }
+    // They fade in from the corners when the power starts.
+    const appear = this.powers.flippersAppear;
+    if (appear < 1) {
+      ctx.save();
+      ctx.globalAlpha *= appear;
+    }
+    drawFlippers(ctx, k, left, right);
+    if (appear < 1) ctx.restore();
+  }
+
+  /** Flipper rotations before the tick, for interpolation. */
+  private captureFlippers(): void {
+    const bodies = this.attempt.world.bodies;
+    for (const i of this.level.flipperBodies) {
+      const b = bodies[i];
+      if (b !== undefined) this.flipperPrev[b.def.side === 'right' ? 1 : 0] = b.rotation;
     }
   }
 
@@ -665,14 +840,18 @@ export class PlayScreen implements Screen {
     m.fever.timeMs = this.uiMs;
     m.scoreLeft.value = pres.shownScore;
     m.scoreRight.value = Math.max(this.bestScore, pres.shownScore);
-    m.cannonAngle = this.aim.prev + (this.aim.angle - this.aim.prev) * alpha;
-    m.cannonLoaded = loaded;
+    m.cannonAngle =
+      this.powers.zenCannonAngle ?? this.aim.prev + (this.aim.angle - this.aim.prev) * alpha;
+    m.cannonLoaded = loaded || this.powers.zenCannonAngle !== null;
+    m.power = this.powers.bannerState(this.attempt);
     if (app !== null) {
       const p = app.input.pointer;
       const menu = layout.menuButton;
       const hold = layout.holdButton;
       const overMenu = p.inside && hitCircle(menu.x, menu.y, menu.r, p.x, p.y);
       const overHold = p.inside && hitCircle(hold.x, hold.y, hold.r, p.x, p.y);
+      hoverCue(menu, overMenu && p.kind !== 'touch');
+      hoverCue(hold, overHold && p.kind !== 'touch');
       m.menuButton = overMenu ? 'hover' : 'normal';
       m.holdButton = app.input.fastForwardHeld ? 'down' : overHold ? 'hover' : 'normal';
     }
@@ -710,24 +889,42 @@ export class PlayScreen implements Screen {
       coin: this.pres.coinActive,
       breakdown: this.ledger.breakdown(a),
       ticks: a.world.tick,
+      power: a.config.power,
+      effects: a.effects.map((fx) => `${fx.tag}:${fx.shotsLeft}${fx.pending ? ':next' : ''}`),
+      holding: this.powers.holding,
+      greenHits: this.powers.greenHits,
+      actions: this.powers.actions.slice(),
+      ...this.powers.debugState,
+      balls: a.world.balls.map((b) => ({ id: b.id, x: b.x, y: b.y, r: b.radius })),
+      flippers: a.world.flippers,
+      flipperAngles: this.level.flipperBodies.map(
+        (i) => (a.world.bodies[i]?.rotation ?? 0) - (this.level.initialPoses[i]?.rotation ?? 0),
+      ),
+      flipperHeld: this.flipperHeld,
+      pyramid: a.world.pyramid,
+      covered: a.world.bucketCovered,
     };
   }
 
-  /** Searches launch angles on a copy of the attempt: the best shot, or one that hits nothing. */
-  private pickAim(goal: 'best' | 'coin'): number {
+  /**
+   * Searches launch angles on a trial copy of the attempt (Zen Ball does not search there): the
+   * best shot, the best that lights a green peg, or one that hits nothing.
+   */
+  private pickAim(goal: 'best' | 'coin' | 'green'): number {
     const base = this.attempt;
-    const trial = base.clone();
+    const trial = base.trialClone();
+    const greens = base.pegIds('green').length;
     let best = Number.NaN;
     let bestScore = -Infinity;
     for (let a = -1.65; a <= 1.65; a += 0.01) {
       trial.copyFrom(base);
       trial.launch(aimDirection(a));
       while (trial.phase === 'shot') trial.step();
-      const events = trial.takeEvents();
       if (goal === 'coin') {
-        if (events.some((e) => e.type === 'coinFlip')) return a;
+        if (trial.shotCount === 0 && !trial.shotCaught) return a;
         continue;
       }
+      if (goal === 'green' && trial.pegIds('green').length === greens) continue;
       const orange = base.orangeLeft - trial.orangeLeft;
       const score =
         (trial.result === 'won' ? 1e12 : 0) +

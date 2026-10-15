@@ -20,7 +20,7 @@ import type { FeverCatchEvent, PegLitEvent, PegRemovedEvent, SimEvent } from '..
 import { World, type BallView } from '../sim/world';
 import { assignColors, AttemptSetupError, movePurple } from './colors';
 import { attemptConfigSchema, type AttemptConfig } from './config';
-import type { FreeBallReason, RulesEvent } from './events';
+import type { FreeBallReason, PowerAction, RulesEvent } from './events';
 import {
   BASE_AIM_GUIDE,
   NO_POWERS,
@@ -94,6 +94,8 @@ export interface AttemptView {
   readonly shotCount: number;
   readonly shotScore: number;
   readonly shotStyle: number;
+  /** A ball of the current (or last finished) shot landed in the free ball bucket. */
+  readonly shotCaught: boolean;
   readonly orangeLeft: number;
   /** Fever meter multiplier now (1, 2, 3, 5 or 10). */
   readonly multiplier: number;
@@ -117,6 +119,10 @@ export interface AttemptView {
   aimGuide(): AimGuide;
   /** An independent copy to try shots on (Zen Ball, self-play); this attempt is not touched. */
   clone(): Attempt;
+  /** A copy made by trialClone: it tries shots for a search, and searching powers skip it. */
+  readonly trial: boolean;
+  /** A copy for trying shots: no rules events, marked as a trial (Zen Ball's search). */
+  trialClone(): Attempt;
 }
 
 /** Bit-exact hash of a level's content, so a replay can refuse a level that changed. */
@@ -221,6 +227,10 @@ class Context implements PowerContext {
   trigger(power: string, green: GreenHit): void {
     this.hooks.trigger(power, green);
   }
+
+  announce(action: PowerAction): void {
+    this.hooks.announce(this.power, action);
+  }
 }
 
 /** What a power context may do to its attempt; kept off the Attempt's public surface. */
@@ -232,6 +242,7 @@ interface AttemptHooks {
   freeBall(): void;
   style(shot: StyleShot, points: number, x: number, y: number): void;
   trigger(power: string, green: GreenHit): void;
+  announce(power: Power, action: PowerAction): void;
 }
 
 export class Attempt implements AttemptView {
@@ -256,6 +267,7 @@ export class Attempt implements AttemptView {
   private out: RulesEvent[] = [];
   private cursor = 0;
   private scratch: World | null = null;
+  private isTrial = false;
 
   private readonly sink: StyleSink = {
     awardStyle: (shot, ball, x, y) => {
@@ -284,6 +296,22 @@ export class Attempt implements AttemptView {
     trigger: (power, green) => {
       const p = this.powerById(power);
       p.onGreen(this.context(p), green);
+    },
+    announce: (power, a) => {
+      if (!this.collect) return;
+      this.out.push({
+        type: 'powerAction',
+        tick: this.world.tick,
+        power: power.id,
+        action: a.action,
+        x: a.x,
+        y: a.y,
+        value: a.value,
+        elements: a.elements.slice(),
+        detail: a.detail,
+        dx: a.dx,
+        dy: a.dy,
+      });
     },
   };
 
@@ -369,6 +397,10 @@ export class Attempt implements AttemptView {
 
   get shotStyle(): number {
     return this.c.shotStyle;
+  }
+
+  get shotCaught(): boolean {
+    return this.c.shotCaught;
   }
 
   get orangeLeft(): number {
@@ -584,14 +616,27 @@ export class Attempt implements AttemptView {
     return a;
   }
 
-  /** Overwrites this attempt with another on the same compiled level. */
+  trialClone(): Attempt {
+    const a = new Attempt(this.level, this.init, { powers: this.powers, events: false });
+    a.isTrial = true;
+    a.copyFrom(this);
+    return a;
+  }
+
+  get trial(): boolean {
+    return this.isTrial;
+  }
+
+  /**
+   * Overwrites this attempt with another on the same compiled level. This attempt keeps its own
+   * choice of collecting events and whether it is a trial copy.
+   */
   copyFrom(o: Attempt): void {
     if (o.level !== this.level) throw new Error('copyFrom needs an attempt on the same level');
     this.init = o.init;
     if (this.powers !== o.powers) this.contexts.clear();
     this.powers = o.powers;
     this.master = o.master;
-    this.collect = o.collect;
     this.hash = o.hash;
     this.rand = new Rng(o.rand.state());
     this.world.copyFrom(o.world);

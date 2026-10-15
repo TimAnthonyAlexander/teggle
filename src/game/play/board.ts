@@ -11,7 +11,8 @@ import type { World } from '../../sim/world';
 import { WORLD_H, WORLD_W } from '../layout';
 import { ballSprite } from '../render/ball';
 import { createCanvas, context2d, drawLayer, type Layer } from '../render/cache';
-import { drawGuideArrow, guideDotSprite } from '../render/cannon';
+import { drawFireball } from '../render/ball';
+import { drawGuideArrow, drawGuideHit, guideDotSprite } from '../render/cannon';
 import { circlePath, linear, radial, type Ctx } from '../render/paint';
 import {
   brickGlowSprite,
@@ -683,29 +684,28 @@ export class BoardRenderer {
     }
   }
 
-  /** Balls in play with their shadows, interpolated. */
-  drawBalls(ctx: Ctx, world: World, alpha: number): void {
+  /**
+   * Balls in play with their shadows, interpolated. A Fireball burns (spec 7); `timeMs` drives
+   * its flames. Balls with an id of `hideFrom` or more are left out (Multiball's ball while the
+   * Lucky Spin wheel still turns).
+   */
+  drawBalls(ctx: Ctx, world: World, alpha: number, timeMs = 0, hideFrom = Infinity): void {
     const sprite = this.ball;
     if (sprite === null) return;
     for (const b of world.balls) {
-      if (b.hiddenTicks > 0) continue;
+      if (b.hiddenTicks > 0 || b.id >= hideFrom) continue;
       const x = this.ballX(b.id, b.x, alpha);
       const y = this.ballY(b.id, b.y, alpha);
+      if (b.passThroughScoring) {
+        drawFireball(ctx, x + this.offX, y + this.offY, b.vx, b.vy, timeMs, b.radius);
+        continue;
+      }
       ctx.fillStyle = 'rgba(0,0,0,0.4)';
       circlePath(ctx, x + this.offX - 4, y + this.offY + 3, b.radius);
       ctx.fill();
-      if (b.radius === 6) {
-        drawLayer(ctx, sprite, x + this.offX, y + this.offY);
-      } else {
-        const s = b.radius / 6;
-        ctx.drawImage(
-          sprite.canvas,
-          x + this.offX - (sprite.w * s) / 2,
-          y + this.offY - (sprite.h * s) / 2,
-          sprite.w * s,
-          sprite.h * s,
-        );
-      }
+      // Big Ball and other radii get their own sprite, so they stay sharp.
+      const s = b.radius === 6 ? sprite : ballSprite(this.spriteK, b.radius);
+      drawLayer(ctx, s, x + this.offX, y + this.offY);
     }
   }
 
@@ -726,7 +726,7 @@ export class BoardRenderer {
    * to 14 units, the first two paler, then the arrowhead. `points` are board coordinates of the
    * ball after each tick; every `step`-th one gets a dot.
    */
-  drawGuide(ctx: Ctx, points: Float64Array, count: number, step: number): void {
+  drawGuide(ctx: Ctx, points: Float64Array, count: number, step: number, arrow = true): void {
     const dot = this.dot;
     if (dot === null || count < 2) return;
     const dots = Math.min(8, Math.floor((count - 1) / step) + 1);
@@ -743,13 +743,73 @@ export class BoardRenderer {
     ctx.globalAlpha = prevAlpha;
     const last = (dots - 1) * step;
     const next = Math.min(count - 1, last + step);
-    if (next > last) {
+    if (arrow && next > last) {
       const x0 = (points[2 * last] ?? 0) + this.offX;
       const y0 = (points[2 * last + 1] ?? 0) + this.offY;
       const x1 = (points[2 * next] ?? 0) + this.offX;
       const y1 = (points[2 * next + 1] ?? 0) + this.offY;
       drawGuideArrow(ctx, x1, y1, Math.atan2(y1 - y0, x1 - x0));
     }
+  }
+
+  /**
+   * The Guide power's aim guide (guide 5.3): the whole path as a thin bright line with small
+   * points, through the first bounce, which a yellow arrow marks pointing the way the ball
+   * leaves, to the second contact or the guide's length. The first stretch keeps the usual dots.
+   */
+  drawGuideBounce(
+    ctx: Ctx,
+    points: Float64Array,
+    count: number,
+    step: number,
+    bounce: number,
+    bounceX: number,
+    bounceY: number,
+    tMs: number,
+  ): void {
+    const dot = this.dot;
+    if (dot === null || count < 2) return;
+    const ox = this.offX;
+    const oy = this.offY;
+    const prevAlpha = ctx.globalAlpha;
+    ctx.beginPath();
+    ctx.moveTo((points[0] ?? 0) + ox, (points[1] ?? 0) + oy);
+    for (let j = 1; j < count; j++) {
+      if (j === bounce) ctx.lineTo(bounceX + ox, bounceY + oy);
+      ctx.lineTo((points[2 * j] ?? 0) + ox, (points[2 * j + 1] ?? 0) + oy);
+    }
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 3.2;
+    ctx.strokeStyle = 'rgba(20,80,90,0.35)';
+    ctx.stroke();
+    ctx.lineWidth = 1.6;
+    ctx.strokeStyle = 'rgba(160,255,240,0.85)';
+    ctx.stroke();
+    // Small points every `step` ticks after the usual dots.
+    const big = Math.min(8, Math.floor((count - 1) / step) + 1);
+    for (let j = big * step; j < count; j += step) {
+      const x = (points[2 * j] ?? 0) + ox;
+      const y = (points[2 * j + 1] ?? 0) + oy;
+      ctx.globalAlpha = prevAlpha * 0.9;
+      ctx.drawImage(dot.canvas, x - 3.5, y - 3.5, 7, 7);
+    }
+    ctx.globalAlpha = prevAlpha;
+    this.drawGuide(ctx, points, Math.min(count, bounce > 0 ? bounce + 1 : count), step, false);
+    if (bounce > 0 && bounce < count) {
+      // The way the ball leaves, a few ticks on, so a glancing contact still reads right.
+      const j = Math.min(count - 1, bounce + 3);
+      const dx = (points[2 * j] ?? 0) - bounceX;
+      const dy = (points[2 * j + 1] ?? 0) - bounceY;
+      drawGuideHit(ctx, bounceX + ox, bounceY + oy, Math.atan2(dy, dx), tMs);
+    }
+    const last = count - 1;
+    const prev = Math.max(0, last - 3);
+    const x0 = (points[2 * prev] ?? 0) + ox;
+    const y0 = (points[2 * prev + 1] ?? 0) + oy;
+    const x1 = (points[2 * last] ?? 0) + ox;
+    const y1 = (points[2 * last + 1] ?? 0) + oy;
+    if (x1 !== x0 || y1 !== y0) drawGuideArrow(ctx, x1, y1, Math.atan2(y1 - y0, x1 - x0));
   }
 
   private lerpX(i: number, x: number, alpha: number): number {

@@ -22,6 +22,13 @@ export class TrajectoryPreview {
   count = 0;
   /** Why the path stopped: tick limit, a (second) contact, or the ball left play. */
   end: PreviewEnd = 'ticks';
+  /**
+   * With throughFirstBounce: the index of the first point after the first contact, or -1, and
+   * the ball center at that contact (the Guide's bounce marker).
+   */
+  bounceIndex = -1;
+  bounceX = 0;
+  bounceY = 0;
   private readonly world: World;
 
   constructor(level: CompiledLevel, maxTicks: number) {
@@ -40,6 +47,7 @@ export class TrajectoryPreview {
     const first = w.balls[0];
     this.count = 0;
     this.end = 'ticks';
+    this.bounceIndex = -1;
     if (first === undefined) return 0;
     this.push(first.x, first.y);
     let contacts = 0;
@@ -57,6 +65,11 @@ export class TrajectoryPreview {
               this.push(e.x, e.y);
               this.end = 'contact';
               return this.count;
+            }
+            if (this.bounceIndex < 0) {
+              this.bounceIndex = this.count;
+              this.bounceX = e.x;
+              this.bounceY = e.y;
             }
             break;
           case 'bucketCatch':

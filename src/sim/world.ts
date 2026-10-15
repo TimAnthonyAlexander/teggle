@@ -24,7 +24,13 @@ import {
   type SimEvent,
 } from './events';
 import { movementPose, type Pose } from './movement';
-import { createContactResult, respondCircle, respondLine } from './response';
+import {
+  createContactResult,
+  createSurface,
+  respondCircle,
+  respondLine,
+  type Surface,
+} from './response';
 import {
   BALL_BALL_RESTITUTION,
   BALL_OUT_DEPTH,
@@ -269,6 +275,8 @@ export class World {
   private readonly motion: readonly MotionEntry[];
   /** Colliding bodies that move; few enough to scan instead of binning every tick. */
   private readonly dynamic: BodyState[];
+  /** Per body: how far its edges reach from its position in any rotation, with a margin. */
+  private readonly reach: Float64Array;
   private readonly log = new EventLog();
   private readonly ballList: Ball[] = [];
   private readonly ballPool: Ball[] = [];
@@ -291,6 +299,29 @@ export class World {
   private readonly cand: BodyState[] = [];
   private candCount = 0;
   private queryStamp = 0;
+
+  // The contact code passes numbers between its methods in these fields, not as arguments: V8
+  // allocates a box for every double argument of a call it does not inline, and these calls
+  // run several times per ball per tick. Fields of a double are updated in place.
+  /** Broadphase query box (gather). */
+  private queryX0 = 0;
+  private queryY0 = 0;
+  private queryX1 = 0;
+  private queryY1 = 0;
+  /** The ball's move over the rest of this tick (findContact, testEdges, testPoint). */
+  private moveX = 0;
+  private moveY = 0;
+  /** The circle testPoint tests: its center and the touching distance. */
+  private pointX = 0;
+  private pointY = 0;
+  private pointReach = 0;
+  /** The contact being resolved: ball center before the push-out, normal, impact speed. */
+  private contactX = 0;
+  private contactY = 0;
+  private contactNx = 0;
+  private contactNy = 0;
+  private contactImpact = 0;
+  private readonly surface: Surface = createSurface();
   private readonly excluded: BodyState[] = [];
   private excludedCount = 0;
   private readonly pose: Pose = { x: 0, y: 0, rotation: 0 };
@@ -310,6 +341,7 @@ export class World {
     this.level = level;
     this.state = level.bodies.map((def) => new BodyState(def));
     this.dynamic = level.dynamicBodies.flatMap((index) => this.state[index] ?? []);
+    this.reach = edgeReach(level);
     this.motion = level.elementMotionOrder.flatMap((index) => {
       const body = this.state[index];
       if (body === undefined) return [];
@@ -692,7 +724,10 @@ export class World {
 
   /**
    * Moves a body to its pose for this tick; its velocity is the change since the last tick.
-   * Edge geometry is only kept current while the body collides.
+   * Circles and triggers update their box at once. Polygon and segment edges are computed only
+   * when a ball comes near (gather): until then the body keeps a box of its farthest corner's
+   * reach around its position, which holds every rotation. The edges come out the same whenever
+   * they are computed, since the pose does not change within a tick.
    */
   private place(s: BodyState, x: number, y: number, rotation: number, initial: boolean): void {
     if (initial) {
@@ -707,8 +742,18 @@ export class World {
     s.x = x;
     s.y = y;
     s.rotation = rotation;
-    if (s.solid || initial) this.updateGeometry(s);
-    else s.geometryStale = true;
+    if (initial || (s.solid && s.def.localEdges.length === 0)) {
+      this.updateGeometry(s);
+    } else {
+      s.geometryStale = true;
+      if (s.solid) {
+        const r = this.reach[s.def.index] ?? 0;
+        s.minX = x - r;
+        s.minY = y - r;
+        s.maxX = x + r;
+        s.maxY = y + r;
+      }
+    }
   }
 
   private updateGeometry(s: BodyState): void {
@@ -926,7 +971,10 @@ export class World {
     if (b.historyCount < STUCK_HISTORY) b.historyCount++;
   }
 
-  private triggerAt(x: number, y: number): number {
+  /** The armed trigger the ball's center is inside, or -1. */
+  private triggerAt(b: Ball): number {
+    const x = b.x;
+    const y = b.y;
     for (const index of this.level.triggers) {
       const s = this.state[index];
       if (s === undefined || !s.solid) continue;
@@ -945,7 +993,7 @@ export class World {
 
   /** Teleports and catch boxes (research 2.9). Returns false when the ball stops this tick. */
   private checkTriggers(b: Ball): boolean {
-    const index = this.triggerAt(b.x, b.y);
+    const index = this.triggerAt(b);
     if (index === b.insideTrigger) return true;
     b.insideTrigger = index;
     if (index < 0) return true;
@@ -1004,7 +1052,7 @@ export class World {
       b.y = tp.exitY;
     }
     b.teleportBody = -1;
-    b.insideTrigger = this.triggerAt(b.x, b.y);
+    b.insideTrigger = this.triggerAt(b);
     this.emitTeleport(b, s.def.id, 'exit');
   }
 
@@ -1023,7 +1071,11 @@ export class World {
   // Contacts
 
   /** Collects solid bodies whose box overlaps the query box into `cand`. */
-  private gather(x0: number, y0: number, x1: number, y1: number): void {
+  private gather(): void {
+    const x0 = this.queryX0;
+    const y0 = this.queryY0;
+    const x1 = this.queryX1;
+    const y1 = this.queryY1;
     const stamp = ++this.queryStamp;
     this.candCount = 0;
     const g = this.level.staticGrid;
@@ -1048,6 +1100,11 @@ export class World {
     }
     for (const s of this.dynamic) {
       if (!s.solid || s.maxX < x0 || s.minX > x1 || s.maxY < y0 || s.minY > y1) continue;
+      if (s.geometryStale) {
+        // Its box was only the reach around it (place): now the real edges and box.
+        this.updateGeometry(s);
+        if (s.maxX < x0 || s.minX > x1 || s.maxY < y0 || s.minY > y1) continue;
+      }
       this.cand[this.candCount++] = s;
     }
   }
@@ -1067,7 +1124,9 @@ export class World {
     for (let iter = 0; iter < MAX_CONTACT_ITERATIONS; iter++) {
       const dx = b.vx * remaining;
       const dy = b.vy * remaining;
-      if (!this.findContact(b, dx, dy)) {
+      this.moveX = dx;
+      this.moveY = dy;
+      if (!this.findContact(b)) {
         b.x += dx;
         b.y += dy;
         return;
@@ -1081,15 +1140,17 @@ export class World {
     // Twenty contacts in one tick: the ball stays at the last contact point.
   }
 
-  private findContact(b: Ball, dx: number, dy: number): boolean {
+  /** The earliest contact along the move in moveX, moveY, into the hit fields. */
+  private findContact(b: Ball): boolean {
+    const dx = this.moveX;
+    const dy = this.moveY;
     const r = b.radius;
     const reach = r + QUERY_MARGIN;
-    this.gather(
-      Math.min(b.x, b.x + dx) - reach,
-      Math.min(b.y, b.y + dy) - reach,
-      Math.max(b.x, b.x + dx) + reach,
-      Math.max(b.y, b.y + dy) + reach,
-    );
+    this.queryX0 = Math.min(b.x, b.x + dx) - reach;
+    this.queryY0 = Math.min(b.y, b.y + dy) - reach;
+    this.queryX1 = Math.max(b.x, b.x + dx) + reach;
+    this.queryY1 = Math.max(b.y, b.y + dy) + reach;
+    this.gather();
     this.hitT = 2;
     this.hitBody = null;
     for (let k = 0; k < this.candCount; k++) {
@@ -1098,30 +1159,30 @@ export class World {
       if (this.excludedCount > 0 && this.isExcluded(s)) continue;
       const enterOnly = b.passThroughScoring && s.def.scoring;
       if (s.def.shape === 'circle') {
-        this.testPoint(b, s, s.x, s.y, r + s.def.radius, dx, dy, enterOnly);
+        this.pointX = s.x;
+        this.pointY = s.y;
+        this.pointReach = r + s.def.radius;
+        this.testPoint(b, s, enterOnly);
       } else {
-        this.testEdges(b, s, dx, dy, enterOnly);
+        this.testEdges(b, s, enterOnly);
       }
     }
     // Every contact time lies in [0, 1]; 2 means none was found.
     return this.hitT <= 1;
   }
 
-  /** Circle of touching distance `reach` around (cx, cy): a circle body or an end point. */
-  private testPoint(
-    b: Ball,
-    s: BodyState,
-    cx: number,
-    cy: number,
-    reach: number,
-    dx: number,
-    dy: number,
-    enterOnly: boolean,
-  ): void {
+  /**
+   * Circle of touching distance pointReach around (pointX, pointY): a circle body or an end
+   * point.
+   */
+  private testPoint(b: Ball, s: BodyState, enterOnly: boolean): void {
     const h = this.sweep;
-    if (!sweepCircle(b.x, b.y, dx, dy, cx, cy, reach - CONTACT_SKIN, h)) return;
+    const cx = this.pointX;
+    const cy = this.pointY;
+    const reach = this.pointReach;
+    if (!sweepCircle(b.x, b.y, this.moveX, this.moveY, cx, cy, reach - CONTACT_SKIN, h)) return;
     if (h.t >= this.hitT) return;
-    if (h.overlap && (enterOnly || this.separating(b, s, h.nx, h.ny))) return;
+    if (h.overlap && (enterOnly || this.separating(b, s))) return;
     this.hitT = h.t;
     this.hitBody = s;
     this.hitKind = HIT_CENTER;
@@ -1132,8 +1193,10 @@ export class World {
     this.hitReach = reach;
   }
 
-  private testEdges(b: Ball, s: BodyState, dx: number, dy: number, enterOnly: boolean): void {
+  private testEdges(b: Ball, s: BodyState, enterOnly: boolean): void {
     const h = this.sweep;
+    const dx = this.moveX;
+    const dy = this.moveY;
     const r = b.radius;
     const rho = r - CONTACT_SKIN;
     const twoSided = s.def.shape === 'segment';
@@ -1141,7 +1204,7 @@ export class World {
       if (
         sweepFace(b.x, b.y, dx, dy, e.ax, e.ay, e.ux, e.uy, e.len, e.nx, e.ny, twoSided, rho, h) &&
         h.t < this.hitT &&
-        !(h.overlap && (enterOnly || this.separating(b, s, h.nx, h.ny)))
+        !(h.overlap && (enterOnly || this.separating(b, s)))
       ) {
         this.hitT = h.t;
         this.hitBody = s;
@@ -1152,14 +1215,25 @@ export class World {
         this.hitRefY = e.ay;
         this.hitReach = r;
       }
-      this.testPoint(b, s, e.ax, e.ay, r, dx, dy, enterOnly);
-      if (twoSided) this.testPoint(b, s, e.bx, e.by, r, dx, dy, enterOnly);
+      this.pointX = e.ax;
+      this.pointY = e.ay;
+      this.pointReach = r;
+      this.testPoint(b, s, enterOnly);
+      if (twoSided) {
+        this.pointX = e.bx;
+        this.pointY = e.by;
+        this.testPoint(b, s, enterOnly);
+      }
     }
   }
 
-  /** An overlap is skipped while the ball already moves away faster than 0.2 px/tick. */
-  private separating(b: Ball, s: BodyState, nx: number, ny: number): boolean {
-    return (b.vx - s.vx) * nx + (b.vy - s.vy) * ny > SEPARATING_SKIP;
+  /**
+   * The overlap found by the last sweep test is skipped while the ball already moves away from
+   * it faster than 0.2 px/tick.
+   */
+  private separating(b: Ball, s: BodyState): boolean {
+    const h = this.sweep;
+    return (b.vx - s.vx) * h.nx + (b.vy - s.vy) * h.ny > SEPARATING_SKIP;
   }
 
   private resolve(b: Ball): void {
@@ -1167,11 +1241,13 @@ export class World {
     if (s === null) return;
     const nx = this.hitNx;
     const ny = this.hitNy;
-    const x = b.x;
-    const y = b.y;
+    this.contactX = b.x;
+    this.contactY = b.y;
+    this.contactNx = nx;
+    this.contactNy = ny;
     if (b.passThroughScoring && s.def.scoring) {
-      const impact = -((b.vx - s.vx) * nx + (b.vy - s.vy) * ny);
-      this.emitContact(b, s, x, y, nx, ny, impact, false);
+      this.contactImpact = -((b.vx - s.vx) * nx + (b.vy - s.vy) * ny);
+      this.emitContact(b, s, false);
       this.exclude(s);
       return;
     }
@@ -1183,36 +1259,38 @@ export class World {
       b.x = this.hitRefX + nx * this.hitReach;
       b.y = this.hitRefY + ny * this.hitReach;
     }
-    this.respond(b, s, x, y, nx, ny);
+    this.respond(b, s);
   }
 
-  private respond(b: Ball, s: BodyState, x: number, y: number, nx: number, ny: number): void {
+  /** The contact response for the contact in the contact fields; the ball is already out. */
+  private respond(b: Ball, s: BodyState): void {
     const def = s.def;
     const res = this.contact;
+    const nx = this.contactNx;
+    const ny = this.contactNy;
+    const f = this.surface;
+    f.nx = nx;
+    f.ny = ny;
+    f.wx = s.vx;
+    f.wy = s.vy;
+    f.bouncy = def.bouncy;
+    f.rolly = def.rolly;
     if (def.shape === 'circle') {
-      respondCircle(b, nx, ny, s.vx, s.vy, def.bouncy, def.rolly, res);
+      respondCircle(b, f, res);
     } else {
       // Rotational surface velocity at the contact point (research 4.3: omega x r).
       const px = b.x - nx * b.radius - s.x;
       const py = b.y - ny * b.radius - s.y;
       const w = s.angularVelocity;
-      respondLine(
-        b,
-        nx,
-        ny,
-        s.vx,
-        s.vy,
-        w * py,
-        -w * px,
-        def.bouncy,
-        def.rolly,
-        def.maxBounceVelocity,
-        res,
-      );
+      f.wax = w * py;
+      f.way = -w * px;
+      f.maxBounceVelocity = def.maxBounceVelocity;
+      respondLine(b, f, res);
     }
     if (def.ballStopReset) b.stuckTicks = 0;
     if (!res.applied) this.exclude(s);
-    this.emitContact(b, s, x, y, nx, ny, res.impact, res.slide);
+    this.contactImpact = res.impact;
+    this.emitContact(b, s, res.slide);
   }
 
   /**
@@ -1221,12 +1299,16 @@ export class World {
    * `Poly.cpp:963`: penetration recovery for closed polygons).
    */
   private recoverPenetration(b: Ball): void {
-    this.gather(b.x, b.y, b.x, b.y);
+    this.queryX0 = b.x;
+    this.queryY0 = b.y;
+    this.queryX1 = b.x;
+    this.queryY1 = b.y;
+    this.gather();
     for (let k = 0; k < this.candCount; k++) {
       const s = this.cand[k];
       if (s === undefined) break;
       if (s.def.shape !== 'polygon' || (b.passThroughScoring && s.def.scoring)) continue;
-      if (!insidePolygon(s.edges, b.x, b.y)) continue;
+      if (!insidePolygon(s.edges, b)) continue;
       let best: Edge | null = null;
       let bestD2 = Infinity;
       for (const e of s.edges) {
@@ -1241,27 +1323,26 @@ export class World {
         }
       }
       if (best === null) continue;
-      const x = b.x;
-      const y = b.y;
+      this.contactX = b.x;
+      this.contactY = b.y;
+      this.contactNx = best.nx;
+      this.contactNy = best.ny;
       const depth = b.radius - ((b.x - best.ax) * best.nx + (b.y - best.ay) * best.ny);
       b.x += best.nx * depth;
       b.y += best.ny * depth;
-      this.respond(b, s, x, y, best.nx, best.ny);
+      this.respond(b, s);
     }
   }
 
-  private emitContact(
-    b: Ball,
-    s: BodyState,
-    x: number,
-    y: number,
-    nx: number,
-    ny: number,
-    impact: number,
-    slide: boolean,
-  ): void {
+  /** The event for the contact in the contact fields: ball center, normal and impact speed. */
+  private emitContact(b: Ball, s: BodyState, slide: boolean): void {
     const def = s.def;
     const tick = this.tick;
+    const x = this.contactX;
+    const y = this.contactY;
+    const nx = this.contactNx;
+    const ny = this.contactNy;
+    const impact = this.contactImpact;
     switch (def.role) {
       case 'element': {
         if (def.scoring) {
@@ -1420,6 +1501,28 @@ export class World {
   }
 }
 
+const reaches = new WeakMap<CompiledLevel, Float64Array>();
+
+/**
+ * Per body of a level: the distance from its position to its farthest edge end point, plus a
+ * margin for rounding in the rotation, so a box of that reach holds the body in every pose.
+ */
+function edgeReach(level: CompiledLevel): Float64Array {
+  let r = reaches.get(level);
+  if (r !== undefined) return r;
+  r = new Float64Array(level.bodies.length);
+  for (const def of level.bodies) {
+    let d2 = 0;
+    for (const e of def.localEdges) {
+      d2 = Math.max(d2, e.ax * e.ax + e.ay * e.ay, e.bx * e.bx + e.by * e.by);
+    }
+    const d = Math.sqrt(d2);
+    r[def.index] = d + 1e-6 * d + 1e-6;
+  }
+  reaches.set(level, r);
+  return r;
+}
+
 /** Shortens an array in place, keeping its storage (`length = n` can make V8 reallocate). */
 function truncate(list: unknown[], length: number): void {
   while (list.length > length) list.pop();
@@ -1432,8 +1535,10 @@ function hold(s: BodyState): void {
   s.angularVelocity = 0;
 }
 
-/** Even-odd crossing test against a closed outline (research 2.7: concave polygons). */
-function insidePolygon(edges: readonly Edge[], x: number, y: number): boolean {
+/** Even-odd crossing test of the ball's center against a closed outline (research 2.7). */
+function insidePolygon(edges: readonly Edge[], b: Ball): boolean {
+  const x = b.x;
+  const y = b.y;
   let inside = false;
   for (const e of edges) {
     if (e.ay > y !== e.by > y) {

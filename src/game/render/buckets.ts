@@ -118,7 +118,8 @@ function paintPyramid(ctx: Ctx, cx: number): void {
   // The Pyramid power's long sloped edges, from the physics outline.
   const y = BOARD_BOTTOM + PYRAMID_Y;
   for (const side of [-1, 1]) {
-    polygon(ctx, PYRAMID_VERTICES, cx + side * PYRAMID_X, y, side > 0);
+    const ox = cx + side * PYRAMID_X;
+    polygon(ctx, PYRAMID_VERTICES, ox, y, side > 0);
     ctx.fillStyle = linear(ctx, 0, y - 14, 0, y + 6, [
       [0, '#ffe7a6'],
       [0.35, '#e0a63c'],
@@ -129,6 +130,18 @@ function paintPyramid(ctx: Ctx, cx: number): void {
     ctx.lineJoin = 'round';
     ctx.strokeStyle = '#3d2006';
     ctx.stroke();
+    // Sunlit top edge, from the bucket out to the tip (vertices 1 and 2 of the slope).
+    const a = PYRAMID_VERTICES[1];
+    const b = PYRAMID_VERTICES[2];
+    if (a !== undefined && b !== undefined) {
+      ctx.beginPath();
+      ctx.moveTo(ox + (side > 0 ? -a.x : a.x), y + a.y + 1.2);
+      ctx.lineTo(ox + (side > 0 ? -b.x : b.x), y + b.y + 0.8);
+      ctx.lineWidth = 1.6;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(255,250,215,0.9)';
+      ctx.stroke();
+    }
   }
 }
 

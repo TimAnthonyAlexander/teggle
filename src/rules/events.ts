@@ -61,6 +61,51 @@ export interface GreenHitEvent {
   readonly power: string | null;
 }
 
+/**
+ * What a power did beyond lighting pegs and granting effects, for the presentation: a spawned
+ * ball, a blast, the pegs a flower lit, a spin of the wheel, the shot a search found.
+ */
+export type PowerActionKind =
+  | 'multiball'
+  | 'spaceBlast'
+  | 'flowerPower'
+  | 'spookyBall'
+  | 'luckySpin'
+  | 'coverBurned'
+  | 'zenShot';
+
+/** The four outcomes of the Lucky Spin wheel, in wheel order. */
+export type LuckySpinOutcome = 'bigBall' | 'tripleScore' | 'extraBall' | 'randomPower';
+
+export interface PowerAction {
+  readonly action: PowerActionKind;
+  /** Where it happened, board px: the green peg, the bucket, or the cannon for Zen Ball. */
+  readonly x: number;
+  readonly y: number;
+  /**
+   * Action-specific number: the spawned ball's id (multiball), the blast radius (spaceBlast),
+   * the ball given a return (spookyBall, -1 for all), the wheel segment 0 to 3 (luckySpin),
+   * Zen Ball's gain over the player's shot in per mille (zenShot).
+   */
+  readonly value: number;
+  /** Elements the power lit, in the order they lit (Space Blast, Flower Power). */
+  readonly elements: readonly number[];
+  /**
+   * Lucky Spin: the outcome ('bigBall', 'tripleScore', 'extraBall'), or for the random segment
+   * the id of the power it drew. Zen Ball: 'better' or 'kept'. Empty otherwise.
+   */
+  readonly detail: string;
+  /** Launch direction a Zen shot found (unit vector); 0, 0 otherwise. */
+  readonly dx: number;
+  readonly dy: number;
+}
+
+export interface PowerActionEvent extends PowerAction {
+  readonly type: 'powerAction';
+  readonly tick: number;
+  readonly power: string;
+}
+
 /** A power effect was granted, extended, began covering shots, or ran out. */
 export interface EffectEvent {
   readonly type: 'effect';
@@ -190,6 +235,7 @@ export type RulesEvent =
   | MeterStepEvent
   | GreenHitEvent
   | EffectEvent
+  | PowerActionEvent
   | StyleShotEvent
   | FreeBallEvent
   | CoinFlipEvent
