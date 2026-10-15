@@ -7,6 +7,10 @@ playwright-report/
 *.log
 .DS_Store
 
+# Local secrets (the Pexels API key). Never committed.
+.env
+.env.*
+
 # Screenshots and files of the original game, kept for reference only. Never committed.
 reference/
 Peggle.Deluxe/
