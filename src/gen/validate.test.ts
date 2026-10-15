@@ -154,3 +154,68 @@ describe('the gap rule, in the simulation', { timeout: 60_000 }, () => {
     expect(wedged(MIN_GAP)).toBe(0);
   });
 });
+
+describe('validity checks on objects that travel along a path', { timeout: 60_000 }, () => {
+  /** Two pegs running along a 200 px line from (300, 300) and back, plus `more`. */
+  function travelers(path: { x: number; y: number }[], more: LevelElementInput[] = []): Level {
+    return parseLevel({
+      formatVersion: 1,
+      name: 'test',
+      background: 'test',
+      board: { width: BOARD_W, height: BOARD_H },
+      paths: [{ points: path }],
+      elements: [
+        {
+          kind: 'peg',
+          id: 1,
+          x: 300,
+          y: 300,
+          movement: { type: 'followPath', path: 0, period: 400 },
+        },
+        {
+          kind: 'peg',
+          id: 2,
+          x: 300,
+          y: 300,
+          movement: { type: 'followPath', path: 0, period: 400, offset: 200 },
+        },
+        ...more,
+      ],
+    });
+  }
+  const line = [
+    { x: 0, y: 0 },
+    { x: 200, y: 0 },
+  ];
+
+  it('passes travelers that keep their distance from each other and from what stands still', () => {
+    expect(validateLevel(travelers(line, [{ kind: 'peg', id: 3, x: 400, y: 350 }]))).toEqual([]);
+  });
+
+  it('finds the tick at which a traveler runs into a static peg', () => {
+    const issues = validateLevel(travelers(line, [{ kind: 'peg', id: 3, x: 450, y: 300 }]));
+    expect(issues.map((i) => [i.kind, i.a, i.b])).toEqual([
+      ['gap', 2, 3],
+      ['overlap', 2, 3],
+      ['gap', 1, 3],
+      ['overlap', 1, 3],
+    ]);
+    // Peg 2 starts halfway along, its center 50 px from the static peg's, and runs half a px per
+    // tick: closer than the minimum gap after more than 17.5 px, overlapping after 30.
+    expect(issues[0]?.tick).toBe(36);
+    expect(issues[1]?.tick).toBe(61);
+  });
+
+  it('keeps travelers out of the flippers swing and inside the board', () => {
+    const down = [
+      { x: 0, y: 0 },
+      { x: -260, y: 150 },
+    ];
+    expect(kinds(travelers(down))).toEqual(['flipper', 'flipper']);
+    const up = [
+      { x: 0, y: 0 },
+      { x: 0, y: -300 },
+    ];
+    expect(kinds(travelers(up))).toContain('outside');
+  });
+});

@@ -62,7 +62,7 @@ export type Reserved = Zone | { readonly kind: 'swept'; readonly sweep: Sweep };
  * shape. Unlike a zone it does not block other templates.
  */
 export type Claim =
-  | Zone
+  | Reserved
   | {
       readonly kind: 'ellipse';
       readonly x: number;
@@ -92,7 +92,7 @@ function inClaim(c: Claim, s: Shape, gap: number): boolean {
     const dy = (cy - c.y) / (c.ry + gap + hy);
     return dx * dx + dy * dy < 1;
   }
-  return zoneGap(c, s) < gap;
+  return zoneGap(c, s, gap) < gap;
 }
 
 const CELL = 64;

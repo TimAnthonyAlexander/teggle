@@ -17,14 +17,29 @@ import type { EditOutcome } from '../gen/edits';
 import { assembleLevel } from '../gen/generate';
 import type { FitResult, Nudge } from '../gen/fit';
 import { flipperSweeps } from '../gen/flippers';
+import { isMoving } from '../gen/edits';
 import { linesJson, sourceJson } from '../gen/json';
-import { parseLines, smoothLine, SLUG, type Line, type LinesFile } from '../gen/lines';
+import {
+  GROUP_MOVEMENT_TYPES,
+  LINE_SPACING_MAX,
+  parseLines,
+  TRAVEL_SPACING_MAX,
+  smoothLine,
+  SLUG,
+  type GroupMovement,
+  type GroupMovementType,
+  type Line,
+  type LineGroup,
+  type LinesFile,
+  type Travel,
+} from '../gen/lines';
 import type { Path } from '../gen/paths';
 import { runPipeline, type PipelineResult } from '../gen/pipeline';
 import { AREA_RATIO } from '../gen/recipe';
 import { elementShape, filePose, pointGap } from '../gen/shapes';
 import type { Issue } from '../gen/validate';
 import { isScoringElement, type Level, type LevelElement } from '../level/schema';
+import type { Pose } from '../sim/movement';
 import {
   compose,
   lineOfPart,
@@ -38,21 +53,28 @@ import {
 import {
   addLine,
   clampToBoard,
+  deleteGroup,
   deleteLine,
   deletePoint,
+  findGroup,
   findLine,
+  freshGroupId,
   freshId,
   idProblem,
   insertPoint,
   movePoint,
   placementOrder,
+  putGroup,
   recipeEdits,
+  renameGroup,
   renameLine,
   reorderLine,
   round1,
   setClosed,
   setEdits,
   setLineFields,
+  setLineGroup,
+  setLineTravel,
   setRecipeFields,
   setSourceFields,
   toggleCorner,
@@ -60,7 +82,8 @@ import {
   type Doc,
   type Point,
 } from './doc';
-import { drawScene, PICTURE, type Findings, type Layers } from './draw';
+import { drawScene, PICTURE, type Findings, type Layers, type Motion } from './draw';
+import { groupPivot, Preview, unitLines } from './motion';
 import {
   addObject,
   deleteObject,
@@ -126,10 +149,17 @@ type Drag =
       readonly start: Point;
       readonly from: Point;
       moved: boolean;
-    };
+    }
+  | { readonly kind: 'pivot'; readonly group: string; readonly before: Doc; moved: boolean };
 
 const DRAG_THRESHOLD = 3;
 const FIT_DELAY = 250;
+const MOVES_WITH_LINE =
+  'That object moves with its line: move or turn the line instead. It can still be deleted or flagged.';
+/** What a new group starts with: a slow slide left and right. */
+const NEW_GROUP_MOVEMENT: GroupMovement = { type: 'horizontalCycle', period: 1200, radius: 60 };
+/** What a line starts with when its objects begin to travel along it. */
+const NEW_TRAVEL: Travel = { period: 2400 };
 const STAGE_AVERAGES = [97, 107, 102, 105, 105, 114, 99, 103, 109, 113, 117];
 
 function message(err: unknown): string {
@@ -202,6 +232,22 @@ export class Editor {
     objects: true,
     lines: true,
     findings: true,
+    sweeps: true,
+  };
+  /** The motion preview: the tick shown, playback, and caches for the shown level. */
+  private tick = 0;
+  private playing = false;
+  private playFrame = 0;
+  private playLast = 0;
+  private preview: Preview | null = null;
+  private motionCache: {
+    readonly level: Level;
+    readonly key: string;
+    readonly sweep: Motion['sweep'];
+  } | null = null;
+  private readonly clock = {
+    slider: null as HTMLInputElement | null,
+    label: null as HTMLElement | null,
   };
   private pictureOpacity = 1;
   private picture: HTMLImageElement | null = null;
@@ -268,9 +314,22 @@ export class Editor {
         this.view = { zoom, x, y };
         this.renderAll();
       },
+      /** Shows the motion at a tick (and stops playback). */
+      setTick: (tick: number) => {
+        this.setPlaying(false);
+        this.setTick(tick);
+      },
+      /** Replaces the lines with a lines file's text, as one undoable change. */
+      loadLines: (text: string) => {
+        if (this.doc === null) return;
+        this.commit({ ...this.doc, lines: parseLines(JSON.parse(text)) });
+      },
       snapshot: () => ({
         loaded: this.doc !== null,
         version: this.version,
+        tick: this.tick,
+        cycle: this.previewOf()?.cycle ?? 1,
+        playing: this.playing,
         tool: this.tool,
         selLine: this.selLine,
         selPoint: this.selPoint,
@@ -298,6 +357,7 @@ export class Editor {
     this.destroyed = true;
     if (this.fitTimer !== null) clearTimeout(this.fitTimer);
     cancelAnimationFrame(this.frame);
+    cancelAnimationFrame(this.playFrame);
     this.resizeObserver?.disconnect();
     this.fitter.dispose();
     this.pool?.dispose();
@@ -873,6 +933,131 @@ export class Editor {
   }
 
   // -------------------------------------------------------------------------------------------
+  // Motion preview
+
+  /** The shown level in motion, at the preview's tick. */
+  private previewOf(): Preview | null {
+    const level = this.levelToDraw();
+    if (level === null) return null;
+    if (this.preview?.level !== level) this.preview = new Preview(level);
+    return this.preview.at(this.tick);
+  }
+
+  private poseOf(e: LevelElement): Pose {
+    return this.previewOf()?.pose(e.id) ?? filePose(e);
+  }
+
+  /** The level's compiled paths, for edits of objects that travel along one. */
+  private tracks(): Preview['model']['tracks'] {
+    return this.previewOf()?.model.tracks ?? [];
+  }
+
+  private setTick(tick: number): void {
+    const cycle = this.previewOf()?.cycle ?? 1;
+    this.tick = ((Math.round(tick) % cycle) + cycle) % cycle;
+    this.render();
+    this.renderClock();
+  }
+
+  private setPlaying(on: boolean): void {
+    if (on === this.playing) return;
+    this.playing = on;
+    cancelAnimationFrame(this.playFrame);
+    if (on) {
+      this.playLast = performance.now();
+      const step = (now: number): void => {
+        if (!this.playing || this.destroyed) return;
+        // 100 ticks per second, the simulation's own rate.
+        const ticks = Math.floor((now - this.playLast) / 10);
+        if (ticks > 0) {
+          this.playLast += ticks * 10;
+          this.setTick(this.tick + ticks);
+        }
+        this.playFrame = requestAnimationFrame(step);
+      };
+      this.playFrame = requestAnimationFrame(step);
+    }
+    this.renderSide();
+  }
+
+  /** Updates the preview's slider and readout without rebuilding the panel. */
+  private renderClock(): void {
+    const cycle = this.previewOf()?.cycle ?? 1;
+    if (this.clock.slider !== null) {
+      this.clock.slider.max = String(Math.max(0, cycle - 1));
+      this.clock.slider.value = String(this.tick);
+    }
+    if (this.clock.label !== null) {
+      this.clock.label.textContent = `tick ${this.tick} of ${cycle} (${(this.tick / 100).toFixed(2)} s of ${(cycle / 100).toFixed(2)} s)`;
+    }
+  }
+
+  /** The group a line moves with and every group that group rides on, nearest first. */
+  private groupChain(line: Line | null): LineGroup[] {
+    const doc = this.doc;
+    const out: LineGroup[] = [];
+    if (doc === null || line === null) return out;
+    for (let g = findGroup(doc, line.group); g !== null && !out.includes(g);) {
+      out.push(g);
+      g = findGroup(doc, g.parent);
+    }
+    return out;
+  }
+
+  /** The selected line's moving unit as the board shows it: swept area, pivots, routes. */
+  private motionScene(): Motion | null {
+    const doc = this.doc;
+    const preview = this.previewOf();
+    const line = findLine(doc ?? emptyDoc(), this.tool === 'objects' ? null : this.selLine);
+    if (doc === null || preview === null || line === null) return null;
+    const unit = unitLines(doc.lines, line.id);
+    if (unit.size === 0) return null;
+    const key = [...unit].join(' ');
+    let sweep =
+      this.motionCache?.level === preview.level && this.motionCache.key === key
+        ? this.motionCache.sweep
+        : null;
+    if (sweep === null) {
+      const ids = new Set(
+        preview.level.elements.filter((e) => unit.has(this.lineOf(e.id) ?? '')).map((e) => e.id),
+      );
+      sweep = preview.sweep(ids);
+      this.motionCache = { level: preview.level, key, sweep };
+    }
+    const groups = new Set(
+      doc.lines.lines.flatMap((l) => (unit.has(l.id) && l.group !== undefined ? [l.group] : [])),
+    );
+    for (const g of [...groups])
+      for (const a of this.groupChain({ ...line, group: g })) groups.add(a.id);
+    const own = line.group;
+    const pivots = [...groups].flatMap((id) => {
+      const g = findGroup(doc, id);
+      const p = g === null || !pivotMatters(g) ? null : groupPivot(doc.lines, this.smoothed, g);
+      return p === null ? [] : [{ x: p[0], y: p[1], selected: id === own }];
+    });
+    const follows = [...groups].flatMap((id) => {
+      const target = findGroup(doc, id)?.movement?.line;
+      const path = target === undefined ? undefined : this.smoothed.get(target);
+      return path === undefined ? [] : [path];
+    });
+    return { sweep, pivots, follows };
+  }
+
+  /** The group whose pivot handle is at p, among the selected line's unit. */
+  private hitPivot(p: Point): string | null {
+    const doc = this.doc;
+    const m = this.motionScene();
+    if (doc === null || m === null || !this.layers.sweeps) return null;
+    const tol = 8 / this.view.zoom;
+    for (const g of doc.lines.groups ?? []) {
+      const q = groupPivot(doc.lines, this.smoothed, g);
+      if (q === null || !m.pivots.some((v) => v.x === q[0] && v.y === q[1])) continue;
+      if (Math.hypot(q[0] - p[0], q[1] - p[1]) <= tol) return g.id;
+    }
+    return null;
+  }
+
+  // -------------------------------------------------------------------------------------------
   // Hit testing (board coordinates)
 
   private hitPoint(p: Point, lineId: string | null): number | null {
@@ -924,7 +1109,7 @@ export class Editor {
     let bestD = tol;
     for (const e of level.elements) {
       if (!isScoringElement(e)) continue;
-      const s = elementShape(e, filePose(e));
+      const s = elementShape(e, this.poseOf(e));
       if (s === null) continue;
       const d = pointGap(s, p[0], p[1]);
       if (d <= bestD) {
@@ -1000,7 +1185,13 @@ export class Editor {
       this.renderAll();
       return;
     }
-    // Lines tool: a point of the selected (or hovered) line, else a line, else pan.
+    // Lines tool: the pivot of the selected line's group, a point of the selected (or hovered)
+    // line, else a line, else pan.
+    const pivot = this.hitPivot(p);
+    if (pivot !== null) {
+      this.drag = { kind: 'pivot', group: pivot, before: this.doc, moved: false };
+      return;
+    }
     for (const lineId of [this.selLine, this.hoverLine]) {
       const index = this.hitPoint(p, lineId);
       if (index !== null && lineId !== null) {
@@ -1051,6 +1242,16 @@ export class Editor {
       this.apply(movePoint(d.before, d.line, d.index, p));
       return;
     }
+    if (d.kind === 'pivot') {
+      const g = findGroup(d.before, d.group);
+      if (g === null) return;
+      if (!d.moved) {
+        d.moved = true;
+        this.history.push(d.before);
+      }
+      this.apply(putGroup(d.before, { ...g, pivot: clampToBoard(d.before.lines, p) }));
+      return;
+    }
     const dx = p[0] - d.start[0];
     const dy = p[1] - d.start[1];
     if (!d.moved && Math.sqrt(dx * dx + dy * dy) * k < DRAG_THRESHOLD) return;
@@ -1065,7 +1266,11 @@ export class Editor {
     // Objects: the edit list changes with the drag.
     const shown = this.shown;
     if (shown === null) return;
-    const origin = originOf(shown, d.id);
+    if (this.movingObject(d.id)) {
+      this.say(MOVES_WITH_LINE);
+      return;
+    }
+    const origin = originOf(shown, d.id, this.tracks());
     const to: Point = [d.from[0] + dx, d.from[1] + dy];
     this.apply(setEdits(d.before, moveObject(recipeEdits(d.before), origin, to)));
     this.selObject = this.findMoved(to) ?? d.id;
@@ -1300,6 +1505,16 @@ export class Editor {
       case 'g':
         void this.runFit();
         return;
+      case 'k':
+        this.setPlaying(!this.playing);
+        return;
+      case ',':
+      case '<':
+      case '.':
+      case '>':
+        this.setPlaying(false);
+        this.setTick(this.tick + (key === ',' || key === '<' ? -1 : 1) * (e.shiftKey ? 10 : 1));
+        return;
       case 'h':
       case '?':
         this.open.set('keys', !(this.open.get('keys') ?? false));
@@ -1367,7 +1582,7 @@ export class Editor {
     }
     const id = this.selObject;
     if (id === null) return;
-    const origin = originOf(shown, id);
+    const origin = originOf(shown, id, this.tracks());
     const obj = this.levelToDraw()?.elements.find((x) => x.id === id);
     if (obj === undefined || !isScoringElement(obj)) return;
     if (key === 'o')
@@ -1376,9 +1591,19 @@ export class Editor {
       this.commit(setEdits(doc, setFlag(edits, origin, 'quickDisappear', !obj.quickDisappear)));
     }
     if (key === 'r' && obj.kind !== 'peg') {
+      if (isMoving(obj)) {
+        this.say(MOVES_WITH_LINE);
+        return;
+      }
       const turn = ((shift ? -15 : 15) * Math.PI) / 180;
       this.commit(setEdits(doc, rotateObject(edits, origin, obj.rotation + turn)));
     }
+  }
+
+  /** True when an object of the shown level moves (edits can delete or flag it, not move it). */
+  private movingObject(id: number): boolean {
+    const e = this.levelToDraw()?.elements.find((x) => x.id === id);
+    return e !== undefined && isMoving(e);
   }
 
   private nudgeSelection(dx: number, dy: number): void {
@@ -1387,8 +1612,17 @@ export class Editor {
     if (this.tool === 'objects' && this.selObject !== null && this.shown !== null) {
       const obj = this.levelToDraw()?.elements.find((x) => x.id === this.selObject);
       if (obj === undefined) return;
+      if (isMoving(obj)) {
+        this.say(MOVES_WITH_LINE);
+        return;
+      }
       const to: Point = [obj.x + dx, obj.y + dy];
-      this.commit(setEdits(doc, moveObject(recipeEdits(doc), originOf(this.shown, obj.id), to)));
+      this.commit(
+        setEdits(
+          doc,
+          moveObject(recipeEdits(doc), originOf(this.shown, obj.id, this.tracks()), to),
+        ),
+      );
       this.selObject = this.findMoved(to) ?? this.selObject;
       this.renderAll();
       return;
@@ -1410,7 +1644,10 @@ export class Editor {
     if (this.tool === 'objects') {
       if (this.selObject === null || this.shown === null) return;
       this.commit(
-        setEdits(doc, deleteObject(recipeEdits(doc), originOf(this.shown, this.selObject))),
+        setEdits(
+          doc,
+          deleteObject(recipeEdits(doc), originOf(this.shown, this.selObject, this.tracks())),
+        ),
       );
       this.selObject = null;
       this.renderAll();
@@ -1511,6 +1748,8 @@ export class Editor {
           ? null
           : { points: this.drawing.points, corners: this.drawing.corners, cursor: this.cursor },
       level,
+      pose: (e) => this.poseOf(e),
+      motion: this.motionScene(),
       lineOf,
       rejected: this.shown?.rejected ?? [],
       selectedObject: this.tool === 'objects' ? this.selObject : null,
@@ -1694,6 +1933,7 @@ export class Editor {
         setOpen,
         this.linesPanel(),
       ),
+      section('motion', 'Motion', this.open, setOpen, ...this.motionPanel()),
       section('level', 'Level', this.open, setOpen, ...this.levelPanel()),
       section(
         'edits',
@@ -1787,6 +2027,8 @@ export class Editor {
       ),
     ];
     if (line.mode === 'pegs') {
+      // Pegs that travel may be spaced wider, to pass where their line crosses itself.
+      const max = line.travel === undefined ? LINE_SPACING_MAX : TRAVEL_SPACING_MAX;
       out.push(
         row(
           'Spacing',
@@ -1795,15 +2037,15 @@ export class Editor {
             (v) => {
               this.commit(
                 setLineFields(doc, id, {
-                  spacing: v === null ? undefined : Math.min(80, Math.max(34, v)),
+                  spacing: v === null ? undefined : Math.min(max, Math.max(34, v)),
                 }),
               );
             },
-            { min: 34, max: 80, step: 0.5, placeholder: '41' },
+            { min: 34, max, step: 0.5, placeholder: '41' },
           ),
           nudge?.kind === 'spacing'
             ? `fitted to ${nudge.to} (${nudge.pegsTo - nudge.pegsFrom > 0 ? '+' : ''}${nudge.pegsTo - nudge.pegsFrom} peg)`
-            : '34 to 80 px; empty is 41',
+            : `34 to ${max} px; empty is 41`,
         ),
         row(
           'Keep spacing',
@@ -1814,6 +2056,7 @@ export class Editor {
         ),
       );
     }
+    out.push(...this.lineMotionPanel(line));
     out.push(
       el('div', {
         class: 'ted-note',
@@ -1893,6 +2136,487 @@ export class Editor {
     return out;
   }
 
+  /** How a line moves: the group it moves with, or its objects traveling along it. */
+  private lineMotionPanel(line: Line): (Node | null)[] {
+    const doc = this.doc;
+    if (doc === null) return [];
+    const id = line.id;
+    const groups = doc.lines.groups ?? [];
+    const out: (Node | null)[] = [
+      el('div', { class: 'ted-subhead', text: 'Motion' }),
+      row(
+        'Group',
+        select<string>(
+          line.group ?? '',
+          [
+            ['', 'None: stands still'] as const,
+            ...groups.map((g) => [g.id, g.id] as const),
+            ['+new', 'New group...'] as const,
+          ],
+          (v) => {
+            if (v === '+new') {
+              const gid = freshGroupId(doc, id);
+              this.commit(
+                setLineGroup(putGroup(doc, { id: gid, movement: NEW_GROUP_MOVEMENT }), id, gid),
+              );
+              this.say(
+                `New group ${gid}: set its movement below; drag its cross to move its pivot.`,
+              );
+              return;
+            }
+            this.commit(setLineGroup(doc, id, v === '' ? undefined : v));
+          },
+        ),
+        'the line moves as one with the group',
+      ),
+      row(
+        'Travels',
+        checkbox(line.travel !== undefined, (v) => {
+          this.commit(setLineTravel(doc, id, v ? NEW_TRAVEL : undefined));
+        }),
+        'its objects run along the line',
+      ),
+    ];
+    const t = line.travel;
+    if (t !== undefined) {
+      const setT = (patch: Partial<Travel>): void => {
+        this.commit(setLineTravel(doc, id, compact<Travel>({ ...t, ...patch })));
+      };
+      out.push(
+        row(
+          'Lap',
+          numberInput(t.period, (v) => {
+            if (v !== null) setT({ period: Math.max(1, Math.round(v)) });
+          }),
+          `ticks ${line.closed ? 'around the line' : 'from start to end, then back to the start'}`,
+        ),
+        row(
+          'Reverse',
+          checkbox(t.reverse === true, (v) => {
+            setT({ reverse: v ? true : undefined });
+          }),
+          line.closed ? 'the other way round' : 'from the end to the start',
+        ),
+        row(
+          'Phase',
+          numberInput(
+            t.phase ?? null,
+            (v) => {
+              setT({ phase: v === null || v === 0 ? undefined : wrap01(v) });
+            },
+            { step: 0.05, placeholder: '0' },
+          ),
+          'start, a fraction of the lap',
+        ),
+      );
+    }
+    const group = findGroup(doc, line.group);
+    if (group !== null) out.push(...this.groupPanel(group));
+    return out;
+  }
+
+  /** A group's settings: its movement, pivot and the group it rides on. */
+  private groupPanel(group: LineGroup): (Node | null)[] {
+    const doc = this.doc;
+    if (doc === null) return [];
+    const m = group.movement;
+    const put = (g: LineGroup): void => {
+      this.commit(putGroup(doc, g));
+    };
+    const setM = (patch: Partial<GroupMovement>): void => {
+      if (m === undefined) return;
+      put({ ...group, movement: compact<GroupMovement>({ ...m, ...patch }) });
+    };
+    const others = (doc.lines.groups ?? []).filter((g) => g.id !== group.id);
+    // A group cannot ride on one that rides on it.
+    const below = new Set([group.id]);
+    for (let grew = true; grew;) {
+      grew = false;
+      for (const g of others) {
+        if (g.parent !== undefined && below.has(g.parent) && !below.has(g.id)) {
+          below.add(g.id);
+          grew = true;
+        }
+      }
+    }
+    const pivot = groupPivot(doc.lines, this.smoothed, group);
+    const out: (Node | null)[] = [
+      el('div', { class: 'ted-subhead', text: `Group ${group.id}` }),
+      row(
+        'Id',
+        textInput(group.id, (v) => {
+          if (!SLUG.test(v) || (v !== group.id && findGroup(doc, v) !== null)) {
+            this.say(`Group id "${v}": lowercase words joined by hyphens, not taken yet.`);
+            this.renderSide();
+            return;
+          }
+          this.commit(renameGroup(doc, group.id, v));
+        }),
+      ),
+      row(
+        'Moves',
+        select<string>(
+          m?.type ?? '',
+          [
+            ['', 'Only rides on its parent'] as const,
+            ...GROUP_MOVEMENT_TYPES.map((t) => [t, MOVEMENT_LABELS[t]] as const),
+          ],
+          (v) => {
+            if (v === '') {
+              const rest: LineGroup = { ...group };
+              Reflect.deleteProperty(rest, 'movement');
+              put(rest);
+              return;
+            }
+            const type = v as GroupMovementType;
+            const base = m ?? NEW_GROUP_MOVEMENT;
+            const next: GroupMovement = { ...base, type };
+            if (type === 'followPath') {
+              next.line =
+                base.line ??
+                doc.lines.lines.find((l) => l.group !== group.id)?.id ??
+                doc.lines.lines[0]?.id;
+            } else {
+              Reflect.deleteProperty(next, 'line');
+            }
+            if (type === 'rotateBackAndForth')
+              next.period = 4 * Math.max(1, Math.round(base.period / 4));
+            put({ ...group, movement: compact(next) });
+          },
+        ),
+      ),
+    ];
+    if (m !== undefined) {
+      const t = m.type;
+      const num = (
+        label: string,
+        value: number | undefined,
+        commit: (v: number | null) => void,
+        hint?: string,
+        step = 1,
+      ): HTMLElement =>
+        row(label, numberInput(value ?? null, commit, { step, placeholder: '0' }), hint);
+      const deg1 = (rad: number | undefined): number | undefined =>
+        rad === undefined ? undefined : deg(rad);
+      const rad = (v: number | null): number | undefined =>
+        v === null || v === 0 ? undefined : Math.round(((v * Math.PI) / 180) * 1e4) / 1e4;
+      out.push(
+        num(
+          'Period',
+          m.period,
+          (v) => {
+            if (v === null) return;
+            const p = Math.max(1, Math.round(v));
+            setM({ period: t === 'rotateBackAndForth' ? 4 * Math.max(1, Math.round(p / 4)) : p });
+          },
+          t === 'rotateBackAndForth' ? 'ticks per cycle, a multiple of 4' : 'ticks per cycle',
+        ),
+      );
+      if (t === 'followPath') {
+        out.push(
+          row(
+            'Along',
+            select<string>(
+              m.line ?? '',
+              doc.lines.lines.map((l) => [l.id, l.id] as const),
+              (v) => {
+                setM({ line: v });
+              },
+            ),
+            'the line it glides along, from where it passes nearest the pivot',
+          ),
+        );
+      }
+      if (RADIUS_TYPES.has(t)) {
+        out.push(
+          num(
+            'Radius',
+            m.radius,
+            (v) => {
+              setM({ radius: v === null || v === 0 ? undefined : Math.max(0, v) });
+            },
+            t === 'horizontalWrap' || t === 'verticalWrap' ? 'travel before it starts over' : 'px',
+          ),
+        );
+      }
+      if (RADIUS2_TYPES.has(t)) {
+        out.push(
+          num(
+            'Radius 2',
+            m.radius2,
+            (v) => {
+              setM({ radius2: v === null || v === 0 ? undefined : Math.max(0, v) });
+            },
+            'vertical; empty is the same as radius',
+          ),
+        );
+      }
+      if (ANGLE_TYPES.has(t)) {
+        out.push(
+          num(
+            'Angle',
+            deg1(m.maxAngle),
+            (v) => {
+              setM({ maxAngle: rad(v === null ? null : Math.max(0, v)) });
+            },
+            t === 'rotateBackAndForth'
+              ? 'degrees each way; empty is 180'
+              : 'degrees of arc; empty is 180',
+            5,
+          ),
+        );
+      }
+      if (t !== 'rotate' && t !== 'followPath') {
+        out.push(
+          num(
+            'Rotation',
+            deg1(m.pathRotation),
+            (v) => {
+              setM({ pathRotation: rad(v) });
+            },
+            t === 'rotateBackAndForth'
+              ? 'degrees added to the swing'
+              : 'degrees the path is turned',
+            5,
+          ),
+        );
+      }
+      out.push(
+        row(
+          'Reverse',
+          checkbox(m.reverse === true, (v) => {
+            setM({ reverse: v ? true : undefined });
+          }),
+        ),
+        num(
+          'Phase',
+          m.phase,
+          (v) => {
+            setM({ phase: v === null || v === 0 ? undefined : wrap01(v) });
+          },
+          'start, a fraction of the cycle',
+          0.05,
+        ),
+        num(
+          'Offset',
+          m.offset,
+          (v) => {
+            setM({ offset: v === null || v === 0 ? undefined : Math.round(v) });
+          },
+          'ticks added to the clock',
+        ),
+        num(
+          'Pause 1',
+          m.pause1,
+          (v) => {
+            setM({ pause1: v === null || v <= 0 ? undefined : Math.round(v) });
+          },
+          'ticks',
+        ),
+      );
+      if ((m.pause1 ?? 0) > 0) {
+        out.push(
+          num(
+            'Pause 1 at',
+            m.pause1At,
+            (v) => {
+              setM({ pause1At: v === null || v <= 0 ? undefined : Math.min(100, Math.round(v)) });
+            },
+            'percent of the period',
+          ),
+          num(
+            'Pause 2',
+            m.pause2,
+            (v) => {
+              setM({ pause2: v === null || v <= 0 ? undefined : Math.round(v) });
+            },
+            'ticks',
+          ),
+          num(
+            'Pause 2 at',
+            m.pause2At,
+            (v) => {
+              setM({ pause2At: v === null || v <= 0 ? undefined : Math.min(100, Math.round(v)) });
+            },
+            'percent of the period',
+          ),
+        );
+      }
+    }
+    out.push(
+      row(
+        'Pivot',
+        el(
+          'span',
+          {},
+          numberInput(
+            pivot === null ? null : round1(pivot[0]),
+            (v) => {
+              if (v !== null) put({ ...group, pivot: [round1(v), round1(pivot?.[1] ?? 0)] });
+            },
+            { step: 0.5 },
+          ),
+          numberInput(
+            pivot === null ? null : round1(pivot[1]),
+            (v) => {
+              if (v !== null) put({ ...group, pivot: [round1(pivot?.[0] ?? 0), round1(v)] });
+            },
+            { step: 0.5 },
+          ),
+        ),
+        !pivotMatters(group)
+          ? 'used when the group turns, glides along a line or rides on another'
+          : group.pivot === undefined
+            ? 'the middle of its lines; drag the cross'
+            : 'drag the cross',
+      ),
+      row(
+        'Rides on',
+        select<string>(
+          group.parent ?? '',
+          [
+            ['', 'Nothing'] as const,
+            ...others.filter((g) => !below.has(g.id)).map((g) => [g.id, g.id] as const),
+          ],
+          (v) => {
+            const next: LineGroup = { ...group };
+            if (v === '') Reflect.deleteProperty(next, 'parent');
+            else next.parent = v;
+            put(next);
+          },
+        ),
+        'it moves on the other group, carried at its pivot',
+      ),
+      el(
+        'div',
+        { class: 'ted-buttons' },
+        button(
+          'Default pivot',
+          () => {
+            const next: LineGroup = { ...group };
+            Reflect.deleteProperty(next, 'pivot');
+            put(next);
+          },
+          { disabled: group.pivot === undefined },
+        ),
+        button('Delete group', () => {
+          this.commit(deleteGroup(doc, group.id));
+        }),
+      ),
+    );
+    return out;
+  }
+
+  /** The motion preview: play, pause and scrub through the level's cycle. */
+  private motionPanel(): (Node | null)[] {
+    const preview = this.previewOf();
+    const doc = this.doc;
+    this.clock.slider = null;
+    this.clock.label = null;
+    if (preview === null || doc === null || !preview.moving) {
+      return [
+        el('div', {
+          class: 'ted-note',
+          text: 'Nothing moves. Put a line in a group or let its objects travel (Selection panel), then play the motion here.',
+        }),
+      ];
+    }
+    const slider = el('input', {
+      class: 'ted-input',
+      attrs: { type: 'range', min: '0', max: String(preview.cycle - 1), step: '1' },
+    });
+    slider.value = String(this.tick);
+    slider.addEventListener('input', () => {
+      this.setPlaying(false);
+      this.setTick(Number(slider.value));
+    });
+    const label = el('div', { class: 'ted-note' });
+    this.clock.slider = slider;
+    this.clock.label = label;
+    this.renderClock();
+    const groups = doc.lines.groups ?? [];
+    return [
+      el(
+        'div',
+        { class: 'ted-buttons' },
+        button(
+          this.playing ? 'Pause' : 'Play',
+          () => {
+            this.setPlaying(!this.playing);
+          },
+          { primary: !this.playing, title: 'Play or pause (K)' },
+        ),
+        button(
+          'Start',
+          () => {
+            this.setPlaying(false);
+            this.setTick(0);
+          },
+          { title: 'Tick 0, the layout the level starts with' },
+        ),
+        button(
+          '-1',
+          () => {
+            this.setPlaying(false);
+            this.setTick(this.tick - 1);
+          },
+          { title: 'One tick back (,)' },
+        ),
+        button(
+          '+1',
+          () => {
+            this.setPlaying(false);
+            this.setTick(this.tick + 1);
+          },
+          { title: 'One tick forward (.)' },
+        ),
+      ),
+      slider,
+      label,
+      row(
+        'Swept area',
+        checkbox(this.layers.sweeps, (v) => {
+          this.layers = { ...this.layers, sweeps: v };
+          this.render();
+        }),
+        "where the selected line's moving unit goes over its cycle",
+      ),
+      groups.length === 0
+        ? null
+        : el(
+            'ul',
+            { class: 'ted-list' },
+            ...groups.map((g) => {
+              const first = doc.lines.lines.find((l) => l.group === g.id);
+              return el(
+                'li',
+                {
+                  class: first !== undefined && first.id === this.selLine ? 'ted-selected' : '',
+                  on: {
+                    click: () => {
+                      if (first === undefined) return;
+                      this.setTool('lines');
+                      this.selLine = first.id;
+                      this.selPoint = null;
+                      this.renderAll();
+                    },
+                  },
+                },
+                el('span', { class: 'ted-grow', text: g.id }),
+                el('span', {
+                  class: 'ted-count',
+                  text: `${g.movement === undefined ? 'rides' : g.movement.type}${g.parent === undefined ? '' : ` on ${g.parent}`}`,
+                }),
+              );
+            }),
+          ),
+      el('div', {
+        class: 'ted-note',
+        text: 'The board shows the level at the tick above; the lines stay where they were traced. Moving objects are checked against everything at every tick of the cycle.',
+      }),
+    ];
+  }
+
   private objectPanel(): (Node | null)[] {
     const doc = this.doc;
     const shown = this.shown;
@@ -1913,53 +2637,23 @@ export class Editor {
       ];
     }
     const edits = recipeEdits(doc);
-    const origin = originOf(shown, id);
+    const origin = originOf(shown, id, this.tracks());
     const entry = origin.entry >= 0 ? edits[origin.entry] : undefined;
     const from =
       origin.generated === null
         ? `added by edit ${origin.entry + 1}`
         : (this.lineOf(id) ?? shown.partOf.get(id) ?? 'the generator');
-    const out: (Node | null)[] = [
-      el('div', {
-        class: 'ted-note',
-        text: `${obj.kind === 'peg' ? 'Peg' : obj.kind === 'brick' ? 'Brick' : 'Curved brick'} from ${from}.`,
-      }),
-      row(
-        'x',
-        numberInput(
-          round1(obj.x),
-          (v) => {
-            if (v !== null) this.commit(setEdits(doc, moveObject(edits, origin, [v, obj.y])));
-          },
-          { step: 0.5 },
-        ),
-      ),
-      row(
-        'y',
-        numberInput(
-          round1(obj.y),
-          (v) => {
-            if (v !== null) this.commit(setEdits(doc, moveObject(edits, origin, [obj.x, v])));
-          },
-          { step: 0.5 },
-        ),
-      ),
-    ];
-    if (obj.kind !== 'peg') {
+    const kind = obj.kind === 'peg' ? 'Peg' : obj.kind === 'brick' ? 'Brick' : 'Curved brick';
+    const out: (Node | null)[] = [el('div', { class: 'ted-note', text: `${kind} from ${from}.` })];
+    if (isMoving(obj)) {
       out.push(
-        row(
-          'Rotation',
-          numberInput(
-            deg(obj.rotation),
-            (v) => {
-              if (v !== null)
-                this.commit(setEdits(doc, rotateObject(edits, origin, (v * Math.PI) / 180)));
-            },
-            { step: 5 },
-          ),
-          'degrees, counterclockwise',
-        ),
+        el('div', {
+          class: 'ted-note',
+          text: `It moves with its line: delete it or change its flags here; move or turn the line to move it. At tick 0 it is at (${round1(origin.at[0])}, ${round1(origin.at[1])}).`,
+        }),
       );
+    } else {
+      out.push(...this.objectPlacement(obj, edits, origin));
     }
     out.push(
       row(
@@ -1997,6 +2691,55 @@ export class Editor {
         ),
       ),
     );
+    return out;
+  }
+
+  /** Position and rotation fields of a static object. */
+  private objectPlacement(
+    obj: Extract<LevelElement, { kind: 'peg' | 'brick' | 'curvedBrick' }>,
+    edits: ReturnType<typeof recipeEdits>,
+    origin: ReturnType<typeof originOf>,
+  ): (Node | null)[] {
+    const doc = this.doc;
+    if (doc === null) return [];
+    const out: (Node | null)[] = [
+      row(
+        'x',
+        numberInput(
+          round1(obj.x),
+          (v) => {
+            if (v !== null) this.commit(setEdits(doc, moveObject(edits, origin, [v, obj.y])));
+          },
+          { step: 0.5 },
+        ),
+      ),
+      row(
+        'y',
+        numberInput(
+          round1(obj.y),
+          (v) => {
+            if (v !== null) this.commit(setEdits(doc, moveObject(edits, origin, [obj.x, v])));
+          },
+          { step: 0.5 },
+        ),
+      ),
+    ];
+    if (obj.kind !== 'peg') {
+      out.push(
+        row(
+          'Rotation',
+          numberInput(
+            deg(obj.rotation),
+            (v) => {
+              if (v !== null)
+                this.commit(setEdits(doc, rotateObject(edits, origin, (v * Math.PI) / 180)));
+            },
+            { step: 5 },
+          ),
+          'degrees, counterclockwise',
+        ),
+      );
+    }
     return out;
   }
 
@@ -2632,6 +3375,9 @@ export class Editor {
       ['Wheel, Space-drag', 'zoom, pan (also right or middle drag)'],
       ['F', 'fit the board'],
       ['G', 'fit the count now'],
+      ['K', 'play or pause the motion'],
+      [',  .', 'one tick back, forward (Shift: 10)'],
+      ['Drag the cross', "move a moving group's pivot"],
       ['Ctrl+Z, Shift+Ctrl+Z', 'undo, redo'],
       ['Ctrl+Enter', 'run the checks'],
       ['Ctrl+S', 'save'],
@@ -2642,6 +3388,73 @@ export class Editor {
       ...keys.flatMap(([k, v]) => [el('kbd', { text: k }), el('span', { text: v })]),
     );
   }
+}
+
+/** The movement types as the group panel lists them. */
+const MOVEMENT_LABELS: Record<GroupMovementType, string> = {
+  verticalCycle: 'Up and down (verticalCycle)',
+  horizontalCycle: 'Left and right (horizontalCycle)',
+  circle: 'Around a circle (circle)',
+  horizontalInfinity: 'Figure eight, lying (horizontalInfinity)',
+  verticalInfinity: 'Figure eight, standing (verticalInfinity)',
+  horizontalArc: 'Along an arc (horizontalArc)',
+  verticalArc: 'Along an upright arc (verticalArc)',
+  rotate: 'Turn about the pivot (rotate)',
+  rotateBackAndForth: 'Swing about the pivot (rotateBackAndForth)',
+  verticalWrap: 'Rise and start over (verticalWrap)',
+  horizontalWrap: 'Slide right and start over (horizontalWrap)',
+  rotateAroundCircle: 'Orbit, turning like a spoke (rotateAroundCircle)',
+  followPath: 'Glide along a line (followPath)',
+};
+const RADIUS_TYPES: ReadonlySet<GroupMovementType> = new Set([
+  'verticalCycle',
+  'horizontalCycle',
+  'circle',
+  'horizontalInfinity',
+  'verticalInfinity',
+  'horizontalArc',
+  'verticalArc',
+  'verticalWrap',
+  'horizontalWrap',
+  'rotateAroundCircle',
+]);
+const RADIUS2_TYPES: ReadonlySet<GroupMovementType> = new Set([
+  'circle',
+  'horizontalInfinity',
+  'verticalInfinity',
+  'horizontalArc',
+  'verticalArc',
+]);
+const ANGLE_TYPES: ReadonlySet<GroupMovementType> = new Set([
+  'horizontalArc',
+  'verticalArc',
+  'rotateBackAndForth',
+]);
+
+/**
+ * Whether a group's pivot changes anything: it is the point a group turns about, where it starts
+ * along a line it glides on, and where it rides on its parent; a sliding group ignores it.
+ */
+function pivotMatters(g: LineGroup): boolean {
+  const t = g.movement?.type;
+  return (
+    g.parent !== undefined ||
+    t === 'rotate' ||
+    t === 'rotateAroundCircle' ||
+    t === 'rotateBackAndForth' ||
+    t === 'followPath'
+  );
+}
+
+/** An object without its undefined fields. */
+function compact<T extends object>(o: T): T {
+  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T;
+}
+
+/** A phase wrapped into [0, 1). */
+function wrap01(v: number): number {
+  const r = v - Math.floor(v);
+  return r === 1 ? 0 : r;
 }
 
 function emptyLines(background: string): LinesFile {

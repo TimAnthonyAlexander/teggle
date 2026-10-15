@@ -7,7 +7,9 @@ Deterministic 2D physics for Teggle. It ports the original's constants and order
 | File | Contents |
 | --- | --- |
 | `tuning.ts` | Every constant, including the original's `_base` geometry (walls, ceiling, bucket, Pyramid, cover, flippers, Fever buckets) |
-| `movement.ts` | `movementPhase`, `movementPose`: the original's Mover math, a pure function of the tick |
+| `movement.ts` | `movementPhase`, `movementPose`: the original's Mover math, a pure function of the tick, plus Teggle's followPath |
+| `track.ts` | `Track`: a level path that followPath walks at constant speed, turning with it |
+| `poses.ts` | `MotionModel`: every element's pose at any tick without a world, to the world's bits (generator sweeps, editor preview) |
 | `compile.ts` | `compileLevel(level)`: bodies for the level's elements plus the base geometry, pose tables, static broadphase grid |
 | `world.ts` | `World`: stepping, contacts, triggers, control API, snapshots |
 | `collide.ts`, `response.ts` | Swept contact tests and the original's contact responses |

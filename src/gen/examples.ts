@@ -196,17 +196,6 @@ const FISH_LINES = linesFile(
       ],
     },
     {
-      id: 'fish-fin',
-      note: 'the back fin',
-      mode: 'pegs',
-      spacing: 36,
-      group: 'fish',
-      points: [
-        [430, 312],
-        [472, 326],
-      ],
-    },
-    {
       id: 'fish-tail',
       note: 'the tail fan',
       mode: 'pegs',
@@ -369,10 +358,7 @@ const MILL_LINES = linesFile(
       mode: 'bricks',
       group: 'ripples',
       // 575 px: sixteen 35 px bricks and their seams, so one step is exactly 36 px.
-      points: [
-        [176, 418],
-        polar(176, 418, 575, -RIPPLE_SLOPE),
-      ],
+      points: [[176, 418], polar(176, 418, 575, -RIPPLE_SLOPE)],
     },
     {
       id: 'stream',

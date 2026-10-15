@@ -148,12 +148,24 @@ describe('parseLevel', () => {
     );
     expect(level.paths?.[0]?.closed).toBe(true);
     expect(level.elements[0]?.movement).toMatchObject({ type: 'followPath', path: 0 });
-    const open = { points: [{ x: 0, y: 0 }, { x: 10, y: 0 }] };
+    const open = {
+      points: [
+        { x: 0, y: 0 },
+        { x: 10, y: 0 },
+      ],
+    };
     expect(parseLevel(file([], { paths: [open] })).paths?.[0]?.closed).toBe(false);
   });
 
   it('rejects followPath without a path, a path elsewhere, and broken paths', () => {
-    const paths = [{ points: [{ x: 0, y: 0 }, { x: 10, y: 0 }] }];
+    const paths = [
+      {
+        points: [
+          { x: 0, y: 0 },
+          { x: 10, y: 0 },
+        ],
+      },
+    ];
     rejects(
       file([peg(1, { movement: { type: 'followPath', period: 300 } })], { paths }),
       /names its path/,
@@ -166,7 +178,19 @@ describe('parseLevel', () => {
       file([peg(1, { movement: { type: 'followPath', path: 1, period: 300 } })], { paths }),
       /follows path 1, which does not exist/,
     );
-    rejects(file([], { paths: [{ points: [{ x: 1, y: 1 }, { x: 1, y: 1 }] }] }), /coincide/);
+    rejects(
+      file([], {
+        paths: [
+          {
+            points: [
+              { x: 1, y: 1 },
+              { x: 1, y: 1 },
+            ],
+          },
+        ],
+      }),
+      /coincide/,
+    );
     rejects(file([], { paths: [{ closed: true, ...paths[0] }] }), /closed path needs 3 points/);
   });
 

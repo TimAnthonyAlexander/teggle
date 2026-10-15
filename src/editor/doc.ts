@@ -4,7 +4,7 @@
 
 import type { LevelSourceInput } from '../gen/campaign-source';
 import type { Edit } from '../gen/edits';
-import { SLUG, type Line, type LinesFile } from '../gen/lines';
+import { SLUG, type Line, type LineGroup, type LinesFile, type Travel } from '../gen/lines';
 
 export type Point = readonly [number, number];
 
@@ -109,7 +109,110 @@ export function renameLine(doc: Doc, oldId: string, newId: string): Doc {
   if (fill !== undefined && fill !== 'none' && fill.within === oldId) {
     next = withRecipe(next, { fill: { ...fill, within: newId } });
   }
+  // A group that follows the line follows it under its new name.
+  if (next.lines.groups?.some((g) => g.movement?.line === oldId) === true) {
+    next = withGroups(
+      next,
+      (next.lines.groups ?? []).map((g) =>
+        g.movement?.line === oldId ? { ...g, movement: { ...g.movement, line: newId } } : g,
+      ),
+    );
+  }
   return next;
+}
+
+// ---------------------------------------------------------------------------------------------
+// Moving lines: groups and travel (src/gen/lines.ts, src/gen/movers.ts)
+
+function withGroups(doc: Doc, groups: readonly LineGroup[]): Doc {
+  const lines: LinesFile = { ...doc.lines };
+  if (groups.length === 0) Reflect.deleteProperty(lines, 'groups');
+  else lines.groups = [...groups];
+  return { ...doc, lines };
+}
+
+export function findGroup(doc: Doc, id: string | undefined): LineGroup | null {
+  if (id === undefined) return null;
+  return doc.lines.groups?.find((g) => g.id === id) ?? null;
+}
+
+/** A fresh group id like "group-2" that no group has yet. */
+export function freshGroupId(doc: Doc, base = 'group'): string {
+  const taken = new Set((doc.lines.groups ?? []).map((g) => g.id));
+  if (!taken.has(base)) return base;
+  for (let n = 2; ; n++) {
+    const id = `${base}-${n}`;
+    if (!taken.has(id)) return id;
+  }
+}
+
+/** Adds a group, or replaces the one with its id. */
+export function putGroup(doc: Doc, group: LineGroup): Doc {
+  const groups = doc.lines.groups ?? [];
+  const at = groups.findIndex((g) => g.id === group.id);
+  return withGroups(
+    doc,
+    at < 0 ? [...groups, group] : groups.map((g, i) => (i === at ? group : g)),
+  );
+}
+
+/**
+ * Removes a group: its lines stand still again and the groups that rode on it ride on its
+ * parent, or move on their own when it had none.
+ */
+export function deleteGroup(doc: Doc, id: string): Doc {
+  const gone = findGroup(doc, id);
+  if (gone === null) return doc;
+  const groups = (doc.lines.groups ?? [])
+    .filter((g) => g.id !== id)
+    .map((g) => {
+      if (g.parent !== id) return g;
+      const out: LineGroup = { ...g };
+      if (gone.parent === undefined) Reflect.deleteProperty(out, 'parent');
+      else out.parent = gone.parent;
+      return out;
+    });
+  const next = withGroups(doc, groups);
+  return withLines(
+    next,
+    next.lines.lines.map((l) => (l.group === id ? withoutKey(l, 'group') : l)),
+  );
+}
+
+export function renameGroup(doc: Doc, oldId: string, newId: string): Doc {
+  if (oldId === newId || !SLUG.test(newId) || findGroup(doc, newId) !== null) return doc;
+  const groups = (doc.lines.groups ?? []).map((g) => ({
+    ...g,
+    ...(g.id === oldId ? { id: newId } : {}),
+    ...(g.parent === oldId ? { parent: newId } : {}),
+  }));
+  const next = withGroups(doc, groups);
+  return withLines(
+    next,
+    next.lines.lines.map((l) => (l.group === oldId ? { ...l, group: newId } : l)),
+  );
+}
+
+/** Puts a line in a group (or takes it out with undefined); a line in a group does not travel. */
+export function setLineGroup(doc: Doc, lineId: string, group: string | undefined): Doc {
+  return updateLine(doc, lineId, (l) => {
+    const out = withoutKey(l, 'group');
+    return group === undefined ? out : { ...out, group };
+  });
+}
+
+/** Makes a line's objects travel along it, or stop (undefined). */
+export function setLineTravel(doc: Doc, lineId: string, travel: Travel | undefined): Doc {
+  return updateLine(doc, lineId, (l) => {
+    const out = withoutKey(l, 'travel');
+    return travel === undefined ? out : { ...out, travel };
+  });
+}
+
+function withoutKey<T extends object>(o: T, key: keyof T): T {
+  const out = { ...o };
+  Reflect.deleteProperty(out, key);
+  return out;
 }
 
 /** Moves a line one place earlier (-1) or later (+1) in placement order. */

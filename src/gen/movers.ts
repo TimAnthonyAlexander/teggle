@@ -986,5 +986,9 @@ function placeUnit(ctx: TemplateContext, unit: Node): void {
     );
     if (added.id !== base + i) throw new Error('moving line ids out of step');
   });
-  b.reserve(sweptZone(check.sweep));
+  // Reserved, so nothing static comes near where it goes; claimed, so a fill keeps the clearance
+  // it keeps from a traced shape and the moving shape reads as one.
+  const zone = sweptZone(check.sweep);
+  b.reserve(zone);
+  b.claim(zone);
 }

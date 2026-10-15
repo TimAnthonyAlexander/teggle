@@ -1,6 +1,7 @@
 // Paints the editor's board: the picture, the board's real geometry and keep-out zones, the
-// generated level, what did not fit, the traced lines and the check findings. Everything is in
-// board coordinates under one transform; widths are divided by the zoom so strokes stay crisp.
+// generated level at the preview's tick, the area a selected moving unit sweeps and its pivots,
+// what did not fit, the traced lines and the check findings. Everything is in board coordinates
+// under one transform; widths are divided by the zoom so strokes stay crisp.
 
 import type { Rejected } from '../gen/builder';
 import {
@@ -15,10 +16,10 @@ import {
 import type { FlipperSweep } from '../gen/flippers';
 import type { Line } from '../gen/lines';
 import type { Path } from '../gen/paths';
-import { elementShape, filePose, type Shape } from '../gen/shapes';
+import { elementShape, type Pose, type Shape } from '../gen/shapes';
 import type { Issue } from '../gen/validate';
 import { BOARD_X, BOARD_Y, layout } from '../game/layout';
-import { isScoringElement, type Level } from '../level/schema';
+import { isScoringElement, type Level, type LevelElement } from '../level/schema';
 import {
   BARREL_LENGTH,
   BUCKET_CATCH_HEIGHT,
@@ -58,6 +59,7 @@ const COLORS = {
   accent: '#f0b429',
   bad: '#e5484d',
   quick: '#ffffff',
+  sweep: '#3fb6e8',
 };
 
 export interface Layers {
@@ -66,6 +68,21 @@ export interface Layers {
   objects: boolean;
   lines: boolean;
   findings: boolean;
+  /** The area the selected moving line's unit sweeps, and its pivots. */
+  sweeps: boolean;
+}
+
+/** What the selected moving line's unit shows: its swept area, pivots and followed lines. */
+export interface Motion {
+  /** Shapes sampled over the cycle; the same array as long as the unit and level stay. */
+  readonly sweep: readonly Shape[];
+  readonly pivots: readonly {
+    readonly x: number;
+    readonly y: number;
+    readonly selected: boolean;
+  }[];
+  /** Lines a group of the unit glides along. */
+  readonly follows: readonly Path[];
 }
 
 export interface Drawing {
@@ -110,6 +127,9 @@ export interface Scene {
   readonly hoverLine: string | null;
   readonly drawing: Drawing | null;
   readonly level: Level | null;
+  /** Where an element is at the preview's tick. */
+  readonly pose: (e: LevelElement) => Pose;
+  readonly motion: Motion | null;
   readonly lineOf: ReadonlyMap<number, string | null>;
   readonly rejected: readonly Rejected[];
   readonly selectedObject: number | null;
@@ -308,7 +328,7 @@ function drawLevel(ctx: Ctx, scene: Scene): void {
   const k = scene.view.zoom;
   const findings = scene.findings;
   for (const e of level.elements) {
-    const s = elementShape(e, filePose(e));
+    const s = elementShape(e, scene.pose(e));
     if (s === null) continue;
     shapePath(ctx, s);
     if (!isScoringElement(e)) {
@@ -362,6 +382,72 @@ function drawLevel(ctx: Ctx, scene: Scene): void {
       ctx.stroke();
       ctx.setLineDash([]);
     }
+  }
+}
+
+/** The swept area rendered once per sweep, view and canvas size: thousands of samples. */
+let sweepCache: {
+  readonly sweep: readonly Shape[];
+  readonly key: string;
+  readonly canvas: HTMLCanvasElement;
+} | null = null;
+
+function drawSweep(ctx: Ctx, scene: Scene, sweep: readonly Shape[]): void {
+  const w = Math.max(1, Math.round(scene.width * scene.dpr));
+  const h = Math.max(1, Math.round(scene.height * scene.dpr));
+  const t = ctx.getTransform();
+  const key = `${w}x${h} ${t.a} ${t.e} ${t.f}`;
+  if (sweepCache?.sweep !== sweep || sweepCache.key !== key) {
+    const canvas = sweepCache?.canvas ?? document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const c = canvas.getContext('2d');
+    if (c === null) return;
+    c.setTransform(t);
+    c.fillStyle = COLORS.sweep;
+    for (const s of sweep) {
+      shapePath(c, s);
+      c.fill();
+    }
+    sweepCache = { sweep, key, canvas };
+  }
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.globalAlpha = 0.3;
+  ctx.drawImage(sweepCache.canvas, 0, 0);
+  ctx.restore();
+}
+
+function drawMotion(ctx: Ctx, scene: Scene): void {
+  const m = scene.motion;
+  if (m === null) return;
+  const k = scene.view.zoom;
+  if (m.sweep.length > 0) drawSweep(ctx, scene, m.sweep);
+  ctx.setLineDash([6 / k, 4 / k]);
+  ctx.strokeStyle = COLORS.sweep;
+  ctx.lineWidth = 1.5 / k;
+  for (const p of m.follows) {
+    polyline(ctx, p.points, p.closed);
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  for (const p of m.pivots) {
+    const r = (p.selected ? 7 : 5) / k;
+    ctx.lineWidth = 3.5 / k;
+    ctx.strokeStyle = 'rgba(20, 21, 23, 0.85)';
+    const cross = (): void => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      ctx.moveTo(p.x - 2 * r, p.y);
+      ctx.lineTo(p.x + 2 * r, p.y);
+      ctx.moveTo(p.x, p.y - 2 * r);
+      ctx.lineTo(p.x, p.y + 2 * r);
+      ctx.stroke();
+    };
+    cross();
+    ctx.lineWidth = 1.6 / k;
+    ctx.strokeStyle = p.selected ? COLORS.accent : '#ffffff';
+    cross();
   }
 }
 
@@ -499,25 +585,27 @@ function drawFindings(ctx: Ctx, scene: Scene): void {
     const b = issue.b === undefined ? undefined : byId.get(issue.b);
     for (const e of [a, b]) {
       if (e === undefined) continue;
-      const s = elementShape(e, filePose(e));
+      const s = elementShape(e, scene.pose(e));
       if (s === null) continue;
       shapePath(ctx, s);
       ctx.lineWidth = 2.5 / k;
       ctx.stroke();
     }
     if (a !== undefined && b !== undefined) {
+      const pa = scene.pose(a);
+      const pb = scene.pose(b);
       ctx.lineWidth = 2 / k;
       ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
+      ctx.moveTo(pa.x, pa.y);
+      ctx.lineTo(pb.x, pb.y);
       ctx.stroke();
       if (issue.gap !== undefined) {
         ctx.font = `bold ${11 / k}px system-ui, sans-serif`;
-        const label = issue.gap < 0 ? 'overlap' : `${issue.gap.toFixed(1)} px`;
+        const label = `${issue.gap < 0 ? 'overlap' : `${issue.gap.toFixed(1)} px`}${issue.tick > 0 ? ` at tick ${issue.tick}` : ''}`;
         ctx.lineWidth = 3 / k;
         ctx.strokeStyle = 'rgba(20, 21, 23, 0.85)';
-        ctx.strokeText(label, (a.x + b.x) / 2 + 6 / k, (a.y + b.y) / 2);
-        ctx.fillText(label, (a.x + b.x) / 2 + 6 / k, (a.y + b.y) / 2);
+        ctx.strokeText(label, (pa.x + pb.x) / 2 + 6 / k, (pa.y + pb.y) / 2);
+        ctx.fillText(label, (pa.x + pb.x) / 2 + 6 / k, (pa.y + pb.y) / 2);
         ctx.strokeStyle = COLORS.bad;
       }
     }
@@ -527,9 +615,10 @@ function drawFindings(ctx: Ctx, scene: Scene): void {
   for (const id of f.neverHit) {
     const e = byId.get(id);
     if (e === undefined) continue;
+    const p = scene.pose(e);
     ctx.beginPath();
-    ctx.moveTo(e.x - 7, e.y + 7);
-    ctx.lineTo(e.x + 7, e.y - 7);
+    ctx.moveTo(p.x - 7, p.y + 7);
+    ctx.lineTo(p.x + 7, p.y - 7);
     ctx.stroke();
   }
   // Stuck spots: a cross with how many shots came to rest there; white where quick disappear
@@ -580,6 +669,7 @@ export function drawScene(ctx: Ctx, scene: Scene): void {
   }
   if (scene.layers.zones) drawZones(ctx, scene);
   drawGeometry(ctx, scene);
+  if (scene.layers.sweeps) drawMotion(ctx, scene);
   if (scene.layers.objects) {
     drawLevel(ctx, scene);
     drawRejected(ctx, scene);

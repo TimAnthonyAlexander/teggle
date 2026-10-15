@@ -179,6 +179,16 @@
 .ted-note {
   margin: 6px 0;
 }
+.ted-subhead {
+  margin: 12px 0 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-weight: 600;
+}
+.ted-row > span:has(> .ted-num + .ted-num) {
+  display: flex;
+  gap: 6px;
+}
 .ted-input {
   font: inherit;
   color: var(--fg);

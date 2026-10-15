@@ -4,6 +4,7 @@
 // changes anything goes away.
 
 import {
+  editPosition,
   isAddEdit,
   type AddEdit,
   type ChangeEdit,
@@ -11,6 +12,7 @@ import {
   type EditOutcome,
 } from '../gen/edits';
 import { isScoringElement, type LevelElement, type ScoringElement } from '../level/schema';
+import type { Track } from '../sim/track';
 import { round1, round2, type Point } from './doc';
 
 /** Where a shown object comes from. */
@@ -19,16 +21,21 @@ export interface Origin {
   readonly generated: ScoringElement | null;
   /** The edit entry that changes or added it, or -1. */
   readonly entry: number;
+  /** Where edits find the generated object: its position at tick 0 (src/gen/edits.ts). */
+  readonly at: Point;
 }
 
 export function originOf(
   shown: { readonly generated: readonly LevelElement[]; readonly edits: EditOutcome },
   id: number,
+  tracks: readonly Track[] = [],
 ): Origin {
   const g = shown.generated.find((e) => e.id === id);
+  const p = g === undefined ? { x: 0, y: 0 } : editPosition(g, tracks);
   return {
     generated: g !== undefined && isScoringElement(g) ? g : null,
     entry: shown.edits.entryOf.get(id) ?? -1,
+    at: [p.x, p.y],
   };
 }
 
@@ -74,7 +81,7 @@ function change(edits: readonly Edit[], o: Origin, patch: Partial<ChangeEdit>): 
   if (g === null) return [...edits];
   const old = o.entry >= 0 ? edits[o.entry] : undefined;
   const base: ChangeEdit =
-    old !== undefined && !isAddEdit(old) ? old : { at: [round2(g.x), round2(g.y)] };
+    old !== undefined && !isAddEdit(old) ? old : { at: [round2(o.at[0]), round2(o.at[1])] };
   const merged: ChangeEdit = { ...base, ...patch };
   return replace(edits, o.entry, tidy(merged, g));
 }
@@ -105,7 +112,8 @@ export function deleteObject(edits: readonly Edit[], o: Origin): Edit[] {
   const g = o.generated;
   if (g === null) return [...edits];
   const old = o.entry >= 0 ? edits[o.entry] : undefined;
-  const at = old !== undefined && !isAddEdit(old) ? old.at : ([round2(g.x), round2(g.y)] as const);
+  const at =
+    old !== undefined && !isAddEdit(old) ? old.at : ([round2(o.at[0]), round2(o.at[1])] as const);
   return replace(edits, o.entry, { at: [at[0], at[1]], delete: true });
 }
 
