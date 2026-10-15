@@ -13,11 +13,21 @@
 //      pegs can let pegs of other lines in, or keep them out.
 //   3. When no line can move, a fill with a fixed spacing gets a count as well.
 // Brick lines never change, so a level keeps its brick count (the campaign keeps each level's
-// split of pegs and bricks), and neither do lines marked keepSpacing.
+// split of pegs and bricks), and neither do lines marked keepSpacing. Pegs that travel along
+// their line (movers.ts) count like a closed line's over the line's path, and may be spaced up
+// to TRAVEL_SPACING_MAX; a moving unit is placed whole or not at all, so a nudge that makes one
+// collide loses its pegs and is not kept.
 
 import { PEG_SPACING, MIN_PEG_SPACING } from './constants';
 import { assembleLevel, type AssembledLevel, type GeneratedLevel } from './generate';
-import { LINE_SPACING_MAX, LINE_SPACING_MIN, lineGeometrySchema, smoothLine } from './lines';
+import {
+  LINE_SPACING_MAX,
+  LINE_SPACING_MIN,
+  lineGeometrySchema,
+  smoothLine,
+  TRAVEL_SPACING_MAX,
+} from './lines';
+import { lineTrack } from './movers';
 import { PathSampler } from './paths';
 import { recipeSchema, targetFor, type RecipeInput } from './recipe';
 import { validateLevel } from './validate';
@@ -66,6 +76,8 @@ interface Knob {
   readonly closed: boolean;
   /** The spacing the recipe was written with. */
   readonly written: number;
+  /** The widest spacing the line may take. */
+  readonly max: number;
 }
 
 interface PathInput {
@@ -96,17 +108,21 @@ function step(k: Knob, n: number): number {
   return n > 1 ? k.length / (n - 1) : Infinity;
 }
 
-/** The spacing nearest `want`, to 0.01 px, at which the line gets n pegs; null if none does. */
+/**
+ * The spacing nearest `want`, to 0.01 px, at which the line gets n pegs; null if none does.
+ * `max` is the widest spacing allowed (wider for pegs that travel).
+ */
 export function spacingFor(
   length: number,
   closed: boolean,
   n: number,
   want: number,
+  max: number = LINE_SPACING_MAX,
 ): number | null {
   const m = closed ? n : n - 1;
   if (m < 1 || (closed && n < 3)) return null;
   const lo = Math.max(length / (m + 0.5), LINE_SPACING_MIN);
-  const hi = Math.min(m > 0.5 ? length / (m - 0.5) : Infinity, LINE_SPACING_MAX);
+  const hi = Math.min(m > 0.5 ? length / (m - 0.5) : Infinity, max);
   if (!(lo < hi)) return null;
   const near = Math.min(Math.max(want, lo), hi);
   const tries = [
@@ -116,7 +132,7 @@ export function spacingFor(
     Math.round(((lo + hi) / 2) * 100) / 100,
   ];
   for (const s of tries) {
-    if (s >= LINE_SPACING_MIN && s <= LINE_SPACING_MAX && pegsAt(length, closed, s) === n) return s;
+    if (s >= LINE_SPACING_MIN && s <= max && pegsAt(length, closed, s) === n) return s;
   }
   return null;
 }
@@ -127,13 +143,18 @@ function knobs(input: RecipeInput): Knob[] {
     pathsOf(input, part)?.forEach((raw, path) => {
       const g = lineGeometrySchema.safeParse(raw);
       if (!g.success || g.data.mode !== 'pegs' || g.data.keepSpacing === true) return;
-      const length = new PathSampler(smoothLine(g.data)).length;
+      // Pegs that travel are spread over their path's whole length, like a closed line's.
+      const travels = g.data.travel !== undefined;
+      const length = travels
+        ? lineTrack(g.data).track.length
+        : new PathSampler(smoothLine(g.data)).length;
       out.push({
         part,
         path,
         length,
-        closed: g.data.closed,
+        closed: g.data.closed || travels,
         written: g.data.spacing ?? PEG_SPACING,
+        max: travels ? TRAVEL_SPACING_MAX : LINE_SPACING_MAX,
       });
     });
   });
@@ -194,7 +215,7 @@ export function fitCount(
       .flatMap((k) =>
         steps.map((d) => {
           const n = pegsAt(k.length, k.closed, spacingNow(current, k)) + d;
-          const s = spacingFor(k.length, k.closed, n, k.written);
+          const s = spacingFor(k.length, k.closed, n, k.written, k.max);
           if (s === null || step(k, n) < MIN_PEG_SPACING) return null;
           return { k, s, cost: Math.abs(step(k, n) - k.written) / k.written };
         }),

@@ -142,6 +142,15 @@ function checkPair(
 
 const CELL = 64;
 
+/** Grid cells a shape's box, grown by `margin`, covers. */
+function* cellKeys(s: Shape, margin: number): Generator<number> {
+  const x0 = Math.floor((s.minX - margin) / CELL);
+  const x1 = Math.floor((s.maxX + margin) / CELL);
+  const y0 = Math.floor((s.minY - margin) / CELL);
+  const y1 = Math.floor((s.maxY + margin) / CELL);
+  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) yield (y + 64) * 4096 + x + 64;
+}
+
 /** Static shapes binned for pair queries. */
 class StaticGrid {
   private readonly cells = new Map<number, number[]>();
@@ -215,16 +224,27 @@ export function validateLevel(level: Level): Issue[] {
   const bodyOf = (e: LevelElement): number => compiled.bodyIndexById.get(e.id) ?? -1;
   const ticks = movingIndex.length > 0 ? checkTicks(level) : [];
   const shapesNow: (Shape | null)[] = new Array<Shape | null>(movingIndex.length).fill(null);
+  // Moving shapes binned per tick: a pair farther apart than MIN_GAP cannot have an issue, so
+  // only neighbors are compared, in the same order as comparing every pair.
+  const cells = new Map<number, number[]>();
   for (const tick of ticks) {
     while (world.tick < tick) world.step();
+    cells.clear();
     movingIndex.forEach((i, k) => {
       const e = elements[i];
       if (e === undefined) return;
       const body = world.bodies[bodyOf(e)];
-      shapesNow[k] =
+      const s =
         body === undefined
           ? null
           : elementShape(e, { x: body.x, y: body.y, rotation: body.rotation });
+      shapesNow[k] = s;
+      if (s === null) return;
+      for (const key of cellKeys(s, 0)) {
+        const list = cells.get(key);
+        if (list === undefined) cells.set(key, [k]);
+        else list.push(k);
+      }
     });
     movingIndex.forEach((i, k) => {
       const e = elements[i];
@@ -237,7 +257,11 @@ export function validateLevel(level: Level): Issue[] {
         if (other === undefined || so === null || so === undefined) continue;
         checkPair(e, s, other, so, tick, out);
       }
-      for (let k2 = k + 1; k2 < movingIndex.length; k2++) {
+      const near = new Set<number>();
+      for (const key of cellKeys(s, MIN_GAP)) {
+        for (const k2 of cells.get(key) ?? []) if (k2 > k) near.add(k2);
+      }
+      for (const k2 of [...near].sort((a, b) => a - b)) {
         const other = elements[movingIndex[k2] ?? -1];
         const so = shapesNow[k2];
         if (other === undefined || so === null || so === undefined) continue;

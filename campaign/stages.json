@@ -1,81 +1,180 @@
 {
-  "layout": "Wide landscape picture. The top center is plain open sky, because a game cannon covers it. The lowest strip of the picture is simple and calm. The main subject sits in the middle, large, drawn with clean, smooth, continuous contours that are easy to trace.",
+  "layout": "Every picture leaves room for the game: open sky or another quiet area at the top center, where the cannon hangs; plain lower corners, where the flippers swing; a calm lower strip; and large, clearly readable shapes that a layout can follow. No people, animals, characters or faces, no text, signage or logos, no brand products, and nothing that resembles the original game's pictures or characters.",
   "stages": [
     {
       "stage": 1,
       "world": "Cloud Isles",
       "master": "guide",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a fairy-tale sky high above the clouds: an airy powder-blue to soft cornflower sky, cream and white cumulus clouds with gentle blue-gray shading, and small accents of muted sage, dusty teal and warm sand. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta. Even daylight from the upper left, no harsh shadows, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A fairy-tale sky high above the clouds: powder-blue to soft cornflower sky, cream and white cumulus clouds with blue-gray shading, small accents of sage, dusty teal and warm sand. Even daylight. Light to medium values where pegs sit; no large areas of saturated green, orange or magenta.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.8,
+        "palette": ["#5a7aa6", "#a9c6e4", "#fbf6ea"],
+        "tint": 0.25,
+        "gamma": 1.1,
+        "floor": 0.22,
+        "ceiling": 0.97
+      },
       "levels": ["1-1", "1-2", "1-3", "1-4", "1-5"]
     },
     {
       "stage": 2,
       "world": "Clover Burrows",
       "master": "multiball",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a cozy burrow country under a clover meadow, seen in cross-section like a cutaway page of a picture book: a strip of pale sky and a thin band of clover meadow along the top, and below it soft layers of light sandy earth, pale clay and biscuit-colored soil with smooth rounded tunnels, chambers, fine roots, pebbles and buried garden treasures, and small accents of muted sage, dusty clover green, cream and soft cocoa. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta, and no dark brown earth. Soft, even light as in a picture book, the underground as bright as the meadow, no harsh shadows, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A burrow country under a clover meadow: pale sky and meadow above, light sandy earth, pale clay and biscuit-colored soil, roots, pebbles and garden treasures below, accents of muted sage, clover green, cream and soft cocoa. Picture-book light, the ground as bright as the meadow; no dark brown earth and no large areas of saturated green.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.8,
+        "palette": ["#7a6650", "#c9b48e", "#f6efdc"],
+        "tint": 0.25,
+        "gamma": 1.1,
+        "floor": 0.22,
+        "ceiling": 0.97
+      },
       "levels": ["2-1", "2-2", "2-3", "2-4", "2-5"]
     },
     {
       "stage": 3,
       "world": "Golden Rooftops",
       "master": "pyramid",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is the rooftops of an old hill town at golden hour: steep gabled roofs in muted slate blue and soft gray-violet, walls of honey and cream stone, chimneys, little towers, balconies, washing lines and paper lanterns, under a calm sky that fades from pale butter yellow near the horizon to soft hazy blue above, with small accents of muted gold, dusty rose and sage. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta, and no orange sunset sky. Warm, low sunlight from the left with soft, short shadows, no harsh contrast, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "The rooftops of an old hill town at golden hour: gabled roofs in slate blue and gray-violet, walls of honey and cream stone, chimneys, towers, balconies, washing lines and lanterns under a sky from pale butter yellow to hazy blue, accents of muted gold, dusty rose and sage. Warm low sun with soft shadows; no orange sunset sky, nothing Egyptian.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.8,
+        "palette": ["#5b6585", "#d9b77a", "#fbf0cf"],
+        "tint": 0.25,
+        "gamma": 1.1,
+        "floor": 0.22,
+        "ceiling": 0.97
+      },
       "levels": ["3-1", "3-2", "3-3", "3-4", "3-5"]
     },
     {
       "stage": 4,
       "world": "Lilac Orbit",
       "master": "spaceBlast",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a dreamy pastel outer space that is never black: a soft lilac, periwinkle and dusty lavender sky of nebula haze with small pale silver stars, ringed planets and moons in muted pastel tones with soft round craters, comets with pale trails, and small accents of pale gold, soft teal and pearl gray. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated purple, magenta, green or orange, and no black or near-black space. Soft starlight from the upper left with a gentle rim light on round shapes, no harsh shadows, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A dreamy pastel outer space that is never black: lilac, periwinkle and lavender nebula haze, pale silver stars, ringed planets and moons with soft craters, comets with pale trails, accents of pale gold, soft teal and pearl gray. No black or near-black space and no large areas of saturated purple or magenta.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.8,
+        "palette": ["#5e5a96", "#b5a3d9", "#f3ecfb"],
+        "tint": 0.3,
+        "gamma": 1.1,
+        "floor": 0.24,
+        "ceiling": 0.97
+      },
       "levels": ["4-1", "4-2", "4-3", "4-4", "4-5"]
     },
     {
       "stage": 5,
       "world": "Lighthouse Cove",
       "master": "flippers",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a sunny seaside cove: clear aqua and soft turquoise water with white foam lines, pale sand, weathered gray-blue wooden piers and pilings, smooth sea-washed rocks, a white lighthouse, rope, nets, buoys and stacked lobster traps, under a soft blue sky with a few white clouds, with small accents of faded cream, pale teal, driftwood gray and muted coral. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta. Bright, even midday light from the upper left, soft shadows, no glare, no sparkle, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A sunny seaside cove: aqua and turquoise water with white foam, pale sand, weathered gray-blue piers and pilings, sea-washed rocks, a white lighthouse, rope, nets, buoys and lobster traps under a soft blue sky, accents of cream, pale teal, driftwood gray and muted coral. Bright midday light; no sea creatures and no large areas of saturated green, orange or magenta.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.8,
+        "palette": ["#3f7f8f", "#8fcfd2", "#f6f3e6"],
+        "tint": 0.25,
+        "gamma": 1.1,
+        "floor": 0.22,
+        "ceiling": 0.97
+      },
       "levels": ["5-1", "5-2", "5-3", "5-4", "5-5"]
     },
     {
       "stage": 6,
       "world": "Moonlit Hollow",
       "master": "spookyBall",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a pumpkin hollow at moonlit dusk: a soft plum and dusty mauve sky with a huge pale silver moon, silver mist drifting over the low ground, rolling fields of round pumpkins in burgundy, plum and dusty cream with curling vines and broad leaves, crooked wooden fences, bare twisting trees and old stone walls, with small accents of silver-lilac, slate blue and pale cream. Colors are soft and slightly muted, never neon, with medium values that never turn dark or black and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta, and no orange pumpkins. Gentle silver moonlight from the upper right in a dusk that stays light, soft shadows, no harsh contrast, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A pumpkin hollow at moonlit dusk: plum and dusty mauve sky, a pale silver moon and mist, pumpkins, curling vines, crooked fences, bare trees and old stone, accents of silver-lilac, slate blue and pale cream. Medium values that never turn dark or black; no orange pumpkins and no large areas of saturated green, orange or magenta.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.7,
+        "palette": ["#4e3d63", "#9a86ad", "#e9e4f2"],
+        "tint": 0.35,
+        "gamma": 1.15,
+        "floor": 0.26,
+        "ceiling": 0.95
+      },
       "levels": ["6-1", "6-2", "6-3", "6-4", "6-5"]
     },
     {
       "stage": 7,
       "world": "Petal Terraces",
       "master": "flowerPower",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is terraced flower gardens on sunny hillsides in late spring: curving beds of blossoms in dusty rose, blush pink and cream with butter-yellow and soft peach accents, muted sage leaves and clipped hedges, pale stone walls and steps, slender wooden trellises and garden ornaments, a little water mill and a pond, under a clear, soft sky. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated pink, magenta, green or orange. Clear morning light from the upper left, soft shadows, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "Terraced flower gardens in late spring: blossoms in dusty rose, blush and cream with butter-yellow accents, muted sage leaves and hedges, pale stone walls and steps, trellises, a water mill and a pond under a clear soft sky. Clear morning light; no large areas of saturated pink, magenta, green or orange.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.75,
+        "palette": ["#6f7a62", "#d9a9b3", "#fbf1e6"],
+        "tint": 0.25,
+        "gamma": 1.1,
+        "floor": 0.22,
+        "ceiling": 0.97
+      },
       "levels": ["7-1", "7-2", "7-3", "7-4", "7-5"]
     },
     {
       "stage": 8,
       "world": "Ribbon Fair",
       "master": "luckySpin",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a country fair on a breezy afternoon: striped tents and booths in cream and muted brick red, straw bales, pennant bunting, prize rosettes and ribbons, fairground rides of painted wood and pale-gold metal, strings of round light bulbs, under a soft turquoise sky with puffy white clouds, with small accents of straw yellow, pale teal and warm wood. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated red, green, orange or magenta. Bright afternoon light from the upper left, soft shadows, unlit light bulbs, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A country fair on a breezy afternoon: striped tents and booths in cream and muted brick red, straw bales, bunting, rosettes and ribbons, rides of painted wood and pale-gold metal under a soft turquoise sky with white clouds. Bright afternoon light; no cards, dice or magic, no large areas of saturated red, green, orange or magenta.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.75,
+        "palette": ["#6e5a52", "#9fd0cc", "#fbf3e3"],
+        "tint": 0.25,
+        "gamma": 1.1,
+        "floor": 0.22,
+        "ceiling": 0.97
+      },
       "levels": ["8-1", "8-2", "8-3", "8-4", "8-5"]
     },
     {
       "stage": 9,
       "world": "Ember Highlands",
       "master": "fireball",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a volcanic highland under a hazy pale-gold sky: stacks of hexagonal basalt columns in soft blue-gray, warm sandstone ledges and natural stone arches, terraced hot springs with milky pale-aqua water and soft plumes of steam, a smoking volcano far off in the haze, and tiny ember-colored vents and lantern flames as the only bright touches, with small accents of dusty rose, warm sand and pale amber. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated orange, red, green or magenta, and no rivers of lava. Warm, hazy sunlight from the upper left, soft shadows, no harsh contrast, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A volcanic highland under a hazy pale-gold sky: blue-gray basalt columns, sandstone ledges and arches, terraced hot springs with milky aqua water and steam, a distant smoking volcano, tiny embers as the only bright touches, accents of dusty rose, warm sand and pale amber. No lava rivers, no castle, no large areas of saturated orange, red, green or magenta.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.75,
+        "palette": ["#5f6470", "#c9a27a", "#f8e7c4"],
+        "tint": 0.25,
+        "gamma": 1.1,
+        "floor": 0.22,
+        "ceiling": 0.97
+      },
       "levels": ["9-1", "9-2", "9-3", "9-4", "9-5"]
     },
     {
       "stage": 10,
       "world": "Silverwood",
       "master": "zenBall",
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a quiet silver birch forest at misty dawn: slender white-and-silver birch trunks with soft gray markings, pale silver-blue mist drifting between them, still pools that mirror the sky, smooth round river stones and stacked cairns, ferns and soft moss in muted gray-green, hanging silver lichen and a pale lemon dawn light low in the sky, with small accents of pale lilac and warm birch-bark cream. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta, and no dark forest shadows. Soft, diffuse dawn light from the left through the mist, no harsh shadows, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "A quiet silver birch forest at misty dawn: white and silver birch trunks, silver-blue mist, still mirror pools, river stones and cairns, ferns and moss in gray-green, a pale lemon dawn, accents of pale lilac and birch-bark cream. Diffuse light; no dark forest shadows, no temple and no yin-yang.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.7,
+        "palette": ["#66707a", "#b8c4cc", "#f7f4dc"],
+        "tint": 0.3,
+        "gamma": 1.1,
+        "floor": 0.24,
+        "ceiling": 0.97
+      },
       "levels": ["10-1", "10-2", "10-3", "10-4", "10-5"]
     },
     {
       "stage": 11,
       "world": "Starlit Summit",
       "master": null,
-      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is the snowy summit above all the other worlds at twilight: a luminous sky in medium teal and dusty blue, lighter toward a pale gold horizon, with small gold and silver stars and faint aurora ribbons in ice blue and soft gold, snowy peaks, ice crystal spires and frozen terraces in pale ice blue and pearl, instruments of the sky in muted brass and silver, and far below a sea of clouds, with small accents of pale gold and silver. Colors are soft and slightly muted, never neon, with medium values that never turn dark or black and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta, and no green aurora. Soft twilight from the horizon and gentle starlight, soft shading, no lens flare, no halos, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "palette": "The snowy summit above all the worlds at twilight: a luminous teal and dusty blue sky lighter toward a pale gold horizon, gold and silver stars, faint ice-blue aurora, snowy peaks, ice spires and frozen terraces in ice blue and pearl, brass and silver sky instruments, a sea of clouds far below. Medium values that never turn dark; no green aurora.",
+      "look": {
+        "brightness": 1.05,
+        "saturation": 0.75,
+        "palette": ["#2f5f73", "#7fb3c4", "#f4ecd0"],
+        "tint": 0.3,
+        "gamma": 1.1,
+        "floor": 0.24,
+        "ceiling": 0.97
+      },
       "levels": ["11-1", "11-2", "11-3", "11-4", "11-5"]
     }
   ]

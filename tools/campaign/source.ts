@@ -1,5 +1,5 @@
 // The campaign's source data (campaign/ at the repository root), read from disk. The formats and
-// what is composed from them (recipe, manifest, prompt) live in src/gen/campaign-source.ts, which
+// what is composed from them (recipe, manifest, look) live in src/gen/campaign-source.ts, which
 // the line editor shares; this module adds the paths and the loader.
 
 import { access, readFile } from 'node:fs/promises';
@@ -16,7 +16,6 @@ import { LINES_FORMAT_VERSION, parseLines, type LinesFile } from '../../src/gen/
 
 export {
   composeManifest,
-  composePrompt,
   composeRecipe,
   levelSourceSchema,
   linesPartIndex,

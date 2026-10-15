@@ -1,0 +1,371 @@
+{
+  "formatVersion": 1,
+  "name": "Example: Fish Boat",
+  "background": "dev-backdrop",
+  "board": {
+    "width": 916,
+    "height": 560
+  },
+  "provenance": {
+    "generatorVersion": "1.2.0",
+    "seed": 121,
+    "recipe": {
+      "name": "Example: Fish Boat",
+      "targetCount": 136,
+      "parts": [
+        {
+          "template": "outline",
+          "params": {
+            "paths": [
+              {
+                "mode": "pegs",
+                "closed": true,
+                "points": [
+                  [
+                    568,
+                    322
+                  ],
+                  [
+                    540,
+                    291
+                  ],
+                  [
+                    494,
+                    274
+                  ],
+                  [
+                    440,
+                    276
+                  ],
+                  [
+                    398,
+                    296
+                  ],
+                  [
+                    372,
+                    322
+                  ],
+                  [
+                    398,
+                    348
+                  ],
+                  [
+                    440,
+                    368
+                  ],
+                  [
+                    494,
+                    370
+                  ],
+                  [
+                    540,
+                    353
+                  ]
+                ],
+                "corners": [
+                  5
+                ],
+                "spacing": 38,
+                "group": "fish"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    510,
+                    318
+                  ],
+                  [
+                    514,
+                    318
+                  ]
+                ],
+                "group": "fish"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    430,
+                    312
+                  ],
+                  [
+                    472,
+                    326
+                  ]
+                ],
+                "spacing": 36,
+                "group": "fish"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    282,
+                    268
+                  ],
+                  [
+                    338,
+                    322
+                  ],
+                  [
+                    282,
+                    376
+                  ]
+                ],
+                "corners": [
+                  1
+                ],
+                "spacing": 38,
+                "group": "tail"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    130,
+                    452
+                  ],
+                  [
+                    230,
+                    438
+                  ],
+                  [
+                    330,
+                    452
+                  ],
+                  [
+                    458,
+                    440
+                  ],
+                  [
+                    586,
+                    452
+                  ],
+                  [
+                    686,
+                    438
+                  ],
+                  [
+                    786,
+                    452
+                  ]
+                ],
+                "spacing": 40
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    70,
+                    190
+                  ],
+                  [
+                    70,
+                    300
+                  ]
+                ],
+                "spacing": 36
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    846,
+                    190
+                  ],
+                  [
+                    846,
+                    300
+                  ]
+                ],
+                "spacing": 36
+              }
+            ],
+            "groups": [
+              {
+                "id": "fish",
+                "note": "the fish boat crossing the cove",
+                "movement": {
+                  "type": "horizontalCycle",
+                  "period": 1800,
+                  "radius": 120
+                }
+              },
+              {
+                "id": "tail",
+                "note": "the tail, swinging about where it joins the body",
+                "pivot": [
+                  352,
+                  322
+                ],
+                "parent": "fish",
+                "movement": {
+                  "type": "rotateBackAndForth",
+                  "period": 600,
+                  "maxAngle": 0.35
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "fill": {
+        "style": "lattice"
+      }
+    }
+  },
+  "elements": [
+    {"kind":"peg","id":1,"x":372,"y":322,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":2,"x":399.269943,"y":348.885149,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":3,"x":433.425503,"y":366.12482,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":4,"x":471.275007,"y":371.631419,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":5,"x":509.211778,"y":366.654897,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":6,"x":543.755334,"y":350.392291,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":7,"x":568,"y":322,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":8,"x":543.755334,"y":293.607709,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":9,"x":509.211778,"y":277.345103,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":10,"x":471.275007,"y":272.368581,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":11,"x":433.425503,"y":277.87518,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":12,"x":399.269943,"y":295.114851,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":13,"x":512,"y":318,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":14,"x":430,"y":312,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"peg","id":15,"x":472,"y":326,"movement":{"type":"horizontalCycle","period":1800,"radius":120}},
+    {"kind":"circle","id":16,"x":352,"y":322,"collision":false,"visible":false,"movement":{"type":"horizontalCycle","period":1800,"radius":120},"radius":1},
+    {"kind":"peg","id":17,"x":472,"y":322,"movement":{"type":"horizontalArc","period":600,"phase":0.25,"radius":88.408144,"pathRotation":2.134518,"maxAngle":0.7},"parent":16},
+    {"kind":"peg","id":18,"x":472,"y":322,"movement":{"type":"horizontalArc","period":600,"phase":0.25,"radius":49.929951,"pathRotation":2.220255,"maxAngle":0.7},"parent":16},
+    {"kind":"peg","id":19,"x":472,"y":322,"movement":{"type":"horizontalArc","period":600,"phase":0.25,"radius":14,"pathRotation":-3.491593,"maxAngle":0.7},"parent":16},
+    {"kind":"peg","id":20,"x":472,"y":322,"movement":{"type":"horizontalArc","period":600,"phase":0.25,"radius":49.929951,"pathRotation":-2.920255,"maxAngle":0.7},"parent":16},
+    {"kind":"peg","id":21,"x":472,"y":322,"movement":{"type":"horizontalArc","period":600,"phase":0.25,"radius":88.408144,"pathRotation":-2.834518,"maxAngle":0.7},"parent":16},
+    {"kind":"peg","id":22,"x":130,"y":452},
+    {"kind":"peg","id":23,"x":168.360431,"y":445.35988},
+    {"kind":"peg","id":24,"x":206.815323,"y":439.331635},
+    {"kind":"peg","id":25,"x":245.667915,"y":438.887713},
+    {"kind":"peg","id":26,"x":283.987751,"y":445.684883},
+    {"kind":"peg","id":27,"x":322.433173,"y":451.641264},
+    {"kind":"peg","id":28,"x":361.299962,"y":450.464235},
+    {"kind":"peg","id":29,"x":399.894645,"y":445.352154},
+    {"kind":"peg","id":30,"x":438.553433,"y":440.789388},
+    {"kind":"peg","id":31,"x":477.446567,"y":440.789388},
+    {"kind":"peg","id":32,"x":516.105355,"y":445.352154},
+    {"kind":"peg","id":33,"x":554.700038,"y":450.464235},
+    {"kind":"peg","id":34,"x":593.566827,"y":451.641264},
+    {"kind":"peg","id":35,"x":632.012249,"y":445.684883},
+    {"kind":"peg","id":36,"x":670.332085,"y":438.887713},
+    {"kind":"peg","id":37,"x":709.184677,"y":439.331635},
+    {"kind":"peg","id":38,"x":747.639569,"y":445.35988},
+    {"kind":"peg","id":39,"x":786,"y":452},
+    {"kind":"peg","id":40,"x":70,"y":190},
+    {"kind":"peg","id":41,"x":70,"y":226.666667},
+    {"kind":"peg","id":42,"x":70,"y":263.333333},
+    {"kind":"peg","id":43,"x":70,"y":300},
+    {"kind":"peg","id":44,"x":846,"y":190},
+    {"kind":"peg","id":45,"x":846,"y":226.666667},
+    {"kind":"peg","id":46,"x":846,"y":263.333333},
+    {"kind":"peg","id":47,"x":846,"y":300},
+    {"kind":"peg","id":48,"x":596,"y":31.9215},
+    {"kind":"peg","id":49,"x":320,"y":31.9215},
+    {"kind":"peg","id":50,"x":642,"y":31.9215},
+    {"kind":"peg","id":51,"x":274,"y":31.9215},
+    {"kind":"peg","id":52,"x":688,"y":31.9215},
+    {"kind":"peg","id":53,"x":228,"y":31.9215},
+    {"kind":"peg","id":54,"x":734,"y":31.9215},
+    {"kind":"peg","id":55,"x":182,"y":31.9215},
+    {"kind":"peg","id":56,"x":780,"y":31.9215},
+    {"kind":"peg","id":57,"x":136,"y":31.9215},
+    {"kind":"peg","id":58,"x":826,"y":31.9215},
+    {"kind":"peg","id":59,"x":90,"y":31.9215},
+    {"kind":"peg","id":60,"x":872,"y":31.9215,"canBeOrange":false},
+    {"kind":"peg","id":61,"x":44,"y":31.9215},
+    {"kind":"peg","id":62,"x":573,"y":71.7575},
+    {"kind":"peg","id":63,"x":343,"y":71.7575},
+    {"kind":"peg","id":64,"x":619,"y":71.7575},
+    {"kind":"peg","id":65,"x":297,"y":71.7575},
+    {"kind":"peg","id":66,"x":665,"y":71.7575},
+    {"kind":"peg","id":67,"x":251,"y":71.7575},
+    {"kind":"peg","id":68,"x":711,"y":71.7575},
+    {"kind":"peg","id":69,"x":205,"y":71.7575},
+    {"kind":"peg","id":70,"x":757,"y":71.7575},
+    {"kind":"peg","id":71,"x":159,"y":71.7575},
+    {"kind":"peg","id":72,"x":803,"y":71.7575},
+    {"kind":"peg","id":73,"x":113,"y":71.7575},
+    {"kind":"peg","id":74,"x":849,"y":71.7575},
+    {"kind":"peg","id":75,"x":67,"y":71.7575},
+    {"kind":"peg","id":76,"x":550,"y":111.5935},
+    {"kind":"peg","id":77,"x":366,"y":111.5935},
+    {"kind":"peg","id":78,"x":596,"y":111.5935},
+    {"kind":"peg","id":79,"x":320,"y":111.5935},
+    {"kind":"peg","id":80,"x":642,"y":111.5935},
+    {"kind":"peg","id":81,"x":274,"y":111.5935},
+    {"kind":"peg","id":82,"x":688,"y":111.5935},
+    {"kind":"peg","id":83,"x":228,"y":111.5935},
+    {"kind":"peg","id":84,"x":734,"y":111.5935},
+    {"kind":"peg","id":85,"x":182,"y":111.5935},
+    {"kind":"peg","id":86,"x":780,"y":111.5935},
+    {"kind":"peg","id":87,"x":136,"y":111.5935},
+    {"kind":"peg","id":88,"x":826,"y":111.5935},
+    {"kind":"peg","id":89,"x":90,"y":111.5935},
+    {"kind":"peg","id":90,"x":872,"y":111.5935},
+    {"kind":"peg","id":91,"x":44,"y":111.5935},
+    {"kind":"peg","id":92,"x":481,"y":151.4295},
+    {"kind":"peg","id":93,"x":435,"y":151.4295},
+    {"kind":"peg","id":94,"x":527,"y":151.4295},
+    {"kind":"peg","id":95,"x":389,"y":151.4295},
+    {"kind":"peg","id":96,"x":573,"y":151.4295},
+    {"kind":"peg","id":97,"x":343,"y":151.4295},
+    {"kind":"peg","id":98,"x":619,"y":151.4295},
+    {"kind":"peg","id":99,"x":297,"y":151.4295},
+    {"kind":"peg","id":100,"x":665,"y":151.4295},
+    {"kind":"peg","id":101,"x":251,"y":151.4295},
+    {"kind":"peg","id":102,"x":711,"y":151.4295},
+    {"kind":"peg","id":103,"x":205,"y":151.4295},
+    {"kind":"peg","id":104,"x":757,"y":151.4295},
+    {"kind":"peg","id":105,"x":159,"y":151.4295},
+    {"kind":"peg","id":106,"x":803,"y":151.4295},
+    {"kind":"peg","id":107,"x":113,"y":151.4295},
+    {"kind":"peg","id":108,"x":458,"y":191.2655},
+    {"kind":"peg","id":109,"x":504,"y":191.2655},
+    {"kind":"peg","id":110,"x":412,"y":191.2655},
+    {"kind":"peg","id":111,"x":550,"y":191.2655},
+    {"kind":"peg","id":112,"x":366,"y":191.2655},
+    {"kind":"peg","id":113,"x":596,"y":191.2655},
+    {"kind":"peg","id":114,"x":320,"y":191.2655},
+    {"kind":"peg","id":115,"x":642,"y":191.2655},
+    {"kind":"peg","id":116,"x":274,"y":191.2655},
+    {"kind":"peg","id":117,"x":688,"y":191.2655},
+    {"kind":"peg","id":118,"x":228,"y":191.2655},
+    {"kind":"peg","id":119,"x":734,"y":191.2655},
+    {"kind":"peg","id":120,"x":182,"y":191.2655},
+    {"kind":"peg","id":121,"x":780,"y":191.2655},
+    {"kind":"peg","id":122,"x":136,"y":191.2655},
+    {"kind":"peg","id":123,"x":826,"y":350.6095},
+    {"kind":"peg","id":124,"x":90,"y":350.6095},
+    {"kind":"peg","id":125,"x":872,"y":350.6095},
+    {"kind":"peg","id":126,"x":44,"y":350.6095},
+    {"kind":"peg","id":127,"x":803,"y":390.4455},
+    {"kind":"peg","id":128,"x":113,"y":390.4455},
+    {"kind":"peg","id":129,"x":849,"y":390.4455},
+    {"kind":"peg","id":130,"x":67,"y":390.4455},
+    {"kind":"peg","id":131,"x":458,"y":509.9535},
+    {"kind":"peg","id":132,"x":504,"y":509.9535},
+    {"kind":"peg","id":133,"x":412,"y":509.9535},
+    {"kind":"peg","id":134,"x":550,"y":509.9535},
+    {"kind":"peg","id":135,"x":366,"y":509.9535},
+    {"kind":"peg","id":136,"x":596,"y":509.9535},
+    {"kind":"peg","id":137,"x":320,"y":509.9535},
+    {"kind":"peg","id":138,"x":642,"y":509.9535},
+    {"kind":"peg","id":139,"x":274,"y":509.9535},
+    {"kind":"peg","id":140,"x":688,"y":509.9535},
+    {"kind":"peg","id":141,"x":228,"y":509.9535},
+    {"kind":"peg","id":142,"x":734,"y":509.9535},
+    {"kind":"peg","id":143,"x":182,"y":509.9535},
+    {"kind":"peg","id":144,"x":780,"y":509.9535},
+    {"kind":"peg","id":145,"x":136,"y":509.9535}
+  ]
+}

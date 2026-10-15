@@ -3,6 +3,7 @@ import { HALF_PI, PI } from '../core/dmath';
 import type { Movement, MovementInput } from '../level/schema';
 import { movementSchema } from '../level/schema';
 import { movementPhase, movementPose, type Pose } from './movement';
+import { Track } from './track';
 
 function mover(m: MovementInput): Movement {
   return movementSchema.parse(m);
@@ -140,6 +141,37 @@ describe('movementPose (research 3.3)', () => {
     // At the top of the ellipse the outward normal points straight up, as on a circle.
     expectPose(pose(wide, quarter), 100, 180, HALF_PI);
     expect(pose(wide, 10).rotation).toBeGreaterThan(0);
+  });
+
+  it('followPath walks its track once per cycle at constant speed and turns with it', () => {
+    const track = new Track(
+      [
+        { x: 0, y: 0 },
+        { x: 80, y: 0 },
+        { x: 80, y: 40 },
+      ],
+      false,
+    );
+    const m = mover({ type: 'followPath', path: 0, period: 120 });
+    const at = (tick: number, mm = m): Pose =>
+      movementPose(mm, 100, 200, 0.25, tick, { x: 0, y: 0, rotation: 0 }, 0, track);
+    // The bend's vertex faces halfway into it (a quarter turn clockwise in all), and the facing
+    // is linear in between.
+    expectPose(at(0), 100, 200, 0.25);
+    expectPose(at(40), 140, 200, 0.25 - HALF_PI / 4);
+    expectPose(at(80), 180, 200, 0.25 - HALF_PI / 2);
+    expectPose(at(100), 180, 220, 0.25 - (3 * HALF_PI) / 4);
+    // An open track jumps back to its start every cycle.
+    expectPose(at(120), 100, 200, 0.25);
+    // Reverse runs from the end to the start.
+    const back = mover({ type: 'followPath', path: 0, period: 120, reverse: true });
+    expectPose(at(20, back), 180, 220, 0.25 - (3 * HALF_PI) / 4);
+    expectPose(at(100, back), 120, 200, 0.25 - HALF_PI / 8);
+    // pathRotation turns the track about the anchor; the facing still turns as the track does.
+    const turned = mover({ type: 'followPath', path: 0, period: 120, pathRotation: HALF_PI });
+    expectPose(at(40, turned), 100, 160, 0.25 - HALF_PI / 4);
+    // Without its track it stays at the anchor.
+    expectPose(movementPose(m, 5, 6, 0, 40, { x: 0, y: 0, rotation: 0 }), 5, 6, 0);
   });
 
   it('pathRotation turns the whole path counterclockwise about the anchor', () => {

@@ -2,19 +2,20 @@
 // them, free of any file access so the build (tools/campaign/) and the line editor (src/editor/)
 // share one definition:
 //
-//   campaign/stages.json        the stages in order: world, master, the pictures' shared style
-//                               prompt, the level ids; plus the layout prompt every picture shares
+//   campaign/stages.json        the stages in order: world, master, the world's palette, the look
+//                               its pictures are processed into, the level ids; plus the layout
+//                               rule every picture follows
 //   campaign/levels/<id>.json   one level: name, concept, plan (archetypes, templates, split,
 //                               moving parts, stage features, difficulty), background (asset id,
-//                               prompt, how it was generated and edited) and recipe (seed, object
-//                               count, solids, which lines, fill, manual edits)
+//                               brief, the found picture: source, crop and adjustments) and recipe
+//                               (seed, object count, solids, which lines, fill, manual edits)
 //   public/levels/campaign/<id>.lines.json   the lines traced over its picture (lines.ts)
 //
 // A level marked `draft` is planned but has no final layout yet: the build skips it, it never
 // appears in the manifest, and its lines file may be missing.
 //
 // From these come the generator recipe (composeRecipe), the manifest (composeManifest) and the
-// exact text sent to the image model (composePrompt).
+// processing settings of a level's picture (lookOf; tools/campaign/look.ts runs them).
 
 import { z } from 'zod';
 import {
@@ -25,7 +26,7 @@ import {
 import { MOVEMENT_TYPES } from '../level/schema';
 import { POWER_IDS } from '../rules/powers/ids';
 import { editSchema } from './edits';
-import { linePaths, SLUG, type LinesFile } from './lines';
+import { lineGroups, linePaths, SLUG, type LinesFile } from './lines';
 import { partSchema, type RecipeInput } from './recipe';
 import { TEMPLATE_NAMES } from './templates';
 import { FILL_STYLES, fillParams } from './templates/fill';
@@ -33,10 +34,44 @@ import { solidsParams } from './templates/solids';
 
 export const LEVEL_ID = /^(?:[1-9]|1[01])-[1-5]$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
+const HEX = /^#[0-9a-f]{6}$/;
+
+/**
+ * How a stage's pictures are processed into one look (tools/campaign/look.ts, spec 14.2
+ * "Decided in the backgrounds"). The steps run in this order: soften (by the picture's kind,
+ * PAINT_BY_KIND), brightness and saturation, the palette's gradient map blended in, gamma,
+ * then the values squeezed into [floor, ceiling].
+ */
+export const stageLookSchema = z.strictObject({
+  /** Brightness multiplier. */
+  brightness: z.number().min(0.5).max(1.6),
+  /** Saturation multiplier of the picture's own colors. */
+  saturation: z.number().min(0).max(1.6),
+  /** The stage's palette as a gradient map: shadow, middle and light color. */
+  palette: z.tuple([z.string().regex(HEX), z.string().regex(HEX), z.string().regex(HEX)]),
+  /** Share of the gradient map laid over the picture's own colors. */
+  tint: z.number().min(0).max(1),
+  /** Midtone gamma; above 1 lightens. */
+  gamma: z.number().min(0.4).max(2.5),
+  /** The darkest and lightest values the picture keeps, 0 to 1: no dark areas, no glare. */
+  floor: z.number().min(0).max(0.7),
+  ceiling: z.number().min(0.3).max(1),
+});
+
+/** Every processing setting of one picture: the stage's look plus its softening. */
+export const lookSchema = stageLookSchema.extend({
+  /**
+   * Softening: the radius of the edge-preserving smoothing (Kuwahara) at half the shipped size,
+   * which flattens texture into painted patches and keeps large shapes. 0 leaves the picture.
+   */
+  paint: z.number().min(0).max(8),
+});
+
+export type Look = z.output<typeof lookSchema>;
 
 export const stagesFileSchema = z
   .strictObject({
-    /** How every picture leaves room for the game: the second part of every prompt. */
+    /** What every picture leaves free for the game: the shared rule for choosing pictures. */
     layout: z.string().min(1),
     stages: z
       .array(
@@ -45,8 +80,10 @@ export const stagesFileSchema = z
           world: z.string().min(1).max(40),
           /** Power id of the stage's master; null for the Master levels. */
           master: z.enum(POWER_IDS).nullable(),
-          /** The stage's look: the first part of the prompt of each of its pictures. */
-          style: z.string().min(1),
+          /** The world: what its pictures show, its colors and light, its readability limits. */
+          palette: z.string().min(1),
+          /** The look every picture of the stage is processed into. */
+          look: stageLookSchema,
           levels: z.array(z.string().regex(LEVEL_ID)).min(1).max(5),
         }),
       )
@@ -145,6 +182,63 @@ export const planSchema = z
 
 export type LevelPlan = z.output<typeof planSchema>;
 
+/** A found picture is a painting or illustration, or a photo; a photo is softened more. */
+export const PICTURE_KINDS = ['painting', 'photo'] as const;
+
+/**
+ * Softening (Look.paint) by kind, shared by every stage: photographic detail needs more to sit
+ * inside the painted look than a picture that is painted already.
+ */
+export const PAINT_BY_KIND: Readonly<Record<(typeof PICTURE_KINDS)[number], number>> = {
+  painting: 1,
+  photo: 3,
+};
+
+/**
+ * A level's picture: a painting, illustration or photo found on the web (no generated or paid
+ * images, spec 12), where it came from, and how it becomes the shipped picture.
+ */
+export const pictureSchema = z
+  .strictObject({
+    /**
+     * The picture in the art tool's sources: "pexels:<id>", "pixabay:<id>", "wallhaven:<id>",
+     * "openverse:<id>", "commons:<file name>", or "web" for a file fetched by its URL.
+     */
+    ref: z.string().min(1),
+    kind: z.enum(PICTURE_KINDS),
+    /** The site it was found on. */
+    source: z.string().min(1),
+    /** Its page there. */
+    page: z.url(),
+    /** The file downloaded. */
+    image: z.url(),
+    title: z.string().min(1).optional(),
+    author: z.string().min(1).optional(),
+    authorUrl: z.url().optional(),
+    /** The license where the source states one; the game is private, so none is required. */
+    license: z.string().min(1).optional(),
+    licenseUrl: z.url().optional(),
+    fetched: z.string().regex(DATE),
+    /** SHA-256 of the downloaded file: the processing always starts from these bytes. */
+    sha256: z.string().regex(/^[0-9a-f]{64}$/),
+    /** Pixel size of the downloaded file. */
+    size: z.tuple([z.int().min(1), z.int().min(1)]),
+    /** The part used, in the file's pixels: x, y, width, height, at the shipped aspect. */
+    crop: z.tuple([z.int().min(0), z.int().min(0), z.int().min(1), z.int().min(1)]),
+    /** Mirrored left to right after the crop. */
+    flop: z.boolean().default(false),
+    /** The level's own changes to its stage's look, as few and as small as possible. */
+    adjust: lookSchema.partial().default({}),
+  })
+  .superRefine((p, ctx) => {
+    const [x, y, w, h] = p.crop;
+    if (x + w > p.size[0] || y + h > p.size[1]) {
+      ctx.addIssue({ code: 'custom', message: 'the crop leaves the picture', path: ['crop'] });
+    }
+  });
+
+export type Picture = z.output<typeof pictureSchema>;
+
 const levelSourceShape = {
   id: z.string().regex(LEVEL_ID),
   /** Teggle's own name, never an original level name (research 5). */
@@ -167,40 +261,13 @@ const levelSourceShape = {
     /** Asset id: public/backgrounds/<id>.webp. */
     id: z.string().regex(SLUG),
     /**
-     * The subject part of the prompt; the stage's style and the shared layout part come first.
-     * It describes the composition the lines were designed for, so the picture follows them.
+     * The brief: what the picture shows and where its large shapes sit, in fractions of the
+     * picture as shipped, for tracing lines over it and for finding another picture should it
+     * be replaced. (It began as an image prompt; the line editor still calls it the prompt.)
      */
     prompt: z.string().min(1),
-    /** The picture in public/backgrounds/, once one exists; absent while it is still to make. */
-    picture: z
-      .strictObject({
-        model: z.literal('gpt-image-2'),
-        /** The day the kept picture was generated. */
-        generated: z.string().regex(DATE),
-        /** Requested size and quality of the kept generation. */
-        size: z.string().regex(/^\d+x\d+$/),
-        quality: z.enum(['low', 'medium', 'high']),
-        /** Generations made for this level, the kept one included. */
-        generations: z.int().min(1),
-        /**
-         * The exact prompt of the kept picture when it was not the composed one (a style test
-         * kept as the level's picture).
-         */
-        sent: z.string().min(1).optional(),
-        /** Edits applied to the kept generation, in order. */
-        edits: z
-          .array(
-            z.strictObject({
-              date: z.string().regex(DATE),
-              prompt: z.string().min(1),
-              reason: z.string().min(1),
-            }),
-          )
-          .default([]),
-        /** What the picture still lacks that the lines already follow. */
-        missing: z.string().min(1).optional(),
-      })
-      .optional(),
+    /** The picture behind public/backgrounds/<id>.webp; absent while none is chosen. */
+    picture: pictureSchema.optional(),
   }),
   recipe: z.strictObject({
     seed: z.int().min(0).max(0xffffffff),
@@ -257,9 +324,15 @@ export function stageOf(id: string): number {
   return Number(id.split('-')[0]);
 }
 
-/** The prompt for a level's picture: the stage's style, the shared layout, the subject. */
-export function composePrompt(layout: string, stage: StageSource, level: LevelSource): string {
-  return `${stage.style}\n\n${layout}\n\nSubject: ${level.background.prompt}`;
+/**
+ * The processing settings of a level's picture: its stage's look, the softening its kind needs,
+ * then the level's own adjustments.
+ */
+export function lookOf(stage: StageSource, picture: Picture): Look {
+  const adjust = Object.fromEntries(
+    Object.entries(picture.adjust).filter(([, v]) => v !== undefined),
+  ) as Partial<Look>;
+  return { ...stage.look, paint: PAINT_BY_KIND[picture.kind], ...adjust };
 }
 
 /** The ids of the lines a level's recipe places, in placement order. */
@@ -274,7 +347,11 @@ export function composeRecipe(src: CampaignLevelSource): RecipeInput {
   const parts: RecipeInput['parts'][number][] = [];
   if (r.solids !== undefined) parts.push({ template: 'solids', params: r.solids });
   if (ids.length > 0) {
-    parts.push({ template: 'outline', params: { paths: linePaths(src.lines, ids) } });
+    const groups = lineGroups(src.lines, ids);
+    parts.push({
+      template: 'outline',
+      params: { paths: linePaths(src.lines, ids), ...(groups.length > 0 ? { groups } : {}) },
+    });
   }
   parts.push(...r.parts);
   if (parts.length === 0) throw new Error(`${src.level.id}: the recipe places nothing`);

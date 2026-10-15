@@ -41,6 +41,8 @@ export function mirrorMovement(m: MovementInput): MovementInput {
       return { ...base, reverse: !reverse };
     case 'horizontalArc':
     case 'verticalArc':
+    case 'followPath':
+      // A path is shared by everything on it; a mirror image would need a mirrored path.
       throw new Error(`mirroring a ${m.type} movement is not supported`);
   }
 }

@@ -8,10 +8,16 @@
 // object is gone (its line moved, say) matches nothing and is reported, never applied elsewhere.
 // Each object is changed by at most one entry. Entries with `add` place a new peg or straight
 // brick; they get the next free ids, in list order, after the changes.
+//
+// A moving object is found where it is at tick 0 (its movement around its anchor). It can be
+// deleted or given other flags, but not moved or turned: it keeps its line's motion.
 
 import { z } from 'zod';
 import { HALF_PI } from '../core/dmath';
 import { elementSchema, isScoringElement, type LevelElement } from '../level/schema';
+import { movementPose, type Pose } from '../sim/movement';
+import { fileRotation } from '../sim/poses';
+import type { Track } from '../sim/track';
 import {
   BRICK_LENGTH,
   BRICK_LENGTH_MAX,
@@ -98,20 +104,43 @@ function fmt(p: readonly [number, number]): string {
   return `(${p[0].toFixed(2)}, ${p[1].toFixed(2)})`;
 }
 
+/** True when an element moves: it has a movement or rides on another element. */
+export function isMoving(e: LevelElement): boolean {
+  return e.movement !== undefined || e.parent !== undefined;
+}
+
+/**
+ * Where edits find an element: its position at tick 0, which for a static one is its file
+ * position. `tracks` are the level's paths, for objects that travel along one.
+ */
+export function editPosition(e: LevelElement, tracks: readonly Track[] = []): Pose {
+  const pose: Pose = { x: e.x, y: e.y, rotation: fileRotation(e) };
+  const m = e.movement;
+  if (m === undefined) return pose;
+  const track = m.path === undefined ? null : (tracks[m.path] ?? null);
+  return movementPose(m, e.x, e.y, pose.rotation, 0, pose, 0, track);
+}
+
 /** Applies a recipe's edit list to the generated elements. */
-export function applyEdits(elements: readonly LevelElement[], edits: readonly Edit[]): EditOutcome {
+export function applyEdits(
+  elements: readonly LevelElement[],
+  edits: readonly Edit[],
+  tracks: readonly Track[] = [],
+): EditOutcome {
   const errors: string[] = [];
   const entryOf = new Map<number, number>();
   const target = new Map<number, number>();
   const scoring = elements.filter(isScoringElement);
+  const where = scoring.map((el) => editPosition(el, tracks));
   const change = new Map<number, ChangeEdit>();
   edits.forEach((e, i) => {
     if (isAddEdit(e)) return;
     let best: LevelElement | null = null;
     let bestD = EDIT_MATCH;
-    for (const el of scoring) {
-      const dx = el.x - e.at[0];
-      const dy = el.y - e.at[1];
+    for (const [k, el] of scoring.entries()) {
+      const p = where[k] ?? el;
+      const dx = p.x - e.at[0];
+      const dy = p.y - e.at[1];
       const d = Math.sqrt(dx * dx + dy * dy);
       if (d <= bestD && (best === null || d < bestD || el.id < best.id)) {
         best = el;
@@ -129,6 +158,12 @@ export function applyEdits(elements: readonly LevelElement[], edits: readonly Ed
     }
     if (e.rotation !== undefined && best.kind === 'peg') {
       errors.push(`edit ${i + 1}: the object at ${fmt(e.at)} is a peg, which has no rotation`);
+      return;
+    }
+    if ((e.to !== undefined || e.rotation !== undefined) && isMoving(best)) {
+      errors.push(
+        `edit ${i + 1}: the object at ${fmt(e.at)} moves with its line; move the line instead`,
+      );
       return;
     }
     entryOf.set(best.id, i);

@@ -2,15 +2,25 @@ import { describe, expect, it } from 'vitest';
 import { generateLevel } from '../../src/gen/generate';
 import { parseLines } from '../../src/gen/lines';
 import { levelStats } from '../../src/gen/stats';
+import { lookOf, pictureSchema } from '../../src/gen/campaign-source';
 import {
   composeManifest,
-  composePrompt,
   composeRecipe,
   levelSourceSchema,
   stagesFileSchema,
   type CampaignLevelSource,
   type StageSource,
 } from './source';
+
+const look = {
+  brightness: 1.05,
+  saturation: 0.8,
+  palette: ['#5a7aa6', '#a9c6e4', '#fbf6ea'],
+  tint: 0.25,
+  gamma: 1.1,
+  floor: 0.22,
+  ceiling: 0.97,
+};
 
 const stages = stagesFileSchema.parse({
   layout: 'Leave the top center open.',
@@ -19,7 +29,8 @@ const stages = stagesFileSchema.parse({
       stage: 1,
       world: 'Cloud Isles',
       master: 'guide',
-      style: 'Painted storybook sky.',
+      palette: 'Powder-blue sky, cream clouds.',
+      look,
       levels: ['1-1', '1-2'],
     },
   ],
@@ -78,15 +89,31 @@ describe('campaign sources', () => {
     expect(() =>
       stagesFileSchema.parse({
         layout: 'x',
-        stages: [{ stage: 1, world: 'w', master: 'guide', style: 's', levels: ['1-2'] }],
+        stages: [{ stage: 1, world: 'w', master: 'guide', palette: 'p', look, levels: ['1-2'] }],
       }),
     ).toThrow(/level 1 is 1-1, not 1-2/);
   });
 
-  it('composes the prompt from the stage style, the shared layout and the subject', () => {
-    expect(composePrompt(stages.layout, stage, level('1-1', {}))).toBe(
-      'Painted storybook sky.\n\nLeave the top center open.\n\nSubject: A kite.',
-    );
+  it("checks a stage's look", () => {
+    const valid = (patch: Record<string, unknown>) =>
+      stagesFileSchema.safeParse({
+        layout: 'x',
+        stages: [
+          {
+            stage: 1,
+            world: 'w',
+            master: 'guide',
+            palette: 'p',
+            look: { ...look, ...patch },
+            levels: ['1-1'],
+          },
+        ],
+      }).success;
+    expect(valid({})).toBe(true);
+    expect(valid({ palette: ['#5a7aa6', 'blue', '#fbf6ea'] })).toBe(false);
+    expect(valid({ floor: 0.9 })).toBe(false);
+    // The softening goes by the picture's kind, not by the stage.
+    expect(valid({ paint: 2 })).toBe(false);
   });
 
   it('builds the recipe: solids first, then every line, then the fill', () => {
@@ -137,6 +164,38 @@ describe('campaign sources', () => {
       ['1-1', 1, 'campaign/1-1.json', 'test-1-1'],
       ['1-2', 2, 'campaign/1-2.json', 'test-1-2'],
     ]);
+  });
+});
+
+describe('level pictures', () => {
+  const picture = {
+    ref: 'pexels:123',
+    kind: 'photo',
+    source: 'Pexels',
+    page: 'https://www.pexels.com/photo/a-kite-123/',
+    image: 'https://images.pexels.com/photos/123/pexels-photo-123.jpeg',
+    author: 'A. Photographer',
+    fetched: '2026-10-15',
+    sha256: 'a'.repeat(64),
+    size: [6000, 4000],
+    crop: [0, 200, 6000, 3610],
+  };
+
+  it('records where a picture came from and how it is cropped', () => {
+    const p = pictureSchema.parse(picture);
+    expect(p).toMatchObject({ flop: false, adjust: {} });
+    expect(pictureSchema.safeParse({ ...picture, crop: [10, 400, 6000, 3610] }).success).toBe(
+      false,
+    );
+    expect(pictureSchema.safeParse({ ...picture, page: 'not a url' }).success).toBe(false);
+    expect(pictureSchema.safeParse({ ...picture, kind: 'generated' }).success).toBe(false);
+  });
+
+  it("processes a picture with its stage's look, its kind's softening and its own changes", () => {
+    const photo = pictureSchema.parse({ ...picture, adjust: { brightness: 1.1 } });
+    expect(lookOf(stage, photo)).toEqual({ ...look, paint: 3, brightness: 1.1 });
+    const painting = pictureSchema.parse({ ...picture, kind: 'painting', adjust: { paint: 0 } });
+    expect(lookOf(stage, painting)).toEqual({ ...look, paint: 0 });
   });
 });
 

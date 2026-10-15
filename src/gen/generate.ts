@@ -80,13 +80,14 @@ export function assembleLevel(recipeInput: unknown, seed: number): AssembledLeve
   const fillPegs = builder.scoringCount() - beforeFill;
   if (recipe.fill !== 'none') parts.push({ name: 'fill', scoring: fillPegs });
   const generated = builder.elements();
-  const edits = applyEdits(generated, recipe.edits ?? []);
+  const edits = applyEdits(generated, recipe.edits ?? [], builder.tracks);
   const level = parseLevel({
     formatVersion: 1,
     name: recipe.name,
     background: DEV_BACKGROUND,
     board: { width: BOARD_W, height: BOARD_H },
     elements: edits.elements,
+    ...(builder.paths.length > 0 ? { paths: builder.paths } : {}),
     provenance: { generatorVersion: GENERATOR_VERSION, seed: seed >>> 0, recipe: recipeInput },
   });
   const partOf = new Map(builder.placed.map((p) => [p.element.id, p.part]));

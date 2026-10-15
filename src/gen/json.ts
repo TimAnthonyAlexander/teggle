@@ -10,10 +10,11 @@
 // other arrays stay on one line when they fit and break one per line when they do not.
 //
 // linesJson: the lines file style (public/levels/campaign/<id>.lines.json, outside Prettier):
-// one line object per block, its keys in a fixed order, and its points as [x, y] pairs packed
+// the groups of moving lines first, one per line where they fit, then one line object per
+// block, its keys in a fixed order, its travel on one line and its points as [x, y] pairs packed
 // into rows of at most 100 columns.
 
-import type { Line, LinesFile } from './lines';
+import type { Line, LineGroup, LinesFile } from './lines';
 
 const WIDTH = 100;
 const INDENT = '  ';
@@ -140,6 +141,33 @@ function pointsText(points: readonly (readonly [number, number])[]): string {
   return `      "points": [\n${rows.map((r) => pad + r).join('\n')}\n      ]`;
 }
 
+/** Movement and travel fields in a fixed order. */
+const CLOCK_KEYS = [
+  'type',
+  'line',
+  'period',
+  'reverse',
+  'offset',
+  'phase',
+  'radius',
+  'radius2',
+  'pathRotation',
+  'maxAngle',
+  'pause1',
+  'pause1At',
+  'pause2',
+  'pause2At',
+  'postDelayPhase',
+] as const;
+
+/** A movement or travel object on one line, its keys in CLOCK_KEYS order. */
+function clockText(m: Readonly<Partial<Record<(typeof CLOCK_KEYS)[number], unknown>>>): string {
+  const parts = CLOCK_KEYS.flatMap((k) =>
+    m[k] === undefined ? [] : [`${JSON.stringify(k)}: ${scalar(m[k] as Json)}`],
+  );
+  return `{ ${parts.join(', ')} }`;
+}
+
 function lineText(line: Line): string {
   const fields: string[] = [`"id": ${JSON.stringify(line.id)}`];
   if (line.note !== undefined) fields.push(`"note": ${JSON.stringify(line.note)}`);
@@ -147,10 +175,24 @@ function lineText(line: Line): string {
   if (line.closed) fields.push('"closed": true');
   if (line.spacing !== undefined) fields.push(`"spacing": ${scalar(line.spacing)}`);
   if (line.keepSpacing === true) fields.push('"keepSpacing": true');
+  if (line.group !== undefined) fields.push(`"group": ${JSON.stringify(line.group)}`);
+  if (line.travel !== undefined) fields.push(`"travel": ${clockText(line.travel)}`);
   if (line.corners.length > 0) fields.push(`"corners": [${line.corners.map(scalar).join(', ')}]`);
   const body = fields.map((f) => `      ${f}`);
   body.push(pointsText(line.points));
   return `    {\n${body.join(',\n')}\n    }`;
+}
+
+/** A group on one line when it fits, else one field per line. */
+function groupText(g: LineGroup): string {
+  const fields: string[] = [`"id": ${JSON.stringify(g.id)}`];
+  if (g.note !== undefined) fields.push(`"note": ${JSON.stringify(g.note)}`);
+  if (g.parent !== undefined) fields.push(`"parent": ${JSON.stringify(g.parent)}`);
+  if (g.pivot !== undefined) fields.push(`"pivot": [${scalar(g.pivot[0])}, ${scalar(g.pivot[1])}]`);
+  if (g.movement !== undefined) fields.push(`"movement": ${clockText(g.movement)}`);
+  const one = `    { ${fields.join(', ')} }`;
+  if (one.length <= WIDTH) return one;
+  return `    {\n${fields.map((f) => `      ${f}`).join(',\n')}\n    }`;
 }
 
 /** A lines file in its hand-written style (see the file comment). */
@@ -160,6 +202,9 @@ export function linesJson(file: LinesFile): string {
     `  "background": ${JSON.stringify(file.background)}`,
     `  "board": { "width": ${scalar(file.board.width)}, "height": ${scalar(file.board.height)} }`,
   ];
+  if (file.groups !== undefined && file.groups.length > 0) {
+    head.push(`  "groups": [\n${file.groups.map(groupText).join(',\n')}\n  ]`);
+  }
   if (file.lines.length === 0) return `{\n${head.join(',\n')},\n  "lines": []\n}\n`;
   const lines = file.lines.map(lineText);
   return `{\n${head.join(',\n')},\n  "lines": [\n${lines.join(',\n')}\n  ]\n}\n`;

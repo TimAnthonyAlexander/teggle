@@ -9,6 +9,10 @@
 // movement, the movement's path runs around the anchor (research 3.3). With a parent, the
 // anchor rides on the parent's position: anchor(t) = (x, y) + parent(t) - parent(0), so every
 // coordinate in the file is the layout at world tick 0 (research 3.4).
+//
+// Teggle adds one movement type to the original's twelve: followPath, along a polyline of the
+// level's `paths` list at constant speed, so objects can travel along a line traced over the
+// picture (spec 14.2, "Decided in the moving lines").
 
 import { z } from 'zod';
 import { TAU } from '../core/dmath';
@@ -32,11 +36,45 @@ export const MOVEMENT_TYPES = [
   'rotateAroundCircle',
 ] as const;
 
+/** Every movement type a level file may use: the original's twelve and Teggle's followPath. */
+export const LEVEL_MOVEMENT_TYPES = [...MOVEMENT_TYPES, 'followPath'] as const;
+
 const vec2Schema = z.strictObject({ x: z.number(), y: z.number() });
+
+/**
+ * A path that followPath movements run along: a polyline relative to the anchor of the element
+ * that moves on it. An open path runs from its first point to its last and jumps back, like the
+ * original's wraps; a closed one loops.
+ */
+export const levelPathSchema = z
+  .strictObject({
+    closed: z.boolean().default(false),
+    points: z.array(vec2Schema).min(2).max(4000),
+  })
+  .superRefine((p, ctx) => {
+    if (p.closed && p.points.length < 3) {
+      ctx.addIssue({ code: 'custom', message: 'a closed path needs 3 points', path: ['points'] });
+    }
+    const n = p.points.length;
+    for (let i = 0; i < (p.closed ? n : n - 1); i++) {
+      const a = p.points[i];
+      const b = p.points[(i + 1) % n];
+      if (a !== undefined && b !== undefined && a.x === b.x && a.y === b.y) {
+        ctx.addIssue({
+          code: 'custom',
+          message: `path points ${i} and ${(i + 1) % n} coincide`,
+          path: ['points', i],
+        });
+        return;
+      }
+    }
+  });
 
 export const movementSchema = z
   .strictObject({
-    type: z.enum(MOVEMENT_TYPES),
+    type: z.enum(LEVEL_MOVEMENT_TYPES),
+    /** followPath only: index of the path in the level's `paths`. */
+    path: z.int().min(0).optional(),
     /** Runs the path the other way (the original's negative type). */
     reverse: z.boolean().default(false),
     /** Ticks per cycle, pauses excluded. */
@@ -65,6 +103,10 @@ export const movementSchema = z
   .refine((m) => m.pause2 === 0 || m.pause1 > 0, {
     message: 'pause2 has no effect unless pause1 > 0',
     path: ['pause2'],
+  })
+  .refine((m) => (m.type === 'followPath') === (m.path !== undefined), {
+    message: 'a followPath movement names its path, and only a followPath movement has one',
+    path: ['path'],
   });
 
 const elementShape = {
@@ -233,6 +275,8 @@ export const levelSchema = z
       height: z.number().min(400).max(4000),
     }),
     elements: z.array(elementSchema),
+    /** Paths that followPath movements run along, referenced by index. */
+    paths: z.array(levelPathSchema).max(256).optional(),
     /** Designer-placed green pegs for the first campaign play. */
     seededGreens: z.tuple([z.int().min(0), z.int().min(0)]).optional(),
     /** How a generated level was made, so it can be reproduced. */
@@ -289,6 +333,14 @@ export const levelSchema = z
           }
         }
       }
+      const path = e.movement?.path;
+      if (path !== undefined && path >= (level.paths?.length ?? 0)) {
+        ctx.addIssue({
+          code: 'custom',
+          message: `element ${e.id} follows path ${path}, which does not exist`,
+          path: ['elements', index, 'movement', 'path'],
+        });
+      }
       if (e.kind === 'teleport' && e.exit.type === 'element' && !byId.has(e.exit.element)) {
         ctx.addIssue({
           code: 'custom',
@@ -327,7 +379,12 @@ export type LevelElementInput = LevelInput['elements'][number];
 export type ElementKind = LevelElement['kind'];
 export type Movement = z.output<typeof movementSchema>;
 export type MovementInput = z.input<typeof movementSchema>;
+/** One of the original's twelve movement types. */
 export type MovementType = (typeof MOVEMENT_TYPES)[number];
+/** Any movement type of a level file. */
+export type LevelMovementType = (typeof LEVEL_MOVEMENT_TYPES)[number];
+export type LevelPath = z.output<typeof levelPathSchema>;
+export type LevelPathInput = z.input<typeof levelPathSchema>;
 export type PegElement = z.output<typeof pegSchema>;
 export type BrickElement = z.output<typeof brickSchema>;
 export type CurvedBrickElement = z.output<typeof curvedBrickSchema>;

@@ -6,6 +6,7 @@ import {
   parseLevel,
   type Level,
   type LevelElementInput,
+  type LevelPathInput,
   type MovementInput,
 } from '../../src/level/schema';
 
@@ -13,13 +14,14 @@ import {
 export const FIXTURE_WIDTH = 916;
 export const FIXTURE_HEIGHT = 560;
 
-function level(name: string, elements: LevelElementInput[]): Level {
+function level(name: string, elements: LevelElementInput[], paths?: LevelPathInput[]): Level {
   return parseLevel({
     formatVersion: 1,
     name,
     background: 'fixture',
     board: { width: FIXTURE_WIDTH, height: FIXTURE_HEIGHT },
     elements,
+    ...(paths === undefined ? {} : { paths }),
   });
 }
 
@@ -277,4 +279,106 @@ export function benchLevel(): Level {
     ],
   });
   return level('bench', e);
+}
+
+/** A closed path sampled from f over [0, 1), relative to its first point. */
+function loopPath(f: (t: number) => { x: number; y: number }, n: number): LevelPathInput {
+  const first = f(0);
+  const points = Array.from({ length: n }, (_, i) => {
+    const p = f(i / n);
+    return { x: p.x - first.x, y: p.y - first.y };
+  });
+  return { closed: true, points };
+}
+
+/**
+ * Teggle's followPath movements (spec 14.2): a train of pegs gliding around a figure eight, a
+ * ring of curved bricks turning with an ellipse, straight bricks running backward along a wavy
+ * open path and jumping back, and a group of pegs riding on an invisible carrier that follows a
+ * square loop. Static rows give the shots something to hit on the way down.
+ */
+export function moversLevel(): Level {
+  const e: LevelElementInput[] = [];
+  const paths: LevelPathInput[] = [];
+  let id = 1;
+  // Path 0: a figure eight 380 wide and 150 high, from its right tip; 13 pegs 200 ticks apart.
+  paths.push(
+    loopPath((t) => ({ x: 300 + 190 * cos(2 * PI * t), y: 200 - 75 * sin(4 * PI * t) }), 160),
+  );
+  for (let i = 0; i < 13; i++) {
+    e.push({
+      kind: 'peg',
+      id: id++,
+      x: 490,
+      y: 200,
+      movement: { type: 'followPath', path: 0, period: 2600, offset: 200 * i },
+    });
+  }
+  // Path 1: an ellipse turning counterclockwise from its right end; six curved bricks facing out.
+  paths.push(
+    loopPath((t) => ({ x: 690 + 110 * cos(2 * PI * t), y: 190 - 60 * sin(2 * PI * t) }), 120),
+  );
+  for (let i = 0; i < 6; i++) {
+    e.push({
+      kind: 'curvedBrick',
+      id: id++,
+      x: 800,
+      y: 190,
+      rotation: 0,
+      innerRadius: 45,
+      sector: 0.32,
+      movement: { type: 'followPath', path: 1, period: 1800, offset: 300 * i },
+    });
+  }
+  // Path 2: a wavy open stream; six flat bricks run along it backward and jump back.
+  const wave: { x: number; y: number }[] = [];
+  for (let i = 0; i <= 60; i++) wave.push({ x: 6 * i, y: -15 * sin((2 * PI * i) / 30) });
+  paths.push({ points: wave });
+  for (let i = 0; i < 6; i++) {
+    e.push({
+      kind: 'brick',
+      id: id++,
+      x: 70,
+      y: 470,
+      rotation: PI / 2,
+      length: 34,
+      movement: { type: 'followPath', path: 2, period: 1500, offset: 250 * i, reverse: true },
+    });
+  }
+  // Path 3: a square loop for an invisible carrier; four pegs ride on it.
+  paths.push({
+    closed: true,
+    points: [
+      { x: 0, y: 0 },
+      { x: 60, y: 0 },
+      { x: 60, y: 40 },
+      { x: 0, y: 40 },
+    ],
+  });
+  const carrier = id++;
+  e.push({
+    kind: 'circle',
+    id: carrier,
+    x: 760,
+    y: 420,
+    radius: 2,
+    collision: false,
+    visible: false,
+    movement: { type: 'followPath', path: 3, period: 900 },
+  });
+  for (const [dx, dy] of [
+    [-25, 0],
+    [25, 0],
+    [0, -25],
+    [0, 25],
+  ] as const) {
+    e.push({ kind: 'peg', id: id++, x: 760 + dx, y: 420 + dy, parent: carrier });
+  }
+  // Static rows.
+  for (let row = 0; row < 2; row++) {
+    for (let x = 90 + row * 35; x < FIXTURE_WIDTH - 260; x += 70) {
+      e.push({ kind: 'peg', id: id++, x, y: 320 + row * 40 });
+    }
+  }
+  return level('movers', e, paths);
 }

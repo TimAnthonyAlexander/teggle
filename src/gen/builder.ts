@@ -4,7 +4,8 @@
 // parts, and at least MIN_GAP from every other object (bricks may also join: a seam of at most
 // JOIN_GAP).
 
-import { elementSchema, type LevelElement } from '../level/schema';
+import { elementSchema, type LevelElement, type LevelPathInput } from '../level/schema';
+import { Track } from '../sim/track';
 import {
   BOARD_H,
   BOARD_W,
@@ -31,6 +32,7 @@ import {
   shapeGap,
   type Shape,
 } from './shapes';
+import { SWEEP_STEP, type Sweep } from './sweep';
 
 /** A placed element and the template part that made it. */
 export interface Placed {
@@ -51,6 +53,9 @@ export type Zone =
       readonly maxX: number;
       readonly maxY: number;
     };
+
+/** A reserved area: a template's zone, or the exact area a moving line covers (sweep.ts). */
+export type Reserved = Zone | { readonly kind: 'swept'; readonly sweep: Sweep };
 
 /**
  * An area a template's structure owns: fills leave it free, so the structure reads as one
@@ -111,16 +116,26 @@ export interface Rejected {
   readonly reason: string;
 }
 
-function zoneGap(z: Zone, s: Shape): number {
+/** Free distance from a zone to a shape; a swept zone answers Infinity from `limit` on. */
+function zoneGap(z: Reserved, s: Shape, limit = MIN_GAP): number {
   if (z.kind === 'circle') return pointGap(s, z.x, z.y) - z.r;
+  if (z.kind === 'swept') return z.sweep.gap(s, limit);
   return boundsGap(z, s);
 }
 
-function zonesGap(a: Zone, b: Zone): number {
+function zonesGap(a: Reserved, b: Reserved): number {
   if (a.kind === 'circle' && b.kind === 'circle') {
     const dx = a.x - b.x;
     const dy = a.y - b.y;
     return Math.sqrt(dx * dx + dy * dy) - a.r - b.r;
+  }
+  if (a.kind === 'swept' && b.kind === 'swept') return a.sweep.gapTo(b.sweep, MIN_GAP);
+  if (a.kind === 'swept' || b.kind === 'swept') {
+    const swept = a.kind === 'swept' ? a.sweep : b.kind === 'swept' ? b.sweep : null;
+    const other = a.kind === 'swept' ? b : a;
+    let best = Infinity;
+    for (const s of swept?.shapes ?? []) best = Math.min(best, zoneGap(other, s) - SWEEP_STEP);
+    return best;
   }
   const box = (z: Zone) =>
     z.kind === 'circle'
@@ -129,14 +144,70 @@ function zonesGap(a: Zone, b: Zone): number {
   return boundsGap(box(a), box(b));
 }
 
+/** The area of a swept zone, for reserving it. */
+export function sweptZone(sweep: Sweep): Reserved {
+  return { kind: 'swept', sweep };
+}
+
 export class Builder {
   readonly placed: Placed[] = [];
-  readonly zones: Zone[] = [];
+  readonly zones: Reserved[] = [];
   readonly claims: Claim[] = [];
   /** Single drafts that tryAdd and tryAddMirrored turned down, for the editor's preview. */
   readonly rejected: Rejected[] = [];
+  /** The level's paths for followPath movements, in index order. */
+  readonly paths: LevelPathInput[] = [];
+  private readonly trackList: Track[] = [];
   private nextId = 1;
   private readonly grid = new Map<number, number[]>();
+
+  /** The id the next added element gets. */
+  peekId(): number {
+    return this.nextId;
+  }
+
+  /** Adds a path for followPath movements; returns its index. */
+  addPath(path: LevelPathInput): number {
+    this.paths.push(path);
+    this.trackList.push(new Track(path.points, path.closed ?? false));
+    return this.paths.length - 1;
+  }
+
+  /** The compiled paths, by index. */
+  get tracks(): readonly Track[] {
+    return this.trackList;
+  }
+
+  /**
+   * The free distance from a swept area to the static objects placed so far, or Infinity when
+   * it keeps `limit`; `why` gets the nearest one's description.
+   */
+  sweptGap(sweep: Sweep, limit: number): { gap: number; why: string } {
+    let best = Infinity;
+    let why = '';
+    const probe = {
+      minX: sweep.minX,
+      minY: sweep.minY,
+      maxX: sweep.maxX,
+      maxY: sweep.maxY,
+    };
+    for (const index of this.nearBox(probe, limit + SWEEP_STEP)) {
+      const p = this.placed[index];
+      if (p?.shape === undefined || p.shape === null) continue;
+      const g = sweep.gap(p.shape, limit);
+      if (g < best) {
+        best = g;
+        why = `${Math.max(0, g).toFixed(2)} px from element ${p.element.id} (${p.part}) as it moves`;
+      }
+    }
+    return { gap: best, why };
+  }
+
+  /** True when a swept area comes within MIN_GAP of a reserved zone. */
+  sweptClashes(sweep: Sweep): boolean {
+    const zone = sweptZone(sweep);
+    return this.zones.some((z) => zonesGap(z, zone) < MIN_GAP);
+  }
 
   /** Parses and adds an element without any check. Returns it with its id. */
   add(draft: Draft, part: string, moving = false): LevelElement {
@@ -169,7 +240,7 @@ export class Builder {
       // Zones already cover a moving part's whole sweep, so fills keep a smaller margin there.
       const zoneMin = options.avoidClaims === true ? Math.min(gap, MIN_GAP + 8) : MIN_GAP;
       for (const z of this.zones) {
-        if (zoneGap(z, shape) < zoneMin) {
+        if (zoneGap(z, shape, zoneMin) < zoneMin) {
           this.lastReject = "in a moving part's zone";
           return false;
         }
@@ -237,7 +308,7 @@ export class Builder {
   }
 
   /** Reserves an area for a moving part. */
-  reserve(zone: Zone): void {
+  reserve(zone: Reserved): void {
     this.zones.push(zone);
   }
 
@@ -332,6 +403,18 @@ export class Builder {
   }
 
   private near(s: Shape, margin: number): Set<number> {
+    return this.nearBox(s, margin);
+  }
+
+  private nearBox(
+    s: {
+      readonly minX: number;
+      readonly minY: number;
+      readonly maxX: number;
+      readonly maxY: number;
+    },
+    margin: number,
+  ): Set<number> {
     const out = new Set<number>();
     const x0 = Math.floor((s.minX - margin) / CELL);
     const x1 = Math.floor((s.maxX + margin) / CELL);

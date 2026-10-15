@@ -10,7 +10,7 @@ import { World } from '../../src/sim/world';
 import { benchLevel, mixedLevel, plinkoLevel } from './levels';
 import { idle, runDrop, runShot, waitForBucketEnd } from './shots';
 
-function feed(d: Digest, world: World): void {
+export function feed(d: Digest, world: World): void {
   d.int(world.tick);
   for (const e of world.events) {
     for (const [key, value] of Object.entries(e)) {
@@ -26,7 +26,7 @@ function feed(d: Digest, world: World): void {
 }
 
 /** Ten shots across the aim range with idle gaps, so moving parts meet them at new phases. */
-function sweepScenario(world: World, d: Digest, shots: number): void {
+export function sweepScenario(world: World, d: Digest, shots: number): void {
   for (let s = 0; s < shots; s++) {
     const angle = -1.55 + (3.1 * s) / (shots - 1) + 0.013 * s;
     runShot(world, aimDirection(angle), {

@@ -1,12 +1,14 @@
 // Port of the original's Mover (research section 3): the phase clock with pauses
 // (`Mover::GetMovePos`) and the position and rotation of every 1.01 movement type
-// (`Mover::CalcPos`). Pure functions of the tick, so any world state can be rebuilt from its tick.
+// (`Mover::CalcPos`), plus Teggle's followPath along a level path (track.ts). Pure functions of
+// the tick, so any world state can be rebuilt from its tick.
 //
 // Nesting (research 3.4) is applied by the caller: it passes the anchor already moved by the
 // parent's position. Only the parent's position carries over, never its rotation.
 
-import { atan2, cos, HALF_PI, PI, sin, sincos, TAU, type SinCos } from '../core/dmath';
+import { atan2, cos, HALF_PI, PI, sin, sincos, TAU, wrapAngle, type SinCos } from '../core/dmath';
 import type { Movement } from '../level/schema';
+import type { Track, TrackPoint } from './track';
 
 export interface Pose {
   x: number;
@@ -52,7 +54,11 @@ export function movementPhase(m: Movement, tick: number): number {
  *
  * `anchorX`/`anchorY` is the element's anchor (already carried by its parent, if any) and
  * `baseRotation` its own rotation; kinds that do not rotate return it unchanged. `frac` in
- * [0, 1) interpolates between ticks for drawing; the simulation always passes 0.
+ * [0, 1) interpolates between ticks for drawing; the simulation always passes 0. A followPath
+ * movement needs its compiled path as `track`; without one it stays at the anchor.
+ *
+ * followPath walks the track by arc length, a full lap (or start to end) per cycle, backward
+ * with `reverse`; the element turns by as much as the track has turned since its start.
  */
 export function movementPose(
   m: Movement,
@@ -62,6 +68,7 @@ export function movementPose(
   tick: number,
   out: Pose,
   frac = 0,
+  track: Track | null = null,
 ): Pose {
   const dir = m.reverse ? -1 : 1;
   const ph = movementPhase(m, tick) + frac / m.period;
@@ -139,6 +146,16 @@ export function movementPose(
           ? baseRotation + ang
           : baseRotation + atan2(rx * sc.sin, ry * sc.cos);
       break;
+    case 'followPath': {
+      if (track === null) break;
+      const u = ph - Math.trunc(ph);
+      const tp = trackScratch;
+      track.at((m.reverse ? 1 - u : u) * track.length, tp);
+      dx = tp.x;
+      dy = tp.y;
+      rotation = baseRotation + wrapAngle(tp.turn);
+      break;
+    }
   }
   if (m.pathRotation !== 0) {
     sincos(m.pathRotation, sc);
@@ -153,3 +170,4 @@ export function movementPose(
 }
 
 const scratch: SinCos = { sin: 0, cos: 0 };
+const trackScratch: TrackPoint = { x: 0, y: 0, turn: 0 };

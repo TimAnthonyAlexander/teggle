@@ -11,8 +11,8 @@ import { z } from 'zod';
 import { cos, HALF_PI, PI, sin } from '../../core/dmath';
 import type { Vec2 } from '../../level/geometry';
 import { BRICK_WIDTH, CENTER_X, MIN_GAP, PEG_SPACING, SEAM } from '../constants';
-import type { ScoringDraft } from '../draft';
-import { lineGeometrySchema, smoothLine, type LineGeometry } from '../lines';
+import { checkGroups, lineGeometrySchema, recipeGroupSchema, type LineGeometry } from '../lines';
+import { isMovingLine, lineDrafts, placeMovingLines } from '../movers';
 import { bricksAlong, bricksAround, pegsBetween, pointsAlong, peg } from '../place';
 import {
   ellipsePath,
@@ -71,11 +71,18 @@ export const outlineParams = z
     shapes: z.array(shapeSchema).max(12),
     /**
      * Lines traced over the background (the line editor's format, src/gen/lines.ts), in board
-     * coordinates, smoothed and placed in order.
+     * coordinates, smoothed and placed in order; moving ones first (movers.ts).
      */
     paths: z.array(lineGeometrySchema).max(160),
+    /** The groups the paths move in (lines.ts, movers.ts). */
+    groups: z.array(recipeGroupSchema).max(64),
   })
-  .partial();
+  .partial()
+  .superRefine((p, ctx) => {
+    if (p.groups !== undefined || p.paths?.some((x) => x.group !== undefined) === true) {
+      checkGroups(p.groups ?? [], p.paths ?? [], ctx, 'paths');
+    }
+  });
 
 export type OutlineParams = z.infer<typeof outlineParams>;
 export type OutlineShape = z.infer<typeof shapeSchema>;
@@ -352,17 +359,8 @@ function buildShape(ctx: TemplateContext, s: OutlineShape): void {
 }
 
 function buildPath(ctx: TemplateContext, p: LineGeometry): void {
-  const path = smoothLine(p);
   const c = { ...ctx, region: { ...ctx.region, mirrored: false } };
-  if (p.mode === 'pegs') {
-    for (const q of pointsAlong(path, { spacing: p.spacing ?? PEG_SPACING }))
-      place(c, peg(q.x, q.y));
-    return;
-  }
-  const bricks: ScoringDraft[] = p.closed
-    ? bricksAround(path, { facing: 'left' })
-    : bricksAlong(path, 0, new PathSampler(path).length, { facing: 'left' });
-  for (const b of bricks) place(c, b);
+  for (const d of lineDrafts(p)) place(c, d);
 }
 
 /** Seed-picked compositions of procedural shapes. */
@@ -477,8 +475,14 @@ export function buildOutline(ctx: TemplateContext, params: OutlineParams): void 
       : []);
   for (const s of shapes) buildShape(ctx, s);
   // Each path is a part of its own ("<part>/path <index>"), so the editor can tell which line
-  // placed which object.
-  (params.paths ?? []).forEach((p, i) => {
-    buildPath({ ...ctx, part: `${ctx.part}${PATH_PART}${i}` }, p);
+  // placed which object. Moving lines go first: each moves whole or not at all, and the static
+  // lines then keep clear of everywhere they go.
+  const paths = params.paths ?? [];
+  const partOf = (i: number): string => `${ctx.part}${PATH_PART}${i}`;
+  if (paths.some(isMovingLine)) {
+    placeMovingLines(ctx, { paths, groups: params.groups ?? [], partOf });
+  }
+  paths.forEach((p, i) => {
+    if (!isMovingLine(p)) buildPath({ ...ctx, part: partOf(i) }, p);
   });
 }

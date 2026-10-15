@@ -131,6 +131,45 @@ describe('parseLevel', () => {
     rejects(file([peg(1, { movement: { type: 'circle', period: 0 } })]), /movement\.period/);
   });
 
+  it('reads paths and the followPath movements that name them', () => {
+    const level = parseLevel(
+      file([peg(1, { movement: { type: 'followPath', path: 0, period: 300 } })], {
+        paths: [
+          {
+            closed: true,
+            points: [
+              { x: 0, y: 0 },
+              { x: 40, y: 0 },
+              { x: 20, y: 30 },
+            ],
+          },
+        ],
+      }),
+    );
+    expect(level.paths?.[0]?.closed).toBe(true);
+    expect(level.elements[0]?.movement).toMatchObject({ type: 'followPath', path: 0 });
+    const open = { points: [{ x: 0, y: 0 }, { x: 10, y: 0 }] };
+    expect(parseLevel(file([], { paths: [open] })).paths?.[0]?.closed).toBe(false);
+  });
+
+  it('rejects followPath without a path, a path elsewhere, and broken paths', () => {
+    const paths = [{ points: [{ x: 0, y: 0 }, { x: 10, y: 0 }] }];
+    rejects(
+      file([peg(1, { movement: { type: 'followPath', period: 300 } })], { paths }),
+      /names its path/,
+    );
+    rejects(
+      file([peg(1, { movement: { type: 'circle', period: 300, path: 0 } })], { paths }),
+      /only a followPath movement has one/,
+    );
+    rejects(
+      file([peg(1, { movement: { type: 'followPath', path: 1, period: 300 } })], { paths }),
+      /follows path 1, which does not exist/,
+    );
+    rejects(file([], { paths: [{ points: [{ x: 1, y: 1 }, { x: 1, y: 1 }] }] }), /coincide/);
+    rejects(file([], { paths: [{ closed: true, ...paths[0] }] }), /closed path needs 3 points/);
+  });
+
   it('accepts a concave polygon', () => {
     const level = parseLevel(
       file([

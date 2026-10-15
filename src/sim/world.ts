@@ -663,7 +663,7 @@ export class World {
         }
         this.place(s, ax + (d[k] ?? 0), ay + (d[k + 1] ?? 0), rotation, initial);
       } else if (def.movement !== null) {
-        movementPose(def.movement, ax, ay, def.baseRotation, tick, pose);
+        movementPose(def.movement, ax, ay, def.baseRotation, tick, pose, 0, def.track);
         this.place(s, pose.x, pose.y, pose.rotation, initial);
       } else {
         this.place(s, ax, ay, def.baseRotation, initial);

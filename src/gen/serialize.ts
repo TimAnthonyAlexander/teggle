@@ -81,18 +81,22 @@ export function compactLevel(level: Level): Record<string, unknown> {
   };
   if (level.provenance !== undefined) out.provenance = level.provenance;
   if (level.seededGreens !== undefined) out.seededGreens = level.seededGreens;
+  if (level.paths !== undefined && level.paths.length > 0) {
+    out.paths = level.paths.map((p) => round(p.closed ? p : { points: p.points }));
+  }
   out.elements = level.elements.map((e) => round(compactElement(e)));
   return out;
 }
 
 /**
- * Stable JSON text: two-space indentation for the header, one element per line, so diffs of
- * regenerated levels stay readable.
+ * Stable JSON text: two-space indentation for the header, one path and one element per line,
+ * so diffs of regenerated levels stay readable.
  */
 export function levelJson(level: Level): string {
   const c = compactLevel(level);
-  const { elements, ...header } = c;
+  const { elements, paths, ...header } = c;
   const head = JSON.stringify(header, null, 2).slice(0, -2);
-  const lines = (elements as unknown[]).map((e) => `    ${JSON.stringify(e)}`);
-  return `${head},\n  "elements": [\n${lines.join(',\n')}\n  ]\n}\n`;
+  const rows = (list: unknown[]): string => list.map((e) => `    ${JSON.stringify(e)}`).join(',\n');
+  const pathsText = paths === undefined ? '' : `,\n  "paths": [\n${rows(paths as unknown[])}\n  ]`;
+  return `${head}${pathsText},\n  "elements": [\n${rows(elements as unknown[])}\n  ]\n}\n`;
 }

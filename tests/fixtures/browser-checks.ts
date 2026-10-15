@@ -14,6 +14,7 @@ import { compileLevel } from '../../src/sim/compile';
 import { agentsDigest } from './agents-golden';
 import { engineDigest } from './golden';
 import { benchLevel, mixedLevel, plinkoLevel } from './levels';
+import { moversDigest } from './movers-golden';
 import { feed, powersDigest } from './powers-golden';
 import { randomPlay } from './rules';
 import { rulesDigest } from './rules-golden';
@@ -23,15 +24,17 @@ export interface EngineDigests {
   readonly rules: string;
   readonly powers: string;
   readonly agents: string;
+  readonly movers: string;
 }
 
-/** The four digests tools/engine-digest.ts prints. */
+/** The five digests tools/engine-digest.ts prints. */
 export function engineDigests(): EngineDigests {
   return {
     sim: engineDigest(),
     rules: rulesDigest(),
     powers: powersDigest(),
     agents: agentsDigest(),
+    movers: moversDigest(),
   };
 }
 

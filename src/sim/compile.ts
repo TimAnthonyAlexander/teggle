@@ -13,6 +13,7 @@ import {
 import type { Level, LevelElement, Movement } from '../level/schema';
 import { Grid } from './grid';
 import { movementPhase, movementPose, type Pose } from './movement';
+import { Track } from './track';
 import {
   BASE_BOUNCY,
   BUCKET_CATCH_HEIGHT,
@@ -138,6 +139,8 @@ export interface BodyDef {
   readonly baseY: number;
   readonly baseRotation: number;
   readonly movement: Movement | null;
+  /** The path a followPath movement runs along, or null. */
+  readonly track: Track | null;
   /** Parent body index for nested movement, or -1. */
   readonly parent: number;
   /** Parent position at tick 0. */
@@ -172,6 +175,8 @@ export interface CompiledLevel {
   readonly bucketCenterX: number;
   readonly bucketTravel: number;
   readonly bucketCycle: number;
+  /** The level's paths for followPath movements, by index. */
+  readonly tracks: readonly Track[];
   /** Body poses at world tick 0. */
   readonly initialPoses: readonly Pose[];
   /** Per body: its movement's pose for every tick of one cycle, or null (see PoseTable). */
@@ -223,7 +228,7 @@ function rectangle(x0: number, y0: number, x1: number, y1: number): Vec2[] {
   ];
 }
 
-type BodySpec = Omit<BodyDef, 'index' | 'parent' | 'parentRefX' | 'parentRefY'> & {
+type BodySpec = Omit<BodyDef, 'index' | 'parent' | 'parentRefX' | 'parentRefY' | 'track'> & {
   readonly parentId?: number | undefined;
 };
 
@@ -533,14 +538,14 @@ function movementCycle(m: Movement): number {
   return m.pause1 > 0 ? m.period + m.pause1 + m.pause2 : m.period;
 }
 
-function buildPoseTable(m: Movement, baseRotation: number): PoseTable | null {
+function buildPoseTable(m: Movement, baseRotation: number, track: Track | null): PoseTable | null {
   const cycle = movementCycle(m);
   if (cycle > MAX_TABLE_CYCLE) return null;
   const data = new Float64Array(cycle * 5);
   const pose: Pose = { x: 0, y: 0, rotation: 0 };
   const sc: SinCos = { sin: 0, cos: 0 };
   for (let k = 0; k < cycle; k++) {
-    movementPose(m, 0, 0, baseRotation, k, pose);
+    movementPose(m, 0, 0, baseRotation, k, pose, 0, track);
     sincos(pose.rotation, sc);
     data[5 * k] = pose.x;
     data[5 * k + 1] = pose.y;
@@ -558,6 +563,7 @@ function buildPoseTable(m: Movement, baseRotation: number): PoseTable | null {
 function normalizeMovement(m: Movement): Movement {
   return {
     type: m.type,
+    path: m.path,
     reverse: m.reverse,
     period: m.period,
     offset: m.offset,
@@ -615,6 +621,13 @@ export function compileLevel(level: Level): CompiledLevel {
     if (index === undefined) throw new Error(`level references unknown element ${id}`);
     return index;
   };
+  const tracks = (level.paths ?? []).map((p) => new Track(p.points, p.closed));
+  const trackOf = (m: Movement | null): Track | null => {
+    if (m?.path === undefined) return null;
+    const track = tracks[m.path];
+    if (track === undefined) throw new Error(`level references unknown path ${m.path}`);
+    return track;
+  };
 
   // Parents before children (research 3.4). parseLevel has already rejected cycles.
   const order: number[] = [];
@@ -648,7 +661,16 @@ export function compileLevel(level: Level): CompiledLevel {
       }
     }
     if (spec.movement !== null) {
-      movementPose(spec.movement, spec.baseX, spec.baseY, spec.baseRotation, 0, pose);
+      movementPose(
+        spec.movement,
+        spec.baseX,
+        spec.baseY,
+        spec.baseRotation,
+        0,
+        pose,
+        0,
+        trackOf(spec.movement),
+      );
     }
   }
 
@@ -686,6 +708,7 @@ export function compileLevel(level: Level): CompiledLevel {
       baseY: s.baseY,
       baseRotation: s.baseRotation,
       movement: s.movement === null ? null : normalizeMovement(s.movement),
+      track: trackOf(s.movement),
       parent: s.parentId === undefined ? -1 : indexOf(s.parentId),
       parentRefX: ref.x,
       parentRefY: ref.y,
@@ -721,7 +744,7 @@ export function compileLevel(level: Level): CompiledLevel {
     const key = JSON.stringify([b.movement, b.baseRotation]);
     let table = tableCache.get(key);
     if (table === undefined) {
-      table = buildPoseTable(b.movement, b.baseRotation);
+      table = buildPoseTable(b.movement, b.baseRotation, b.track);
       tableCache.set(key, table);
     }
     return table;
@@ -755,6 +778,7 @@ export function compileLevel(level: Level): CompiledLevel {
     bucketCenterX,
     bucketTravel,
     bucketCycle,
+    tracks,
     initialPoses: poses,
     poseTables,
     bucketWave,
