@@ -2,6 +2,7 @@
 // and pipes with brass joints, the glossy blue title pill, black thumbnail windows in teal metal,
 // and the cream speech bubble.
 
+import { legible } from '../app/display';
 import type { Box } from '../layout';
 import {
   brass,
@@ -241,7 +242,7 @@ export function finishTealWindow(ctx: Ctx, inner: PathFn): void {
   ctx.stroke();
 }
 
-export const BUBBLE_TEXT: TextStyle = {
+const BUBBLE_TEXT: TextStyle = {
   face: 'body',
   cap: 11.2,
   weight: 600,
@@ -250,12 +251,18 @@ export const BUBBLE_TEXT: TextStyle = {
   anchor: 'baseline',
 };
 
-const BUBBLE_LINE = BUBBLE_TEXT.cap * 1.75;
 const BUBBLE_PAD = 24;
+
+/** The speech bubble's text style: the design size, larger where that would be hard to read. */
+export function bubbleText(): TextStyle {
+  return legible(BUBBLE_TEXT);
+}
 
 /** Height of a speech bubble holding `lines` lines. */
 export function bubbleHeight(lines: number): number {
-  return Math.max(1, lines) * BUBBLE_LINE - (BUBBLE_LINE - BUBBLE_TEXT.cap) + 2 * BUBBLE_PAD;
+  const cap = bubbleText().cap;
+  const line = cap * 1.75;
+  return Math.max(1, lines) * line - (line - cap) + 2 * BUBBLE_PAD;
 }
 
 /**
@@ -301,10 +308,12 @@ export function drawSpeechBubble(
     [1, '#f4ecd6'],
   ]);
   ctx.fill('nonzero');
-  let y = b.y + b.h / 2 - ((lines.length - 1) * BUBBLE_LINE) / 2 + BUBBLE_TEXT.cap / 2;
+  const text = bubbleText();
+  const pitch = text.cap * 1.75;
+  let y = b.y + b.h / 2 - ((lines.length - 1) * pitch) / 2 + text.cap / 2;
   for (const line of lines) {
-    drawText(ctx, line, b.x + b.w / 2, y, BUBBLE_TEXT);
-    y += BUBBLE_LINE;
+    drawText(ctx, line, b.x + b.w / 2, y, text);
+    y += pitch;
   }
   ctx.restore();
 }

@@ -16,7 +16,11 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Teggle" />
+    <meta name="format-detection" content="telephone=no" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="preload" href="/fonts/overload.woff2" as="font" type="font/woff2" crossorigin />
     <style>
       html,
@@ -26,6 +30,11 @@
         background: #1c3989;
         overflow: hidden;
         overscroll-behavior: none;
+        /* No page pan, pinch or double-tap zoom on touch screens; the game takes every touch. */
+        touch-action: none;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
       }
       #game {
         position: fixed;

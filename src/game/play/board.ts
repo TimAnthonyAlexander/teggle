@@ -8,6 +8,7 @@
 import type { LevelElement } from '../../level/schema';
 import type { CompiledLevel } from '../../sim/compile';
 import type { BallView, World } from '../../sim/world';
+import { legibleScale } from '../app/display';
 import { WORLD_H, WORLD_W } from '../layout';
 import { ballSprite } from '../render/ball';
 import { createCanvas, context2d, drawLayer, type Layer } from '../render/cache';
@@ -670,6 +671,8 @@ export class BoardRenderer {
   ): void {
     const bodies = world.bodies;
     const now = pres.gameMs;
+    // Drawn larger on a phone, where the original's size cannot be read.
+    const s = legibleScale(PEG_VALUE_STYLE.cap);
     for (const i of this.scoring) {
       const t = now - (pres.litMs[i] ?? -Infinity);
       if (t < 0 || t >= PEG_VALUE_MS) continue;
@@ -679,8 +682,8 @@ export class BoardRenderer {
       const f = pegValueFrame(t);
       const sprite = sprites.get(k, 'pegValue', PEG_VALUE_STYLE, text);
       const x = this.lerpX(i, b.x, alpha) + this.offX;
-      const y = this.lerpY(i, b.y, alpha) + this.offY - 15 - f.rise;
-      drawTextSprite(ctx, sprite, x, y, 1, f.alpha);
+      const y = this.lerpY(i, b.y, alpha) + this.offY - 15 - (s - 1) * 4 - f.rise;
+      drawTextSprite(ctx, sprite, x, y, s, f.alpha);
     }
   }
 

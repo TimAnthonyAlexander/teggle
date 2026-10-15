@@ -35,6 +35,8 @@ export interface Screen {
   render(frame: FrameInfo): void;
   /** Fill color for the letterbox bars around the 16:9 world. */
   letterbox?(): string;
+  /** The page was hidden or the phone turned upright: pause whatever is running. */
+  interrupt?(): void;
 }
 
 export class ScreenManager {
@@ -73,6 +75,10 @@ export class ScreenManager {
 
   render(frame: FrameInfo): void {
     for (const s of this.stack) s.render(frame);
+  }
+
+  interrupt(): void {
+    for (const s of this.stack) s.interrupt?.();
   }
 
   letterbox(): string | undefined {

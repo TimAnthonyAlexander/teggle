@@ -12,6 +12,19 @@ export function isTouchPrimary(): boolean {
   return window.matchMedia('(pointer: coarse)').matches;
 }
 
+/**
+ * Running as an app installed to the home screen (the web app manifest's display mode, or
+ * iPhone Safari's standalone mode): the browser's own toolbars are gone already.
+ */
+export function installedApp(): boolean {
+  const nav: Navigator & { standalone?: boolean } = navigator;
+  return (
+    nav.standalone === true ||
+    window.matchMedia('(display-mode: fullscreen)').matches ||
+    window.matchMedia('(display-mode: standalone)').matches
+  );
+}
+
 export function needsRotate(cssWidth: number, cssHeight: number): boolean {
   return isTouchPrimary() && cssHeight > cssWidth;
 }

@@ -1,10 +1,11 @@
 // HUD columns and score windows (guide 7). These stay the same in every theme: brass frames,
 // teal glass tubes, an amber meter, glossy blue score windows.
 
+import { legible } from '../app/display';
 import { layout } from '../layout';
 import { darken, lighten, rgba } from '../ui/color';
 import { drawText, formatNumber, textStyle } from '../ui/text';
-import { color } from '../ui/tokens';
+import { color, type } from '../ui/tokens';
 import { drawLayer, layers } from './cache';
 import { drawBall } from './ball';
 import {
@@ -938,9 +939,13 @@ export function drawScoreWindow(
     paintScoreWindow(c, b.x, b.y, b.w, b.h);
   });
   drawLayer(ctx, layer);
-  const label = textStyle.label();
-  drawText(ctx, content.line1.toUpperCase(), b.x + 17, b.y + 19, label, { maxWidth: 80 });
-  drawText(ctx, content.line2.toUpperCase(), b.x + 17, b.y + 34, label, { maxWidth: 80 });
+  // The small labels grow on a phone, where the original's 9 units are too small to read.
+  const label = legible(textStyle.label());
+  const lift = (label.cap - type.label) / 2;
+  drawText(ctx, content.line1.toUpperCase(), b.x + 17, b.y + 19 - lift, label, { maxWidth: 80 });
+  drawText(ctx, content.line2.toUpperCase(), b.x + 17, b.y + 34 + lift / 2, label, {
+    maxWidth: 80,
+  });
   drawText(
     ctx,
     formatNumber(content.value),

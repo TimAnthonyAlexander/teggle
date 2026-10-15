@@ -8,7 +8,7 @@ import type { CompiledLevel } from '../../sim/compile';
 import { WORLD_H, WORLD_W, layout, type Box } from '../layout';
 import { backgroundUrl, paintPlain } from '../play/backdrop';
 import { loadLevel } from '../play/load';
-import { LayerCache, drawLayer } from '../render/cache';
+import { LayerCache, createCanvas, drawLayer } from '../render/cache';
 import { circlePath, type Ctx } from '../render/paint';
 import { drawBrick, drawPeg, type BrickShape } from '../render/pegs';
 import type { ManifestLevel } from '../modes/manifest';
@@ -18,10 +18,22 @@ type Status = 'loading' | 'ready' | 'failed';
 interface Entry {
   status: Status;
   compiled: CompiledLevel | null;
-  picture: HTMLImageElement | null;
+  picture: CanvasImageSource | null;
 }
 
-async function loadPicture(id: string, base: string): Promise<HTMLImageElement | null> {
+/**
+ * Widest picture a thumbnail needs: a 292-unit cell shows about 300 units of picture, and even
+ * a 4K screen draws it at under 1,100 device pixels.
+ */
+const THUMB_PICTURE_W = 1100;
+/** Levels whose file and picture stay loaded; the menus show at most six at a time. */
+const MAX_ENTRIES = 16;
+
+/**
+ * Loads a level's picture and keeps a copy no larger than a thumbnail needs: the full picture
+ * (2732 x 1644, 18 MB decoded) would otherwise stay in memory for every level the menus showed.
+ */
+async function loadPicture(id: string, base: string): Promise<CanvasImageSource | null> {
   const img = new Image();
   img.decoding = 'async';
   img.src = backgroundUrl(id, base);
@@ -30,7 +42,17 @@ async function loadPicture(id: string, base: string): Promise<HTMLImageElement |
   } catch {
     return null;
   }
-  return img.naturalWidth > 0 ? img : null;
+  if (img.naturalWidth === 0 || img.naturalHeight === 0) return null;
+  if (img.naturalWidth <= THUMB_PICTURE_W) return img;
+  const w = THUMB_PICTURE_W;
+  const h = Math.round((img.naturalHeight * w) / img.naturalWidth);
+  const small = createCanvas(w, h);
+  const c = small.getContext('2d');
+  if (c === null) return img;
+  c.imageSmoothingEnabled = true;
+  c.imageSmoothingQuality = 'high';
+  c.drawImage(img, 0, 0, w, h);
+  return small;
 }
 
 function brickShape(e: LevelElement, x: number, y: number, rotation: number): BrickShape | null {
@@ -57,7 +79,7 @@ function paintThumb(
   c: Ctx,
   k: number,
   level: CompiledLevel,
-  picture: HTMLImageElement | null,
+  picture: CanvasImageSource | null,
   w: number,
   h: number,
 ): void {
@@ -144,16 +166,30 @@ function paintThumb(
 
 export class LevelThumbs {
   private readonly entries = new Map<string, Entry>();
-  private readonly cache = new LayerCache(40);
+  /** At most 40 thumbnails, together no larger than two full-screen layers. */
+  private readonly cache = new LayerCache(40, 2);
 
   constructor(private readonly base: string = import.meta.env.BASE_URL) {}
 
-  /** Starts loading a level's file and picture, once. */
+  /**
+   * Starts loading a level's file and picture, once while it stays among the levels asked for
+   * most recently; the oldest beyond MAX_ENTRIES are let go and load again when asked for.
+   */
   request(entry: ManifestLevel): void {
     const id = entry.level.id;
-    if (this.entries.has(id)) return;
+    const known = this.entries.get(id);
+    if (known !== undefined) {
+      this.entries.delete(id);
+      this.entries.set(id, known);
+      return;
+    }
     const e: Entry = { status: 'loading', compiled: null, picture: null };
     this.entries.set(id, e);
+    while (this.entries.size > MAX_ENTRIES) {
+      const oldest = this.entries.keys().next();
+      if (oldest.done === true) break;
+      this.entries.delete(oldest.value);
+    }
     void Promise.allSettled([
       loadLevel(entry.level.file, this.base),
       loadPicture(entry.level.background, this.base),

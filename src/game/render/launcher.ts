@@ -3,6 +3,7 @@
 // runs), a turns counter and the portrait glow. The window shows the master's portrait, or empty
 // glass where a master has no art yet; nothing stands in for a portrait.
 
+import { legibleScale } from '../app/display';
 import { drawLauncherPortrait } from '../art/portrait';
 import type { PortraitImage } from '../art/masters';
 import { layout } from '../layout';
@@ -261,8 +262,14 @@ export function drawLauncher(ctx: Ctx, k: number, s: LauncherState): void {
 }
 
 function drawTurnsCounter(ctx: Ctx, turns: number | undefined): void {
-  // A dark oval with a thin teal rim and a white digit (7.4).
+  // A dark oval with a thin teal rim and a white digit (7.4). On a phone the whole counter grows
+  // a little, as far as the banner leaves room, so the digit stays readable.
   const { x, y } = layout.turnsCounter;
+  const s = Math.min(1.3, legibleScale(7.5));
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(s, s);
+  ctx.translate(-x, -y);
   ctx.beginPath();
   ctx.ellipse(x, y, 10.5, 7.5, 0, 0, Math.PI * 2);
   ctx.fillStyle = color.tealLipDark;
@@ -283,4 +290,5 @@ function drawTurnsCounter(ctx: Ctx, turns: number | undefined): void {
     align: 'center',
     anchor: 'middle',
   });
+  ctx.restore();
 }

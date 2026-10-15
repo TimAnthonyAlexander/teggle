@@ -2,9 +2,14 @@
 //
 // - Mouse, pen and touch all report a world-space pointer and press/release events.
 // - Mouse wheel notches and held arrow keys are exposed for fine aim; touch drags are
-//   accumulated as world-space deltas so the game can apply them at reduced sensitivity.
+//   accumulated per finger as world-space deltas so the game can apply them at reduced
+//   sensitivity.
 // - "Fast forward held" is true while the right mouse button is down or while any pointer holds
 //   an on-screen hold control (the touch equivalent of the right button).
+// - Touch screens (spec 14.2, mobile pass): fingers that land within CROWD_MS of each other are
+//   one multi-finger gesture, and their presses and releases say so (`crowded`), so a
+//   two-finger tap or a pinch never counts as a tap; a contact wider than PALM_CSS is a palm and
+//   is ignored. The page itself never scrolls, zooms or bounces under the game.
 
 export type PointerKind = 'mouse' | 'pen' | 'touch';
 
@@ -14,19 +19,50 @@ export interface PointerEventInfo {
   readonly kind: PointerKind;
   readonly button: number;
   readonly id: number;
+  /**
+   * Touch only: another finger landed within CROWD_MS of this one while both were down (on a
+   * release: at any time during this touch).
+   */
+  readonly crowded: boolean;
+  /** Order of arrival among all presses and releases. */
+  readonly seq: number;
+}
+
+/** A press or a release, for handling both in the order they happened. */
+export interface PointerAction {
+  readonly press: boolean;
+  readonly e: PointerEventInfo;
 }
 
 export type WorldMapper = (cssX: number, cssY: number) => { x: number; y: number };
 
+/** Hit test of an on-screen hold control; `kind` lets touch use a larger target. */
+export type HoldHit = (x: number, y: number, kind: PointerKind) => boolean;
+
 interface HoldControl {
   readonly id: string;
-  readonly hit: (x: number, y: number) => boolean;
+  readonly hit: HoldHit;
+}
+
+interface TouchState {
+  readonly downAt: number;
+  crowded: boolean;
 }
 
 const AIM_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']);
 
+/** Fingers landing this close together in time are one gesture (a tap lasts up to 350 ms). */
+export const CROWD_MS = 350;
+/** A touch contact at least this wide or tall (CSS px) is a palm or a resting hand, not a finger. */
+export const PALM_CSS = 110;
+
 function kindOf(e: PointerEvent): PointerKind {
   return e.pointerType === 'touch' ? 'touch' : e.pointerType === 'pen' ? 'pen' : 'mouse';
+}
+
+/** A touch contact reported at palm size; browsers that report no size (0 or 1) never match. */
+export function isPalm(kind: PointerKind, width: number, height: number): boolean {
+  return kind === 'touch' && Math.max(width || 0, height || 0) >= PALM_CSS;
 }
 
 /** Event queues keep at most this many entries, so a screen that ignores them cannot grow them. */
@@ -37,6 +73,13 @@ function enqueue<T>(queue: T[], item: T): void {
   if (queue.length > MAX_QUEUED) queue.shift();
 }
 
+function preventDefault(e: Event): void {
+  if (e.cancelable) e.preventDefault();
+}
+
+/** Page gestures a touch screen must not get: Safari's pinch and rubber-band scroll. */
+const PAGE_GESTURES = ['gesturestart', 'gesturechange', 'gestureend', 'touchmove'] as const;
+
 export class Input {
   /** Last known pointer position in world units. */
   readonly pointer = { x: 0, y: 0, kind: 'mouse' as PointerKind, inside: false, down: false };
@@ -45,16 +88,19 @@ export class Input {
   private readonly holdControls: HoldControl[] = [];
   private readonly heldBy = new Map<number, string>();
   private readonly downPointers = new Map<number, { x: number; y: number }>();
+  private readonly touches = new Map<number, TouchState>();
+  private readonly palms = new Set<number>();
+  private readonly drags = new Map<number, { dx: number; dy: number }>();
   private rightDown = false;
   private wheel = 0;
-  private dragX = 0;
-  private dragY = 0;
   private readonly keys = new Set<string>();
   private readonly presses: PointerEventInfo[] = [];
   private readonly releases: PointerEventInfo[] = [];
   private readonly keyPresses: string[] = [];
   private readonly firstTouchListeners: (() => void)[] = [];
   private sawTouch = false;
+  private seq = 0;
+  private pageGestures = false;
 
   attach(canvas: HTMLCanvasElement, toWorld: WorldMapper): void {
     this.detach();
@@ -72,6 +118,19 @@ export class Input {
     window.addEventListener('blur', this.onBlur);
   }
 
+  /**
+   * On a touch screen: iPhone Safari ignores user-scalable=no, so its pinch (gesture events)
+   * and its rubber-band scroll (touchmove) are refused here too; `touch-action: none` on the
+   * page covers the rest. Not on a desktop, where a trackpad pinch stays the browser's zoom.
+   */
+  blockPageGestures(): void {
+    if (this.pageGestures) return;
+    this.pageGestures = true;
+    for (const type of PAGE_GESTURES) {
+      document.addEventListener(type, preventDefault, { passive: false });
+    }
+  }
+
   detach(): void {
     const c = this.canvas;
     if (c === null) return;
@@ -85,11 +144,15 @@ export class Input {
     window.removeEventListener('keydown', this.onKeyDown);
     window.removeEventListener('keyup', this.onKeyUp);
     window.removeEventListener('blur', this.onBlur);
+    if (this.pageGestures) {
+      for (const type of PAGE_GESTURES) document.removeEventListener(type, preventDefault);
+      this.pageGestures = false;
+    }
     this.canvas = null;
   }
 
   /** Registers an on-screen control that sets "fast forward held" (or any hold) while pressed. */
-  setHoldControl(id: string, hit: (x: number, y: number) => boolean): void {
+  setHoldControl(id: string, hit: HoldHit): void {
     this.removeHoldControl(id);
     this.holdControls.push({ id, hit });
   }
@@ -124,12 +187,20 @@ export class Input {
     return pos - neg;
   }
 
-  /** Accumulated touch drag in world units since the last call. */
-  consumeDrag(): { dx: number; dy: number } {
-    const d = { dx: this.dragX, dy: this.dragY };
-    this.dragX = 0;
-    this.dragY = 0;
-    return d;
+  /**
+   * Touch drag in world units since the last call: of finger `id`, or of all fingers together
+   * when no id is given. Every finger's drag starts over.
+   */
+  consumeDrag(id?: number): { dx: number; dy: number } {
+    let dx = 0;
+    let dy = 0;
+    for (const [pointerId, d] of this.drags) {
+      if (id !== undefined && pointerId !== id) continue;
+      dx += d.dx;
+      dy += d.dy;
+    }
+    this.drags.clear();
+    return { dx, dy };
   }
 
   /** Presses that did not land on a hold control, oldest first. */
@@ -139,6 +210,30 @@ export class Input {
 
   consumeReleases(): PointerEventInfo[] {
     return this.releases.splice(0, this.releases.length);
+  }
+
+  /**
+   * Presses and releases together, in the order they happened: two quick taps that arrive in
+   * one frame (a slow frame on a phone) stay two clicks.
+   */
+  consumePointer(): PointerAction[] {
+    const out: PointerAction[] = [];
+    const presses = this.consumePresses();
+    const releases = this.consumeReleases();
+    let i = 0;
+    let j = 0;
+    while (i < presses.length || j < releases.length) {
+      const p = presses[i];
+      const r = releases[j];
+      if (p !== undefined && (r === undefined || p.seq < r.seq)) {
+        out.push({ press: true, e: p });
+        i++;
+      } else if (r !== undefined) {
+        out.push({ press: false, e: r });
+        j++;
+      }
+    }
+    return out;
   }
 
   /** Key codes pressed since the last call (KeyboardEvent.code). */
@@ -162,15 +257,34 @@ export class Input {
     this.releases.length = 0;
     this.keyPresses.length = 0;
     this.wheel = 0;
-    this.dragX = 0;
-    this.dragY = 0;
+    this.drags.clear();
   }
 
-  private info(e: PointerEvent): PointerEventInfo {
+  /** Forgets every held key, button and finger (the window lost focus, the page was hidden). */
+  reset(): void {
+    this.keys.clear();
+    this.rightDown = false;
+    this.heldBy.clear();
+    this.downPointers.clear();
+    this.touches.clear();
+    this.palms.clear();
+    this.drags.clear();
+    this.pointer.down = false;
+  }
+
+  private info(e: PointerEvent, crowded: boolean): PointerEventInfo {
     const c = this.canvas;
     const r = c?.getBoundingClientRect();
     const p = this.toWorld(e.clientX - (r?.left ?? 0), e.clientY - (r?.top ?? 0));
-    return { x: p.x, y: p.y, kind: kindOf(e), button: e.button, id: e.pointerId };
+    return {
+      x: p.x,
+      y: p.y,
+      kind: kindOf(e),
+      button: e.button,
+      id: e.pointerId,
+      crowded,
+      seq: ++this.seq,
+    };
   }
 
   private track(p: PointerEventInfo): void {
@@ -180,45 +294,71 @@ export class Input {
     this.pointer.inside = true;
   }
 
+  /** Marks a new finger and every finger that landed shortly before it as one gesture. */
+  private landTouch(id: number, at: number): boolean {
+    let crowded = false;
+    for (const t of this.touches.values()) {
+      if (at - t.downAt < CROWD_MS) {
+        t.crowded = true;
+        crowded = true;
+      }
+    }
+    this.touches.set(id, { downAt: at, crowded });
+    return crowded;
+  }
+
   private readonly onPointerDown = (e: PointerEvent): void => {
-    const p = this.info(e);
+    const kind = kindOf(e);
+    if (isPalm(kind, e.width, e.height)) {
+      this.palms.add(e.pointerId);
+      e.preventDefault();
+      return;
+    }
+    const p = this.info(e, false);
     this.track(p);
     try {
       this.canvas?.setPointerCapture(e.pointerId);
     } catch {
       // Capture is a convenience; some synthetic events cannot be captured.
     }
-    if (p.kind === 'mouse' && e.button === 2) {
+    if (kind === 'mouse' && e.button === 2) {
       this.rightDown = true;
       e.preventDefault();
       return;
     }
-    const control = this.holdControls.find((c) => c.hit(p.x, p.y));
+    const control = this.holdControls.find((c) => c.hit(p.x, p.y, kind));
     if (control !== undefined) {
       this.heldBy.set(e.pointerId, control.id);
       e.preventDefault();
       return;
     }
     if (e.button !== 0) return;
+    const crowded = kind === 'touch' && this.landTouch(e.pointerId, performance.now());
     this.pointer.down = true;
     this.downPointers.set(e.pointerId, { x: p.x, y: p.y });
-    enqueue(this.presses, p);
+    enqueue(this.presses, crowded ? { ...p, crowded } : p);
     e.preventDefault();
   };
 
   private readonly onPointerMove = (e: PointerEvent): void => {
-    const p = this.info(e);
+    if (this.palms.has(e.pointerId)) return;
+    const p = this.info(e, false);
     const last = this.downPointers.get(e.pointerId);
     if (last !== undefined && p.kind === 'touch') {
-      this.dragX += p.x - last.x;
-      this.dragY += p.y - last.y;
+      const d = this.drags.get(e.pointerId) ?? { dx: 0, dy: 0 };
+      d.dx += p.x - last.x;
+      d.dy += p.y - last.y;
+      this.drags.set(e.pointerId, d);
       this.downPointers.set(e.pointerId, { x: p.x, y: p.y });
     }
     if (!this.heldBy.has(e.pointerId)) this.track(p);
   };
 
   private readonly onPointerUp = (e: PointerEvent): void => {
-    const p = this.info(e);
+    if (this.palms.delete(e.pointerId)) return;
+    const touch = this.touches.get(e.pointerId);
+    this.touches.delete(e.pointerId);
+    const p = this.info(e, touch?.crowded ?? false);
     // A touch's pointerup is the first event that grants user activation, which fullscreen needs.
     if (p.kind === 'touch' && !this.sawTouch && e.type === 'pointerup') {
       this.sawTouch = true;
@@ -230,7 +370,8 @@ export class Input {
     }
     if (this.heldBy.delete(e.pointerId)) return;
     if (this.downPointers.delete(e.pointerId)) {
-      enqueue(this.releases, p);
+      // A cancelled touch (the system took it, or a palm) is no tap: it reports as crowded.
+      enqueue(this.releases, e.type === 'pointercancel' ? { ...p, crowded: true } : p);
       this.pointer.down = this.downPointers.size > 0;
     }
   };
@@ -262,10 +403,6 @@ export class Input {
   };
 
   private readonly onBlur = (): void => {
-    this.keys.clear();
-    this.rightDown = false;
-    this.heldBy.clear();
-    this.downPointers.clear();
-    this.pointer.down = false;
+    this.reset();
   };
 }

@@ -8,6 +8,7 @@
 // board. MENU_SCENE takes a picture later: set it to an asset id under public/art/menu/ and the
 // picture replaces the lit field; nothing else changes.
 
+import { legible } from '../app/display';
 import type { Input } from '../app/input';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { masterPortraits, type PortraitImage } from '../art/masters';
@@ -35,9 +36,9 @@ import { rgba } from '../ui/color';
 import { drawText, type TextStyle } from '../ui/text';
 import { ButtonSet } from './buttons';
 import {
-  BUBBLE_TEXT,
   STEEL,
   bubbleHeight,
+  bubbleText,
   brassJoint,
   brassRail,
   drawSpeechBubble,
@@ -166,6 +167,7 @@ export class MainMenuScreen implements Screen {
   private notice = '';
   private noticeUntil = 0;
   private bubbleText = '';
+  private bubbleCap = 0;
   private bubbleLines: string[] = [];
   private readonly buttons: ButtonSet<Action>;
 
@@ -272,13 +274,19 @@ export class MainMenuScreen implements Screen {
       : 'Not in the game yet';
   }
 
-  /** What the master says: a notice, the item under the mouse, or where the campaign stands. */
+  /**
+   * What the master says: a notice, the item under the mouse (on a touch screen: under the
+   * finger while it is held down, so nothing stays behind after the finger lifts), or where the
+   * campaign stands.
+   */
   private speech(input: Input, now: number): string {
     if (now < this.noticeUntil) return this.notice;
     const p = progressStore().progress;
-    const i = this.buttons.any(input.pointer.x, input.pointer.y);
+    const pointer = input.pointer;
+    const touch = pointer.kind === 'touch';
+    const i = this.buttons.any(pointer.x, pointer.y, touch);
     const hovered =
-      input.pointer.inside && input.pointer.kind !== 'touch' ? this.buttons.items[i]?.action : null;
+      pointer.inside && (!touch || pointer.down) ? this.buttons.items[i]?.action : null;
     switch (hovered) {
       case 'adventure':
         return 'Play the stages in order and meet a new master in each one.';
@@ -384,9 +392,11 @@ export class MainMenuScreen implements Screen {
 
   private drawBubble(ctx: Ctx, input: Input, now: number, speaker: boolean): void {
     const text = this.speech(input, now);
-    if (text !== this.bubbleText) {
+    const style = bubbleText();
+    if (text !== this.bubbleText || style.cap !== this.bubbleCap) {
       this.bubbleText = text;
-      this.bubbleLines = wrapText(ctx, text, BUBBLE.w - 60, BUBBLE_TEXT);
+      this.bubbleCap = style.cap;
+      this.bubbleLines = wrapText(ctx, text, BUBBLE.w - 60, style);
     }
     const h = bubbleHeight(this.bubbleLines.length);
     const box: Box = { x: BUBBLE.x, y: BUBBLE.bottom - h, w: BUBBLE.w, h };
@@ -402,7 +412,7 @@ export class MainMenuScreen implements Screen {
       `Up next: ${next.level.id} ${next.level.name}`.toUpperCase(),
       b.x + b.w / 2,
       b.y - 16,
-      NEXT_LABEL,
+      legible(NEXT_LABEL),
       {
         maxWidth: b.w + 20,
       },

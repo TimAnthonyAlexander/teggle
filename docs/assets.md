@@ -1,6 +1,6 @@
 # Asset manifest
 
-Every third-party file Teggle ships, with its source and license, and every generated image with its prompt. Everything else on screen (frame, HUD, pegs, bricks, ball, cannon, buckets, buttons, panels, effects, the favicon) is drawn by Teggle's own code and contains no original game art.
+Every third-party file Teggle ships, with its source and license, and every generated image with its prompt. Everything else on screen (frame, HUD, pegs, bricks, ball, cannon, buckets, buttons, panels, effects, the favicon, and the home screen icons in `public/icons/`, rendered from the favicon by `tools/app-icons.ts`) is drawn by Teggle's own code and contains no original game art.
 
 | File | What it is | Source | License | Fetched | SHA-256 |
 | --- | --- | --- | --- | --- | --- |

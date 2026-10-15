@@ -8,6 +8,7 @@
 // A click on a cleared level plays it; on a touch screen the first tap shows its scores in the
 // info panel and the second plays it.
 
+import { display, legible } from '../app/display';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { audioBus } from '../audio/bus';
 import { CENTER_X, WORLD_H, WORLD_W, type Box } from '../layout';
@@ -363,9 +364,11 @@ export class LevelSelectScreen implements Screen {
     const cx = INFO.x + INFO.w / 2;
     if (level === null) {
       const anyCleared = this.pageLevels().some((l) => isCleared(p, l.level.id));
-      const text = anyCleared
-        ? 'Pick a level to see its best scores. Click a cleared level to play it.'
-        : 'Levels you clear in the Adventure can be replayed here.';
+      const text = !anyCleared
+        ? 'Levels you clear in the Adventure can be replayed here.'
+        : display.coarse
+          ? 'Tap a level to see its best scores, and tap a cleared level again to play it.'
+          : 'Pick a level to see its best scores. Click a cleared level to play it.';
       this.drawNote(ctx, text, INFO.y + INFO.h / 2 - 10, slot);
       return;
     }
@@ -375,13 +378,14 @@ export class LevelSelectScreen implements Screen {
       maxWidth: INFO.w - 40,
     });
     const sub = `Stage ${level.stage.stage} · Level ${level.index}${rec.fullClear ? ' · Full clear' : ''}`;
-    drawText(ctx, sub.toUpperCase(), cx, INFO.y + 52, INFO_SUB);
+    const subStyle = legible(INFO_SUB);
+    drawText(ctx, sub.toUpperCase(), cx, INFO.y + 52, subStyle, { maxWidth: INFO.w - 30 });
     if (!isCleared(p, id)) {
       drawLock(ctx, cx, INFO.y + 100, 2.2);
       this.drawNote(ctx, 'Clear this level in the Adventure to play it here.', INFO.y + 150, slot);
       return;
     }
-    drawText(ctx, 'BEST SCORES', cx, INFO.y + 74, { ...INFO_SUB, fill: '#ffffff' });
+    drawText(ctx, 'BEST SCORES', cx, INFO.y + 74, { ...subStyle, fill: '#ffffff' });
     let y = INFO.y + 84;
     rec.top.forEach((e, i) => {
       const who = e.master === null ? 'No master' : masterOfPower(e.master).animal;
@@ -395,20 +399,30 @@ export class LevelSelectScreen implements Screen {
       );
       y += 21;
     });
-    drawText(ctx, `Tries ${rec.tries} · Wins ${rec.wins}`, cx, INFO.y + INFO.h - 22, INFO_NOTE);
+    drawText(
+      ctx,
+      `Tries ${rec.tries} · Wins ${rec.wins}`,
+      cx,
+      INFO.y + INFO.h - 22,
+      legible(INFO_NOTE),
+    );
   }
 
   private noteSlot = -2;
+  private noteCap = 0;
 
   private drawNote(ctx: Ctx, text: string, y: number, slot: number): void {
-    if (this.noteLines === null || this.noteSlot !== slot) {
-      this.noteLines = wrapText(ctx, text, INFO.w - 60, INFO_NOTE);
+    const style = legible(INFO_NOTE);
+    if (this.noteLines === null || this.noteSlot !== slot || this.noteCap !== style.cap) {
+      this.noteLines = wrapText(ctx, text, INFO.w - 60, style);
       this.noteSlot = slot;
+      this.noteCap = style.cap;
     }
-    let ly = y - ((this.noteLines.length - 1) * 15) / 2;
+    const pitch = Math.max(15, style.cap * 1.6);
+    let ly = y - ((this.noteLines.length - 1) * pitch) / 2;
     for (const line of this.noteLines) {
-      drawText(ctx, line, INFO.x + INFO.w / 2, ly, INFO_NOTE);
-      ly += 15;
+      drawText(ctx, line, INFO.x + INFO.w / 2, ly, style);
+      ly += pitch;
     }
   }
 }

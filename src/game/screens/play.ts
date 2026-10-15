@@ -19,6 +19,8 @@ import { CANNON_PIVOT_Y } from '../../sim/tuning';
 import { masterPortraits, type PortraitImage } from '../art/masters';
 import { audioBus } from '../audio/bus';
 import { hoverCue, setGamePaused } from '../audio/cues';
+import { minTarget } from '../app/display';
+import type { Input, PointerEventInfo } from '../app/input';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { OptionsDialog } from '../menus/options';
 import { WORLD_H, WORLD_W, layout } from '../layout';
@@ -223,7 +225,9 @@ export class PlayScreen implements Screen {
     this.app = app;
     if (this.host.power !== null) void masterPortraits.preload(this.host.power);
     const h = layout.holdButton;
-    app.input.setHoldControl('fastForward', (x, y) => hitCircle(h.x, h.y, h.r, x, y));
+    app.input.setHoldControl('fastForward', (x, y, kind) =>
+      hitCircle(h.x, h.y, roundTarget(h.r, kind === 'touch'), x, y),
+    );
     this.removeDebug = installDebug({
       snapshot: () => this.snapshot(),
       setAim: (a) => {
@@ -274,6 +278,17 @@ export class PlayScreen implements Screen {
 
   letterbox(): string {
     return this.theme.dark;
+  }
+
+  /**
+   * The page was hidden or the phone turned upright: a level in progress waits behind the pause
+   * dialog, and its music and long sounds stop at once (spec 14.2, mobile pass). A level that
+   * is over keeps its end dialog.
+   */
+  interrupt(): void {
+    if (this.app === null || this.dialog !== null || this.pres.endRequest !== null) return;
+    this.openPause();
+    setGamePaused(true);
   }
 
   // -------------------------------------------------------------------------------------------
@@ -558,56 +573,13 @@ export class PlayScreen implements Screen {
         if (action !== null) this.act(action);
       }
     }
-    for (const p of input.consumePresses()) {
-      if (this.dialog !== null) {
-        this.dialog.press(p.x, p.y, now);
-        continue;
-      }
-      if (this.fever.cancellable) {
-        this.fever.cancel(this.showMs);
-        continue;
-      }
-      const m = layout.menuButton;
-      if (hitCircle(m.x, m.y, m.r, p.x, p.y)) {
-        audioBus.emit({ type: 'uiClick' });
-        this.openPause();
-        continue;
-      }
-      if (p.kind === 'touch') {
-        // During a shot a finger works the flippers; it neither aims nor fires.
-        if (this.attempt.phase !== 'aim' || this.powers.holding) continue;
-        this.touchId = p.id;
-        this.touchStart = now;
-        this.touchMoved = 0;
-        const port = layout.portrait;
-        this.touchOnLauncher = hitCircle(port.x, port.y, LAUNCHER_TAP_RADIUS, p.x, p.y);
-        if (!this.touchOnLauncher) this.aim.pointAt(p.x, p.y, this.pivotX, this.pivotY, false);
-      } else {
-        // A click fires where the barrel points: the pointer already aimed it, and a click
-        // must not undo fine aim from the wheel or the arrow keys.
-        this.fireRequest = 'mouse';
-      }
+    // Presses and releases in the order they happened, so two quick taps in one slow frame stay
+    // two taps.
+    for (const { press, e } of input.consumePointer()) {
+      if (press) this.onPress(e, now);
+      else this.onRelease(e, now, input);
     }
-    for (const r of input.consumeReleases()) {
-      if (this.dialog !== null) {
-        const action = this.dialog.release(r.x, r.y, now);
-        if (action !== null) this.act(action);
-        continue;
-      }
-      if (r.kind === 'touch' && r.id === this.touchId) {
-        this.touchId = -1;
-        if (this.touchMoved <= TAP_SLOP && now - this.touchStart < TAP_MS) {
-          if (this.touchOnLauncher) this.fireRequest = 'touch';
-          else this.tapFire = true;
-        }
-      }
-    }
-    const drag = input.consumeDrag();
-    if (this.touchId >= 0 && (drag.dx !== 0 || drag.dy !== 0)) {
-      const before = this.touchMoved;
-      this.touchMoved += Math.abs(drag.dx) + Math.abs(drag.dy);
-      if (before > TAP_SLOP) this.aim.drag(drag.dx, drag.dy);
-    }
+    this.applyDrag(input);
     const pointer = input.pointer;
     if (pointer.kind !== 'touch' && pointer.inside && this.dialog === null) {
       if (pointer.x !== this.lastPointerX || pointer.y !== this.lastPointerY) {
@@ -619,6 +591,75 @@ export class PlayScreen implements Screen {
     const wheel = input.consumeWheel();
     if (wheel !== 0 && this.dialog === null) {
       this.aim.nudge(wheel * WHEEL_STEP * this.aimFineness());
+    }
+  }
+
+  private onPress(p: PointerEventInfo, now: number): void {
+    const touch = p.kind === 'touch';
+    if (this.dialog !== null) {
+      if (p.crowded) this.dialog.cancel();
+      else this.dialog.press(p.x, p.y, now, touch);
+      return;
+    }
+    if (this.fever.cancellable) {
+      this.fever.cancel(this.showMs);
+      return;
+    }
+    if (p.crowded) {
+      // A second finger: the touches are one gesture (a pinch, a two-finger tap), not a tap.
+      this.touchId = -1;
+      return;
+    }
+    const m = layout.menuButton;
+    if (hitCircle(m.x, m.y, roundTarget(m.r, touch), p.x, p.y)) {
+      audioBus.emit({ type: 'uiClick' });
+      this.openPause();
+      return;
+    }
+    if (touch) {
+      // During a shot a finger works the flippers; it neither aims nor fires.
+      if (this.attempt.phase !== 'aim' || this.powers.holding) return;
+      this.touchId = p.id;
+      this.touchStart = now;
+      this.touchMoved = 0;
+      const port = layout.portrait;
+      this.touchOnLauncher = hitCircle(port.x, port.y, LAUNCHER_TAP_RADIUS, p.x, p.y);
+      if (!this.touchOnLauncher) this.aim.pointAt(p.x, p.y, this.pivotX, this.pivotY, false);
+    } else {
+      // A click fires where the barrel points: the pointer already aimed it, and a click
+      // must not undo fine aim from the wheel or the arrow keys.
+      this.fireRequest = 'mouse';
+    }
+  }
+
+  private onRelease(r: PointerEventInfo, now: number, input: Input): void {
+    if (this.dialog !== null) {
+      if (r.crowded) {
+        this.dialog.cancel();
+        return;
+      }
+      const action = this.dialog.release(r.x, r.y, now, r.kind === 'touch');
+      if (action !== null) this.act(action);
+      return;
+    }
+    if (r.kind === 'touch' && r.id === this.touchId) {
+      // The finger's last moves count before deciding whether it was a tap.
+      this.applyDrag(input);
+      this.touchId = -1;
+      if (!r.crowded && this.touchMoved <= TAP_SLOP && now - this.touchStart < TAP_MS) {
+        if (this.touchOnLauncher) this.fireRequest = 'touch';
+        else this.tapFire = true;
+      }
+    }
+  }
+
+  /** Fine aim: only the finger that aims turns the cannon, not a resting palm or a second one. */
+  private applyDrag(input: Input): void {
+    const drag = input.consumeDrag(this.touchId);
+    if (this.touchId >= 0 && (drag.dx !== 0 || drag.dy !== 0)) {
+      const before = this.touchMoved;
+      this.touchMoved += Math.abs(drag.dx) + Math.abs(drag.dy);
+      if (before > TAP_SLOP) this.aim.drag(drag.dx, drag.dy);
     }
   }
 
@@ -649,6 +690,7 @@ export class PlayScreen implements Screen {
     this.dialog = new Dialog('pause', this.uiMs, null, this.tries, 0, this.dialogLabels(null));
     this.fireRequest = null;
     this.tapFire = false;
+    this.touchId = -1;
   }
 
   private closePause(): void {
@@ -737,7 +779,15 @@ export class PlayScreen implements Screen {
       const p = app.input.pointer;
       const over = this.options === null && this.dialog.hovering(p.x, p.y, this.uiMs);
       hoverCue(this.dialog, p.kind !== 'touch' && over);
-      this.dialog.render(ctx, k, this.uiMs, p.x, p.y, p.down && this.options === null);
+      this.dialog.render(
+        ctx,
+        k,
+        this.uiMs,
+        p.x,
+        p.y,
+        p.down && this.options === null,
+        p.kind === 'touch',
+      );
     }
     this.options?.render(ctx, k, app.input, this.uiMs);
     const t1 = performance.now();
@@ -923,10 +973,12 @@ export class PlayScreen implements Screen {
       const p = app.input.pointer;
       const menu = layout.menuButton;
       const hold = layout.holdButton;
-      const overMenu = p.inside && hitCircle(menu.x, menu.y, menu.r, p.x, p.y);
-      const overHold = p.inside && hitCircle(hold.x, hold.y, hold.r, p.x, p.y);
-      hoverCue(menu, overMenu && p.kind !== 'touch');
-      hoverCue(hold, overHold && p.kind !== 'touch');
+      // A finger shows no hover: where it lifted is not where it rests.
+      const mouse = p.kind !== 'touch';
+      const overMenu = mouse && p.inside && hitCircle(menu.x, menu.y, menu.r, p.x, p.y);
+      const overHold = mouse && p.inside && hitCircle(hold.x, hold.y, hold.r, p.x, p.y);
+      hoverCue(menu, overMenu);
+      hoverCue(hold, overHold);
       m.menuButton = overMenu ? 'hover' : 'normal';
       m.holdButton = app.input.fastForwardHeld ? 'down' : overHold ? 'hover' : 'normal';
     }
@@ -1060,6 +1112,11 @@ export class PlayScreen implements Screen {
     }
     return best;
   }
+}
+
+/** A round button's hit radius: its own, or 44 CSS px across for a finger. */
+function roundTarget(r: number, touch: boolean): number {
+  return touch ? Math.max(r, minTarget() / 2) : r;
 }
 
 /**

@@ -17,6 +17,7 @@ import {
   type Ctx,
   type PathFn,
 } from '../render/paint';
+import { legible } from '../app/display';
 import { darken, lighten, mix, rgba } from './color';
 import { drawText, textStyle, type TextStyle } from './text';
 import { color } from './tokens';
@@ -29,6 +30,57 @@ export function hitBox(b: Box, x: number, y: number): boolean {
 
 export function hitCircle(cx: number, cy: number, r: number, x: number, y: number): boolean {
   return (x - cx) * (x - cx) + (y - cy) * (y - cy) <= r * r;
+}
+
+export interface Target {
+  readonly box: Box;
+  /** Hit as the circle inscribed in the box. */
+  readonly round?: boolean;
+}
+
+/** Distance from (x, y) to a target's own shape; 0 inside it. */
+function targetDistance(t: Target, x: number, y: number): number {
+  const b = t.box;
+  if (t.round === true) {
+    const r = Math.min(b.w, b.h) / 2;
+    return Math.max(0, Math.hypot(x - (b.x + b.w / 2), y - (b.y + b.h / 2)) - r);
+  }
+  const dx = Math.max(b.x - x, 0, x - (b.x + b.w));
+  const dy = Math.max(b.y - y, 0, y - (b.y + b.h));
+  return Math.hypot(dx, dy);
+}
+
+/**
+ * The target at (x, y), or -1. With `minSize` > 0 (a finger), every target also answers within a
+ * box grown to at least `minSize` wide and tall around its center, and where grown boxes
+ * overlap the nearest target wins; a target hit exactly always wins. `usable` filters targets.
+ */
+export function pickTarget(
+  targets: readonly Target[],
+  x: number,
+  y: number,
+  minSize = 0,
+  usable: (i: number) => boolean = () => true,
+): number {
+  let best = -1;
+  let bestD = Infinity;
+  for (let i = targets.length - 1; i >= 0; i--) {
+    const t = targets[i];
+    if (t === undefined || !usable(i)) continue;
+    const d = targetDistance(t, x, y);
+    if (d === 0) return i;
+    if (minSize <= 0 || d >= bestD) continue;
+    const b = t.box;
+    const hw = Math.max(b.w, minSize) / 2;
+    const hh = Math.max(b.h, minSize) / 2;
+    const cx = b.x + b.w / 2;
+    const cy = b.y + b.h / 2;
+    if (Math.abs(x - cx) <= hw && Math.abs(y - cy) <= hh) {
+      best = i;
+      bestD = d;
+    }
+  }
+  return best;
 }
 
 function glossyFace(
@@ -200,7 +252,7 @@ export function drawPillButton(
     });
     ctx.restore();
   }
-  const ink = { ...pillInk(variant, state), cap: opts.cap ?? (b.h > 30 ? 11 : 9.5) };
+  const ink = legible({ ...pillInk(variant, state), cap: opts.cap ?? (b.h > 30 ? 11 : 9.5) });
   drawText(ctx, label.toUpperCase(), b.x + b.w / 2, b.y + b.h / 2 + 0.4, ink, {
     maxWidth: b.w - b.h,
   });
@@ -273,7 +325,7 @@ export function drawRoundButton(
       label.toUpperCase(),
       cx,
       cy + 0.5,
-      {
+      legible({
         cap: Math.max(6, r * 0.3),
         fill: [
           [0, lighten(ink, 0.4)],
@@ -282,7 +334,7 @@ export function drawRoundButton(
         outline: { color: darken(faceColor, 0.75), width: 1.1 },
         align: 'center',
         anchor: 'middle',
-      },
+      }),
       { maxWidth: fr * 1.7 },
     );
   }
@@ -411,14 +463,14 @@ export function drawGelSlab(
       sub.toUpperCase(),
       b.x + b.w / 2,
       labelY + cap * 1.25,
-      {
+      legible({
         face: 'caps',
         cap: Math.max(7, cap * 0.36),
         fill: off ? '#d6e2e6' : '#e6ffb0',
         outline: { color: off ? '#0d171b' : '#06260f', width: 1.4 },
         align: 'center',
         anchor: 'middle',
-      },
+      }),
       { maxWidth: b.w - 28 },
     );
   }
@@ -494,11 +546,11 @@ export function drawToggle(
     label.toUpperCase(),
     b.x + b.h + 8,
     b.y + b.h / 2 + 0.4,
-    {
+    legible({
       ...pillInk('blue', state),
       cap: 9.5,
       align: 'left',
-    },
+    }),
     { maxWidth: b.w - b.h - 14 },
   );
 }
@@ -709,20 +761,24 @@ export function drawListRow(
     ctx.fill();
   }
   const cy = b.y + b.h / 2;
-  drawText(ctx, `${rank}.`, b.x + 22, cy, {
-    cap: 10,
-    fill: '#ff9a2a',
-    outline: { color: '#2a0d00', width: 1 },
-    align: 'right',
-    anchor: 'middle',
-  });
   drawText(
     ctx,
-    name,
-    b.x + 30,
-    cy + 4,
-    { ...textStyle.body('#ffffff'), cap: 8.6 },
-    { maxWidth: b.w - 120 },
+    `${rank}.`,
+    b.x + 22,
+    cy,
+    legible({
+      cap: 10,
+      fill: '#ff9a2a',
+      outline: { color: '#2a0d00', width: 1 },
+      align: 'right',
+      anchor: 'middle',
+    }),
   );
-  drawText(ctx, value, b.x + b.w - 8, cy, { ...textStyle.rowValue(), cap: 10 }, { maxWidth: 90 });
+  const nameStyle = legible({ ...textStyle.body('#ffffff'), cap: 8.6 });
+  drawText(ctx, name, b.x + 30, cy + nameStyle.cap / 2 - 0.3, nameStyle, {
+    maxWidth: b.w - 120,
+  });
+  drawText(ctx, value, b.x + b.w - 8, cy, legible({ ...textStyle.rowValue(), cap: 10 }), {
+    maxWidth: 90,
+  });
 }

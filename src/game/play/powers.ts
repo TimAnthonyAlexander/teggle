@@ -12,6 +12,7 @@
 // the Pyramid, the dome, the flippers) until they are let through.
 
 import type { Attempt, AttemptView } from '../../rules/attempt';
+import { legibleScale } from '../app/display';
 import type { RulesEvent } from '../../rules/events';
 import { masterOfPower, masterOfStage } from '../../rules/masters';
 import {
@@ -806,20 +807,23 @@ export class PowerShow {
     for (const f of this.fx) {
       if (f.active && f.kind === 'burst') drawGreenBurst(ctx, k, f.x, f.y, this.gameMs - f.t0);
     }
+    // On a phone the labels grow to stay legible; the second line keeps its place under the first.
+    const grow = legibleScale(LABEL.cap);
+    const grow2 = legibleScale(LABEL_SMALL.cap);
     for (const l of this.labels) {
       if (!l.active) continue;
       const p = popIn(this.gameMs - l.t0, 900);
       if (p.done || p.alpha <= 0) continue;
       const s = 1 + (p.scale - 1) * 0.5;
-      const y = Math.max(70, l.y - 26);
-      drawTextSprite(ctx, sprites.get(k, 'powerLabel', LABEL, l.line1), l.x, y, s, p.alpha);
+      const y = Math.max(70, l.y - 26 - (grow - 1) * 8);
+      drawTextSprite(ctx, sprites.get(k, 'powerLabel', LABEL, l.line1), l.x, y, s * grow, p.alpha);
       if (l.line2.length > 0) {
         drawTextSprite(
           ctx,
           sprites.get(k, 'powerLabel2', LABEL_SMALL, l.line2),
           l.x,
-          y + 12 * s,
-          s,
+          y + 12 * s * grow,
+          s * grow2,
           p.alpha,
         );
       }

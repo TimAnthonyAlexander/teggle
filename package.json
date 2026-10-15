@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && tsx tools/build-sw.ts",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -23,6 +23,9 @@
     "gen:level": "tsx tools/gen-level.ts",
     "shots:levels": "tsx tools/level-shots.ts",
     "shots:menus": "tsx tools/menu-shots.ts",
+    "shots:mobile": "tsx tools/mobile-shots.ts",
+    "perf:mobile": "tsx tools/mobile-perf.ts",
+    "icons": "tsx tools/app-icons.ts",
     "audio:render": "tsx tools/render-audio.ts",
     "campaign:build": "tsx tools/campaign/build.ts",
     "campaign:art": "tsx tools/campaign/art.ts",

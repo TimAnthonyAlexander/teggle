@@ -150,14 +150,18 @@ export class StageIntroScreen implements Screen {
         else this.go('continue');
       } else if (code === 'Escape') this.go('menu');
     }
-    for (const p of input.consumePresses()) {
-      this.buttons.press(p.x, p.y);
-      // A click outside the buttons finishes the typing.
-      if (this.buttons.at(p.x, p.y) < 0) this.typedAll = true;
-    }
-    for (const r of input.consumeReleases()) {
-      const a = this.buttons.release(r.x, r.y);
-      if (a !== null) this.go(a);
+    for (const { press, e } of input.consumePointer()) {
+      const touch = e.kind === 'touch';
+      if (press) {
+        // A click outside the buttons finishes the typing.
+        if (this.buttons.at(e.x, e.y, touch) < 0) this.typedAll = true;
+      }
+      if (e.crowded) this.buttons.cancel();
+      else if (press) this.buttons.press(e.x, e.y, touch);
+      else {
+        const a = this.buttons.release(e.x, e.y, touch);
+        if (a !== null) this.go(a);
+      }
     }
 
     ctx.fillStyle = '#0d0838';

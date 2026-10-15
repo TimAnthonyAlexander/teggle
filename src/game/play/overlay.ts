@@ -12,6 +12,7 @@ import {
   type StyleShotId,
 } from '../../rules/style';
 import { FREE_BALL_THRESHOLDS } from '../../rules/tuning';
+import { legibleScale } from '../app/display';
 import { CENTER_X, WORLD_H, WORLD_W } from '../layout';
 import { createCanvas, context2d, drawLayer, layers, type Layer } from '../render/cache';
 import { circlePath, linear, radial, roundRect, type Ctx } from '../render/paint';
@@ -147,6 +148,10 @@ export class Overlay {
   /** Style shots, the bonus peg label and free ball notices, with the overshoot pop (9.3). */
   drawCallouts(ctx: Ctx, k: number, pres: Presenter): void {
     const now = pres.gameMs;
+    // The small second lines grow on a phone, where their design size cannot be read.
+    const value = legibleScale(STYLE_VALUE.cap);
+    const bonus = legibleScale(BONUS.cap);
+    const sub = legibleScale(NOTICE_SUB.cap);
     for (const c of pres.callouts) {
       if (!c.active) continue;
       const f = popIn(now - c.t0, c.hold);
@@ -165,13 +170,20 @@ export class Overlay {
           ctx,
           this.sprites.get(k, 'styleValue', STYLE_VALUE, c.line2),
           c.x,
-          c.y + 16 * s,
-          s,
+          c.y + (16 + (value - 1) * 5) * s,
+          s * value,
           f.alpha,
         );
       } else if (c.kind === 'bonus') {
         const s = 1 + (f.scale - 1) * 0.5;
-        drawTextSprite(ctx, this.sprites.get(k, 'bonus', BONUS, c.line1), c.x, c.y, s, f.alpha);
+        drawTextSprite(
+          ctx,
+          this.sprites.get(k, 'bonus', BONUS, c.line1),
+          c.x,
+          c.y,
+          s * bonus,
+          f.alpha,
+        );
       } else {
         const s = 1 + (f.scale - 1) * 0.6;
         drawTextSprite(ctx, this.sprites.get(k, 'notice', NOTICE, c.line1), c.x, c.y, s, f.alpha);
@@ -180,8 +192,8 @@ export class Overlay {
             ctx,
             this.sprites.get(k, 'noticeSub', NOTICE_SUB, c.line2),
             c.x,
-            c.y + 17 * s,
-            s,
+            c.y + (17 + (sub - 1) * 5) * s,
+            s * sub,
             f.alpha,
           );
         }

@@ -3,6 +3,7 @@
 // and an orange primary button. Real numbers only: everything shown comes from the attempt's
 // own score breakdown.
 
+import { legible, legibleScale, minTarget, touchPitch } from '../app/display';
 import { CENTER_X, WORLD_H, WORLD_W, layout, type Box } from '../layout';
 import { drawLayer, layers } from '../render/cache';
 import { linear, roundRect, type Ctx } from '../render/paint';
@@ -10,8 +11,8 @@ import {
   drawPanel,
   drawPillButton,
   drawRow,
-  hitBox,
   panelContent,
+  pickTarget,
   type ButtonState,
   type PillVariant,
 } from '../ui/controls';
@@ -55,7 +56,6 @@ export const TIPS: readonly string[] = [
 ];
 
 const STATS: TextStyle = textStyle.stats();
-const STATS_RIGHT: TextStyle = { ...textStyle.stats(), align: 'right' };
 const PAUSED: TextStyle = {
   cap: 46,
   fill: [
@@ -104,6 +104,41 @@ export class Dialog {
     private readonly labels: DialogLabels = TEST_LABELS,
   ) {
     this.tip = TIPS[((tipIndex % TIPS.length) + TIPS.length) % TIPS.length] ?? '';
+    if (kind === 'pause' && touchPitch(42) > 42) {
+      // Touch screens: Resume, then the three choices side by side, each target at least
+      // 44 CSS px and the rows that far apart (spec 14.2, mobile pass).
+      const target = minTarget();
+      const choiceW = 158;
+      const choiceH = 36;
+      const gap = 14;
+      const w = 3 * choiceW + 2 * gap + 60;
+      const resumeH = 40;
+      const rowGap = Math.max(target, (resumeH + choiceH) / 2 + 24);
+      const h = 30 + resumeH / 2 + rowGap + choiceH / 2 + 30;
+      const y = Math.round(295 - h / 2);
+      this.box = { x: CENTER_X - w / 2, y, w, h };
+      const choicesY = y + 30 + resumeH / 2 + rowGap - choiceH / 2;
+      const choice = (i: number, label: string, action: DialogAction): Button => ({
+        box: { x: this.box.x + 30 + i * (choiceW + gap), y: choicesY, w: choiceW, h: choiceH },
+        label,
+        variant: 'blue',
+        action,
+        primary: false,
+      });
+      this.buttons.push(
+        {
+          box: { x: CENTER_X - 100, y: y + 30, w: 200, h: resumeH },
+          label: 'Resume',
+          variant: 'orange',
+          action: 'resume',
+          primary: true,
+        },
+        choice(0, 'Options', 'options'),
+        choice(1, 'Restart Level', 'restart'),
+        choice(2, labels.quit, 'quit'),
+      );
+      return;
+    }
     if (kind === 'pause') {
       this.box = { x: CENTER_X - 150, y: 176, w: 300, h: 238 };
       const bx = this.box.x + this.box.w / 2;
@@ -144,19 +179,24 @@ export class Dialog {
     return this.kind === 'pause' ? 0 : dialogDrop(now - this.t0, DROP_DISTANCE);
   }
 
-  /** The button under (x, y), or -1. */
-  private buttonAt(x: number, y: number, now: number): number {
+  /** The button under (x, y), or -1; `touch` uses finger-sized targets (44 CSS px). */
+  private buttonAt(x: number, y: number, now: number, touch = false): number {
     const dy = this.offset(now);
-    return this.buttons.findIndex((b) => hitBox(b.box, x, y - dy));
+    return pickTarget(this.buttons, x, y - dy, touch ? minTarget() : 0);
   }
 
-  press(x: number, y: number, now: number): void {
-    this.pressed = this.buttonAt(x, y, now);
+  press(x: number, y: number, now: number, touch = false): void {
+    this.pressed = this.buttonAt(x, y, now, touch);
+  }
+
+  /** Forgets a press (a second finger joined it), so its release clicks nothing. */
+  cancel(): void {
+    this.pressed = -1;
   }
 
   /** The action of a click released on the button it started on. */
-  release(x: number, y: number, now: number): DialogAction | null {
-    const i = this.buttonAt(x, y, now);
+  release(x: number, y: number, now: number, touch = false): DialogAction | null {
+    const i = this.buttonAt(x, y, now, touch);
     const pressed = this.pressed;
     this.pressed = -1;
     if (i < 0 || i !== pressed) return null;
@@ -179,6 +219,7 @@ export class Dialog {
     pointerX: number,
     pointerY: number,
     pointerDown: boolean,
+    touch = false,
   ): void {
     const t = now - this.t0;
     // Dim the board a little behind the dialog.
@@ -191,10 +232,17 @@ export class Dialog {
     ctx.translate(0, dy);
     if (this.kind === 'pause') this.renderPause(ctx);
     else this.renderResult(ctx, k, t);
-    const hover = this.buttonAt(pointerX, pointerY, now);
+    const hover = this.buttonAt(pointerX, pointerY, now, touch);
     this.buttons.forEach((b, i) => {
+      // A finger shows only the press; a mouse also shows hover.
       const state: ButtonState =
-        i === hover ? (pointerDown && this.pressed === i ? 'down' : 'hover') : 'normal';
+        i === hover
+          ? pointerDown && this.pressed === i
+            ? 'down'
+            : touch
+              ? 'normal'
+              : 'hover'
+          : 'normal';
       drawPillButton(ctx, b.box, b.variant, state, b.label, { lugs: b.primary });
     });
     ctx.restore();
@@ -245,12 +293,17 @@ export class Dialog {
         y += 26;
       }
     }
-    // Stat block: two columns in the sans face (guide 10.6).
+    // Stat block: two columns in the sans face (guide 10.6). On a phone the sans face grows to
+    // stay legible, and the columns move in to make room for it.
     y += 10;
+    const stats = legible(STATS);
+    const statsRight: TextStyle = { ...stats, align: 'right' };
+    const grown = stats.cap > STATS.cap;
+    const pitch = Math.max(16, stats.cap * 1.45);
     const left = c.x;
-    const mid = c.x + 150;
+    const mid = c.x + (grown ? 136 : 150);
     const right = c.x + c.w;
-    const rightLabel = c.x + 196;
+    const rightLabel = c.x + (grown ? 176 : 196);
     const rows: [string, string, string, string][] = [
       ['Shots:', String(r.shots), 'Shot points:', n(r.shotPoints)],
       ['Free balls:', String(r.freeBalls), 'Style points:', n(r.stylePoints)],
@@ -264,17 +317,19 @@ export class Dialog {
     if (won && r.unusedBalls > 0) rows.push(['', '', 'Balls left:', n(r.unusedPoints)]);
     for (const [l1, v1, l2, v2] of rows) {
       if (l1 !== '') {
-        drawText(ctx, l1, left, y, STATS);
-        drawText(ctx, v1, mid, y, STATS_RIGHT);
+        drawText(ctx, l1, left, y, stats);
+        drawText(ctx, v1, mid, y, statsRight);
       }
-      drawText(ctx, l2, rightLabel, y, STATS);
-      drawText(ctx, v2, right, y, STATS_RIGHT);
-      y += 16;
+      drawText(ctx, l2, rightLabel, y, stats);
+      drawText(ctx, v2, right, y, statsRight);
+      y += pitch;
     }
     if (!won) {
       y += 8;
-      this.tipLines ??= wrap(ctx, this.tip, c.w - 46, TIP_STYLE);
-      drawTip(ctx, c.x, y, this.tipLines);
+      const tip = legible(TIP_STYLE);
+      const badge = legibleScale(8);
+      this.tipLines ??= wrap(ctx, this.tip, c.w - 12 - 34 * badge, tip);
+      drawTip(ctx, c.x, y, this.tipLines, tip, badge);
     }
   }
 
@@ -338,10 +393,18 @@ function paintSegment(ctx: Ctx): void {
   }
 }
 
-function drawTip(ctx: Ctx, x: number, y: number, lines: readonly string[]): void {
+/** The tip with its badge; `s` scales the badge, `style` is the sentence's (both grow on phones). */
+function drawTip(
+  ctx: Ctx,
+  x: number,
+  y: number,
+  lines: readonly string[],
+  style: TextStyle = TIP_STYLE,
+  s = 1,
+): void {
   // Badge: a small green rounded tag with "TIP".
-  roundRect(ctx, x, y - 2, 34, 18, 6);
-  ctx.fillStyle = linear(ctx, 0, y - 2, 0, y + 16, [
+  roundRect(ctx, x, y - 2, 34 * s, 18 * s, 6 * s);
+  ctx.fillStyle = linear(ctx, 0, y - 2, 0, y - 2 + 18 * s, [
     [0, '#7dff9a'],
     [1, '#138a3a'],
   ]);
@@ -349,17 +412,18 @@ function drawTip(ctx: Ctx, x: number, y: number, lines: readonly string[]): void
   ctx.lineWidth = 1;
   ctx.strokeStyle = '#063014';
   ctx.stroke();
-  drawText(ctx, 'TIP', x + 17, y + 7.5, {
-    cap: 8,
+  drawText(ctx, 'TIP', x + 17 * s, y - 2 + 9.5 * s, {
+    cap: 8 * s,
     fill: '#ffffff',
-    outline: { color: '#063014', width: 1.4 },
+    outline: { color: '#063014', width: 1.4 * s },
     align: 'center',
     anchor: 'middle',
   });
   // The sentence beside it.
-  let ly = y + 9;
+  const pitch = Math.max(13, style.cap * 1.6);
+  let ly = y + 9 + (style.cap - TIP_STYLE.cap) * 0.6;
   for (const line of lines) {
-    drawText(ctx, line, x + 44, ly, TIP_STYLE);
-    ly += 13;
+    drawText(ctx, line, x + 10 + 34 * s, ly, style);
+    ly += pitch;
   }
 }

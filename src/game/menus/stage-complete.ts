@@ -3,6 +3,7 @@
 // brings, its thumbnail turning from silhouette to portrait. On the dialog panel of visual
 // guide 10.6; Teggle's own medal (guide 15: no original emblems or ribbon text).
 
+import { legible } from '../app/display';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { masterPortraits } from '../art/masters';
 import { audioBus } from '../audio/bus';
@@ -168,7 +169,8 @@ export class StageCompleteScreen implements Screen {
         'Every level and every master is yours in Quick Play.',
         CENTER_X,
         cy + 54,
-        NOTE,
+        legible(NOTE),
+        { maxWidth: BOX.w - 60 },
       );
       return;
     }
@@ -196,7 +198,10 @@ export class StageCompleteScreen implements Screen {
         : this.nextBuilt
           ? `Power: ${powerName(power)}.`
           : `Power: ${powerName(power)}. The next stage's levels are not in the game yet.`;
-    drawText(ctx, note, CENTER_X, y + TILE + 42, NOTE, { alpha: r });
+    drawText(ctx, note, CENTER_X, y + TILE + 42, legible(NOTE), {
+      alpha: r,
+      maxWidth: BOX.w - 60,
+    });
   }
 
   private drawMedal(ctx: Ctx, x: number, y: number, t: number): void {

@@ -2,6 +2,7 @@
 // resolution (device pixels per world unit) and redrawn with drawImage until the resolution
 // or its key changes.
 
+import { WORLD_H, WORLD_W } from '../layout';
 import type { Ctx } from './paint';
 
 export interface Layer {
@@ -26,10 +27,26 @@ export function context2d(canvas: HTMLCanvasElement): Ctx {
   return ctx;
 }
 
+/** Backing store pixels of one layer covering the whole world at `k` device pixels per unit. */
+function worldPixels(k: number): number {
+  return Math.ceil(WORLD_W * k) * Math.ceil(WORLD_H * k);
+}
+
 export class LayerCache {
   private readonly layers = new Map<string, Layer>();
+  private pixels = 0;
+  private topK = 0;
 
-  constructor(private readonly maxEntries = 160) {}
+  /**
+   * Holds at most `maxEntries` layers, and at most `maxWorlds` times the pixels of a layer that
+   * covers the whole world at the current resolution: full-screen layers (the frame of each
+   * theme, each level's picture, the menu plates) would otherwise pile up level after level,
+   * hundreds of megabytes on a phone (spec 14.2, mobile pass). The oldest layers go first.
+   */
+  constructor(
+    private readonly maxEntries = 160,
+    private readonly maxWorlds = Infinity,
+  ) {}
 
   /**
    * Returns the layer for `key` at `k` device pixels per world unit, drawing it on a miss.
@@ -60,16 +77,39 @@ export class LayerCache {
     draw(ctx);
     const layer: Layer = { canvas, x, y, w, h };
     this.layers.set(full, layer);
-    while (this.layers.size > this.maxEntries) {
-      const oldest = this.layers.keys().next();
+    this.pixels += canvas.width * canvas.height;
+    // The budget follows the screen's resolution, the highest in the cache: small copies drawn
+    // at a lower one (the pegs of a thumbnail) must not shrink it.
+    this.topK = Math.max(this.topK, kk);
+    const budget = this.maxWorlds * worldPixels(this.topK);
+    while (this.layers.size > 1 && (this.layers.size > this.maxEntries || this.pixels > budget)) {
+      const oldest = this.layers.entries().next();
       if (oldest.done === true) break;
-      this.layers.delete(oldest.value);
+      const [oldKey, old] = oldest.value;
+      this.layers.delete(oldKey);
+      this.pixels -= old.canvas.width * old.canvas.height;
     }
     return layer;
   }
 
   clear(): void {
     this.layers.clear();
+    this.pixels = 0;
+    this.topK = 0;
+  }
+
+  /** How many layers are held, their backing stores' total size in pixels, the largest ones. */
+  stats(): { count: number; pixels: number; largest: string[] } {
+    let pixels = 0;
+    const sizes: [string, number][] = [];
+    for (const [key, l] of this.layers) {
+      const p = l.canvas.width * l.canvas.height;
+      pixels += p;
+      sizes.push([key, p]);
+    }
+    sizes.sort((a, b) => b[1] - a[1]);
+    const largest = sizes.slice(0, 8).map(([key, p]) => `${key} ${(p / 1e6).toFixed(2)}`);
+    return { count: this.layers.size, pixels, largest };
   }
 }
 
@@ -78,5 +118,9 @@ export function drawLayer(ctx: Ctx, layer: Layer, dx = 0, dy = 0): void {
   ctx.drawImage(layer.canvas, layer.x + dx, layer.y + dy, layer.w, layer.h);
 }
 
-/** Shared cache for the whole renderer. */
-export const layers = new LayerCache();
+/**
+ * Shared cache for the whole renderer. A level keeps about 3.6 full-world layers in use (its
+ * frame, the frame's shadow, its picture, the HUD and sprites), a menu about 1.6; 8 holds both
+ * with room, so nothing in use is ever evicted.
+ */
+export const layers = new LayerCache(160, 8);
