@@ -29,6 +29,8 @@ export interface CheckReport {
   readonly quickDisappear: readonly number[];
   /** Distinct stuck spots fixed that way. */
   readonly spotsFixed: number;
+  /** The fixed spots themselves, round by round (the line editor shows where they were). */
+  readonly fixed: readonly (StuckSpot & { readonly count: number })[];
   /** Stuck spots of the last round that touch no scoring object (cannot be fixed by flags). */
   readonly unfixable: readonly StuckSpot[];
   /** Stuck spots still found in the last round. */
@@ -72,6 +74,7 @@ export async function checkAndFix(
   let current = level;
   let result: CheckResult | null = null;
   const qd = new Set<number>();
+  const fixed: (StuckSpot & { count: number })[] = [];
   let spotsFixed = 0;
   let rounds = 0;
   let shots = 0;
@@ -92,6 +95,7 @@ export async function checkAndFix(
     // The last round only verifies: its findings are reported, not applied unchecked.
     if (fresh.length === 0 || rounds === maxRounds) break;
     spotsFixed += fresh.length;
+    fixed.push(...fresh);
     for (const s of fresh) for (const id of s.scoring) qd.add(id);
     current = withFlags(current, (e) =>
       qd.has(e.id) && !quick(e) ? { quickDisappear: true } : null,
@@ -120,6 +124,7 @@ export async function checkAndFix(
       unflagged,
       quickDisappear: [...qd].sort((a, b) => a - b),
       spotsFixed,
+      fixed,
       unfixable: final.spots.filter((s) => s.scoring.length === 0),
       remainingSpots: remaining.length,
       shots,

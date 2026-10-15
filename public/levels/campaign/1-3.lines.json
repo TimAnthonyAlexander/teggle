@@ -108,6 +108,18 @@
       ]
     },
     {
+      "id": "puff-left-center",
+      "note": "Middle of the left cloud puff",
+      "mode": "pegs",
+      "points": [[236, 416], [236, 424]]
+    },
+    {
+      "id": "puff-right-center",
+      "note": "Middle of the right cloud puff",
+      "mode": "pegs",
+      "points": [[680, 416], [680, 424]]
+    },
+    {
       "id": "cloud-left",
       "note": "Tops of the cloud bank below the left rock",
       "mode": "pegs",

@@ -3,12 +3,13 @@
 // reproduces a level exactly; the level file keeps all three in its provenance.
 
 import { z } from 'zod';
+import { editSchema } from './edits';
 import { REGION_NAMES } from './template';
 import { fillParams } from './templates/fill';
 import { TEMPLATE_NAMES } from './templates';
 
 /** Bump when a change makes any recipe and seed produce a different level. */
-export const GENERATOR_VERSION = '1.1.0';
+export const GENERATOR_VERSION = '1.2.0';
 
 export const partSchema = z.strictObject({
   template: z.enum(TEMPLATE_NAMES),
@@ -30,6 +31,8 @@ export const recipeSchema = z.strictObject({
   parts: z.array(partSchema).min(1).max(3),
   /** Pegs that fill the free space up to the target, or 'none'. */
   fill: z.union([z.literal('none'), fillParams]).optional(),
+  /** Manual edits, applied after everything is placed (edits.ts). */
+  edits: z.array(editSchema).max(400).optional(),
 });
 
 export type Recipe = z.output<typeof recipeSchema>;

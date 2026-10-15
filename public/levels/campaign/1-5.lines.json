@@ -164,17 +164,17 @@
     },
     {
       "id": "cloud-left",
-      "note": "Cloud bank at the foot of the left dandelion",
+      "note": "Cloud bank at the foot of the left dandelion, on the inner side of its stem",
       "mode": "pegs",
       "spacing": 36,
-      "points": [[24, 500], [60, 484], [98, 488]]
+      "points": [[176, 502], [204, 490], [232, 500]]
     },
     {
       "id": "cloud-right",
-      "note": "Cloud bank at the foot of the right dandelion",
+      "note": "Cloud bank at the foot of the right dandelion, on the inner side of its stem",
       "mode": "pegs",
       "spacing": 36,
-      "points": [[892, 500], [856, 484], [818, 488]]
+      "points": [[740, 502], [712, 490], [684, 500]]
     }
   ]
 }

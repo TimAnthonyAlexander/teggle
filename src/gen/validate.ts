@@ -3,6 +3,8 @@
 //   - no two objects come closer than MIN_GAP, except bricks joined by a seam of at most
 //     JOIN_GAP (the ball cannot enter the seam, so the pair is one surface);
 //   - nothing leaves the board, comes near the cannon, or reaches down to the bucket;
+//   - nothing comes within MIN_GAP of the flippers' swing (flippers.ts), on every level, since
+//     any level can get the Flippers power;
 //   - teleport triggers hold no solid object and their exits are clear.
 // Moving parts are checked at every tick of the level's full cycle (the least common multiple
 // of every movement's cycle), or at evenly spread ticks when that cycle is too long.
@@ -22,6 +24,7 @@ import {
   SIDE_LIMIT,
   TOP_LIMIT,
 } from './constants';
+import { flipperGap } from './flippers';
 import {
   boundsGap,
   elementShape,
@@ -33,7 +36,7 @@ import {
   type Shape,
 } from './shapes';
 
-export type IssueKind = 'overlap' | 'gap' | 'outside' | 'cannon' | 'bottom' | 'trigger';
+export type IssueKind = 'overlap' | 'gap' | 'outside' | 'cannon' | 'bottom' | 'flipper' | 'trigger';
 
 export interface Issue {
   readonly kind: IssueKind;
@@ -110,12 +113,14 @@ class Issues {
   }
 }
 
-function checkBounds(s: Shape, id: number, tick: number, out: Issues): void {
+function checkBounds(s: Shape, id: number, tick: number, board: Level['board'], out: Issues): void {
   if (s.minX < SIDE_LIMIT || s.maxX > BOARD_W - SIDE_LIMIT || s.minY < TOP_LIMIT) {
     out.add('outside', id, undefined, tick);
   }
   if (s.maxY > BOTTOM_LIMIT) out.add('bottom', id, undefined, tick);
   if (pointGap(s, CANNON_X, CANNON_Y) < CANNON_CLEARANCE) out.add('cannon', id, undefined, tick);
+  const g = flipperGap(s, board.width, board.height);
+  if (g < MIN_GAP) out.add('flipper', id, undefined, tick, g);
 }
 
 function checkPair(
@@ -195,7 +200,7 @@ export function validateLevel(level: Level): Issue[] {
   elements.forEach((e, i) => {
     const s = staticShapes[i];
     if (s === null || s === undefined) return;
-    checkBounds(s, e.id, 0, out);
+    checkBounds(s, e.id, 0, level.board, out);
     for (const j of grid.near(s)) {
       if (j <= i) continue;
       const other = elements[j];
@@ -225,7 +230,7 @@ export function validateLevel(level: Level): Issue[] {
       const e = elements[i];
       const s = shapesNow[k];
       if (e === undefined || s === null || s === undefined) return;
-      checkBounds(s, e.id, tick, out);
+      checkBounds(s, e.id, tick, level.board, out);
       for (const j of grid.near(s)) {
         const other = elements[j];
         const so = staticShapes[j];

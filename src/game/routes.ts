@@ -21,6 +21,11 @@ export async function routeScreen(route: Route): Promise<Screen> {
     const { playRoute } = await import('./play/route');
     return playRoute(route);
   }
+  if (first === 'editor') {
+    // The hidden background line editor (spec 12): #/editor/<level id>.
+    const { EditorScreen } = await import('../editor/screen');
+    return new EditorScreen(second ?? null);
+  }
   if (first === 'dev') {
     // DEV ONLY review routes.
     if (second === 'kit') {

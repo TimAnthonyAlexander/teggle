@@ -7,7 +7,7 @@
     "height": 560
   },
   "provenance": {
-    "generatorVersion": "1.1.0",
+    "generatorVersion": "1.2.0",
     "seed": 101,
     "recipe": {
       "name": "Balloon Morning",
@@ -184,7 +184,8 @@
                     360
                   ]
                 ],
-                "spacing": 34
+                "spacing": 34,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -211,7 +212,8 @@
                     318
                   ]
                 ],
-                "spacing": 34
+                "spacing": 34,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -242,7 +244,8 @@
                     362
                   ]
                 ],
-                "spacing": 34
+                "spacing": 34,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -269,7 +272,8 @@
                     318
                   ]
                 ],
-                "spacing": 34
+                "spacing": 34,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -300,7 +304,8 @@
                     358
                   ]
                 ],
-                "spacing": 34
+                "spacing": 34,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -335,7 +340,8 @@
                     274
                   ]
                 ],
-                "spacing": 47
+                "spacing": 47,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -370,7 +376,8 @@
                     269
                   ]
                 ],
-                "spacing": 44
+                "spacing": 44,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -409,7 +416,8 @@
                     334.1
                   ]
                 ],
-                "spacing": 35
+                "spacing": 35,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -448,7 +456,8 @@
                     387.5
                   ]
                 ],
-                "spacing": 35
+                "spacing": 35,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -487,7 +496,8 @@
                     66.1
                   ]
                 ],
-                "spacing": 35
+                "spacing": 35,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -526,7 +536,8 @@
                     64.1
                   ]
                 ],
-                "spacing": 35
+                "spacing": 35,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -565,7 +576,8 @@
                     228.1
                   ]
                 ],
-                "spacing": 35
+                "spacing": 35,
+                "keepSpacing": true
               },
               {
                 "mode": "pegs",
@@ -604,7 +616,92 @@
                     193.3
                   ]
                 ],
-                "spacing": 35
+                "spacing": 35,
+                "keepSpacing": true
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    200,
+                    364
+                  ],
+                  [
+                    200,
+                    372
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    677,
+                    416
+                  ],
+                  [
+                    677,
+                    424
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    214,
+                    96
+                  ],
+                  [
+                    214,
+                    104
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    708,
+                    94
+                  ],
+                  [
+                    708,
+                    102
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    85,
+                    258
+                  ],
+                  [
+                    85,
+                    266
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    849,
+                    230
+                  ],
+                  [
+                    849,
+                    238
+                  ]
+                ]
               },
               {
                 "mode": "pegs",
@@ -678,7 +775,7 @@
                     484
                   ]
                 ],
-                "spacing": 36
+                "spacing": 40.68
               },
               {
                 "mode": "pegs",
@@ -892,24 +989,24 @@
     {"kind":"peg","id":113,"x":809.301704,"y":250.803871},
     {"kind":"peg","id":114,"x":809.202113,"y":217.463726},
     {"kind":"peg","id":115,"x":832.240686,"y":193.419528},
-    {"kind":"peg","id":116,"x":25,"y":486},
-    {"kind":"peg","id":117,"x":57.095773,"y":471.028322},
-    {"kind":"peg","id":118,"x":89.708164,"y":457.547041},
-    {"kind":"peg","id":119,"x":122.991723,"y":461.523839},
-    {"kind":"peg","id":120,"x":155,"y":472},
-    {"kind":"peg","id":121,"x":212,"y":459},
-    {"kind":"peg","id":122,"x":264.402889,"y":419.576384},
-    {"kind":"peg","id":123,"x":292.687879,"y":440.658126},
-    {"kind":"peg","id":124,"x":317.681659,"y":466.873887},
-    {"kind":"peg","id":125,"x":350,"y":484},
-    {"kind":"peg","id":126,"x":785,"y":405},
-    {"kind":"peg","id":127,"x":819.637471,"y":393.211194},
-    {"kind":"peg","id":128,"x":856.296374,"y":391.873574},
-    {"kind":"peg","id":129,"x":893,"y":392},
-    {"kind":"peg","id":130,"x":742,"y":464},
-    {"kind":"peg","id":131,"x":770.147551,"y":444.942431},
-    {"kind":"peg","id":132,"x":833.806389,"y":452.919742},
-    {"kind":"peg","id":133,"x":862.045642,"y":434.067994},
+    {"kind":"peg","id":116,"x":200,"y":368},
+    {"kind":"peg","id":117,"x":677,"y":420},
+    {"kind":"peg","id":118,"x":214,"y":100},
+    {"kind":"peg","id":119,"x":708,"y":98},
+    {"kind":"peg","id":120,"x":85,"y":262},
+    {"kind":"peg","id":121,"x":849,"y":234},
+    {"kind":"peg","id":122,"x":122.991723,"y":461.523839},
+    {"kind":"peg","id":123,"x":155,"y":472},
+    {"kind":"peg","id":124,"x":212,"y":459},
+    {"kind":"peg","id":125,"x":280.896053,"y":426.681022},
+    {"kind":"peg","id":126,"x":310.159675,"y":461.673276},
+    {"kind":"peg","id":127,"x":350,"y":484},
+    {"kind":"peg","id":128,"x":785,"y":405},
+    {"kind":"peg","id":129,"x":819.637471,"y":393.211194},
+    {"kind":"peg","id":130,"x":856.296374,"y":391.873574},
+    {"kind":"peg","id":131,"x":893,"y":392},
+    {"kind":"peg","id":132,"x":742,"y":464},
+    {"kind":"peg","id":133,"x":770.147551,"y":444.942431},
     {"kind":"peg","id":134,"x":528,"y":503},
     {"kind":"peg","id":135,"x":559.376932,"y":487.150093},
     {"kind":"peg","id":136,"x":594.576339,"y":487.90564},

@@ -136,24 +136,24 @@
     },
     {
       "id": "cloud-left",
-      "note": "Small round cloud low on the left, outside the tail",
+      "note": "Small round cloud on the left, outside the tail, above the flippers' swing",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
       "points": [
-        [68, 396], [99.1, 406], [112, 430], [99.1, 454], [68, 464], [36.9, 454], [24, 430],
-        [36.9, 406]
+        [68, 330], [99.1, 340], [112, 364], [99.1, 388], [68, 398], [36.9, 388], [24, 364],
+        [36.9, 340]
       ]
     },
     {
       "id": "cloud-right",
-      "note": "Small round cloud low on the right, outside the tail",
+      "note": "Small round cloud on the right, outside the tail, above the flippers' swing",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
       "points": [
-        [848, 396], [878.9, 406], [892, 430], [878.9, 454], [848, 464], [816.9, 454], [804, 430],
-        [816.9, 406]
+        [848, 330], [878.9, 340], [892, 364], [878.9, 388], [848, 398], [816.9, 388], [804, 364],
+        [816.9, 340]
       ]
     },
     {

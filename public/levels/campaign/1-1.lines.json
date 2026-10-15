@@ -19,6 +19,7 @@
       "note": "Middle of the envelope's left blue panel",
       "mode": "pegs",
       "spacing": 34,
+      "keepSpacing": true,
       "points": [[374, 152], [369, 198], [365, 250], [379, 298], [399, 349], [404, 360]]
     },
     {
@@ -26,6 +27,7 @@
       "note": "Middle of the left cream panel",
       "mode": "pegs",
       "spacing": 34,
+      "keepSpacing": true,
       "points": [[424, 152], [420, 198], [420, 250], [429, 298], [432, 318]]
     },
     {
@@ -33,6 +35,7 @@
       "note": "Middle of the center blue panel",
       "mode": "pegs",
       "spacing": 34,
+      "keepSpacing": true,
       "points": [[474, 152], [476, 198], [475, 250], [472, 298], [466, 349], [465, 362]]
     },
     {
@@ -40,6 +43,7 @@
       "note": "Middle of the right cream panel",
       "mode": "pegs",
       "spacing": 34,
+      "keepSpacing": true,
       "points": [[524, 152], [527, 198], [528, 250], [516, 298], [510, 318]]
     },
     {
@@ -47,6 +51,7 @@
       "note": "Middle of the right blue panel",
       "mode": "pegs",
       "spacing": 34,
+      "keepSpacing": true,
       "points": [[566, 175], [569, 210], [570, 250], [556, 298], [524, 349], [519, 358]]
     },
     {
@@ -54,6 +59,7 @@
       "note": "One peg on each pennant of the left bunting string",
       "mode": "pegs",
       "spacing": 47,
+      "keepSpacing": true,
       "points": [[44, 118], [81, 152], [122, 184], [164, 212], [204, 236], [243, 257], [280, 274]]
     },
     {
@@ -61,6 +67,7 @@
       "note": "One peg on each pennant of the right bunting string",
       "mode": "pegs",
       "spacing": 44,
+      "keepSpacing": true,
       "points": [[873, 113], [834, 150], [796, 181], [760, 208], [723, 235], [688, 254], [652, 269]]
     },
     {
@@ -69,6 +76,7 @@
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
+      "keepSpacing": true,
       "points": [
         [200, 320], [229.7, 334.1], [242, 368], [229.7, 401.9], [200, 416], [170.3, 401.9],
         [158, 368], [170.3, 334.1]
@@ -80,6 +88,7 @@
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
+      "keepSpacing": true,
       "points": [
         [677, 374], [705.3, 387.5], [717, 420], [705.3, 452.5], [677, 466], [648.7, 452.5],
         [637, 420], [648.7, 387.5]
@@ -91,6 +100,7 @@
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
+      "keepSpacing": true,
       "points": [
         [214, 52], [243.7, 66.1], [256, 100], [243.7, 133.9], [214, 148], [184.3, 133.9],
         [172, 100], [184.3, 66.1]
@@ -102,6 +112,7 @@
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
+      "keepSpacing": true,
       "points": [
         [708, 50], [737.7, 64.1], [750, 98], [737.7, 131.9], [708, 146], [678.3, 131.9],
         [666, 98], [678.3, 64.1]
@@ -113,6 +124,7 @@
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
+      "keepSpacing": true,
       "points": [
         [85, 214], [114.7, 228.1], [127, 262], [114.7, 295.9], [85, 310], [55.3, 295.9],
         [43, 262], [55.3, 228.1]
@@ -124,10 +136,47 @@
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
+      "keepSpacing": true,
       "points": [
         [865.5, 193.3], [888.7, 217.2], [888.7, 250.8], [865.5, 274.7], [832.5, 274.7],
         [809.3, 250.8], [809.3, 217.2], [832.5, 193.3]
       ]
+    },
+    {
+      "id": "balloon-low-left-center",
+      "note": "A peg on the small green balloon itself, inside its ring",
+      "mode": "pegs",
+      "points": [[200, 364], [200, 372]]
+    },
+    {
+      "id": "balloon-low-right-center",
+      "note": "A peg on the small peach balloon itself, inside its ring",
+      "mode": "pegs",
+      "points": [[677, 416], [677, 424]]
+    },
+    {
+      "id": "balloon-high-left-center",
+      "note": "Not in the picture yet: a peg on the small balloon above the left bunting",
+      "mode": "pegs",
+      "points": [[214, 96], [214, 104]]
+    },
+    {
+      "id": "balloon-high-right-center",
+      "note": "Not in the picture yet: a peg on the small balloon above the right bunting",
+      "mode": "pegs",
+      "points": [[708, 94], [708, 102]]
+    },
+    {
+      "id": "balloon-mid-left-center",
+      "note": "Not in the picture yet: a peg on the small balloon near the left wall",
+      "mode": "pegs",
+      "points": [[85, 258], [85, 266]]
+    },
+    {
+      "id": "balloon-mid-right-center",
+      "note": "Not in the picture yet: a peg on the small balloon near the right wall",
+      "mode": "pegs",
+      "points": [[849, 230], [849, 238]]
     },
     {
       "id": "cloud-left-low",

@@ -62,7 +62,13 @@ function shieldedPeg(
 
 const SMALL: Partial<CheckConfig> = { playouts: 8, depth: 5, angles: 90 };
 
-describe('reachability check', () => {
+/**
+ * These run thousands of simulated shots: about a second each on an idle machine, many times
+ * that while other work (a campaign build) loads every core.
+ */
+const HEAVY = { timeout: 60_000 };
+
+describe('reachability check', HEAVY, () => {
   const l = level([...rows(1), ...shieldedPeg(458, 420, 100, 200)]);
 
   it('builds a valid fixture', () => {
@@ -107,7 +113,7 @@ describe('reachability check', () => {
   });
 });
 
-describe('stuck check', () => {
+describe('stuck check', HEAVY, () => {
   // Two bricks in a V, joined at the bottom: a pocket a ball rolls into and rests in.
   const tilt = (35 * PI) / 180;
   const half = BRICK_LENGTH / 2;

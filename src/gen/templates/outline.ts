@@ -466,6 +466,9 @@ function preset(ctx: TemplateContext, name: (typeof OUTLINE_PRESETS)[number]): O
   }
 }
 
+/** Separator in the part name of objects a traced path placed. */
+export const PATH_PART = '/path ';
+
 export function buildOutline(ctx: TemplateContext, params: OutlineParams): void {
   const shapes =
     params.shapes ??
@@ -473,5 +476,9 @@ export function buildOutline(ctx: TemplateContext, params: OutlineParams): void 
       ? preset(ctx, params.preset ?? ctx.draw.pick(OUTLINE_PRESETS))
       : []);
   for (const s of shapes) buildShape(ctx, s);
-  for (const p of params.paths ?? []) buildPath(ctx, p);
+  // Each path is a part of its own ("<part>/path <index>"), so the editor can tell which line
+  // placed which object.
+  (params.paths ?? []).forEach((p, i) => {
+    buildPath({ ...ctx, part: `${ctx.part}${PATH_PART}${i}` }, p);
+  });
 }

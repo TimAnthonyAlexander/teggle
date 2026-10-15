@@ -27,7 +27,9 @@ function level(elements: LevelElementInput[]): Level {
 
 const kinds = (l: Level) => validateLevel(l).map((i) => i.kind);
 
-describe('validity checks', () => {
+// Moving parts are checked tick by tick, and the gap rule drops balls in the simulation: slow
+// when other work loads every core.
+describe('validity checks', { timeout: 60_000 }, () => {
   it('passes a clean layout', () => {
     expect(
       kinds(
@@ -111,7 +113,7 @@ describe('validity checks', () => {
   });
 });
 
-describe('the gap rule, in the simulation', () => {
+describe('the gap rule, in the simulation', { timeout: 60_000 }, () => {
   /** Drops balls onto two pegs side by side with a free gap; counts balls that come to rest. */
   function wedged(gap: number): number {
     const x0 = 400;

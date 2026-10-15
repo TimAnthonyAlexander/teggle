@@ -1,7 +1,8 @@
 // Renders a campaign level's picture in board coordinates with a coordinate grid over it, for
 // tracing lines and solids by eye, and optionally the traced lines (smoothed, with numbered
 // control points), the built level's objects and the placement limits (cannon clearance,
-// bottom limit). Output: reference/teggle-shots/campaign/grid/ (gitignored), via Chromium.
+// bottom limit, the flippers' swing). Output: reference/teggle-shots/campaign/grid/
+// (gitignored), via Chromium.
 // A level without a picture yet gets a plain sky field instead.
 //
 // Usage: npm run campaign:grid -- <id> [--crop x0,y0,x1,y1] [--step 20] [--lines] [--level]
@@ -14,7 +15,14 @@
 import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from '@playwright/test';
-import { BOTTOM_LIMIT, CANNON_CLEARANCE, CANNON_X, CANNON_Y } from '../../src/gen/constants';
+import {
+  BOTTOM_LIMIT,
+  CANNON_CLEARANCE,
+  CANNON_X,
+  CANNON_Y,
+  MIN_GAP,
+} from '../../src/gen/constants';
+import { flipperSweeps } from '../../src/gen/flippers';
 import { smoothLine } from '../../src/gen/lines';
 import { elementShape, filePose } from '../../src/gen/shapes';
 import { BOARD_X, BOARD_Y, layout } from '../../src/game/layout';
@@ -87,9 +95,18 @@ function grid(x0: number, y0: number, x1: number, y1: number, step: number, k: n
 }
 
 function limits(k: number): string {
+  // The flippers' swing plus the minimum gap, as one area (src/gen/flippers.ts).
+  const swing = flipperSweeps(916, 560)
+    .flatMap((s) => s.poses)
+    .map((p) => {
+      const pts = p.xs.map((x, i) => `${n(x)},${n(p.ys[i] ?? 0)}`).join(' ');
+      return `<polygon points="${pts}" fill="#f00" stroke="#f00" stroke-width="${2 * MIN_GAP}" stroke-linejoin="round"/>`;
+    })
+    .join('');
   return [
     `<circle cx="${CANNON_X}" cy="${CANNON_Y}" r="${CANNON_CLEARANCE}" fill="rgba(255,0,0,0.12)" stroke="#f33" stroke-width="${1.5 / k}" stroke-dasharray="${6 / k}"/>`,
     `<line x1="0" y1="${BOTTOM_LIMIT}" x2="916" y2="${BOTTOM_LIMIT}" stroke="#f33" stroke-width="${1.5 / k}" stroke-dasharray="${6 / k}"/>`,
+    `<g opacity="0.2">${swing}</g>`,
   ].join('');
 }
 

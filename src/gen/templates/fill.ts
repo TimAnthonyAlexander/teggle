@@ -3,6 +3,11 @@
 // line: a triangle lattice, or arcs around the cannon. The spacing is chosen so the level comes
 // close to its object count, as sparse as that allows. A fill can also be kept inside an area
 // of the picture (a crown full of blossoms, a sail), like the original's peg blocks.
+//
+// With `count` the fill places exactly that many pegs where it can: from the sparsest pattern
+// with room for them (or the fixed spacing) it leaves out the surplus, the pegs closest to other
+// objects first, in mirror pairs. An odd surplus takes a peg on the center line when there is
+// one, else the fill ends one peg over. The count fitter (src/gen/fit.ts) sets it.
 
 import { z } from 'zod';
 import { cos, sin } from '../../core/dmath';
@@ -12,6 +17,7 @@ import type { PegDraft } from '../draft';
 import { smoothLine } from '../lines';
 import { mirrorElement } from '../mirror';
 import { peg } from '../place';
+import { boundsGap, circleShape, shapeGap } from '../shapes';
 import type { Box, TemplateContext } from '../template';
 
 export const FILL_STYLES = ['lattice', 'arcs'] as const;
@@ -35,6 +41,8 @@ export const fillParams = z
         .max(400),
       corners: z.array(z.int().min(0)).default([]),
     }),
+    /** Exactly this many fill pegs (see above); otherwise the fill tops up to the target. */
+    count: z.int().min(0).max(400),
   })
   .partial();
 
@@ -94,16 +102,19 @@ function inside(poly: readonly Vec2[], x: number, y: number): boolean {
   return hit;
 }
 
-/** The fitting candidates, each with its mirror image, at one spacing. */
+/**
+ * The fitting candidates at one spacing, each with its mirror image: a unit is one peg on the
+ * center line or a mirror pair.
+ */
 function fitting(
   ctx: TemplateContext,
   style: FillStyle,
   spacing: number,
   clearance: number,
   area: readonly Vec2[] | null,
-) {
+): PegDraft[][] {
   const b = ctx.builder;
-  const accepted: PegDraft[] = [];
+  const accepted: PegDraft[][] = [];
   const options = { gap: clearance, avoidClaims: true };
   for (const c of candidates(style, spacing, ctx.region.box)) {
     if (area !== null && !(inside(area, c.x, c.y) && inside(area, 2 * CENTER_X - c.x, c.y))) {
@@ -112,7 +123,7 @@ function fitting(
     const shape = b.shapeOf(c);
     if (shape === null || !b.fits(shape, false, options)) continue;
     if (Math.abs(c.x - CENTER_X) < 1e-9) {
-      accepted.push(c);
+      accepted.push([c]);
       continue;
     }
     const twin = mirrorElement(c);
@@ -120,14 +131,56 @@ function fitting(
     if (twinShape === null || !b.fits(twinShape, false, options)) continue;
     // A pair straddling the center line must keep the peg spacing from each other.
     if (Math.abs(c.x - CENTER_X) * 2 < 2 * PEG_RADIUS + MIN_GAP) continue;
-    accepted.push(c, twin as PegDraft);
+    accepted.push([c, twin as PegDraft]);
   }
   return accepted;
 }
 
+function size(units: readonly PegDraft[][]): number {
+  return units.reduce((n, u) => n + u.length, 0);
+}
+
+/** How far nothing else stands from a unit: its pegs' smallest free distance to any object. */
+function room(ctx: TemplateContext, unit: readonly PegDraft[]): number {
+  const reach = 200;
+  let best = reach;
+  for (const d of unit) {
+    const s = circleShape(d.x, d.y, PEG_RADIUS);
+    for (const p of ctx.builder.placed) {
+      if (p.shape === null || boundsGap(p.shape, s) >= best) continue;
+      best = Math.min(best, shapeGap(p.shape, s));
+    }
+  }
+  return best;
+}
+
+/** Leaves out the surplus units, the most crowded first (see the file comment). */
+function trim(ctx: TemplateContext, units: PegDraft[][], count: number): PegDraft[][] {
+  let surplus = size(units) - count;
+  if (surplus <= 0) return units;
+  const order = units
+    .map((u, i) => ({ u, i, room: room(ctx, u), y: u[0]?.y ?? 0 }))
+    .sort((a, b) => a.room - b.room || b.y - a.y || a.i - b.i);
+  const drop = new Set<number>();
+  if (surplus % 2 === 1) {
+    const single = order.find((o) => o.u.length === 1);
+    if (single !== undefined) {
+      drop.add(single.i);
+      surplus -= 1;
+    }
+  }
+  for (const o of order) {
+    if (surplus <= 0) break;
+    if (drop.has(o.i) || o.u.length > surplus) continue;
+    drop.add(o.i);
+    surplus -= o.u.length;
+  }
+  return units.filter((_, i) => !drop.has(i));
+}
+
 /**
- * Adds fill pegs until the builder holds about `target` scoring objects. Returns the number of
- * pegs added.
+ * Adds fill pegs until the builder holds about `target` scoring objects, or exactly
+ * `params.count` fill pegs. Returns the number of pegs added.
  */
 export function buildFill(ctx: TemplateContext, params: FillParams, target: number): number {
   const style = params.style ?? ctx.draw.pick(FILL_STYLES);
@@ -137,17 +190,18 @@ export function buildFill(ctx: TemplateContext, params: FillParams, target: numb
       ? null
       : smoothLine({ closed: true, points: params.within.points, corners: params.within.corners })
           .points;
-  const need = target - ctx.builder.scoringCount();
+  const need = params.count ?? target - ctx.builder.scoringCount();
   if (need <= 0 && params.spacing === undefined) return 0;
-  let chosen: PegDraft[] = [];
+  let chosen: PegDraft[][] = [];
   if (params.spacing !== undefined) {
     chosen = fitting(ctx, style, params.spacing, clearance, area);
   } else {
     for (let s = SPACING_MAX; s >= SPACING_MIN; s -= 1) {
       chosen = fitting(ctx, style, s, clearance, area);
-      if (chosen.length >= need) break;
+      if (size(chosen) >= need) break;
     }
   }
-  for (const d of chosen) ctx.builder.add(d, ctx.part);
-  return chosen.length;
+  if (params.count !== undefined) chosen = trim(ctx, chosen, params.count);
+  for (const unit of chosen) for (const d of unit) ctx.builder.add(d, ctx.part);
+  return size(chosen);
 }

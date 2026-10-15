@@ -1,10 +1,12 @@
 // Collects a level's elements while a template places them. It assigns ids, keeps the static
 // collision shapes in a grid, and answers "does this fit?": inside the board, clear of the
-// cannon and the bucket, clear of keep-out zones reserved for moving parts, and at least
-// MIN_GAP from every other object (bricks may also join: a seam of at most JOIN_GAP).
+// cannon, the bucket and the flippers' swing, clear of keep-out zones reserved for moving
+// parts, and at least MIN_GAP from every other object (bricks may also join: a seam of at most
+// JOIN_GAP).
 
 import { elementSchema, type LevelElement } from '../level/schema';
 import {
+  BOARD_H,
   BOARD_W,
   BOTTOM_LIMIT,
   CANNON_CLEARANCE,
@@ -17,8 +19,18 @@ import {
   TOP_LIMIT,
 } from './constants';
 import type { Draft } from './draft';
+import { flipperGap } from './flippers';
 import { mirrorElement } from './mirror';
-import { boundsGap, elementShape, filePose, pointGap, shapeGap, type Shape } from './shapes';
+import {
+  boundsGap,
+  circleShape,
+  elementShape,
+  filePose,
+  pointGap,
+  polyShape,
+  shapeGap,
+  type Shape,
+} from './shapes';
 
 /** A placed element and the template part that made it. */
 export interface Placed {
@@ -84,11 +96,19 @@ function isBrick(e: LevelElement): boolean {
   return e.kind === 'brick' || e.kind === 'curvedBrick';
 }
 
-/** Board limits, cannon clearance and bucket clearance for one shape. */
+/** Board limits, cannon clearance, bucket clearance and the flippers' swing for one shape. */
 export function insideBoard(s: Shape): boolean {
   if (s.minX < SIDE_LIMIT || s.maxX > BOARD_W - SIDE_LIMIT) return false;
   if (s.minY < TOP_LIMIT || s.maxY > BOTTOM_LIMIT) return false;
-  return pointGap(s, CANNON_X, CANNON_Y) >= CANNON_CLEARANCE;
+  if (pointGap(s, CANNON_X, CANNON_Y) < CANNON_CLEARANCE) return false;
+  return flipperGap(s, BOARD_W, BOARD_H) >= MIN_GAP;
+}
+
+/** A candidate a template wanted to place but could not, and why. */
+export interface Rejected {
+  readonly draft: Draft;
+  readonly part: string;
+  readonly reason: string;
 }
 
 function zoneGap(z: Zone, s: Shape): number {
@@ -113,6 +133,8 @@ export class Builder {
   readonly placed: Placed[] = [];
   readonly zones: Zone[] = [];
   readonly claims: Claim[] = [];
+  /** Single drafts that tryAdd and tryAddMirrored turned down, for the editor's preview. */
+  readonly rejected: Rejected[] = [];
   private nextId = 1;
   private readonly grid = new Map<number, number[]>();
 
@@ -139,7 +161,7 @@ export class Builder {
   /** True when a static shape fits: inside the board and clear of everything placed so far. */
   fits(shape: Shape, brick: boolean, options: FitOptions = {}): boolean {
     if (!insideBoard(shape)) {
-      this.lastReject = `outside the board or near the cannon (${shape.minX.toFixed(0)}, ${shape.minY.toFixed(0)})`;
+      this.lastReject = `outside the board, near the cannon or in the flippers' swing (${shape.minX.toFixed(0)}, ${shape.minY.toFixed(0)})`;
       return false;
     }
     const gap = options.gap ?? MIN_GAP;
@@ -179,7 +201,9 @@ export class Builder {
     const shape = this.shapeOf(draft);
     if (shape === null) return this.add(draft, part);
     const brick = draft.kind === 'brick' || draft.kind === 'curvedBrick';
-    return this.fits(shape, brick, options) ? this.add(draft, part) : null;
+    if (this.fits(shape, brick, options)) return this.add(draft, part);
+    this.rejected.push({ draft, part, reason: this.lastReject });
+    return null;
   }
 
   /**
@@ -192,12 +216,20 @@ export class Builder {
     const a = this.shapeOf(draft);
     const b = this.shapeOf(twin);
     const brick = draft.kind === 'brick' || draft.kind === 'curvedBrick';
-    if (a !== null && !this.fits(a, brick, options)) return 0;
-    if (b !== null && !this.fits(b, brick, options)) return 0;
+    const reject = (): 0 => {
+      this.rejected.push({ draft, part, reason: this.lastReject });
+      this.rejected.push({ draft: twin, part, reason: this.lastReject });
+      return 0;
+    };
+    if (a !== null && !this.fits(a, brick, options)) return reject();
+    if (b !== null && !this.fits(b, brick, options)) return reject();
     if (a !== null && b !== null) {
       const g = shapeGap(a, b);
       const gap = options.gap ?? MIN_GAP;
-      if (g < gap && !(brick && g >= 0 && g <= JOIN_GAP)) return 0;
+      if (g < gap && !(brick && g >= 0 && g <= JOIN_GAP)) {
+        this.lastReject = `${g.toFixed(2)} px from its mirror image`;
+        return reject();
+      }
     }
     this.add(draft, part);
     this.add(twin, part);
@@ -215,8 +247,8 @@ export class Builder {
   }
 
   /**
-   * True when a zone lies inside the board, clear of the cannon, and at least MIN_GAP from
-   * every static object and every other zone.
+   * True when a zone lies inside the board, clear of the cannon and the flippers' swing, and at
+   * least MIN_GAP from every static object and every other zone.
    */
   canReserve(zone: Zone): boolean {
     const ok = this.zoneFits(zone);
@@ -245,6 +277,20 @@ export class Builder {
       const dy = Math.max(box.minY - CANNON_Y, CANNON_Y - box.maxY, 0);
       if (Math.sqrt(dx * dx + dy * dy) < CANNON_CLEARANCE) return false;
     }
+    const area =
+      zone.kind === 'circle'
+        ? circleShape(zone.x, zone.y, zone.r)
+        : polyShape(
+            [
+              { x: box.minX, y: box.minY },
+              { x: box.maxX, y: box.minY },
+              { x: box.maxX, y: box.maxY },
+              { x: box.minX, y: box.maxY },
+            ],
+            { x: 0, y: 0, rotation: 0 },
+            true,
+          );
+    if (flipperGap(area, BOARD_W, BOARD_H) < MIN_GAP) return false;
     for (const p of this.placed) {
       if (p.shape === null || p.moving) continue;
       if (zoneGap(zone, p.shape) < MIN_GAP) return false;

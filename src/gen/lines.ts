@@ -25,6 +25,9 @@ export const MIN_POINT_DISTANCE = 1;
 export const SAMPLE_STEP = 2;
 /** Asset ids and line ids: lowercase words joined by hyphens. */
 export const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+/** Peg spacing along a line (px): 34 to 80, 41 when left out (the original's median). */
+export const LINE_SPACING_MIN = 34;
+export const LINE_SPACING_MAX = 80;
 
 const pointSchema = z.tuple([z.number(), z.number()]);
 
@@ -36,7 +39,12 @@ const geometryShape = {
   /** Indices of control points that are sharp corners. */
   corners: z.array(z.int().min(0)).default([]),
   /** Peg spacing along the line (pegs only; default 41, the original's median). */
-  spacing: z.number().min(34).max(80).optional(),
+  spacing: z.number().min(LINE_SPACING_MIN).max(LINE_SPACING_MAX).optional(),
+  /**
+   * The spacing is part of the design (one peg on each pennant, say): count fitting
+   * (src/gen/fit.ts) leaves it as written.
+   */
+  keepSpacing: z.boolean().optional(),
 };
 
 interface Geometry {
@@ -153,6 +161,7 @@ export function linePaths(file: LinesFile, ids: readonly string[]): LineGeometry
     const out: LineGeometryInput = { mode: line.mode, closed: line.closed, points: line.points };
     if (line.corners.length > 0) out.corners = line.corners;
     if (line.spacing !== undefined) out.spacing = line.spacing;
+    if (line.keepSpacing === true) out.keepSpacing = true;
     return out;
   });
 }

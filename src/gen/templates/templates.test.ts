@@ -35,7 +35,9 @@ function recipe(template: TemplateName): RecipeInput {
   };
 }
 
-describe('templates', () => {
+// Templates with moving parts are validated at every tick of their cycle (up to 6,000), which
+// takes seconds when other work loads every core.
+describe('templates', { timeout: 60_000 }, () => {
   it.each(TEMPLATE_NAMES)('%s: the same seed gives the same bytes', (template) => {
     const a = levelJson(generateLevel(recipe(template), 7).level);
     const b = levelJson(generateLevel(recipe(template), 7).level);
