@@ -44,6 +44,11 @@ export async function routeScreen(route: Route): Promise<Screen> {
       const { DevMastersScreen } = await import('./dev/masters');
       return new DevMastersScreen();
     }
+    // Save export for the self-play calibration; the dev server only, never in a build.
+    if (second === 'save' && import.meta.env.DEV) {
+      const { DevSaveScreen } = await import('./dev/save');
+      return new DevSaveScreen();
+    }
   }
   return new MainMenuScreen();
 }

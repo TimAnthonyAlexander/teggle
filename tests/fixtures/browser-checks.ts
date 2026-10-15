@@ -11,6 +11,7 @@ import type { RulesEvent } from '../../src/rules/events';
 import { BASE_POWERS, type PowerId } from '../../src/rules/powers';
 import { parseAttemptRecord, replayAttempt, type AttemptRecord } from '../../src/rules/record';
 import { compileLevel } from '../../src/sim/compile';
+import { agentsDigest } from './agents-golden';
 import { engineDigest } from './golden';
 import { benchLevel, mixedLevel, plinkoLevel } from './levels';
 import { feed, powersDigest } from './powers-golden';
@@ -21,11 +22,17 @@ export interface EngineDigests {
   readonly sim: string;
   readonly rules: string;
   readonly powers: string;
+  readonly agents: string;
 }
 
-/** The three digests tools/engine-digest.ts prints. */
+/** The four digests tools/engine-digest.ts prints. */
 export function engineDigests(): EngineDigests {
-  return { sim: engineDigest(), rules: rulesDigest(), powers: powersDigest() };
+  return {
+    sim: engineDigest(),
+    rules: rulesDigest(),
+    powers: powersDigest(),
+    agents: agentsDigest(),
+  };
 }
 
 const LEVELS = {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { atan, atan2, cos, HALF_PI, PI, sin, sincos, wrapAngle } from './dmath';
+import { atan, atan2, cos, HALF_PI, log, PI, sin, sincos, wrapAngle } from './dmath';
 import { digestNumbers } from './digest';
 
 const samples: number[] = [];
@@ -60,5 +60,39 @@ describe('dmath', () => {
   });
 });
 
+describe('dmath log', () => {
+  // Built with exact arithmetic only, so every engine starts from the same bits.
+  const inputs: number[] = [];
+  for (let i = 1; i <= 4000; i++) {
+    inputs.push(i / 4000, i * 0.731, 1 + i * 1e-9, 1 - i * 1e-12);
+    inputs.push(Number.MIN_VALUE * i * 977, 1e-300 * i, 1e300 / i);
+  }
+  inputs.push(Number.MIN_VALUE, 2.2250738585072014e-308, 1e-310, 0.5, 2, 2.718281828459045);
+  inputs.push(Number.MAX_VALUE);
+
+  it('matches the engine within 1 ulp', () => {
+    for (const x of inputs) {
+      const expected = Math.log(x);
+      const ulp = Math.max(Math.abs(expected) * Number.EPSILON, Number.MIN_VALUE);
+      expect(Math.abs(log(x) - expected)).toBeLessThanOrEqual(ulp);
+    }
+  });
+
+  it('handles the special values like Math.log', () => {
+    expect(log(1)).toBe(0);
+    expect(log(0)).toBe(-Infinity);
+    expect(log(-0)).toBe(-Infinity);
+    expect(log(Infinity)).toBe(Infinity);
+    expect(log(-1)).toBeNaN();
+    expect(log(Number.NaN)).toBeNaN();
+    expect(log(-Infinity)).toBeNaN();
+  });
+
+  it('produces the golden bit pattern', () => {
+    expect(digestNumbers(inputs.map(log))).toBe(LOG_GOLDEN);
+  });
+});
+
 // Same value under V8 (Node) and JavaScriptCore (Bun); the native Math functions differ there.
 const GOLDEN = 'a76fe5067cbb30ef';
+const LOG_GOLDEN = '4b2285d36e634c92';
