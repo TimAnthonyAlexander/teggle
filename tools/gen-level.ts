@@ -13,8 +13,7 @@
 import { availableParallelism } from 'node:os';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { Worker } from 'node:worker_threads';
-import type { CheckConfig, CheckPlan, JobResult } from '../src/gen/check';
+import type { CheckConfig } from '../src/gen/check';
 import { EXAMPLES } from '../src/gen/examples';
 import { checkAndFix, type CheckReport } from '../src/gen/fix';
 import { generateLevel } from '../src/gen/generate';
@@ -22,8 +21,8 @@ import type { RecipeInput } from '../src/gen/recipe';
 import { levelJson } from '../src/gen/serialize';
 import { levelStats } from '../src/gen/stats';
 import { validateLevel } from '../src/gen/validate';
-import { parseLevel, type Level } from '../src/level/schema';
-import type { WorkerRequest } from './gen-worker';
+import { parseLevel } from '../src/level/schema';
+import { CheckPool } from './check-pool';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 /** Every level must leave room for a 55-orange challenge plus green and purple (spec 3). */
@@ -87,63 +86,15 @@ async function jobs(): Promise<Job[]> {
   return [{ recipe, seed, out }];
 }
 
-/** A pool of check workers that hands out jobs one at a time as workers come free. */
-class Pool {
-  private readonly workers: Worker[];
-  private round = 0;
-
-  constructor(size: number) {
-    // Workers do not inherit tsx's loader; a small ES module bootstrap registers it first.
-    const entry = new URL('./gen-worker.ts', import.meta.url).href;
-    const tsx = import.meta.resolve('tsx/esm/api');
-    const bootstrap = `import { register } from ${JSON.stringify(tsx)}; register(); await import(${JSON.stringify(entry)});`;
-    const url = new URL(`data:text/javascript,${encodeURIComponent(bootstrap)}`);
-    this.workers = Array.from({ length: size }, () => new Worker(url));
-  }
-
-  async run(level: Level, plan: CheckPlan): Promise<JobResult[]> {
-    const round = ++this.round;
-    const results: JobResult[] = new Array<JobResult>(plan.jobs.length);
-    let next = 0;
-    await Promise.all(
-      this.workers.map(
-        (w) =>
-          new Promise<void>((resolve, reject) => {
-            const send = (): void => {
-              if (next >= plan.jobs.length) {
-                w.off('message', onMessage);
-                w.off('error', reject);
-                resolve();
-                return;
-              }
-              const msg: WorkerRequest = { type: 'job', round, job: next++ };
-              w.postMessage(msg);
-            };
-            const onMessage = (r: JobResult): void => {
-              results[r.job] = r;
-              send();
-            };
-            w.on('message', onMessage);
-            w.on('error', reject);
-            const init: WorkerRequest = { type: 'round', round, level, plan };
-            w.postMessage(init);
-            send();
-          }),
-      ),
-    );
-    return results;
-  }
-
-  async close(): Promise<void> {
-    await Promise.all(this.workers.map((w) => w.terminate()));
-  }
-}
-
 function pct(x: number): string {
   return `${(100 * x).toFixed(1)}%`;
 }
 
-async function run(job: Job, pool: Pool | null, config: Partial<CheckConfig>): Promise<boolean> {
+async function run(
+  job: Job,
+  pool: CheckPool | null,
+  config: Partial<CheckConfig>,
+): Promise<boolean> {
   const generated = generateLevel(job.recipe, job.seed);
   // Round-trip through the file format so the checks see exactly what gets written.
   let level = parseLevel(JSON.parse(levelJson(generated.level)));
@@ -206,7 +157,7 @@ async function run(job: Job, pool: Pool | null, config: Partial<CheckConfig>): P
 async function main(): Promise<void> {
   const check = !flag('no-check');
   const size = Number(arg('workers') ?? availableParallelism());
-  const pool = check ? new Pool(size) : null;
+  const pool = check ? new CheckPool(size) : null;
   const config: Partial<CheckConfig> = flag('quick')
     ? { playouts: 6, depth: 4, angles: 80, phases: 4 }
     : {};

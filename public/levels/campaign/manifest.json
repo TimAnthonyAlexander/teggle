@@ -1,0 +1,52 @@
+{
+  "formatVersion": 1,
+  "stages": [
+    {
+      "stage": 1,
+      "world": "Cloud Isles",
+      "master": "guide",
+      "levels": [
+        {
+          "id": "1-1",
+          "number": 1,
+          "name": "Balloon Morning",
+          "file": "campaign/1-1.json",
+          "lines": "campaign/1-1.lines.json",
+          "background": "cloud-isles-balloons"
+        },
+        {
+          "id": "1-2",
+          "number": 2,
+          "name": "Kite Tails",
+          "file": "campaign/1-2.json",
+          "lines": "campaign/1-2.lines.json",
+          "background": "cloud-isles-kites"
+        },
+        {
+          "id": "1-3",
+          "number": 3,
+          "name": "The Sky Tree",
+          "file": "campaign/1-3.json",
+          "lines": "campaign/1-3.lines.json",
+          "background": "cloud-isles-tree"
+        },
+        {
+          "id": "1-4",
+          "number": 4,
+          "name": "Cloud Ship",
+          "file": "campaign/1-4.json",
+          "lines": "campaign/1-4.lines.json",
+          "background": "cloud-isles-ship"
+        },
+        {
+          "id": "1-5",
+          "number": 5,
+          "name": "Dandelion Wind",
+          "file": "campaign/1-5.json",
+          "lines": "campaign/1-5.lines.json",
+          "background": "cloud-isles-dandelions"
+        }
+      ]
+    }
+  ]
+}

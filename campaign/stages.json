@@ -1,0 +1,12 @@
+{
+  "layout": "Wide landscape picture. The top center is plain open sky, because a game cannon covers it. The lowest strip of the picture is simple and calm. The main subject sits in the middle, large, drawn with clean, smooth, continuous contours that are easy to trace.",
+  "stages": [
+    {
+      "stage": 1,
+      "world": "Cloud Isles",
+      "master": "guide",
+      "style": "Hand-painted background illustration for a whimsical 2000s casual arcade game: a storybook cartoon painting in gouache with soft airbrushed gradients and slightly simplified, rounded forms. Large, clearly readable shapes with smooth, soft painted edges and no ink outlines. The world is a fairy-tale sky high above the clouds: an airy powder-blue to soft cornflower sky, cream and white cumulus clouds with gentle blue-gray shading, and small accents of muted sage, dusty teal and warm sand. Colors are soft and slightly muted, never neon, with light to medium values and low contrast across the middle of the picture, so that small glossy game pieces in dark blue, orange, bright green and magenta placed on top stay easy to read; no large areas of saturated green, orange or magenta. Even daylight from the upper left, no harsh shadows, no lens flare, no glow. The picture fills the frame edge to edge: no border, no frame, no vignette, no text, no letters, no numbers, no logos, no signature, no people, no animals, no characters, no faces.",
+      "levels": ["1-1", "1-2", "1-3", "1-4", "1-5"]
+    }
+  ]
+}

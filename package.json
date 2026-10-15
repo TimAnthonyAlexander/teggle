@@ -22,6 +22,10 @@
     "gen:level": "tsx tools/gen-level.ts",
     "shots:levels": "tsx tools/level-shots.ts",
     "audio:render": "tsx tools/render-audio.ts",
+    "campaign:build": "tsx tools/campaign/build.ts",
+    "campaign:art": "tsx tools/campaign/art.ts",
+    "campaign:grid": "tsx tools/campaign/grid.ts",
+    "campaign:shots": "tsx tools/campaign/shots.ts",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm run test"
   },
   "dependencies": {

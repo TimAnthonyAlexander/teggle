@@ -1,0 +1,44 @@
+{
+  "id": "1-3",
+  "name": "The Sky Tree",
+  "concept": {
+    "subject": "A great round-crowned tree in blossom on a small floating island, flanked by two flat-topped floating rocks with small round trees of their own.",
+    "composition": "The tree's crown spreads over the middle of the board; the island's grassy top and tapering underside sit below it; the two rocks hover at mid height by the side walls; petals stream from the crown toward the upper corners; cloud puffs float between the rocks and the island and cloud banks fill the lower corners.",
+    "layout": "137 round pegs; the first level with green pegs. Pegs trace the crown's scalloped outline and fill it with a lattice of blossoms; the island's top and underside are peg lines. The two side rocks are solid platforms sloping toward the middle, each under a ring of pegs for its small tree with three blossoms inside. Petal streams, cloud puffs and cloud banks carry the rest."
+  },
+  "background": {
+    "id": "cloud-isles-tree",
+    "prompt": "A small floating island in the center carries one great round-crowned tree in blossom. The crown is a wide rounded canopy of six overlapping round lobes with clear scalloped edges, in soft muted sage and blue-green dotted with small pale blossoms, filling the middle of the picture from about one seventh to three fifths of its height and from about 28 to 72 percent of its width. A short trunk stands on the island's grassy top at about two thirds of the picture height; the island's rocky underside tapers to a point near the bottom. Streams of blossom petals blow from the crown toward the upper left and upper right corners. On the far left and far right, two smaller rocks hover at a little over half height, each with a flat grassy top tilted slightly down toward the center and a pointed underside, each carrying a small round bush-like tree about a tenth of the picture wide. A small round cloud puff floats between each rock and the island, and soft clouds fill the lower corners."
+  },
+  "recipe": {
+    "seed": 103,
+    "targetCount": 137,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [22, 304],
+            [168, 324],
+            [156, 348],
+            [122, 388],
+            [90, 428],
+            [60, 386],
+            [28, 340]
+          ]
+        },
+        {
+          "points": [
+            [894, 304],
+            [748, 324],
+            [760, 348],
+            [794, 388],
+            [826, 428],
+            [856, 386],
+            [888, 340]
+          ]
+        }
+      ]
+    },
+    "fill": { "style": "lattice", "spacing": 35, "clearance": 22, "within": "crown" }
+  }
+}

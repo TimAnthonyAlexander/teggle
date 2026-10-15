@@ -1,0 +1,125 @@
+{
+  "formatVersion": 1,
+  "background": "cloud-isles-tree",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "crown",
+      "note": "Scalloped outline of the great tree's crown, from its lower right round the top to its lower left; the trunk leaves the gap at the bottom",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [
+        [503.5, 325.5], [512.5, 315], [519, 303], [569.5, 327], [607, 326], [634, 311],
+        [652, 288.5], [659.5, 261], [656.5, 233], [642.5, 207.5], [617.5, 188], [593.5, 174],
+        [587, 153], [574.5, 135], [556.5, 122.5], [535, 116.5], [512.5, 118], [497, 104.5],
+        [478.5, 93.5], [458, 90], [437.5, 93.5], [419, 104.5], [403.5, 118], [381, 116.5],
+        [359.5, 122.5], [341.5, 135], [329, 153], [322.5, 174], [298.5, 188], [273.5, 207.5],
+        [259.5, 233], [256.5, 261], [264, 288.5], [282, 311], [309, 326], [346.5, 327], [397, 303],
+        [403.5, 315], [412.5, 325.5]
+      ]
+    },
+    {
+      "id": "island-top",
+      "note": "Grassy top edge of the central island",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[306, 380], [380, 372], [458, 369], [536, 372], [610, 380]]
+    },
+    {
+      "id": "island-underside",
+      "note": "Rocky underside of the island, tapering to its point",
+      "mode": "pegs",
+      "spacing": 38,
+      "corners": [3],
+      "points": [[326, 410], [378, 444], [424, 478], [458, 503], [492, 478], [538, 444], [590, 410]]
+    },
+    {
+      "id": "tree-left",
+      "note": "Round crown of the small tree on the left rock",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [96, 170], [135.5, 186.5], [152, 226], [135.5, 265.5], [96, 282], [56.5, 265.5], [40, 226],
+        [56.5, 186.5]
+      ]
+    },
+    {
+      "id": "tree-left-blossoms",
+      "note": "Three blossoms inside the small left crown",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 46,
+      "points": [[96, 206], [115, 239], [77, 239]]
+    },
+    {
+      "id": "tree-right",
+      "note": "Round crown of the small tree on the right rock",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [820, 170], [859.5, 186.5], [876, 226], [859.5, 265.5], [820, 282], [780.5, 265.5],
+        [764, 226], [780.5, 186.5]
+      ]
+    },
+    {
+      "id": "tree-right-blossoms",
+      "note": "Three blossoms inside the small right crown",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 46,
+      "points": [[820, 206], [839, 239], [801, 239]]
+    },
+    {
+      "id": "petals-left",
+      "note": "Blossom petals blowing from the crown toward the upper left",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[238, 172], [204, 142], [166, 122], [126, 112], [86, 108], [48, 112], [24, 128]]
+    },
+    {
+      "id": "petals-right",
+      "note": "Blossom petals blowing from the crown toward the upper right",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[678, 172], [712, 142], [750, 122], [790, 112], [830, 108], [868, 112], [892, 128]]
+    },
+    {
+      "id": "puff-left",
+      "note": "Small cloud puff between the left rock and the island",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 37,
+      "points": [
+        [236, 384], [264.5, 394.5], [276, 420], [264.5, 445.5], [236, 456], [207.5, 445.5],
+        [196, 420], [207.5, 394.5]
+      ]
+    },
+    {
+      "id": "puff-right",
+      "note": "Small cloud puff between the right rock and the island",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 37,
+      "points": [
+        [680, 384], [708.5, 394.5], [720, 420], [708.5, 445.5], [680, 456], [651.5, 445.5],
+        [640, 420], [651.5, 394.5]
+      ]
+    },
+    {
+      "id": "cloud-left",
+      "note": "Tops of the cloud bank below the left rock",
+      "mode": "pegs",
+      "spacing": 37,
+      "points": [[30, 500], [66, 486], [104, 480], [142, 488], [180, 480], [218, 490], [250, 505]]
+    },
+    {
+      "id": "cloud-right",
+      "note": "Tops of the cloud bank below the right rock",
+      "mode": "pegs",
+      "spacing": 37,
+      "points": [[886, 500], [850, 486], [812, 480], [774, 488], [736, 480], [698, 490], [666, 505]]
+    }
+  ]
+}

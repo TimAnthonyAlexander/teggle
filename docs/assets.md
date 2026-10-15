@@ -26,6 +26,18 @@ Edits, the same for every file: the flat chroma-key background removed and the e
 
 Not made yet: the neutral portraits of the Gopher, Sunflower, Rabbit, Wyvern and Owl, and the happy, power and sad expressions of all ten (the API credit ran out; the prompts file has the ready prompts). The loader (`src/game/art/masters.ts`, `best`) falls back to the neutral portrait for a missing expression and gives nothing for a missing master, so its window stays empty.
 
+## Backgrounds
+
+Level pictures, generated for Teggle with OpenAI's gpt-image-2 (through the `gpt-image-2` MCP server), whose Terms of Use assign the output to the user. No image was passed to the model; no original game art was used, traced or copied. Each level's prompt is in its source file, `campaign/levels/<id>.json` (`background.prompt`, after the stage's `style` and the shared `layout` text in `campaign/stages.json`; `npm run campaign:art -- prompt <id>` prints it). The raw outputs stay in `reference/teggle-art/backgrounds/` (not committed).
+
+Edits, the same for every file: scaled with Lanczos to cover 2732 x 1644 and center-cropped, encoded as WebP (cwebp, method 6, sharp YUV) at the highest quality within 300,000 bytes. All by `npm run campaign:art -- import <id> <file>`; no hand retouching.
+
+| File | Level | Generated | Prompt | WebP | SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| `public/backgrounds/cloud-isles-balloons.webp` | 1-1 Balloon Morning | 2026-10-15, `generate_image`, 1536 x 928, medium quality: the stage's first style test, kept as the level's picture and scaled up 1.78 times | the exact text is `background.picture.sent` in `campaign/levels/1-1.json` | quality 89, 295,884 bytes | `f4cd87db7d86674bdfa60ad34394174fc381738a0b77d5e4e016ba359c0ac836` |
+
+Not made yet: the pictures of 1-2 to 1-5 and a full-size 1-1 with the four small balloons its lines already ring (the API credit ran out after two style tests). Their levels are built from lines designed first, and each prompt places the shapes those lines follow; until a picture exists the play screen shows its plain field.
+
 ## Audio
 
 Teggle ships no audio files. Every sound effect and the Fever music are synthesized in the browser at run time with the Web Audio API: oscillators, generated white noise, filters, envelopes, FM and a generated room impulse for the reverb. No recorded samples, sound libraries, MIDI files or recordings are used. A few heavy sounds and the music are rendered once into memory with an OfflineAudioContext after audio starts; that is still the same synthesis code.

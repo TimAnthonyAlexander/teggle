@@ -13,6 +13,20 @@ function recipe(template: TemplateName): RecipeInput {
     platforms: { kind: 'floaters', tiers: 2 },
     helix: { bands: 1, sides: true },
     outline: { preset: 'heart' },
+    solids: {
+      polygons: [
+        {
+          points: [
+            [40, 200],
+            [160, 250],
+            [160, 262],
+            [40, 212],
+          ],
+        },
+      ],
+      rods: [{ a: [760, 250], b: [876, 200] }],
+      circles: [{ x: 458, y: 330, r: 24 }],
+    },
   };
   return {
     name: `Test ${template}`,
@@ -28,10 +42,31 @@ describe('templates', () => {
     expect(a).toBe(b);
   });
 
-  it.each(TEMPLATE_NAMES)('%s: places objects and passes the validity checks', (template) => {
-    const g = generateLevel(recipe(template), 7);
-    expect(g.parts[0]?.scoring ?? 0).toBeGreaterThan(10);
+  it.each(TEMPLATE_NAMES.filter((t) => t !== 'solids'))(
+    '%s: places objects and passes the validity checks',
+    (template) => {
+      const g = generateLevel(recipe(template), 7);
+      expect(g.parts[0]?.scoring ?? 0).toBeGreaterThan(10);
+      expect(g.issues).toEqual([]);
+    },
+  );
+
+  it('places solids where the recipe says, and refuses one that does not fit', () => {
+    const g = generateLevel(recipe('solids'), 7);
+    expect(g.level.elements.map((e) => e.kind)).toEqual(['polygon', 'rod', 'circle']);
+    expect(g.level.elements[2]).toMatchObject({ x: 458, y: 330, radius: 24 });
     expect(g.issues).toEqual([]);
+    // Too close to the cannon.
+    expect(() =>
+      generateLevel(
+        {
+          name: 'x',
+          parts: [{ template: 'solids', params: { circles: [{ x: 458, y: 120, r: 20 }] } }],
+          fill: 'none',
+        },
+        1,
+      ),
+    ).toThrow(/circle 0 does not fit/);
   });
 
   it('draws unspecified parameters from the seed', () => {
@@ -85,13 +120,23 @@ describe('templates', () => {
             params: {
               paths: [
                 {
-                  // An L: a long straight stroke, a bend, another straight stroke.
+                  // An L: a long straight stroke, a sharp corner, another straight stroke.
                   points: [
                     [200, 200],
                     [200, 420],
                     [420, 420],
                   ],
+                  corners: [1],
                   closed: false,
+                  mode: 'bricks',
+                },
+                {
+                  // A soft arc through three points.
+                  points: [
+                    [140, 110],
+                    [220, 150],
+                    [300, 110],
+                  ],
                   mode: 'bricks',
                 },
                 {

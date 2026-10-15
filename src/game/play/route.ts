@@ -12,7 +12,7 @@ import type { Screen } from '../app/screens';
 import { WORLD_H, WORLD_W } from '../layout';
 import { MessageScreen } from '../screens/message';
 import { PlayScreen, type PlayOptions } from '../screens/play';
-import { plainBackdrop, type BackdropPainter } from './backdrop';
+import { loadBackdrop, type BackdropPainter } from './backdrop';
 import { checkLevelPath, loadLevel, LevelLoadError } from './load';
 import { routeMaster } from './powers';
 
@@ -36,7 +36,10 @@ function options(route: Route): PlayOptions {
   };
 }
 
-/** Picks the painter for a level's background id. Only the dev picture exists so far. */
+/**
+ * Picks the painter for a level's background id: the dev picture, or the level's picture from
+ * public/backgrounds/ with the plain field as the fallback.
+ */
 async function backdropFor(id: string): Promise<BackdropPainter> {
   if (id === 'dev-backdrop') {
     // DEV picture for dev and example levels; loaded lazily so it stays out of the main bundle.
@@ -47,7 +50,7 @@ async function backdropFor(id: string): Promise<BackdropPainter> {
       drawDevBackdrop(ctx, k);
     };
   }
-  return plainBackdrop;
+  return loadBackdrop(id, import.meta.env.BASE_URL);
 }
 
 export async function playRoute(route: Route): Promise<Screen> {

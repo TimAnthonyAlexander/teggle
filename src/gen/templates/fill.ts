@@ -1,12 +1,15 @@
 // Fill: round pegs in the space a template leaves free, as a regular pattern rather than a
 // scatter, so the board reads as one composition. Two patterns, both symmetric about the center
 // line: a triangle lattice, or arcs around the cannon. The spacing is chosen so the level comes
-// close to its object count, as sparse as that allows.
+// close to its object count, as sparse as that allows. A fill can also be kept inside an area
+// of the picture (a crown full of blossoms, a sail), like the original's peg blocks.
 
 import { z } from 'zod';
 import { cos, sin } from '../../core/dmath';
+import type { Vec2 } from '../../level/geometry';
 import { CANNON_X, CANNON_Y, CENTER_X, MIN_GAP, PEG_RADIUS } from '../constants';
 import type { PegDraft } from '../draft';
+import { smoothLine } from '../lines';
 import { mirrorElement } from '../mirror';
 import { peg } from '../place';
 import type { Box, TemplateContext } from '../template';
@@ -18,9 +21,20 @@ export const fillParams = z
   .strictObject({
     style: z.enum(FILL_STYLES),
     /** Fixed spacing; when absent the fill picks the sparsest one that reaches the target. */
-    spacing: z.number().min(40).max(120),
+    spacing: z.number().min(34).max(120),
     /** Free distance kept from other structures (more than the minimum gap, so they breathe). */
     clearance: z.number().min(MIN_GAP).max(80),
+    /**
+     * An area of the picture the fill stays inside (a crown, a sail): a closed line in board
+     * coordinates, smoothed like any traced line (src/gen/lines.ts). Peg centers lie inside it.
+     */
+    within: z.strictObject({
+      points: z
+        .array(z.tuple([z.number(), z.number()]))
+        .min(3)
+        .max(400),
+      corners: z.array(z.int().min(0)).default([]),
+    }),
   })
   .partial();
 
@@ -68,12 +82,33 @@ function candidates(style: FillStyle, spacing: number, box: Box): PegDraft[] {
   return out;
 }
 
+/** Even-odd test of a point against a closed polygon. */
+function inside(poly: readonly Vec2[], x: number, y: number): boolean {
+  let hit = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const a = poly[i];
+    const b = poly[j];
+    if (a === undefined || b === undefined) continue;
+    if (a.y > y !== b.y > y && x < ((b.x - a.x) * (y - a.y)) / (b.y - a.y) + a.x) hit = !hit;
+  }
+  return hit;
+}
+
 /** The fitting candidates, each with its mirror image, at one spacing. */
-function fitting(ctx: TemplateContext, style: FillStyle, spacing: number, clearance: number) {
+function fitting(
+  ctx: TemplateContext,
+  style: FillStyle,
+  spacing: number,
+  clearance: number,
+  area: readonly Vec2[] | null,
+) {
   const b = ctx.builder;
   const accepted: PegDraft[] = [];
   const options = { gap: clearance, avoidClaims: true };
   for (const c of candidates(style, spacing, ctx.region.box)) {
+    if (area !== null && !(inside(area, c.x, c.y) && inside(area, 2 * CENTER_X - c.x, c.y))) {
+      continue;
+    }
     const shape = b.shapeOf(c);
     if (shape === null || !b.fits(shape, false, options)) continue;
     if (Math.abs(c.x - CENTER_X) < 1e-9) {
@@ -97,14 +132,19 @@ function fitting(ctx: TemplateContext, style: FillStyle, spacing: number, cleara
 export function buildFill(ctx: TemplateContext, params: FillParams, target: number): number {
   const style = params.style ?? ctx.draw.pick(FILL_STYLES);
   const clearance = params.clearance ?? FILL_CLEARANCE;
+  const area =
+    params.within === undefined
+      ? null
+      : smoothLine({ closed: true, points: params.within.points, corners: params.within.corners })
+          .points;
   const need = target - ctx.builder.scoringCount();
   if (need <= 0 && params.spacing === undefined) return 0;
   let chosen: PegDraft[] = [];
   if (params.spacing !== undefined) {
-    chosen = fitting(ctx, style, params.spacing, clearance);
+    chosen = fitting(ctx, style, params.spacing, clearance, area);
   } else {
     for (let s = SPACING_MAX; s >= SPACING_MIN; s -= 1) {
-      chosen = fitting(ctx, style, s, clearance);
+      chosen = fitting(ctx, style, s, clearance, area);
       if (chosen.length >= need) break;
     }
   }

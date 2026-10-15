@@ -8,6 +8,10 @@ A web rebuild of the 2007 PC pachinko shooter, for personal play. `spec.md` is t
 - `npm run check`: typecheck, lint, format check, unit tests. Must pass before a wave is done.
 - `npm test`: Vitest unit tests (`src/**/*.test.ts`, `tools/**/*.test.ts`)
 - `npm run format`: Prettier (Markdown is excluded on purpose; never reformat `spec.md`)
+- `npm run campaign:build [-- 1-3]`: campaign levels from `campaign/` and their lines through the generator's full checks, plus the manifest (`--no-check` writes a draft for review only)
+- `npm run campaign:grid -- 1-3 [--lines --level --crop x0,y0,x1,y1 --sketch]`: a level's picture with a board-coordinate grid, for tracing lines; `--sketch` renders the lines as a layout guide for painting the picture
+- `npm run campaign:art -- prompt 1-3` / `import 1-3 <file>`: the picture's prompt; a generated picture into `public/backgrounds/`
+- `npm run campaign:shots [-- 1-3]`: plays campaign levels in Chromium and captures start, mid-level and Fever screenshots
 
 ## Layout
 
@@ -21,7 +25,8 @@ A web rebuild of the 2007 PC pachinko shooter, for personal play. `spec.md` is t
 | `src/agents/` | Self-play agents and metrics (stretch) | yes |
 | `src/game/` | Browser runtime: screens, Canvas 2D renderer, input, audio, saves | no |
 | `src/editor/` | Hidden background line editor | no |
-| `tools/` | Node CLIs (level generation, replay checks) | no |
+| `tools/` | Node CLIs (level generation, campaign pipeline, replay checks) | no |
+| `campaign/` | Campaign sources: stages (world, master, picture style) and per level the concept, background prompt and generator recipe. Lines sit next to the level files in `public/levels/campaign/`. | |
 | `public/` | Static assets the game loads (levels, backgrounds, audio) | |
 | `docs/` | Design guide and research notes | |
 | `reference/` | Screenshots and files of the original game. Gitignored, never committed, never shipped. | |

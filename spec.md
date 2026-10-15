@@ -631,10 +631,24 @@ Decided in the powers on 2026-10-15. Rules values live in `src/rules/tuning.ts` 
 - Lucky Spin's wheel turns for 2.8 s in all over the playfield while the board waits; the rules events after the spin (a free ball, lit pegs) show once it stops.
 - Power labels: the name, then "NEXT 3 TURNS", "5 TURNS", "THIS TURN" or "+3 TURNS" for lasting powers, "N PEGS" or "N ORANGE" for Space Blast and Flower Power. The banner over the launcher lights and the portrait glows while an effect runs or waits, and for the rest of a shot in which a green peg lit; the turns counter shows the shots left of the master's effect.
 
+Decided in the campaign pipeline on 2026-10-15. Sources live in `campaign/`; the code in `src/gen/lines.ts`, `src/gen/templates/solids.ts` and `fill.ts`, `src/level/campaign.ts`, `src/game/play/backdrop.ts` and `tools/campaign/`.
+
+- Lines: a lines file (`public/levels/campaign/<id>.lines.json`, next to the level) names the picture it was traced on and the board size, and lists lines in board coordinates. A line has an id, a note on what it follows, a mode (bricks or round pegs, 14.1), open or closed, control points at least 1 px apart, the indices of sharp corners, and for pegs a spacing (34 to 80, default 41, the original's median).
+- Line smoothing: a centripetal Catmull-Rom spline through every control point (knots step by the square root of each chord, so it never loops or cusps between two points). A corner ends the spline and starts a new one; a run of two points is a straight segment, and points in a straight row stay straight; the ends of an open run continue along their last chord. The curve is sampled at most 2 px apart, with square roots and arithmetic only, so it is the same in every engine. It replaces the outline template's Chaikin smoothing (generator 1.1.0).
+- Straight or curved bricks: the brick chain rule above, applied to the smoothed line: a brick is straight where the line bulges less than 0.35 px over its length (a radius above about 440 for a 35-long brick), curved elsewhere. A traced straight stretch is exactly straight, so it always gets straight bricks.
+- Solids traced from a picture (ramps, blockers, platforms) are explicit polygons, rods and circles in the recipe, placed before the lines; one that does not fit (gaps, cannon, board limits) stops the build.
+- A fill can stay inside an area of the picture, a closed line smoothed like the others: lattice points whose mirror twin also lies inside. 1-3's crown of blossoms uses it.
+- Object counts: every campaign level has exactly its spec 15 count times 1.409, rounded (stage 1: 135, 131, 137, 138, 144), and levels with bricks keep their original's split rounded the same way (1-2: 83 pegs and 48 bricks; 1-4: 93 and 45). The build writes no level that misses its count, has fewer than 58 can-be-orange objects or keeps a stuck spot.
+- Background pictures cover the playfield opening (910.67 x 548 world units) at 3 px per unit, twice the logical canvas: 2732 x 1644. They are generated with gpt-image-2 at 2400 x 1440 (inside its non-experimental sizes), scaled with Lanczos to cover and center-cropped, then saved as WebP at the highest quality within 300,000 bytes (cwebp, method 6, sharp YUV), as `public/backgrounds/<background id>.webp`. Asset ids are lowercase words joined by hyphens.
+- Prompts: the stage's style text, the layout text every picture shares (open sky at the top center, a calm bottom strip, large smooth contours), then the level's subject, which places the large shapes in fractions of the picture so a picture made after the lines follows them.
+- The play screen draws the picture into the opening over the plain field, once per resolution into a cached layer under the static pegs; a missing or broken picture leaves the plain field. The Fever zoom scales that layer like the rest of the static picture; the picture is not redrawn at the higher zoom.
+- Stage 1's world is the Cloud Isles: a pale, softly painted sky above the clouds with calm light-to-mid values where pegs sit and no large areas of saturated green, orange or magenta, so all four peg colors stay readable (checked over a style test in the play screen; a saturated green crown hid green pegs).
+- Level 1's ramps are rods lying on cloud tops near the walls, sloping toward the middle; its blocker is the balloon's basket, a polygon with a peaked top (a flat top held a resting ball).
+
 ### 14.3 Still open
 
 - Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)
-- Line smoothing method, and the curvature threshold between straight and curved bricks (decided in the editor work)
+- Difficulty on the 16:9 board. With 25 orange pegs and 10 balls, a noisy greedy agent (best of 40 angles, 0.03 rad aim error, 30 runs per level) clears the original stage 1 round-peg levels 20 to 53% of the time on their 650 board, and Teggle's stage 1 0 to 3%. The original 1-1 alone drops from 40% to 10% when its pegs are only centered on the 916 board. Whether to compensate (balls, orange count, side structures that turn balls back toward the middle) is open.
 
 ## 15. Level data (base game campaign)
 

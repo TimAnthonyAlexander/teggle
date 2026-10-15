@@ -9,6 +9,7 @@ import { buildPlatforms, platformParams } from './platforms';
 import { buildPlinko, plinkoParams } from './plinko';
 import { buildPortals, portalParams } from './portals';
 import { buildRotating, rotatingParams } from './rotating';
+import { buildSolids, solidsParams } from './solids';
 import { buildSpiral, spiralParams } from './spiral';
 import { buildWeb, webParams } from './web';
 
@@ -41,6 +42,7 @@ export const TEMPLATES = {
   helix: define(helixParams, 'full', buildHelix),
   portals: define(portalParams, 'full', buildPortals),
   outline: define(outlineParams, 'full', buildOutline),
+  solids: define(solidsParams, 'full', buildSolids),
 } as const satisfies Record<string, TemplateDef>;
 
 export type TemplateName = keyof typeof TEMPLATES;

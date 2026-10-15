@@ -8,7 +8,7 @@ import { fillParams } from './templates/fill';
 import { TEMPLATE_NAMES } from './templates';
 
 /** Bump when a change makes any recipe and seed produce a different level. */
-export const GENERATOR_VERSION = '1.0.0';
+export const GENERATOR_VERSION = '1.1.0';
 
 export const partSchema = z.strictObject({
   template: z.enum(TEMPLATE_NAMES),

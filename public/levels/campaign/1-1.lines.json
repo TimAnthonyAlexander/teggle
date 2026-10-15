@@ -1,0 +1,171 @@
+{
+  "formatVersion": 1,
+  "background": "cloud-isles-balloons",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "envelope",
+      "note": "Outline of the big balloon's envelope, from the left of its mouth over the top to the right of its mouth",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [
+        [427, 408], [358, 349], [330, 298], [318, 250], [315, 198], [327, 148], [349, 121],
+        [376, 100], [415, 87], [462, 81], [510, 87], [548, 100], [575, 121], [595, 148],
+        [608, 198], [607, 250], [589, 298], [564, 349], [504, 408]
+      ]
+    },
+    {
+      "id": "stripe-1",
+      "note": "Middle of the envelope's left blue panel",
+      "mode": "pegs",
+      "spacing": 34,
+      "points": [[374, 152], [369, 198], [365, 250], [379, 298], [399, 349], [404, 360]]
+    },
+    {
+      "id": "stripe-2",
+      "note": "Middle of the left cream panel",
+      "mode": "pegs",
+      "spacing": 34,
+      "points": [[424, 152], [420, 198], [420, 250], [429, 298], [432, 318]]
+    },
+    {
+      "id": "stripe-3",
+      "note": "Middle of the center blue panel",
+      "mode": "pegs",
+      "spacing": 34,
+      "points": [[474, 152], [476, 198], [475, 250], [472, 298], [466, 349], [465, 362]]
+    },
+    {
+      "id": "stripe-4",
+      "note": "Middle of the right cream panel",
+      "mode": "pegs",
+      "spacing": 34,
+      "points": [[524, 152], [527, 198], [528, 250], [516, 298], [510, 318]]
+    },
+    {
+      "id": "stripe-5",
+      "note": "Middle of the right blue panel",
+      "mode": "pegs",
+      "spacing": 34,
+      "points": [[566, 175], [569, 210], [570, 250], [556, 298], [524, 349], [519, 358]]
+    },
+    {
+      "id": "pennants-left",
+      "note": "One peg on each pennant of the left bunting string",
+      "mode": "pegs",
+      "spacing": 47,
+      "points": [[44, 118], [81, 152], [122, 184], [164, 212], [204, 236], [243, 257], [280, 274]]
+    },
+    {
+      "id": "pennants-right",
+      "note": "One peg on each pennant of the right bunting string",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[873, 113], [834, 150], [796, 181], [760, 208], [723, 235], [688, 254], [652, 269]]
+    },
+    {
+      "id": "balloon-low-left",
+      "note": "Ring around the small green balloon low on the left, its basket inside",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [200, 320], [229.7, 334.1], [242, 368], [229.7, 401.9], [200, 416], [170.3, 401.9],
+        [158, 368], [170.3, 334.1]
+      ]
+    },
+    {
+      "id": "balloon-low-right",
+      "note": "Ring around the small peach balloon low on the right, its basket inside",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [677, 374], [705.3, 387.5], [717, 420], [705.3, 452.5], [677, 466], [648.7, 452.5],
+        [637, 420], [648.7, 387.5]
+      ]
+    },
+    {
+      "id": "balloon-high-left",
+      "note": "Not in the picture yet: ring around a small balloon above the left bunting",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [214, 52], [243.7, 66.1], [256, 100], [243.7, 133.9], [214, 148], [184.3, 133.9],
+        [172, 100], [184.3, 66.1]
+      ]
+    },
+    {
+      "id": "balloon-high-right",
+      "note": "Not in the picture yet: ring around a small balloon above the right bunting",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [708, 50], [737.7, 64.1], [750, 98], [737.7, 131.9], [708, 146], [678.3, 131.9],
+        [666, 98], [678.3, 64.1]
+      ]
+    },
+    {
+      "id": "balloon-mid-left",
+      "note": "Not in the picture yet: ring around a small balloon at mid height near the left wall",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [85, 214], [114.7, 228.1], [127, 262], [114.7, 295.9], [85, 310], [55.3, 295.9],
+        [43, 262], [55.3, 228.1]
+      ]
+    },
+    {
+      "id": "balloon-mid-right",
+      "note": "Not in the picture yet: ring around a small balloon at mid height near the right wall",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35,
+      "points": [
+        [865.5, 193.3], [888.7, 217.2], [888.7, 250.8], [865.5, 274.7], [832.5, 274.7],
+        [809.3, 250.8], [809.3, 217.2], [832.5, 193.3]
+      ]
+    },
+    {
+      "id": "cloud-left-low",
+      "note": "Tops of the lower puffs of the left cloud bank",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[25, 486], [51, 474], [84, 459], [115, 456], [133, 470], [155, 472]]
+    },
+    {
+      "id": "cloud-mid-left",
+      "note": "Outline of the cloud left of the basket",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [
+        [212, 459], [220, 443], [235, 423], [256, 419], [276, 423], [289, 436], [307, 459],
+        [330, 474], [350, 484]
+      ]
+    },
+    {
+      "id": "cloud-right-puff",
+      "note": "Middle puffs of the big cloud on the right, below the ramp",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[785, 405], [815, 394], [850, 392], [893, 392]]
+    },
+    {
+      "id": "cloud-right-low",
+      "note": "Tops of the lower puffs of the right cloud bank",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[742, 464], [763, 449], [788, 439], [829, 454], [855, 439], [878, 424], [893, 424]]
+    },
+    {
+      "id": "cloud-bottom",
+      "note": "Top of the low cloud right of the basket",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[528, 503], [552, 489], [584, 486], [614, 494], [640, 503], [662, 510]]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "1-4",
+  "name": "Cloud Ship",
+  "concept": {
+    "subject": "A wooden sailing ship flying through a late-afternoon sky under three billowing sails.",
+    "composition": "The hull's long deep curve fills the lower middle with the bow to the left; the three sails stand above it, a small jib at the bow and a spanker at the stern; pennants fly from two mast tops; round clouds float ahead of the bow and behind the stern, flat clouds drift in the corners.",
+    "layout": "93 round pegs and 45 bricks; the first level with a purple peg. The hull's bottom is one long brick curve, a bowl whose lowest bricks quick-disappear (the stuck check found the spots); the deck and the portholes are peg rows. Each sail is a brick top yard with a billowing brick leading edge and a three-by-three grid of sailcloth pegs inside; the jib and spanker edges are brick slides at the bow and the stern."
+  },
+  "background": {
+    "id": "cloud-isles-ship",
+    "prompt": "A wooden sailing ship flies through the sky in the center, seen from the side with its bow to the left. The hull is a long, deep, smooth curve of warm honey-colored wood spanning from about a quarter to three quarters of the picture width, its deck at about three fifths of the picture height and its rounded bottom near the lowest eighth, with a row of round portholes along its side. Three masts carry three square sails in cream and pale blue, each billowing forward toward the bow with a straight top yard and a rounded leading edge, together spanning from about a quarter to three fifths of the picture height. A small triangular jib stretches from the bowsprit and a small spanker sail from the stern. Little pennants fly from the fore and mizzen mast tops. A round cloud floats ahead of the bow and another behind the stern at about two fifths of the height, flat clouds drift along the top corners and the lower corners. Late afternoon light with a faint peach tint in the clouds."
+  },
+  "recipe": {
+    "seed": 104,
+    "targetCount": 138
+  }
+}

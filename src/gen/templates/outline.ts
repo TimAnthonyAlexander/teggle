@@ -1,8 +1,8 @@
-// Picture outline (spec 9 and 12): bricks or round pegs along vector paths. The background line
-// editor will feed it drawn lines ('paths'); until then procedural shapes drive it ('shapes',
-// or a seed-picked 'preset' composition). The generator decides the spacing: a brick chain is
-// straight bricks where the path is straight and curved bricks where it bends (place.ts), pegs
-// sit at an even spacing.
+// Picture outline (spec 9 and 12): bricks or round pegs along vector paths. Lines traced over a
+// level's background drive it ('paths', the campaign levels and the line editor); procedural
+// shapes do too ('shapes', or a seed-picked 'preset' composition). The generator decides the
+// spacing: a brick chain is straight bricks where the path is straight and curved bricks where
+// it bends (place.ts), pegs sit at an even spacing.
 //
 // A shape centered on the board is built as its right half and mirrored, so it comes out
 // exactly symmetric; a shape off the center line can be mirrored to the other side.
@@ -12,6 +12,7 @@ import { cos, HALF_PI, PI, sin } from '../../core/dmath';
 import type { Vec2 } from '../../level/geometry';
 import { BRICK_WIDTH, CENTER_X, MIN_GAP, PEG_SPACING, SEAM } from '../constants';
 import type { ScoringDraft } from '../draft';
+import { lineGeometrySchema, smoothLine, type LineGeometry } from '../lines';
 import { bricksAlong, bricksAround, pegsBetween, pointsAlong, peg } from '../place';
 import {
   ellipsePath,
@@ -19,7 +20,6 @@ import {
   heartPath,
   letterPaths,
   PathSampler,
-  smoothPath,
   starPath,
   type Path,
 } from '../paths';
@@ -65,21 +65,15 @@ const shapeSchema = z.strictObject({
   mirror: z.boolean().optional(),
 });
 
-const pathSchema = z.strictObject({
-  points: z.array(z.tuple([z.number(), z.number()])).min(2),
-  closed: z.boolean(),
-  mode: z.enum(MODES),
-  spacing: z.number().min(34).max(80).optional(),
-  /** Chaikin smoothing passes (drawn lines; default 3). */
-  smooth: z.int().min(0).max(6).optional(),
-});
-
 export const outlineParams = z
   .strictObject({
     preset: z.enum(OUTLINE_PRESETS),
     shapes: z.array(shapeSchema).max(12),
-    /** Lines from the background line editor, in board coordinates. */
-    paths: z.array(pathSchema).max(40),
+    /**
+     * Lines traced over the background (the line editor's format, src/gen/lines.ts), in board
+     * coordinates, smoothed and placed in order.
+     */
+    paths: z.array(lineGeometrySchema).max(160),
   })
   .partial();
 
@@ -357,9 +351,8 @@ function buildShape(ctx: TemplateContext, s: OutlineShape): void {
   }
 }
 
-function buildPath(ctx: TemplateContext, p: z.infer<typeof pathSchema>): void {
-  const raw: Path = { closed: p.closed, points: p.points.map(([x, y]) => ({ x, y })) };
-  const path = smoothPath(raw, p.smooth ?? 3);
+function buildPath(ctx: TemplateContext, p: LineGeometry): void {
+  const path = smoothLine(p);
   const c = { ...ctx, region: { ...ctx.region, mirrored: false } };
   if (p.mode === 'pegs') {
     for (const q of pointsAlong(path, { spacing: p.spacing ?? PEG_SPACING }))

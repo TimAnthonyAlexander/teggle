@@ -1,0 +1,17 @@
+{
+  "id": "1-2",
+  "name": "Kite Tails",
+  "concept": {
+    "subject": "Two diamond kites high in a bright midday sky, each trailing a pair of long ribbon tails that sweep down toward the middle.",
+    "composition": "The kites fly in the upper left and upper right; each tail's two ribbons sweep down and in, the inner one ending at three quarters of the height beside the center, the outer one dipping close to the bottom; bows are tied between the ribbons; three thin cloud wisps cross the middle and small clouds sit low by the walls.",
+    "layout": "83 round pegs and 48 bricks. Each kite's upper frame is a brick roof, its lower edges and spars are pegs. Each tail is a pair of long brick slides that carry balls down toward the middle, with a line of pegs on the bows between them. Three wisps of pegs cross the middle, two short ones sit beside the kites, rings of pegs mark the side clouds and a short arc the cloud between the tails' ends."
+  },
+  "background": {
+    "id": "cloud-isles-kites",
+    "prompt": "Two large diamond-shaped kites fly high on the left and right, each about a sixth of the picture wide, centered at about one fifth and four fifths of the width, their top points near the top edge and their bottom points at a little under half the picture height. Each kite has a cross of two thin wooden spars and a sail in cream and soft blue. From each kite's bottom point hang two long parallel ribbon tails in soft blue, a hand's width apart: they sweep down and in toward the center in one smooth curve; the inner ribbon ends at about three quarters of the picture height just beside the center, the outer ribbon dips close to the bottom and ends a little further out. Small bow ties are tied between the two ribbons of each tail. Three thin horizontal wisps of cloud drift across the middle at about one third, one half and three fifths of the picture height, with two shorter wisps higher up beside the kites. A small round cloud floats low near each side edge, and a soft cloud sits at the bottom center between the ends of the tails."
+  },
+  "recipe": {
+    "seed": 102,
+    "targetCount": 131
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "1-5",
+  "name": "Dandelion Wind",
+  "concept": {
+    "subject": "A breezy sky where two giant dandelion clocks shed their seeds into curling ribbons of wind.",
+    "composition": "The two seed heads stand low by the side walls on short stems; wind ribbons rise from them and curl into three loose spirals, two in the upper middle and a larger one in the lower middle; small curls turn in the upper corners and two long waves of wind run along the bottom.",
+    "layout": "144 round pegs. The seed heads are two concentric rings with a center peg; the wind ribbons are peg lines that rise from the seed heads and curl into the three spirals; curls, seed trails and the two low waves spread the rest across the board, with a single seed under the cannon."
+  },
+  "background": {
+    "id": "cloud-isles-dandelions",
+    "prompt": "A breezy sky full of drifting dandelion seeds. Two large round dandelion seed heads, soft white puffballs about one sixth of the picture wide, sit at about three fifths of the picture height near the left and right edges, centered at about 17 and 83 percent of the width, on short curving stems that rise from small cloud banks in the lower corners. Long ribbons of wind, painted as smooth pale swirling strokes, rise from the seed heads and curl into loose spirals: one spiral left of the top center, one right of the top center, both at about a third of the picture height, and a larger one in the lower middle, fed by a ribbon that sweeps in from the left seed head. Small curls of wind turn in the upper corners, a thin trail of seeds drifts across the middle between the upper spirals, and two long gentle waves of wind run across the bottom between the seed heads. Many small seeds float along the ribbons."
+  },
+  "recipe": {
+    "seed": 105,
+    "targetCount": 144
+  }
+}

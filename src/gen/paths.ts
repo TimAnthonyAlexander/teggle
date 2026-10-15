@@ -1,7 +1,6 @@
-// Vector paths: the input of the outline template (and later of the background line editor).
-// A path is a polyline, open or closed. Procedural shapes are sampled densely here; drawn
-// lines are smoothed with Chaikin corner cutting. Everything uses dmath, so a path's points
-// are the same bits in every engine.
+// Vector paths: the input of the outline template. A path is a polyline, open or closed.
+// Procedural shapes are sampled densely here; lines traced over a picture are smoothed in
+// lines.ts. Everything uses dmath, so a path's points are the same bits in every engine.
 
 import { atan2, cos, PI, sin, TAU } from '../core/dmath';
 import type { Vec2 } from '../level/geometry';
@@ -86,29 +85,6 @@ export class PathSampler {
     const d = dist(a, b);
     return d > 0 ? { x: (b.x - a.x) / d, y: (b.y - a.y) / d } : { x: 1, y: 0 };
   }
-}
-
-/** Chaikin corner cutting: rounds corners while keeping the overall shape. */
-export function smoothPath(p: Path, iterations = 3): Path {
-  let pts = [...p.points];
-  for (let k = 0; k < iterations; k++) {
-    const out: Vec2[] = [];
-    const n = pts.length;
-    const count = p.closed ? n : n - 1;
-    const first = pts[0];
-    if (!p.closed && first !== undefined) out.push(first);
-    for (let i = 0; i < count; i++) {
-      const a = pts[i];
-      const b = pts[(i + 1) % n];
-      if (a === undefined || b === undefined) continue;
-      out.push({ x: 0.75 * a.x + 0.25 * b.x, y: 0.75 * a.y + 0.25 * b.y });
-      out.push({ x: 0.25 * a.x + 0.75 * b.x, y: 0.25 * a.y + 0.75 * b.y });
-    }
-    const last = pts[n - 1];
-    if (!p.closed && last !== undefined) out.push(last);
-    pts = out;
-  }
-  return { points: pts, closed: p.closed };
 }
 
 /** The path moved, scaled and turned (screen rotation, counterclockwise). */
