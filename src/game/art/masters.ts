@@ -1,8 +1,9 @@
 // Master portraits (spec 7; visual guide 7.4, 10.5 and 13): ten masters, four expressions each,
-// shipped as generated art under public/art/masters/<powerId>/<expression>.webp (docs/assets.md,
-// prompts in docs/art/masters-prompts.md). Images load lazily and are cached by power and
-// expression. Nothing here throws on a missing or broken file: a failed load is remembered as
-// missing, and callers draw nothing in its place (or the neutral portrait, via `best`).
+// shipped as found images under public/art/masters/<powerId>/<expression>.webp (built by
+// tools/master-art.ts; sources in docs/art/masters-sources.md and docs/assets.md). Images load
+// lazily and are cached by power and expression. Nothing here throws on a missing or broken file:
+// a failed load is remembered as missing, and callers draw nothing in its place (or the neutral
+// portrait, via `best`).
 
 import type { PowerId } from '../audio/bus';
 
