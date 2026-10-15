@@ -88,7 +88,9 @@ class AudioEngine implements AudioControls {
   start(): void {
     if (this.started) return;
     this.started = true;
-    if (contextClass() === null) {
+    // A browser under automation (Playwright, the screenshot and check tools) never makes a
+    // sound: those runs happen on the user's machine while they work or sleep.
+    if (contextClass() === null || navigator.webdriver) {
       this.state = 'failed';
       return;
     }

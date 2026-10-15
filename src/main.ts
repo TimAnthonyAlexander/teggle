@@ -8,6 +8,12 @@ function boot(): void {
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing #game canvas.');
   registerOffline();
   startAudio();
+  if (import.meta.env.DEV && window.location.hash.includes('touchdebug=1')) {
+    // DEV ONLY: the touch timeline for debugging input on a phone (src/game/dev/touch-debug.ts).
+    void import('./game/dev/touch-debug').then((m) => {
+      m.installTouchDebug();
+    });
+  }
   const app = new App(canvas, routeScreen);
   app.start().catch((err: unknown) => {
     const message = err instanceof Error ? err.message : String(err);
