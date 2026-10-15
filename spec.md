@@ -604,6 +604,18 @@ Decided in the level generator on 2026-10-15. Values live in `src/gen/constants.
 - Stuck spots: a ball whose stuck counter reaches 150 ticks, or that stays inside a 40 px box for 600 ticks, or whose shot passes 4,000 ticks, records the objects it touches; the check frees it by removing a lit peg it touches, as the rules do at 500. Every scoring object at a spot gets quick disappear, then the check runs again (up to 3 rounds; the last round only verifies). A spot that touches no scoring object fails the level.
 - Generated levels need at least 58 can-be-orange objects after the checks (a 55-orange challenge plus green and purple).
 
+Decided in the audio on 2026-10-15. Values live in `src/game/audio/pitch.ts`, `src/game/audio/sounds.ts` and `src/game/audio/score.ts`; every sound and the music are synthesized in code (14.1, `docs/assets.md`).
+
+- Peg hit pitch: the C major scale from C5 (the original's peg hit pitch, visual guide 14), one step higher for each further peg lit in the shot, up to C7 at the 15th hit; later hits stay on C7. Higher notes are trimmed in level by (C5 / f)^0.35 so a long run does not get shrill. Bricks and pegs sound alike; orange hits are a little brighter, green ones have a soft chorus, purple ones a high sparkle.
+- Peg pops climb the same scale from G4 (the original's pop sits near 385 Hz) to G6.
+- C major is the game's key: the jingles, stingers and the Fever music are in it, so hits and pops during the Fever stay in tune with the music.
+- Voice limits per sound: peg hits 6 voices with onsets at least 35 ms apart, pops 8 voices 20 ms apart, title letters 6 voices 40 ms apart, count ticks 2 voices 35 ms apart, most others 1 to 4. A voice beyond the limit fades out the oldest one in about 12 ms. Hits that arrive together (a power lighting several pegs in one tick) play as a quick run, up to 350 ms late; past that they are dropped.
+- Fever music: the "Ode to Joy" theme's two phrases (eight bars) in C major at 150 beats per minute, after a one-bar intro and before a closing chord: 15.2 s of notes and a 1.6 s ring-out. It starts on the hit with the cymbal and the gong, plays on under the level complete dialog, and fades out over 0.8 s at the next shot.
+- Slow motion starts a timpani roll on C that swells for one second, the time the approach takes at 0.25x (25 ticks), and gives way to the cymbal and gong on the hit.
+- The bucket fireworks sound bursts at 350, 800, 1300 and 1700 ms after the landing, with the presenter's bursts; the rainbow shimmer starts when the arch starts drawing.
+- Pause stops the Fever music and resumes it at the same place; long effects (the timpani roll, cymbal, gong, fireworks, rainbow, applause, coin spin and Space Blast) duck to silence meanwhile. A hidden tab suspends all audio. Leaving the play screen fades everything out.
+- Mixing: a limiter at -10 dBFS (ratio 20, 2 ms attack) and a soft clipper after it; single sounds peak about 1 to 14 dB under the limiter and only stacked moments reach it. Volume sliders map to gain squared. Defaults: effects 0.8, music 0.7, not muted; stored in localStorage under `teggle.audio.v1`. M toggles mute.
+
 ### 14.3 Still open
 
 - Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)
