@@ -2,7 +2,9 @@
 // Long Shot, Super Long Shot, Double Long Shot, Bucket Bounce, Lucky Bounce, Long Slide, and the
 // "bucket since the last peg" flag Bucket Kick needs. It reads the simulation's events and the
 // ball positions; the attempt handles the style shots that depend on rules state (Bucket Kick,
-// Bucket Streak, Orange Rush, Clean Finish, Double Power). Nothing here allocates per tick.
+// Bucket Streak, Orange Rush, Clean Finish, Double Power, Double Catch). It also keeps the path
+// facts the master-specific style shots read (BallPathView); the powers award those. Nothing
+// here allocates per tick.
 
 import type { SimEvent } from '../sim/events';
 import type { BallView } from '../sim/world';
@@ -27,7 +29,8 @@ export type StyleShotId =
   | 'longSlide'
   | 'orangeRush'
   | 'cleanFinish'
-  | 'doublePower';
+  | 'doublePower'
+  | 'doubleCatch';
 
 /** Master-specific style shots are named by their power: `power:<power id>:<name>`. */
 export type PowerStyleShotId = `power:${string}`;
@@ -46,9 +49,10 @@ export const STYLE_POINTS: Readonly<Record<StyleShotId, number>> = {
   orangeRush: 50000,
   cleanFinish: 50000,
   doublePower: 25000,
+  doubleCatch: 100000,
 };
 
-/** Banner text (spec 5 naming). */
+/** Banner text (spec 5 naming; Double Catch is Teggle's name, spec 14.2). */
 export const STYLE_NAMES: Readonly<Record<StyleShotId, string>> = {
   bucketBounce: 'Bucket Bounce',
   longShot: 'Long Shot',
@@ -62,7 +66,64 @@ export const STYLE_NAMES: Readonly<Record<StyleShotId, string>> = {
   orangeRush: 'Orange Rush',
   cleanFinish: 'Clean Finish',
   doublePower: 'Double Power',
+  doubleCatch: 'Double Catch',
 };
+
+export interface PowerStyleShot {
+  readonly shot: PowerStyleShotId;
+  /** Banner text: Teggle's plain name, never the original's (spec 14.2). */
+  readonly name: string;
+  readonly points: number;
+}
+
+/**
+ * The master-specific style shots (spec 5, the fan wiki's points; triggers in spec 14.2). The
+ * powers award them through PowerContext.style; each scores at most once per shot.
+ */
+export const POWER_STYLE_SHOTS = {
+  feverMultiball: {
+    shot: 'power:multiball:feverMultiball',
+    name: 'Fever Multiball',
+    points: 25000,
+  },
+  pyramidCatch: { shot: 'power:pyramid:pyramidCatch', name: 'Pyramid Catch', points: 10000 },
+  flipperRally: { shot: 'power:flippers:flipperRally', name: 'Flipper Rally', points: 25000 },
+  fireballCatch: { shot: 'power:fireball:fireballCatch', name: 'Fireball Catch', points: 25000 },
+  bigBallCatch: { shot: 'power:luckySpin:bigBallCatch', name: 'Big Ball Catch', points: 10000 },
+} as const satisfies Record<string, PowerStyleShot>;
+
+const POWER_STYLE_BY_SHOT: ReadonlyMap<string, PowerStyleShot> = new Map(
+  Object.values(POWER_STYLE_SHOTS).map((s) => [s.shot, s]),
+);
+
+function isStyleShotId(shot: StyleShot): shot is StyleShotId {
+  return Object.hasOwn(STYLE_POINTS, shot);
+}
+
+/** Banner name of any style shot; an unknown power shot shows the last part of its id. */
+export function styleShotName(shot: StyleShot): string {
+  if (isStyleShotId(shot)) return STYLE_NAMES[shot];
+  const known = POWER_STYLE_BY_SHOT.get(shot);
+  if (known !== undefined) return known.name;
+  const parts = shot.split(':');
+  return parts[parts.length - 1] ?? 'Style Shot';
+}
+
+/** Points of a style shot from the tables, or null for a power shot they do not list. */
+export function styleShotPoints(shot: StyleShot): number | null {
+  if (isStyleShotId(shot)) return STYLE_POINTS[shot];
+  return POWER_STYLE_BY_SHOT.get(shot)?.points ?? null;
+}
+
+/** What the style tracker knows about one ball of the current shot (master-specific shots). */
+export interface BallPathView {
+  /** The ball has touched a peg or brick. */
+  readonly touchedPeg: boolean;
+  /** The ball touched a Pyramid slope after its last contact with a peg or brick. */
+  readonly pyramidSincePeg: boolean;
+  /** The ball has touched a flipper. */
+  readonly flipped: boolean;
+}
 
 export interface StyleSink {
   awardStyle(shot: StyleShotId, ball: number, x: number, y: number): void;
@@ -71,7 +132,7 @@ export interface StyleSink {
 /** True when the peg or brick with this element id is orange, green or purple. */
 export type NonBlueLookup = (element: number) => boolean;
 
-class BallTrack {
+class BallTrack implements BallPathView {
   // Long Shot chain: the peg the ball touched last and where it touched it.
   anchor = -1;
   anchorNonBlue = false;
@@ -95,6 +156,13 @@ class BallTrack {
   readonly slid = new Int32Array(LONG_SLIDE_PEGS);
   slideCount = 0;
   lastSlideTick = 0;
+  // Master-specific shots (Pyramid Catch, Flipper Rally).
+  pyramidSincePeg = false;
+  flipped = false;
+
+  get touchedPeg(): boolean {
+    return this.firstPeg >= 0;
+  }
 
   reset(): void {
     this.anchor = -1;
@@ -113,6 +181,8 @@ class BallTrack {
     this.maxRise = 0;
     this.slideCount = 0;
     this.lastSlideTick = 0;
+    this.pyramidSincePeg = false;
+    this.flipped = false;
   }
 
   copyFrom(o: BallTrack): void {
@@ -133,6 +203,8 @@ class BallTrack {
     this.slid.set(o.slid);
     this.slideCount = o.slideCount;
     this.lastSlideTick = o.lastSlideTick;
+    this.pyramidSincePeg = o.pyramidSincePeg;
+    this.flipped = o.flipped;
   }
 
   /** A teleport or a Spooky return: the path is broken. */
@@ -142,12 +214,14 @@ class BallTrack {
     this.touchedSincePeg = true;
     this.rising = false;
     this.slideCount = 0;
+    this.pyramidSincePeg = false;
   }
 }
 
 export class StyleTracker {
   private readonly tracks: BallTrack[] = [];
   private longSlideDone = false;
+  private flipperLit = 0;
   private readonly longDistance2: number;
   private readonly superLongDistance2: number;
   private readonly luckyRise: number;
@@ -164,6 +238,17 @@ export class StyleTracker {
   /** Call when a shot starts. Ball tracks reset as their balls spawn. */
   startShot(): void {
     this.longSlideDone = false;
+    this.flipperLit = 0;
+  }
+
+  /** The path facts of a ball of the current shot. */
+  path(ball: number): BallPathView {
+    return this.track(ball);
+  }
+
+  /** Pegs and bricks lit this shot by balls that had touched a flipper before (Flipper Rally). */
+  get flipperPegs(): number {
+    return this.flipperLit;
   }
 
   /**
@@ -210,6 +295,7 @@ export class StyleTracker {
 
         t.litFromBucket = e.first && t.bucketSincePeg;
         t.bucketSincePeg = false;
+        t.pyramidSincePeg = false;
 
         this.slide(t, e.slide, e.tick, e.element, e.ball, e.x, e.y, sink);
         return;
@@ -223,6 +309,7 @@ export class StyleTracker {
           t.bucketY = e.y;
           t.minY = e.y;
         }
+        if (e.part === 'pyramid') t.pyramidSincePeg = true;
         this.slide(t, e.slide, e.tick, -1, e.ball, e.x, e.y, sink);
         return;
       }
@@ -231,6 +318,7 @@ export class StyleTracker {
       case 'flipperContact': {
         const t = this.track(e.ball);
         t.touchedSincePeg = true;
+        if (e.type === 'flipperContact') t.flipped = true;
         this.slide(t, e.slide, e.tick, -1, e.ball, e.x, e.y, sink);
         return;
       }
@@ -251,6 +339,8 @@ export class StyleTracker {
         return;
       }
       case 'pegLit':
+        if (e.ball >= 0 && this.track(e.ball).flipped) this.flipperLit++;
+        return;
       case 'pegRemoved':
       case 'feverCatch':
       case 'ballOut':
@@ -278,6 +368,7 @@ export class StyleTracker {
     }
     for (let k = o.tracks.length; k < this.tracks.length; k++) this.tracks[k]?.reset();
     this.longSlideDone = o.longSlideDone;
+    this.flipperLit = o.flipperLit;
   }
 
   private track(id: number): BallTrack {

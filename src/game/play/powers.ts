@@ -6,7 +6,10 @@
 // Two powers hold the simulation for a moment, as the original does: the wheel spins while the
 // board waits, and Zen Ball searches before its shot leaves (the search runs in slices over
 // several frames; the rules' launch hook then finds it finished). Holding only means the play
-// screen does not step the attempt, so ticks and determinism are untouched.
+// screen does not step the attempt, so ticks and determinism are untouched. While the wheel
+// turns, nothing the rules did after the spin shows: the play screen keeps those rules events
+// back, and this hides the world changes they stand for (a Multiball's ball, a Spooky return,
+// the Pyramid, the dome, the flippers) until they are let through.
 
 import type { Attempt, AttemptView } from '../../rules/attempt';
 import type { RulesEvent } from '../../rules/events';
@@ -14,12 +17,14 @@ import { masterOfPower, masterOfStage } from '../../rules/masters';
 import {
   isPowerId,
   LUCKY_SPIN_OUTCOMES,
+  LUCKY_SPIN_POWERS,
   powerById,
   zenSearchFor,
   type PowerId,
   type ZenSearch,
 } from '../../rules/powers';
 import {
+  BIG_BALL_RADIUS,
   FIREBALL_SHOTS,
   FLIPPER_SHOTS,
   GUIDE_SHOTS,
@@ -30,17 +35,19 @@ import {
   ZEN_STEPS,
 } from '../../rules/tuning';
 import type { SimEvent } from '../../sim/events';
-import type { World } from '../../sim/world';
+import type { BallView, World } from '../../sim/world';
 import type { Vec2 } from '../../level/geometry';
 import type { AudioBus, PowerMoment } from '../audio/bus';
 import { CANNON_PIVOT, CENTER_X, layout } from '../layout';
-import { drawFireball } from '../render/ball';
+import { ballSprite, drawFireball } from '../render/ball';
+import { prebuildBucketLayers } from '../render/buckets';
 import {
   drawFlower,
   drawGreenBurst,
   drawLuckyWheel,
   drawPoof,
   drawPyramidRays,
+  drawReturnGlow,
   drawSpaceBlast,
   drawSpookyAura,
   drawZenFan,
@@ -48,6 +55,7 @@ import {
   FLOWER_MS,
   GREEN_BURST_MS,
   POOF_MS,
+  prebuildPowerLayers,
   PYRAMID_RAYS_MS,
   SPACE_BLAST_MS,
 } from '../render/powers';
@@ -66,6 +74,15 @@ export const ZEN_SWING_MS = 420;
 export const ZEN_FRAME_BUDGET_MS = 6;
 /** Simulation ticks per slice of the search, between clock checks. */
 const ZEN_SLICE_TICKS = 300;
+/**
+ * A Spooky Ball that comes back in at the top is drawn over the launcher housing until its top
+ * edge clears the housing's lowest point, for at most this long (game ms).
+ */
+export const RETURN_OVER_MS = 1500;
+/** The housing's lowest point: the bottom of the portrait arc (launcher.ts), world units. */
+const HOUSING_BOTTOM = layout.portrait.y + 53;
+/** Ball ids the show tracks per shot (Multiball adds one per green hit). */
+const TRACKED_BALLS = 32;
 
 /** Shots each lasting effect adds per green hit, for the "+3 TURNS" line. */
 const ADDED: Readonly<Record<string, number>> = {
@@ -85,6 +102,17 @@ const OUTCOME_TEXT: Readonly<Record<string, string>> = {
   tripleScore: 'TRIPLE SCORE!',
   extraBall: 'EXTRA BALL!',
 };
+
+/** Every second line a power label can show (onEffect, onAction), for prebuilding. */
+function labelLines(): string[] {
+  const lines = new Set(['THIS TURN', 'NEXT TURN', 'SECOND BALL', '+1 TURN', '1 PEG', '1 ORANGE']);
+  for (const n of Object.values(ADDED)) {
+    lines.add(`${n} TURNS`);
+    lines.add(`NEXT ${n} TURNS`);
+    lines.add(`+${n} TURNS`);
+  }
+  return [...lines];
+}
 
 const LABEL: TextStyle = textStyle.powerLabel();
 const LABEL_SMALL: TextStyle = { ...textStyle.powerLabel(), cap: 8 };
@@ -160,6 +188,16 @@ export class PowerShow {
   /** For dev checks: green hits shown and the power actions seen, newest last. */
   greenHits = 0;
   readonly actions: string[] = [];
+  // What the wheel keeps back (noteHeld): balls from this id on are not drawn yet, and returns a
+  // Spooky Ball got after the spin do not show their aura yet.
+  private hiddenFrom = Infinity;
+  private readonly heldReturns = new Int16Array(TRACKED_BALLS);
+  private heldReturnsAll = 0;
+  // Spooky Balls that just came back in at the top, drawn over the housing: ball id or -1.
+  private readonly returnBall = new Int32Array(4).fill(-1);
+  private readonly returnMs = new Float64Array(4);
+  /** Resolution the effect sprites were last built at. */
+  private prebuiltK = 0;
 
   // Lucky Spin wheel.
   private wheelOn = false;
@@ -199,9 +237,24 @@ export class PowerShow {
     this.banner.name = master === null ? '' : powerName(master);
   }
 
-  /** For dev checks: the wheel is up, and Zen Ball's state. */
-  get debugState(): { wheel: boolean; zen: string; lastZen: unknown } {
-    return { wheel: this.wheelOn, zen: this.zenPhase, lastZen: this.lastZen };
+  /**
+   * For dev checks: the wheel is up, Zen Ball's state, the Spooky Balls drawn over the housing,
+   * and the first ball id kept out of sight while the wheel turns.
+   */
+  get debugState(): {
+    wheel: boolean;
+    zen: string;
+    lastZen: unknown;
+    returning: number[];
+    hiddenFrom: number | null;
+  } {
+    return {
+      wheel: this.wheelOn,
+      zen: this.zenPhase,
+      lastZen: this.lastZen,
+      returning: [...this.returnBall].filter((id) => id >= 0),
+      hiddenFrom: Number.isFinite(this.hiddenFrom) ? this.hiddenFrom : null,
+    };
   }
 
   reset(world: World): void {
@@ -219,6 +272,70 @@ export class PowerShow {
     this.wheelOn = false;
     this.zenPhase = 'idle';
     this.zenSearch = null;
+    this.noteHeld([]);
+    this.returnBall.fill(-1);
+  }
+
+  /**
+   * Builds every sprite the power effects draw, at `k` device pixels per world unit, so no
+   * effect's first frame waits for them: called when the level loads and when the resolution
+   * changes. Lucky Spin can run any power, so a master's level builds them all.
+   */
+  prebuild(k: number, sprites: TextSprites): void {
+    if (this.master === null || k === this.prebuiltK) return;
+    this.prebuiltK = k;
+    prebuildPowerLayers(k);
+    prebuildBucketLayers(k);
+    ballSprite(k, BIG_BALL_RADIUS);
+    for (const id of LUCKY_SPIN_POWERS) {
+      sprites.get(k, 'powerLabel', LABEL, powerName(id).toUpperCase());
+      sprites.get(k, 'wheelResult', WHEEL_RESULT, `${powerName(id).toUpperCase()}!`);
+    }
+    sprites.get(k, 'powerLabel', LABEL, powerName('luckySpin').toUpperCase());
+    for (const text of Object.values(OUTCOME_TEXT)) {
+      sprites.get(k, 'wheelResult', WHEEL_RESULT, text);
+    }
+    for (const line of labelLines()) sprites.get(k, 'powerLabel2', LABEL_SMALL, line);
+  }
+
+  /**
+   * The rules events the play screen keeps back while the wheel turns. The world already shows
+   * what they did; this notes which balls and Spooky returns to keep out of sight meanwhile.
+   */
+  noteHeld(held: readonly RulesEvent[]): void {
+    this.hiddenFrom = Infinity;
+    this.heldReturns.fill(0);
+    this.heldReturnsAll = 0;
+    for (const e of held) {
+      if (e.type !== 'powerAction') continue;
+      if (e.action === 'multiball') {
+        this.hiddenFrom = Math.min(this.hiddenFrom, e.value);
+      } else if (e.action === 'spookyBall') {
+        if (e.value < 0) this.heldReturnsAll++;
+        else if (e.value < TRACKED_BALLS)
+          this.heldReturns[e.value] = (this.heldReturns[e.value] ?? 0) + 1;
+      }
+    }
+  }
+
+  /** Balls with this id or more are not shown yet (a Multiball's ball while the wheel turns). */
+  get hiddenBallsFrom(): number {
+    return this.hiddenFrom;
+  }
+
+  /** The Pyramid as shown: it appears once the wheel that drew it has stopped. */
+  get pyramidShown(): boolean {
+    return this.lastPyramid;
+  }
+
+  /** The bucket's dome as shown. */
+  get coverShown(): boolean {
+    return this.lastCover;
+  }
+
+  /** The flippers as shown. */
+  get flippersShown(): boolean {
+    return this.lastFlippers;
   }
 
   /** How far the flippers have faded in since they appeared, 0 to 1. */
@@ -248,6 +365,8 @@ export class PowerShow {
       case 'shotStart': {
         this.shotInPlay = true;
         this.greenThisShot = false;
+        // Ball ids start over with every shot.
+        this.returnBall.fill(-1);
         const ball = attempt.world.balls[0];
         if (ball?.passThroughScoring === true) this.moment('fireball', 'fireballLaunch');
         return true;
@@ -368,6 +487,12 @@ export class PowerShow {
       this.addFx('poof', x, Math.max(e.y + this.offY, layout.opening.y + 8), 0);
       this.particles.burst(x, e.y + this.offY, 12, 1.8, [VIOLET, WHITE], rand);
       this.moment('spookyBall', 'spookyReturn');
+      // It comes in at the top edge, often under the housing: draw it over the machine.
+      let slot = this.returnBall.indexOf(e.ball);
+      if (slot < 0) slot = this.returnBall.indexOf(-1);
+      if (slot < 0) slot = 0;
+      this.returnBall[slot] = e.ball;
+      this.returnMs[slot] = this.gameMs;
     }
   }
 
@@ -378,6 +503,9 @@ export class PowerShow {
   tick(attempt: AttemptView): void {
     this.gameMs += TICK_MS;
     const world = attempt.world;
+    this.expireEffects();
+    // While the wheel turns, the parts a power just raised stay as they were shown.
+    if (this.wheelHolds) return;
     if (world.pyramid !== this.lastPyramid) {
       this.lastPyramid = world.pyramid;
       this.moment('pyramid', 'bucketChange');
@@ -407,6 +535,10 @@ export class PowerShow {
         0.95,
       );
     }
+  }
+
+  /** Ends the board effects and labels that have run their time. */
+  private expireEffects(): void {
     for (const f of this.fx) {
       if (f.active && this.gameMs - f.t0 >= FX_MS[f.kind]) f.active = false;
     }
@@ -429,9 +561,16 @@ export class PowerShow {
   // -------------------------------------------------------------------------------------------
   // Banner
 
-  /** Power banner over the launcher: lit while an effect runs or a green lit this shot. */
+  /**
+   * Power banner over the launcher: lit while an effect runs or a green lit this shot. While the
+   * wheel turns, the turns counter keeps what it showed before the spin.
+   */
   bannerState(attempt: AttemptView): BannerState {
     const b = this.banner;
+    if (this.wheelHolds) {
+      b.active = this.master !== null;
+      return b;
+    }
     const effects = attempt.effects;
     let turns = -1;
     for (const fx of effects) {
@@ -611,11 +750,49 @@ export class PowerShow {
     zenShot: boolean,
   ): void {
     for (const b of world.balls) {
-      if (b.hiddenTicks > 0) continue;
+      if (b.hiddenTicks > 0 || b.id >= this.hiddenFrom) continue;
       const x = ballX(b.id, b.x) + this.offX;
       const y = ballY(b.id, b.y) + this.offY;
-      if (b.topReturns > 0) drawSpookyAura(ctx, k, x, y, b.vx, b.vy, b.radius, this.nowMs);
+      if (this.returnsShown(b) > 0) {
+        drawSpookyAura(ctx, k, x, y, b.vx, b.vy, b.radius, this.nowMs);
+      }
       if (zenShot) drawZenGlow(ctx, k, x, y, b.radius * 2.2, this.nowMs);
+    }
+  }
+
+  /** Spooky returns a ball has, without those granted after a spin that is still turning. */
+  private returnsShown(b: BallView): number {
+    const held = b.id < TRACKED_BALLS ? (this.heldReturns[b.id] ?? 0) : 0;
+    return b.topReturns - held - this.heldReturnsAll;
+  }
+
+  /**
+   * Spooky Balls that just came back in at the top, over the machine: the ball and a ghostly
+   * glow, until the ball has cleared the housing. `drawBall` draws a ball at its interpolated
+   * place; `ballY` gives that place's y in board coordinates.
+   */
+  drawReturning(
+    ctx: Ctx,
+    k: number,
+    world: World,
+    ballX: (id: number, x: number) => number,
+    ballY: (id: number, y: number) => number,
+    drawBall: (ctx: Ctx, b: BallView) => void,
+  ): void {
+    for (let s = 0; s < this.returnBall.length; s++) {
+      const id = this.returnBall[s] ?? -1;
+      if (id < 0) continue;
+      const t = this.gameMs - (this.returnMs[s] ?? 0);
+      let ball: BallView | undefined;
+      for (const b of world.balls) if (b.id === id) ball = b;
+      const y = ball === undefined ? Infinity : ballY(id, ball.y) + this.offY;
+      if (ball === undefined || t > RETURN_OVER_MS || y - ball.radius > HOUSING_BOTTOM) {
+        this.returnBall[s] = -1;
+        continue;
+      }
+      const x = ballX(id, ball.x) + this.offX;
+      drawReturnGlow(ctx, k, x, y, ball.radius, t);
+      drawBall(ctx, ball);
     }
   }
 

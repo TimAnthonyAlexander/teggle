@@ -17,6 +17,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:engines": "tsx tools/test-engines.ts",
+    "test:browsers": "playwright test -c tests/browser/playwright.config.ts",
     "bench:sim": "tsx tools/bench-sim.ts",
     "shots": "tsx tools/screenshot.ts",
     "gen:level": "tsx tools/gen-level.ts",

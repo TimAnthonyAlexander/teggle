@@ -7,7 +7,7 @@
 
 import type { LevelElement } from '../../level/schema';
 import type { CompiledLevel } from '../../sim/compile';
-import type { World } from '../../sim/world';
+import type { BallView, World } from '../../sim/world';
 import { WORLD_H, WORLD_W } from '../layout';
 import { ballSprite } from '../render/ball';
 import { createCanvas, context2d, drawLayer, type Layer } from '../render/cache';
@@ -690,23 +690,28 @@ export class BoardRenderer {
    * Lucky Spin wheel still turns).
    */
   drawBalls(ctx: Ctx, world: World, alpha: number, timeMs = 0, hideFrom = Infinity): void {
-    const sprite = this.ball;
-    if (sprite === null) return;
     for (const b of world.balls) {
       if (b.hiddenTicks > 0 || b.id >= hideFrom) continue;
-      const x = this.ballX(b.id, b.x, alpha);
-      const y = this.ballY(b.id, b.y, alpha);
-      if (b.passThroughScoring) {
-        drawFireball(ctx, x + this.offX, y + this.offY, b.vx, b.vy, timeMs, b.radius);
-        continue;
-      }
-      ctx.fillStyle = 'rgba(0,0,0,0.4)';
-      circlePath(ctx, x + this.offX - 4, y + this.offY + 3, b.radius);
-      ctx.fill();
-      // Big Ball and other radii get their own sprite, so they stay sharp.
-      const s = b.radius === 6 ? sprite : ballSprite(this.spriteK, b.radius);
-      drawLayer(ctx, s, x + this.offX, y + this.offY);
+      this.drawBall(ctx, b, alpha, timeMs);
     }
+  }
+
+  /** One ball with its shadow at its interpolated place (a Fireball burns). */
+  drawBall(ctx: Ctx, b: BallView, alpha: number, timeMs = 0): void {
+    const sprite = this.ball;
+    if (sprite === null) return;
+    const x = this.ballX(b.id, b.x, alpha);
+    const y = this.ballY(b.id, b.y, alpha);
+    if (b.passThroughScoring) {
+      drawFireball(ctx, x + this.offX, y + this.offY, b.vx, b.vy, timeMs, b.radius);
+      return;
+    }
+    ctx.fillStyle = 'rgba(0,0,0,0.4)';
+    circlePath(ctx, x + this.offX - 4, y + this.offY + 3, b.radius);
+    ctx.fill();
+    // Big Ball and other radii get their own sprite, so they stay sharp.
+    const s = b.radius === 6 ? sprite : ballSprite(this.spriteK, b.radius);
+    drawLayer(ctx, s, x + this.offX, y + this.offY);
   }
 
   ballX(id: number, x: number, alpha: number): number {

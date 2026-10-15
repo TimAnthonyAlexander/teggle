@@ -1,7 +1,7 @@
 // Which sounds each audio bus event plays, and what it does to the Fever music: a pure table, so
 // it can be tested without Web Audio. The sound board applies it.
 
-import { STYLE_POINTS, type StyleShot, type StyleShotId } from '../../rules/style';
+import { styleShotPoints, type StyleShot } from '../../rules/style';
 import type { FreeBallReason } from '../../rules/events';
 import type { AudioEvent } from './bus';
 import type { SoundId } from './sounds';
@@ -30,9 +30,12 @@ function only(...cues: Cue[]): Route {
   return { cues, music: null, endRoll: false };
 }
 
-/** The style stinger for a shot, by its points (spec 5); power shots get the 25,000 one. */
+/**
+ * The style stinger for a shot, by its points (spec 5 and 14.2); a power shot the tables do not
+ * list gets the 25,000 one.
+ */
 export function stingerFor(shot: StyleShot): SoundId {
-  const points = shot in STYLE_POINTS ? STYLE_POINTS[shot as StyleShotId] : 25_000;
+  const points = styleShotPoints(shot) ?? 25_000;
   if (points >= 100_000) return 'style.huge';
   if (points >= 50_000) return 'style.big';
   if (points >= 25_000) return 'style.medium';

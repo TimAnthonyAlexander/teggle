@@ -40,7 +40,8 @@ const SCENARIOS: readonly PowerScenario[] = [
   { name: 'zenBall', power: 'zenBall', level: plinkoLevel, seed: 12 },
 ];
 
-function feed(d: Digest, events: readonly RulesEvent[]): void {
+/** Digests rules events field by field, in their key order. */
+export function feed(d: Digest, events: readonly RulesEvent[]): void {
   for (const e of events) {
     for (const [key, value] of Object.entries(e)) {
       d.string(key);

@@ -8,7 +8,7 @@
 
 import type { Attempt } from '../../rules/attempt';
 import type { RulesEvent } from '../../rules/events';
-import { STYLE_NAMES, type StyleShot, type StyleShotId } from '../../rules/style';
+import { styleShotName } from '../../rules/style';
 import type { CompiledLevel } from '../../sim/compile';
 import type { SimEvent } from '../../sim/events';
 import type { AudioBus } from '../audio/bus';
@@ -52,6 +52,8 @@ export class Callout {
 }
 
 const MAX_CALLOUTS = 24;
+/** A style shot this close to a green peg lit in the same tick happened at that peg, board px. */
+const GREEN_NEAR = 40;
 
 export interface Tally {
   visible: boolean;
@@ -185,6 +187,8 @@ export class Presenter {
   private readonly fireworkTimes: number[] = [];
   private lastCountTick = 0;
   private readonly numberText = new Map<number, string>();
+  /** The green peg that lit last: tick and board position. */
+  private readonly green = { tick: -1, x: 0, y: 0 };
 
   constructor(
     readonly level: CompiledLevel,
@@ -255,6 +259,7 @@ export class Presenter {
     this.lost = false;
     this.fountainUntil = 0;
     this.fireworkTimes.length = 0;
+    this.green.tick = -1;
     // A level that starts with 3 balls or fewer (challenges) warns at once.
     this.warn(attempt.ballsLeft);
   }
@@ -331,6 +336,10 @@ export class Presenter {
           // Below the peg: its value pops up above it.
           this.addCallout('bonus', e.x + this.offX, e.y + this.offY + 24, 'BONUS PEG!', '', 500);
           this.particles.burst(e.x + this.offX, e.y + this.offY, 22, 2.6, [PINK, WHITE], rand);
+        } else if (e.color === 'green') {
+          this.green.tick = e.tick;
+          this.green.x = e.x;
+          this.green.y = e.y;
         }
         if (attempt.meterLevel !== this.meterLevel) {
           this.meterLevel = attempt.meterLevel;
@@ -342,11 +351,16 @@ export class Presenter {
         this.audio.emit({ type: 'meterStep', multiplier: e.multiplier });
         break;
       case 'styleShot': {
-        const name = e.shot in STYLE_NAMES ? STYLE_NAMES[e.shot as StyleShotId] : powerName(e.shot);
+        const name = styleShotName(e.shot);
+        // At a green peg that just lit (Double Power, Fever Multiball) the power's label sits
+        // above the peg, so the callout goes below it.
+        const g = this.green;
+        const atGreen =
+          g.tick === e.tick && Math.abs(e.x - g.x) < GREEN_NEAR && Math.abs(e.y - g.y) < GREEN_NEAR;
         this.addCallout(
           'style',
           e.x + this.offX,
-          Math.min(e.y + this.offY - 18, 540),
+          atGreen ? g.y + this.offY + 34 : Math.min(e.y + this.offY - 18, 540),
           `${name.toUpperCase()}!`,
           `+${formatNumber(e.points)}`,
           600,
@@ -364,14 +378,7 @@ export class Presenter {
         if (e.reason === 'bucket') {
           this.addCallout('notice', this.catchX, 528, 'FREE BALL!', 'BUCKET CATCH', 500);
         } else if (e.reason === 'threshold') {
-          this.addCallout(
-            'notice',
-            170,
-            150,
-            'FREE BALL!',
-            `${formatNumber(e.threshold)} POINTS`,
-            700,
-          );
+          this.addCallout('notice', 170, 150, 'FREE BALL!', thresholdNotice(e.threshold), 700);
         } else {
           this.addCallout('notice', 170, 150, 'FREE BALL!', 'LUCKY SPIN', 700);
         }
@@ -753,13 +760,13 @@ export class Presenter {
   }
 }
 
-function thresholdStage(threshold: number): number {
-  return threshold >= 125_000 ? 3 : threshold >= 75_000 ? 2 : 1;
+/** The second line of a threshold free ball notice. */
+export function thresholdNotice(threshold: number): string {
+  return `${formatNumber(threshold)} POINTS`;
 }
 
-function powerName(shot: StyleShot): string {
-  const parts = shot.split(':');
-  return parts[parts.length - 1] ?? 'Style shot';
+function thresholdStage(threshold: number): number {
+  return threshold >= 125_000 ? 3 : threshold >= 75_000 ? 2 : 1;
 }
 
 /** Bucket fireworks colors: blue at the sides, green, gold in the middle (guide 12.5). */

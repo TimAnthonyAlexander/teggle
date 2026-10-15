@@ -3,10 +3,13 @@
 // four equal segments, and fans report a 25% chance of Triple Score). Triple Score triples every
 // peg lit for the rest of this shot and the next; Big Ball makes the next two shots' balls bigger;
 // the random segment runs one of the nine other powers for this green hit, each equally likely.
-// A green hit while an outcome runs spins again; the same outcome adds two more shots.
+// A green hit while an outcome runs spins again; the same outcome adds two more shots. A Big
+// Ball that lands in the bucket after touching a peg scores Big Ball Catch (the original's tip
+// for its hat; spec 14.2).
 
 import type { LuckySpinOutcome } from '../events';
 import type { Power } from '../power';
+import { POWER_STYLE_SHOTS } from '../style';
 import { BIG_BALL_RADIUS, LUCKY_SPIN_SHOTS, TRIPLE_SCORE_FACTOR } from '../tuning';
 import { action } from './common';
 import type { PowerId } from './ids';
@@ -62,6 +65,12 @@ export const LUCKY_SPIN: Power = {
     if (fx.tag === 'bigBall') {
       plan.options.radius = Math.max(plan.options.radius ?? 0, BIG_BALL_RADIUS);
     }
+  },
+  event(ctx, fx, e) {
+    if (fx.tag !== 'bigBall' || e.type !== 'bucketCatch') return;
+    if (!ctx.attempt.ballPath(e.ball).touchedPeg) return;
+    const s = POWER_STYLE_SHOTS.bigBallCatch;
+    ctx.style(s.shot, s.points, e.x, e.y);
   },
   pegValue(fx, value) {
     return fx.tag === 'tripleScore' ? value * TRIPLE_SCORE_FACTOR : value;

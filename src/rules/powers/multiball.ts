@@ -2,10 +2,13 @@
 // board ("from the green peg on the opposite side", research 4.10; the original's tip: hit the
 // green peg on the left to send the Multiball right). It starts beside the peg on that side,
 // moving out and slightly up. It is the same kind of ball as the one that lit the peg (a Fireball
-// spawns a Fireball). Every green hit adds another ball.
+// spawns a Fireball). Every green hit adds another ball. A Multiball during Fever scores Fever
+// Multiball (the original's tip; spec 14.2); two balls of one shot in the bucket score Double
+// Catch, which the attempt awards for any shot.
 
 import { BALL_RADIUS } from '../../sim/tuning';
 import type { Power } from '../power';
+import { POWER_STYLE_SHOTS } from '../style';
 import { MULTIBALL_GAP, MULTIBALL_SPEED_UP, MULTIBALL_SPEED_X } from '../tuning';
 import { action, ballById, bodyReach } from './common';
 
@@ -31,5 +34,9 @@ export const MULTIBALL: Power = {
       passThroughScoring: source?.passThroughScoring ?? false,
     });
     ctx.announce(action('multiball', x, y, { value: id }));
+    if (ctx.attempt.fever) {
+      const s = POWER_STYLE_SHOTS.feverMultiball;
+      ctx.style(s.shot, s.points, x, y);
+    }
   },
 };

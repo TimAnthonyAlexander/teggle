@@ -269,6 +269,30 @@ export function drawSpookyAura(
   blit(ctx, glow, x, y, (r / 6) * (1.15 + 0.15 * pulse), 0, 0.95 * pulse, true);
 }
 
+/**
+ * The light around a Spooky Ball that just came back in at the top, drawn with it over the
+ * launcher housing: a pale glow and a ring that opens out; `t` in ms since the return.
+ */
+export function drawReturnGlow(
+  ctx: Ctx,
+  k: number,
+  x: number,
+  y: number,
+  r: number,
+  t: number,
+): void {
+  const f = clamp01(t / 450);
+  blit(ctx, fxGlow(k, '#b9a8ff', 22), x, y, (r / 6) * (1.7 - 0.4 * f), 0, 1 - 0.45 * f, true);
+  if (f >= 1) return;
+  const prevAlpha = ctx.globalAlpha;
+  ctx.globalAlpha = prevAlpha * (1 - f) * 0.9;
+  circlePath(ctx, x, y, r + 4 + 20 * ease.outCubic(f));
+  ctx.lineWidth = 2.2 * (1 - f) + 0.6;
+  ctx.strokeStyle = '#e4dcff';
+  ctx.stroke();
+  ctx.globalAlpha = prevAlpha;
+}
+
 // ---------------------------------------------------------------------------------------------
 // Pyramid: light rising from the bucket's new edges
 
@@ -381,6 +405,12 @@ export function drawZenFan(
 // Lucky Spin wheel: four enamel segments in a brass rim with chasing bulbs, a pointer on top
 
 export const WHEEL_RADIUS = 92;
+/**
+ * The wheel's layers are built once at this much more than the screen's resolution and scaled
+ * while it grows in (its overshoot peaks about 1.1x) and shrinks away, instead of being built
+ * again at every scale.
+ */
+const WHEEL_RES = 1.15;
 const SEGMENT_COLORS = ['#e8a21a', '#d8261a', '#1caa3a', '#2a5ad8'] as const;
 const SEGMENT_LABELS: readonly (readonly [string, string])[] = [
   ['BIG', 'BALL'],
@@ -508,18 +538,16 @@ export function drawLuckyWheel(
 ): void {
   if (alpha <= 0 || scale <= 0) return;
   const r = WHEEL_RADIUS;
+  const wheel = wheelLayers(k);
   const prevAlpha = ctx.globalAlpha;
   ctx.save();
   ctx.translate(cx, cy);
   ctx.scale(scale, scale);
   ctx.globalAlpha = prevAlpha * alpha;
-  drawLayer(
-    ctx,
-    layers.get('fx:wheel-rim', k * scale, -r - 4, -r - 4, 2 * r + 10, 2 * r + 10, paintWheelRim),
-  );
+  drawLayer(ctx, wheel.rim);
   ctx.save();
   ctx.rotate(rotation);
-  drawLayer(ctx, layers.get('fx:wheel-face', k * scale, -r, -r, 2 * r, 2 * r, paintWheelFace));
+  drawLayer(ctx, wheel.face);
   if (win >= 0) {
     const mid = -Math.PI / 2 + (win * Math.PI) / 2;
     ctx.globalCompositeOperation = 'lighter';
@@ -543,9 +571,58 @@ export function drawLuckyWheel(
     ctx.fillStyle = on ? '#fff6c0' : '#8a5a10';
     ctx.fill();
   }
-  drawLayer(ctx, layers.get('fx:wheel-hub', k * scale, -16, -16, 32, 32, paintWheelHub));
+  drawLayer(ctx, wheel.hub);
   ctx.translate(0, -r - 4);
-  drawLayer(ctx, layers.get('fx:wheel-pointer', k * scale, -13, -14, 26, 30, paintPointer));
+  drawLayer(ctx, wheel.pointer);
   ctx.restore();
   ctx.globalAlpha = prevAlpha;
+}
+
+interface WheelLayers {
+  readonly rim: Layer;
+  readonly face: Layer;
+  readonly hub: Layer;
+  readonly pointer: Layer;
+}
+
+/** The wheel's four layers, held here per resolution so a frame looks nothing up. */
+const wheelCache: { k: number; layers: WheelLayers | null } = { k: 0, layers: null };
+
+function wheelLayers(k: number): WheelLayers {
+  if (wheelCache.layers !== null && wheelCache.k === k) return wheelCache.layers;
+  const res = k * WHEEL_RES;
+  const r = WHEEL_RADIUS;
+  const built: WheelLayers = {
+    rim: layers.get('fx:wheel-rim', res, -r - 4, -r - 4, 2 * r + 10, 2 * r + 10, paintWheelRim),
+    face: layers.get('fx:wheel-face', res, -r, -r, 2 * r, 2 * r, paintWheelFace),
+    hub: layers.get('fx:wheel-hub', res, -16, -16, 32, 32, paintWheelHub),
+    pointer: layers.get('fx:wheel-pointer', res, -13, -14, 26, 30, paintPointer),
+  };
+  wheelCache.k = k;
+  wheelCache.layers = built;
+  return built;
+}
+
+/** Glow discs the power effects use, by tint and radius. */
+const FX_GLOWS: readonly (readonly [string, number])[] = [
+  ['#5cff3a', 34],
+  ['#c79bff', 60],
+  ['#ff62fd', 30],
+  ['#d9d2ff', 18],
+  ['#ffffff', 22],
+  ['#b9a8ff', 22],
+  ['#dff0ff', 40],
+];
+
+/**
+ * Builds every layer the power effects draw at resolution `k`, so the first frame of an effect
+ * does not wait for its sprites (each takes a few milliseconds to paint).
+ */
+export function prebuildPowerLayers(k: number): void {
+  burstLayer(k);
+  bubbleLayer(k);
+  flowerLayer(k);
+  raysUpLayer(k);
+  for (const [tint, radius] of FX_GLOWS) fxGlow(k, tint, radius);
+  wheelLayers(k);
 }

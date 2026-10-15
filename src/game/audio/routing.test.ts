@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { POWER_STYLE_SHOTS } from '../../rules/style';
 import type { AudioEvent, PowerId, PowerMoment } from './bus';
 import { freeBallSound, routeEvent, stingerFor } from './routing';
 import { SOUNDS } from './sounds';
@@ -117,6 +118,9 @@ describe('stingerFor', () => {
     expect(stingerFor('longShot')).toBe('style.medium');
     expect(stingerFor('superLongShot')).toBe('style.big');
     expect(stingerFor('bigBucketStreak')).toBe('style.huge');
+    expect(stingerFor('doubleCatch')).toBe('style.huge');
+    expect(stingerFor(POWER_STYLE_SHOTS.pyramidCatch.shot)).toBe('style.small');
+    expect(stingerFor(POWER_STYLE_SHOTS.flipperRally.shot)).toBe('style.medium');
     expect(stingerFor('power:flippers:Flipper Trick')).toBe('style.medium');
   });
 });

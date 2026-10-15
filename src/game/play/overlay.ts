@@ -3,6 +3,15 @@
 // the rainbow arch and its tally are here), the Fever title, the rainbow trail and the thin
 // frame shown while the camera zooms. Teggle's own lettering throughout (guide 15).
 
+import {
+  POWER_STYLE_SHOTS,
+  STYLE_POINTS as STYLE_SHOT_POINTS,
+  styleShotName,
+  styleShotPoints,
+  type StyleShot,
+  type StyleShotId,
+} from '../../rules/style';
+import { FREE_BALL_THRESHOLDS } from '../../rules/tuning';
 import { CENTER_X, WORLD_H, WORLD_W } from '../layout';
 import { createCanvas, context2d, drawLayer, layers, type Layer } from '../render/cache';
 import { circlePath, linear, radial, roundRect, type Ctx } from '../render/paint';
@@ -18,7 +27,7 @@ import {
 } from '../ui/text';
 import { color, type } from '../ui/tokens';
 import type { FeverShow } from './fever';
-import { COIN, type Presenter } from './presenter';
+import { COIN, thresholdNotice, type Presenter } from './presenter';
 import { drawTextSprite, TextSprites } from './text-sprites';
 import { stylePointsLine, tallyLine1, tallyLine2, TALLY_FADE_MS } from './timing';
 
@@ -107,6 +116,33 @@ export class Overlay {
   private ballsLine = '';
   private bonusLine = '';
   private bucketLine = '';
+
+  /**
+   * Builds the sprites of every style shot callout and free ball notice at resolution `k`, so a
+   * callout's first frame does not wait for its lettering. Called when the level loads and when
+   * the resolution changes.
+   */
+  prebuildCallouts(k: number): void {
+    const shots: StyleShot[] = [
+      ...(Object.keys(STYLE_SHOT_POINTS) as StyleShotId[]),
+      ...Object.values(POWER_STYLE_SHOTS).map((s) => s.shot),
+    ];
+    for (const shot of shots) {
+      this.sprites.get(k, 'styleName', STYLE_NAME, `${styleShotName(shot).toUpperCase()}!`);
+      const points = styleShotPoints(shot);
+      if (points !== null) {
+        this.sprites.get(k, 'styleValue', STYLE_VALUE, `+${formatNumber(points)}`);
+      }
+    }
+    this.sprites.get(k, 'notice', NOTICE, 'FREE BALL!');
+    for (const line of [
+      'BUCKET CATCH',
+      'LUCKY SPIN',
+      ...FREE_BALL_THRESHOLDS.map(thresholdNotice),
+    ]) {
+      this.sprites.get(k, 'noticeSub', NOTICE_SUB, line);
+    }
+  }
 
   /** Style shots, the bonus peg label and free ball notices, with the overshoot pop (9.3). */
   drawCallouts(ctx: Ctx, k: number, pres: Presenter): void {

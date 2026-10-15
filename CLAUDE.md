@@ -7,6 +7,7 @@ A web rebuild of the 2007 PC pachinko shooter, for personal play. `spec.md` is t
 - `npm run dev`: Vite dev server
 - `npm run check`: typecheck, lint, format check, unit tests. Must pass before a wave is done.
 - `npm test`: Vitest unit tests (`src/**/*.test.ts`, `tools/**/*.test.ts`)
+- `npm run test:engines` / `npm run test:browsers`: the determinism digests in Node and Bun / in Chromium, WebKit and Firefox through Playwright (spec 13.4), plus Node-recorded attempts replayed in each browser
 - `npm run format`: Prettier (Markdown is excluded on purpose; never reformat `spec.md`)
 - `npm run campaign:build [-- 1-3]`: campaign levels from `campaign/` and their lines through the generator's full checks, plus the manifest (`--no-check` writes a draft for review only)
 - `npm run campaign:grid -- 1-3 [--lines --level --crop x0,y0,x1,y1 --sketch]`: a level's picture with a board-coordinate grid, for tracing lines; `--sketch` renders the lines as a layout guide for painting the picture

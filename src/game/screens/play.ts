@@ -36,7 +36,7 @@ import { themeAt, type Theme } from '../ui/tokens';
 import { AimController, ARROW_STEP, WHEEL_STEP } from '../play/aim';
 import type { BackdropPainter } from '../play/backdrop';
 import { BoardRenderer } from '../play/board';
-import { installDebug, FrameStats } from '../play/debug';
+import { autoFlipper, installDebug, FrameStats, type AimGoal } from '../play/debug';
 import { Dialog, type DialogAction } from '../play/dialogs';
 import { FeverShow } from '../play/fever';
 import type { LoadedLevel } from '../play/load';
@@ -47,6 +47,7 @@ import { ScoreLedger } from '../play/summary';
 import { slowMotionDue, SLOW_MOTION_LEAD_TICKS } from '../play/timing';
 import { SPARK, WHITE } from '../play/particles';
 import type { CompiledLevel } from '../../sim/compile';
+import type { BallView } from '../../sim/world';
 
 export interface PlayOptions {
   /** Seed of the first attempt; retries use the next seeds. Random when omitted. */
@@ -142,7 +143,14 @@ export class PlayScreen implements Screen {
   private tipIndex = Math.floor(Math.random() * 1000);
   private readonly stats = new FrameStats();
   private lastFrameAt = -1;
+  /** Resolution the effect sprites were last built at. */
+  private prebuiltK = 0;
   private removeDebug: () => void = () => undefined;
+  // DEV checks: a shot to fire at an exact tick, the automatic flipper button, and a hold on
+  // the whole screen so a screenshot catches one exact frame.
+  private scheduledFire: { angle: number; tick: number } | null = null;
+  private autoFlip = false;
+  private frozen = false;
   private readonly bucketState = { x: 0, pyramid: false, covered: false };
   private readonly feverBucketState: { fullClear: boolean; litIndex?: number; rise: number } = {
     fullClear: false,
@@ -243,7 +251,30 @@ export class PlayScreen implements Screen {
         this.lastPointerY = app.input.pointer.y;
       },
       pickAim: (goal) => this.pickAim(goal ?? 'best'),
-      perf: () => this.stats.summary(),
+      searchAim: (goal, maxWait, fire) => {
+        const tick = this.attempt.world.tick;
+        const found = this.searchAim(goal, maxWait ?? 0);
+        if (found !== null && fire === true) {
+          this.scheduledFire = { angle: found.angle, tick: tick + found.wait };
+        }
+        return found;
+      },
+      fire: (angle, wait) => {
+        if (!Number.isFinite(angle) || this.attempt.phase !== 'aim') return false;
+        this.scheduledFire = { angle, tick: this.attempt.world.tick + Math.max(0, wait ?? 0) };
+        return true;
+      },
+      setAutoFlip: (on) => {
+        this.autoFlip = on;
+      },
+      setFrozen: (on) => {
+        this.frozen = on;
+      },
+      perf: (reset) => {
+        const summary = this.stats.summary();
+        if (reset === true) this.stats.reset();
+        return summary;
+      },
     });
   }
 
@@ -344,6 +375,7 @@ export class PlayScreen implements Screen {
       this.pres.handle(e, this.attempt);
     }
     if (n > 0) this.held.splice(0, n);
+    this.powers.noteHeld(this.held);
   }
 
   /** The flipper button: held while the flippers stand and a shot is in play (spec 7). */
@@ -353,6 +385,7 @@ export class PlayScreen implements Screen {
     if (this.dialog === null && attempt.phase === 'shot' && attempt.world.flippers) {
       held = app.input.pointer.down;
       for (const key of FLIPPER_KEYS) held ||= app.input.isKeyDown(key);
+      if (this.autoFlip) held = autoFlipper(attempt.world);
     }
     if (held === this.flipperHeld) return;
     this.flipperHeld = held;
@@ -388,7 +421,7 @@ export class PlayScreen implements Screen {
 
   step(): void {
     const app = this.app;
-    if (app === null || this.dialog?.kind === 'pause') return;
+    if (app === null || this.dialog?.kind === 'pause' || this.frozen) return;
     if (this.dialog === null) {
       const axis = app.input.arrowAxis;
       if (axis !== 0) this.aim.nudge(axis * ARROW_STEP * this.aimFineness());
@@ -404,6 +437,14 @@ export class PlayScreen implements Screen {
     }
     const zen = this.powers.takeZenLaunch();
     if (zen !== null) this.launchZen(zen.direction, zen.angle);
+    const planned = this.scheduledFire;
+    if (planned !== null && this.attempt.world.tick >= planned.tick) {
+      this.scheduledFire = null;
+      if (this.canFire()) {
+        this.aim.set(planned.angle);
+        this.launch(false);
+      }
+    }
 
     const attempt = this.attempt;
     const world = attempt.world;
@@ -611,7 +652,7 @@ export class PlayScreen implements Screen {
     const t0 = performance.now();
     const frameMs = Math.min(100, Math.max(0, f.frameMs));
     this.uiMs += frameMs;
-    const paused = this.dialog?.kind === 'pause';
+    const paused = this.dialog?.kind === 'pause' || this.frozen;
     setGamePaused(paused);
     if (!paused) this.showMs += frameMs;
     this.handleInput();
@@ -627,6 +668,12 @@ export class PlayScreen implements Screen {
       attempt.phase !== 'shot';
 
     const { ctx, k } = f;
+    if (k !== this.prebuiltK) {
+      // Effect sprites and callout lettering, built now rather than on an effect's first frame.
+      this.prebuiltK = k;
+      this.powers.prebuild(k, this.overlay.sprites);
+      this.overlay.prebuildCallouts(k);
+    }
     const alpha = paused || this.powers.holding ? 1 : f.alpha;
     this.renderAlpha = alpha;
     const zoom = this.fever.zoom(this.showMs);
@@ -703,10 +750,12 @@ export class PlayScreen implements Screen {
         drawFeverLandingGlow(ctx, pres.fever.bucket, pres.gameMs - pres.fever.t0);
       }
     } else {
+      // The bucket's parts as the show has them: a power drawn by the Lucky Spin wheel shows
+      // once the wheel stops.
       const bs = this.bucketState;
       bs.x = bucketX;
-      bs.pyramid = world.pyramid;
-      bs.covered = world.bucketCovered;
+      bs.pyramid = this.powers.pyramidShown;
+      bs.covered = this.powers.coverShown;
       drawBucket(ctx, k, bs);
       const ct = pres.gameMs - pres.catchMs;
       if (ct >= 0 && ct < CATCH_MS) drawCatchGlow(ctx, bucketX, ct);
@@ -722,9 +771,9 @@ export class PlayScreen implements Screen {
         );
       }
     }
-    if (world.flippers) this.drawFlippers(ctx, k, alpha);
+    if (this.powers.flippersShown) this.drawFlippers(ctx, k, alpha);
     this.powers.drawUnder(ctx, k);
-    board.drawBalls(ctx, world, alpha, this.showMs);
+    board.drawBalls(ctx, world, alpha, this.showMs, this.powers.hiddenBallsFrom);
     this.powers.drawBallAuras(ctx, k, world, this.ballXAt, this.ballYAt, this.zenShotInPlay());
     pres.particles.draw(ctx, k, alpha);
     board.drawValues(ctx, k, world, pres, this.overlay.sprites, alpha);
@@ -753,6 +802,7 @@ export class PlayScreen implements Screen {
       ctx.globalAlpha = 1;
     }
     this.powers.drawOverMachine(ctx, k);
+    this.powers.drawReturning(ctx, k, world, this.ballXAt, this.ballYAt, this.drawBallAt);
   }
 
   /** Interpolated ball positions for the power auras, in board coordinates. */
@@ -761,6 +811,9 @@ export class PlayScreen implements Screen {
     this.board.ballX(id, x, this.renderAlpha);
   private readonly ballYAt = (id: number, y: number): number =>
     this.board.ballY(id, y, this.renderAlpha);
+  private readonly drawBallAt = (ctx: Ctx, b: BallView): void => {
+    this.board.drawBall(ctx, b, this.renderAlpha, this.showMs);
+  };
 
   /** The shot in play is a Zen Ball shot. */
   private zenShotInPlay(): boolean {
@@ -770,17 +823,19 @@ export class PlayScreen implements Screen {
     return false;
   }
 
-  /** The Flippers in the bottom corners, swung by the world's flipper bodies (spec 7). */
+  /**
+   * The Flippers in the bottom corners, at the world's flipper bodies' rotations (spec 7). The
+   * art is the physics outline, so it is drawn at the body's own rotation: about 0 at rest.
+   */
   private drawFlippers(ctx: Ctx, k: number, alpha: number): void {
     const bodies = this.attempt.world.bodies;
     let left = 0;
     let right = 0;
     for (const i of this.level.flipperBodies) {
       const b = bodies[i];
-      const rest = this.level.initialPoses[i]?.rotation ?? 0;
       if (b === undefined) continue;
       const prev = this.flipperPrev[b.def.side === 'right' ? 1 : 0] ?? b.rotation;
-      const a = prev + (b.rotation - prev) * alpha - rest;
+      const a = prev + (b.rotation - prev) * alpha;
       if (b.def.side === 'right') right = a;
       else left = a;
     }
@@ -897,13 +952,60 @@ export class PlayScreen implements Screen {
       ...this.powers.debugState,
       balls: a.world.balls.map((b) => ({ id: b.id, x: b.x, y: b.y, r: b.radius })),
       flippers: a.world.flippers,
-      flipperAngles: this.level.flipperBodies.map(
-        (i) => (a.world.bodies[i]?.rotation ?? 0) - (this.level.initialPoses[i]?.rotation ?? 0),
-      ),
+      flipperAngles: this.level.flipperBodies.map((i) => a.world.bodies[i]?.rotation ?? 0),
       flipperHeld: this.flipperHeld,
       pyramid: a.world.pyramid,
       covered: a.world.bucketCovered,
     };
+  }
+
+  /**
+   * DEV: searches launch angles 0.01 rad apart after waits of 0 to `maxWait` ticks (steps of
+   * 15) on a copy of the attempt that keeps its rules events, for a shot that reaches `goal`.
+   * The flipper button follows autoFlipper when the automatic flipper is on, as in the real shot.
+   */
+  private searchAim(goal: AimGoal, maxWait: number): { angle: number; wait: number } | null {
+    const base = this.attempt;
+    if (base.phase !== 'aim') return null;
+    const trial = base.clone();
+    for (let wait = 0; wait <= maxWait; wait += 15) {
+      for (let a = -1.65; a <= 1.65; a += 0.01) {
+        trial.copyFrom(base);
+        for (let t = 0; t < wait; t++) trial.step();
+        trial.takeEvents();
+        trial.launch(aimDirection(a));
+        if (this.shotReaches(trial, goal)) return { angle: a, wait };
+      }
+    }
+    return null;
+  }
+
+  private shotReaches(trial: Attempt, goal: AimGoal): boolean {
+    const seen = { hit: false, loud: false };
+    const read = (): void => {
+      for (const e of trial.takeEvents()) {
+        if ('style' in goal && e.type === 'styleShot' && e.shot === goal.style) seen.hit = true;
+        if ('action' in goal && e.type === 'powerAction') {
+          const detail = `${e.action}:${e.detail}`;
+          if (e.action === goal.action || detail === goal.action) seen.hit = true;
+        }
+        if (e.type === 'pegScored' && (e.color === 'orange' || e.color === 'green')) {
+          seen.loud = true;
+        }
+      }
+      if ('returnNear' in goal) {
+        for (const e of trial.world.events) {
+          if (e.type === 'ballReturned' && Math.abs(e.x - goal.returnNear) < 40) seen.hit = true;
+        }
+      }
+    };
+    read();
+    while (trial.phase === 'shot') {
+      if (this.autoFlip) trial.setFlipperInput(trial.world.flippers && autoFlipper(trial.world));
+      trial.step();
+      read();
+    }
+    return 'quiet' in goal ? !seen.loud && trial.result === null : seen.hit;
   }
 
   /**

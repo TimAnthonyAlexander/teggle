@@ -56,9 +56,14 @@ export {
   type PegColor,
 } from './scoring';
 export {
+  POWER_STYLE_SHOTS,
   STYLE_NAMES,
   STYLE_POINTS,
+  styleShotName,
+  styleShotPoints,
   StyleTracker,
+  type BallPathView,
+  type PowerStyleShot,
   type PowerStyleShotId,
   type StyleShot,
   type StyleShotId,

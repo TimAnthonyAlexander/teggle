@@ -62,6 +62,11 @@ export const LONG_SLIDE_PEGS = 12;
 export const SLIDE_GAP_TICKS = 25;
 export const BUCKET_STREAK_SHOTS = 5;
 export const BIG_BUCKET_STREAK_SHOTS = 10;
+/**
+ * Flipper Rally: pegs and bricks lit in one shot by balls that had touched a flipper before
+ * ("using the Flippers to hit lots of pegs", the original's tip).
+ */
+export const FLIPPER_RALLY_PEGS = 10;
 
 /**
  * Aim guide length in simulation ticks: 40 normally (research 4.5). 40 ticks from the barrel tip

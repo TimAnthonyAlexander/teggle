@@ -2,6 +2,19 @@
 // lets it read the attempt's totals, aim precisely and read frame timings). Installed only in
 // development builds, as window.__teggle.
 
+import type { World } from '../../sim/world';
+
+/**
+ * What searchAim looks for in a shot: a style shot by id, a power action ('multiball', or
+ * 'luckySpin:<outcome or power>'), a Spooky return within 40 px of board x `returnNear`, or a
+ * quiet shot that lights no orange or green peg.
+ */
+export type AimGoal =
+  | { readonly style: string }
+  | { readonly action: string }
+  | { readonly returnNear: number }
+  | { readonly quiet: true };
+
 export interface PlayDebug {
   /** Plain data about the attempt and the show. */
   snapshot(): Record<string, unknown>;
@@ -13,8 +26,38 @@ export interface PlayDebug {
    * does), or the first that hits nothing and flips the coin ('coin', NaN if there is none).
    */
   pickAim(goal?: 'best' | 'coin' | 'green'): number;
-  /** Render and frame-interval statistics over the last few seconds, ms. */
-  perf(): Record<string, number>;
+  /**
+   * A shot that reaches `goal`, found on copies of the attempt by trying every 0.01 rad after
+   * waits of 0 to `maxWait` ticks (steps of 15), or null. With `fire`, the shot found is also
+   * scheduled in the same call, so it leaves at exactly the tick the search tried.
+   */
+  searchAim(
+    goal: AimGoal,
+    maxWait?: number,
+    fire?: boolean,
+  ): { angle: number; wait: number } | null;
+  /** Fires at `angle` after `wait` more simulation ticks, exactly; false if no shot may leave. */
+  fire(angle: number, wait?: number): boolean;
+  /** The flipper button follows autoFlipper instead of the input (searchAim does the same). */
+  setAutoFlip(on: boolean): void;
+  /** Holds the simulation and the show where they are (the frame keeps rendering), or lets go. */
+  setFrozen(on: boolean): void;
+  /** Render and frame-interval statistics over the last few seconds, ms; `reset` starts over. */
+  perf(reset?: boolean): Record<string, number>;
+}
+
+/**
+ * DEV: a simple flipper player for automated checks: the button is down while a ball is low in
+ * either bottom corner, over a flipper.
+ */
+export function autoFlipper(world: World): boolean {
+  const w = world.level.width;
+  const h = world.level.height;
+  for (const b of world.balls) {
+    if (b.hiddenTicks > 0 || b.y < h - 125 || b.y > h - 20) continue;
+    if (b.x < 135 || b.x > w - 135) return true;
+  }
+  return false;
 }
 
 export function installDebug(handle: PlayDebug): () => void {
@@ -31,6 +74,11 @@ export class FrameStats {
   private readonly interval = new Float64Array(600);
   private n = 0;
   private i = 0;
+
+  reset(): void {
+    this.n = 0;
+    this.i = 0;
+  }
 
   add(renderMs: number, intervalMs: number): void {
     this.render[this.i] = renderMs;

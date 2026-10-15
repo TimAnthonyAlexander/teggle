@@ -43,7 +43,14 @@ import {
   pegValue,
   type PegColor,
 } from './scoring';
-import { STYLE_POINTS, StyleTracker, type StyleShot, type StyleSink } from './style';
+import {
+  STYLE_POINTS,
+  StyleTracker,
+  type BallPathView,
+  type PowerStyleShotId,
+  type StyleShot,
+  type StyleSink,
+} from './style';
 import {
   BIG_BUCKET_STREAK_SHOTS,
   BUCKET_STREAK_SHOTS,
@@ -96,6 +103,10 @@ export interface AttemptView {
   readonly shotStyle: number;
   /** A ball of the current (or last finished) shot landed in the free ball bucket. */
   readonly shotCaught: boolean;
+  /** Pegs and bricks lit in the current shot by balls that had touched a flipper before. */
+  readonly shotFlipperPegs: number;
+  /** What the style tracker knows about a ball of the current shot (master-specific shots). */
+  ballPath(ball: number): BallPathView;
   readonly orangeLeft: number;
   /** Fever meter multiplier now (1, 2, 3, 5 or 10). */
   readonly multiplier: number;
@@ -179,6 +190,8 @@ class Counters {
   shotGreens = 0;
   shotThresholds = 0;
   shotCaught = false;
+  /** Balls of the shot caught by the free ball bucket so far (Double Catch). */
+  shotCatches = 0;
   orangeAtLaunch = 0;
   cleanFinishArmed = false;
   feverPoints = 0;
@@ -220,7 +233,7 @@ class Context implements PowerContext {
     this.hooks.freeBall();
   }
 
-  style(shot: `power:${string}`, points: number, x: number, y: number): void {
+  style(shot: PowerStyleShotId, points: number, x: number, y: number): void {
     this.hooks.style(shot, points, x, y);
   }
 
@@ -240,7 +253,7 @@ interface AttemptHooks {
   revoke(power: Power, tag: string): void;
   find(power: string, tag: string): EffectView | null;
   freeBall(): void;
-  style(shot: StyleShot, points: number, x: number, y: number): void;
+  style(shot: PowerStyleShotId, points: number, x: number, y: number): void;
   trigger(power: string, green: GreenHit): void;
   announce(power: Power, action: PowerAction): void;
 }
@@ -263,6 +276,8 @@ export class Attempt implements AttemptView {
   private effectList: EffectState[] = [];
   private readonly contexts = new Map<string, Context>();
   private shotList: ShotRecording[] = [];
+  /** Master-specific style shots awarded in the current shot: each scores once per shot. */
+  private shotPowerStyles: PowerStyleShotId[] = [];
   private pendingInputs: InputRecord[] = [];
   private out: RulesEvent[] = [];
   private cursor = 0;
@@ -291,6 +306,8 @@ export class Attempt implements AttemptView {
       this.addBall('power', 0);
     },
     style: (shot, points, x, y) => {
+      if (this.c.phase !== 'shot' || this.shotPowerStyles.includes(shot)) return;
+      this.shotPowerStyles.push(shot);
       this.addStyle(shot, points, -1, x, y);
     },
     trigger: (power, green) => {
@@ -401,6 +418,14 @@ export class Attempt implements AttemptView {
 
   get shotCaught(): boolean {
     return this.c.shotCaught;
+  }
+
+  get shotFlipperPegs(): number {
+    return this.style.flipperPegs;
+  }
+
+  ballPath(ball: number): BallPathView {
+    return this.style.path(ball);
   }
 
   get orangeLeft(): number {
@@ -574,11 +599,13 @@ export class Attempt implements AttemptView {
     c.shotGreens = 0;
     c.shotThresholds = 0;
     c.shotCaught = false;
+    c.shotCatches = 0;
     c.orangeAtLaunch = c.orangeLeft;
     c.cleanFinishArmed = false;
     c.litCount = 0;
     c.phase = 'shot';
     this.shotList.push(shot);
+    this.shotPowerStyles = [];
     this.style.startShot();
 
     this.cursor = world.events.length;
@@ -648,6 +675,7 @@ export class Attempt implements AttemptView {
     this.style.copyFrom(o.style);
     this.effectList = o.effectList.map((fx) => ({ ...fx }));
     this.shotList = o.shotList.map((s) => ({ ...s, inputs: s.inputs.slice() }));
+    this.shotPowerStyles = o.shotPowerStyles.slice();
     this.pendingInputs = o.pendingInputs.slice();
     this.out = [];
     // World.copyFrom starts an empty event list.
@@ -676,6 +704,10 @@ export class Attempt implements AttemptView {
         case 'bucketCatch':
           this.c.shotCaught = true;
           this.addBall('bucket', 0);
+          // Double Catch: a second ball of the same shot lands in the bucket (spec 14.2).
+          if (++this.c.shotCatches === 2) {
+            this.addStyle('doubleCatch', STYLE_POINTS.doubleCatch, e.ball, e.x, e.y);
+          }
           break;
         case 'feverCatch':
           this.feverCatch(e);

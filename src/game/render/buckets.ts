@@ -27,7 +27,7 @@ import { BOARD_H, BOARD_W, BOARD_X, BOARD_Y, layout } from '../layout';
 import { darken, rgba } from '../ui/color';
 import { drawTextOnArc, formatNumber } from '../ui/text';
 import { color } from '../ui/tokens';
-import { drawLayer, layers } from './cache';
+import { drawLayer, layers, type Layer } from './cache';
 import { circlePath, linear, radial, rivet, type Ctx, type PathFn } from './paint';
 
 const BOARD_BOTTOM = BOARD_Y + BOARD_H;
@@ -114,35 +114,125 @@ function paintBucket(ctx: Ctx): void {
   ctx.stroke();
 }
 
-function paintPyramid(ctx: Ctx, cx: number): void {
-  // The Pyramid power's long sloped edges, from the physics outline.
-  const y = BOARD_BOTTOM + PYRAMID_Y;
-  for (const side of [-1, 1]) {
-    const ox = cx + side * PYRAMID_X;
-    polygon(ctx, PYRAMID_VERTICES, ox, y, side > 0);
-    ctx.fillStyle = linear(ctx, 0, y - 14, 0, y + 6, [
-      [0, '#ffe7a6'],
-      [0.35, '#e0a63c'],
-      [1, '#8a4f12'],
-    ]);
-    ctx.fill();
-    ctx.lineWidth = 1;
-    ctx.lineJoin = 'round';
-    ctx.strokeStyle = '#3d2006';
-    ctx.stroke();
-    // Sunlit top edge, from the bucket out to the tip (vertices 1 and 2 of the slope).
-    const a = PYRAMID_VERTICES[1];
-    const b = PYRAMID_VERTICES[2];
-    if (a !== undefined && b !== undefined) {
+// The Pyramid power: a wide, solid pyramid of sandstone courses with the bucket set into its top,
+// as in the 2007 look (guide 6.1). Its sloped top is the physics outline's top edge (from the
+// slope's inner high corner out to its tip, vertices 1 and 2), and it is solid down to the
+// board's bottom edge. Local frame: x from the bucket center, y from the board's bottom edge.
+const PYRAMID_INNER = PYRAMID_VERTICES[1] ?? { x: 45.33334, y: -14 };
+const PYRAMID_TIP = PYRAMID_VERTICES[2] ?? { x: -72.99998, y: 1.66669 };
+/** Where the slope meets the flat top under the bucket, and where it ends, left side. */
+const PYR_TOP = { x: -PYRAMID_X + PYRAMID_INNER.x, y: PYRAMID_Y + PYRAMID_INNER.y };
+const PYR_TIP = { x: -PYRAMID_X + PYRAMID_TIP.x, y: PYRAMID_Y + PYRAMID_TIP.y };
+/** Depth of one course of stones, and the stagger of their joints. */
+const COURSE = 5.2;
+const STONE = 23;
+
+/** The pyramid's top at local x: the flat top under the bucket, the slopes either side. */
+function pyramidTop(x: number): number {
+  const ax = Math.abs(x);
+  if (ax <= -PYR_TOP.x) return PYR_TOP.y;
+  const f = (ax + PYR_TOP.x) / (PYR_TOP.x - PYR_TIP.x);
+  return PYR_TOP.y + (PYR_TIP.y - PYR_TOP.y) * f;
+}
+
+function pyramidPath(ctx: Ctx): void {
+  ctx.beginPath();
+  ctx.moveTo(PYR_TIP.x, 0.5);
+  ctx.lineTo(PYR_TIP.x, PYR_TIP.y);
+  ctx.lineTo(PYR_TOP.x, PYR_TOP.y);
+  ctx.lineTo(-PYR_TOP.x, PYR_TOP.y);
+  ctx.lineTo(-PYR_TIP.x, PYR_TIP.y);
+  ctx.lineTo(-PYR_TIP.x, 0.5);
+  ctx.closePath();
+}
+
+function paintPyramid(ctx: Ctx): void {
+  // Sandstone, sunlit at the top and in shade toward the floor.
+  pyramidPath(ctx);
+  ctx.fillStyle = linear(ctx, 0, PYR_TOP.y, 0, 0, [
+    [0, '#fff0b4'],
+    [0.22, '#f2c65a'],
+    [0.6, '#d29634'],
+    [1, '#8a5216'],
+  ]);
+  ctx.fill();
+  ctx.save();
+  pyramidPath(ctx);
+  ctx.clip();
+  // Courses of stones following the slopes, every other one a shade lighter.
+  const x0 = PYR_TIP.x;
+  const x1 = -PYR_TIP.x;
+  for (let c = 0; c * COURSE < -PYR_TOP.y; c++) {
+    const top = c * COURSE;
+    if (c % 2 === 1) {
       ctx.beginPath();
-      ctx.moveTo(ox + (side > 0 ? -a.x : a.x), y + a.y + 1.2);
-      ctx.lineTo(ox + (side > 0 ? -b.x : b.x), y + b.y + 0.8);
-      ctx.lineWidth = 1.6;
-      ctx.lineCap = 'round';
-      ctx.strokeStyle = 'rgba(255,250,215,0.9)';
-      ctx.stroke();
+      courseLine(ctx, x0, x1, top, false);
+      courseLine(ctx, x0, x1, top + COURSE, true);
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(255,240,190,0.16)';
+      ctx.fill();
     }
+    // Mortar under the course, with a lit lip below it.
+    ctx.beginPath();
+    courseLine(ctx, x0, x1, top + COURSE, false);
+    ctx.lineWidth = 0.9;
+    ctx.strokeStyle = 'rgba(96,52,10,0.62)';
+    ctx.stroke();
+    ctx.beginPath();
+    courseLine(ctx, x0, x1, top + COURSE + 0.9, false);
+    ctx.lineWidth = 0.6;
+    ctx.strokeStyle = 'rgba(255,236,170,0.35)';
+    ctx.stroke();
+    // Joints between the stones, staggered course to course.
+    ctx.beginPath();
+    for (let x = x0 + (c % 2 === 0 ? 0 : STONE / 2); x < x1; x += STONE) {
+      const y = pyramidTop(x) + top;
+      ctx.moveTo(x, y + 0.6);
+      ctx.lineTo(x, y + COURSE);
+    }
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = 'rgba(96,52,10,0.5)';
+    ctx.stroke();
   }
+  ctx.restore();
+  // Sunlit edge along the top, and the outline.
+  ctx.beginPath();
+  ctx.moveTo(PYR_TIP.x + 1, PYR_TIP.y + 1);
+  ctx.lineTo(PYR_TOP.x, PYR_TOP.y + 1);
+  ctx.lineTo(-PYR_TOP.x, PYR_TOP.y + 1);
+  ctx.lineTo(-PYR_TIP.x - 1, PYR_TIP.y + 1);
+  ctx.lineWidth = 1.8;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = 'rgba(255,252,222,0.95)';
+  ctx.stroke();
+  pyramidPath(ctx);
+  ctx.lineWidth = 1.1;
+  ctx.strokeStyle = '#3d2006';
+  ctx.stroke();
+}
+
+/** A course line `depth` below the pyramid's top, across [x0, x1] or back when `reverse`. */
+function courseLine(ctx: Ctx, x0: number, x1: number, depth: number, reverse: boolean): void {
+  const xs = [x0, PYR_TOP.x, -PYR_TOP.x, x1];
+  if (reverse) xs.reverse();
+  xs.forEach((x, i) => {
+    const y = pyramidTop(x) + depth;
+    if (i === 0 && !reverse) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+}
+
+const PYRAMID_BOX = {
+  x: PYR_TIP.x - 3,
+  y: PYR_TOP.y - 3,
+  w: 2 * -PYR_TIP.x + 6,
+  h: -PYR_TOP.y + 4,
+};
+
+function pyramidLayer(k: number): Layer {
+  const b = PYRAMID_BOX;
+  return layers.get('bucket:pyramid', k, b.x, b.y, b.w, b.h, paintPyramid);
 }
 
 function paintCover(ctx: Ctx): void {
@@ -174,17 +264,28 @@ export interface BucketState {
 }
 
 export function drawBucket(ctx: Ctx, k: number, s: BucketState): void {
-  const y = layout.bucketY;
-  if (s.pyramid === true) paintPyramid(ctx, s.x);
-  drawLayer(ctx, layers.get('bucket', k, -90, -12, 180, 32, paintBucket), s.x, y);
-  if (s.covered === true) {
-    drawLayer(
-      ctx,
-      layers.get('bucket:cover', k, -66, -12, 132, 24, paintCover),
-      s.x,
-      BOARD_BOTTOM + COVER_Y,
-    );
-  }
+  if (s.pyramid === true) drawLayer(ctx, pyramidLayer(k), s.x, BOARD_BOTTOM);
+  drawLayer(ctx, bucketLayer(k), s.x, layout.bucketY);
+  if (s.covered === true) drawLayer(ctx, coverLayer(k), s.x, BOARD_BOTTOM + COVER_Y);
+}
+
+function bucketLayer(k: number): Layer {
+  return layers.get('bucket', k, -90, -12, 180, 32, paintBucket);
+}
+
+function coverLayer(k: number): Layer {
+  return layers.get('bucket:cover', k, -66, -12, 132, 24, paintCover);
+}
+
+/**
+ * Builds the bucket's layers (with the Pyramid and the dome) and the flippers' at resolution
+ * `k`, so a power that brings them out does not wait for them on its first frame.
+ */
+export function prebuildBucketLayers(k: number): void {
+  bucketLayer(k);
+  pyramidLayer(k);
+  coverLayer(k);
+  flipperLayers(k);
 }
 
 export const CATCH_GLOW_MS = 700;
@@ -427,8 +528,9 @@ function paintFlipper(ctx: Ctx, verts: readonly Vec2[]): void {
 }
 
 /**
- * Draws both flippers. `left` and `right` are their swing angles in radians away from rest,
- * counterclockwise on screen; the rest pose is the physics outline as given.
+ * Draws both flippers. `left` and `right` are the flipper bodies' rotations in radians,
+ * counterclockwise on screen, as the physics has them: 0 is the outline as given, which is the
+ * original's rest pose (its mover rests at 0.003 rad and swings up to 1.04).
  */
 export function drawFlippers(ctx: Ctx, k: number, left: number, right: number): void {
   const lp = { x: BOARD_X + FLIPPER_LEFT_PIVOT.x, y: BOARD_BOTTOM + FLIPPER_LEFT_PIVOT.y };
@@ -436,12 +538,7 @@ export function drawFlippers(ctx: Ctx, k: number, left: number, right: number): 
     x: BOARD_X + BOARD_W - FLIPPER_RIGHT_PIVOT.x,
     y: BOARD_BOTTOM + FLIPPER_RIGHT_PIVOT.y,
   };
-  const ll = layers.get('flipper:left', k, -24, -26, 116, 60, (c) => {
-    paintFlipper(c, FLIPPER_LEFT_VERTICES);
-  });
-  const rl = layers.get('flipper:right', k, -90, -28, 116, 62, (c) => {
-    paintFlipper(c, FLIPPER_RIGHT_VERTICES);
-  });
+  const { left: ll, right: rl } = flipperLayers(k);
   for (const [p, layer, a] of [
     [lp, ll, left],
     [rp, rl, right],
@@ -452,4 +549,15 @@ export function drawFlippers(ctx: Ctx, k: number, left: number, right: number): 
     drawLayer(ctx, layer);
     ctx.restore();
   }
+}
+
+function flipperLayers(k: number): { left: Layer; right: Layer } {
+  return {
+    left: layers.get('flipper:left', k, -24, -26, 116, 60, (c) => {
+      paintFlipper(c, FLIPPER_LEFT_VERTICES);
+    }),
+    right: layers.get('flipper:right', k, -90, -28, 116, 62, (c) => {
+      paintFlipper(c, FLIPPER_RIGHT_VERTICES);
+    }),
+  };
 }
