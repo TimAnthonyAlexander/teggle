@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { Rng } from '../core/rng';
 import { compileLevel, type CompiledLevel } from '../sim/compile';
+import { CANNON_PIVOT_Y } from '../sim/tuning';
 import { World } from '../sim/world';
 import { pegGrid } from '../../tests/fixtures/rules';
 import { assignColors, AttemptSetupError, movePurple } from './colors';
 import { attemptConfig, campaignConfig } from './config';
 import type { PegColor } from './scoring';
+import { DEFAULT_ORANGE_COUNT } from './tuning';
 
 function count(colors: readonly (PegColor | null)[]): Record<string, number> {
   const out: Record<string, number> = {};
@@ -32,10 +34,11 @@ function idsOf(
 
 describe('color assignment', () => {
   const grid = compileLevel(pegGrid(120));
+  const N = DEFAULT_ORANGE_COUNT;
 
-  it('makes 25 orange, 2 green, 1 purple and the rest blue', () => {
+  it('makes the default orange count, 2 green, 1 purple and the rest blue', () => {
     const { colors, purple } = assignColors(grid, attemptConfig(), Rng.fromSeed(7));
-    expect(count(colors)).toEqual({ orange: 25, green: 2, purple: 1, blue: 92 });
+    expect(count(colors)).toEqual({ orange: N, green: 2, purple: 1, blue: 120 - N - 3 });
     expect(colors[purple]).toBe('purple');
     // Base geometry gets no color.
     expect(colors.slice(120).every((c) => c === null)).toBe(true);
@@ -61,9 +64,9 @@ describe('color assignment', () => {
   });
 
   it('falls back to unflagged pegs for green and purple when the flagged set runs out', () => {
-    const level = compileLevel(pegGrid(60, (id) => id <= 26)); // 26 flagged
+    const level = compileLevel(pegGrid(60, (id) => id <= N + 1)); // one flagged peg to spare
     const { colors } = assignColors(level, attemptConfig(), Rng.fromSeed(3));
-    expect(count(colors)).toEqual({ orange: 25, green: 2, purple: 1, blue: 32 });
+    expect(count(colors)).toEqual({ orange: N, green: 2, purple: 1, blue: 60 - N - 3 });
     const flagged = flaggedIds(level);
     const special = [...idsOf(level, colors, 'green'), ...idsOf(level, colors, 'purple')];
     expect(special.filter((id) => flagged.has(id))).toHaveLength(1);
@@ -71,8 +74,44 @@ describe('color assignment', () => {
   });
 
   it('refuses a level with too few flagged pegs for the orange count', () => {
-    const level = compileLevel(pegGrid(60, (id) => id <= 24));
+    const level = compileLevel(pegGrid(60, (id) => id <= N - 1));
     expect(() => assignColors(level, attemptConfig(), Rng.fromSeed(1))).toThrow(AttemptSetupError);
+  });
+
+  it('draws orange pegs near the cannon and near each other, but can reach any flagged peg', () => {
+    const level = compileLevel(pegGrid(126));
+    const pivotX = level.level.board.width / 2;
+    const pos = (i: number): { x: number; y: number } => {
+      const e = level.bodies[i]?.element;
+      return { x: e?.x ?? 0, y: e?.y ?? 0 };
+    };
+    const dist = (a: { x: number; y: number }, b: { x: number; y: number }): number =>
+      Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+    const pivot = { x: pivotX, y: CANNON_PIVOT_Y };
+    const all = level.scoringBodies;
+    const meanAll = all.reduce((s, i) => s + dist(pos(i), pivot), 0) / all.length;
+    // Mean distance from the cannon, and to the nearest other orange peg, over many draws.
+    let toCannon = 0;
+    let toNeighbor = 0;
+    let draws = 0;
+    const bottomRow = new Set(all.filter((i) => pos(i).y >= 420));
+    let bottomOrange = 0;
+    for (let seed = 0; seed < 300; seed++) {
+      const { colors } = assignColors(level, attemptConfig(), Rng.fromSeed(seed));
+      const orange = all.filter((i) => colors[i] === 'orange');
+      for (const i of orange) {
+        toCannon += dist(pos(i), pivot);
+        let nearest = Infinity;
+        for (const j of orange) if (j !== i) nearest = Math.min(nearest, dist(pos(i), pos(j)));
+        toNeighbor += nearest;
+        draws++;
+        if (bottomRow.has(i)) bottomOrange++;
+      }
+    }
+    expect(toCannon / draws).toBeLessThan(0.75 * meanAll);
+    // Rows are 45 px apart and pegs 47 px: drawn pegs mostly sit next to another orange peg.
+    expect(toNeighbor / draws).toBeLessThan(60);
+    expect(bottomOrange).toBeGreaterThan(0);
   });
 
   it('raises the orange count for challenges', () => {
@@ -96,10 +135,10 @@ describe('color assignment', () => {
           Rng.fromSeed(9),
         ).colors,
       );
-    expect(colorsAt(1)).toEqual({ orange: 25, blue: 95 });
-    expect(colorsAt(2)).toEqual({ orange: 25, blue: 95 });
-    expect(colorsAt(3)).toEqual({ orange: 25, green: 2, blue: 93 });
-    expect(colorsAt(4)).toEqual({ orange: 25, green: 2, purple: 1, blue: 92 });
+    expect(colorsAt(1)).toEqual({ orange: N, blue: 120 - N });
+    expect(colorsAt(2)).toEqual({ orange: N, blue: 120 - N });
+    expect(colorsAt(3)).toEqual({ orange: N, green: 2, blue: 120 - N - 2 });
+    expect(colorsAt(4)).toEqual({ orange: N, green: 2, purple: 1, blue: 120 - N - 3 });
   });
 
   it('uses designer-placed greens on the first campaign play and random ones on retries', () => {
@@ -108,7 +147,7 @@ describe('color assignment', () => {
     for (let seed = 0; seed < 10; seed++) {
       const { colors } = assignColors(level, first, Rng.fromSeed(seed));
       expect(idsOf(level, colors, 'green')).toEqual([5, 77]);
-      expect(count(colors).orange).toBe(25);
+      expect(count(colors).orange).toBe(N);
     }
     const retry = campaignConfig({ level: 10, try: 2, firstPlay: false, power: null });
     const greens = new Set<string>();

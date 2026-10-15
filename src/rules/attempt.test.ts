@@ -27,6 +27,7 @@ import { Attempt } from './attempt';
 import { attemptConfig } from './config';
 import type { RulesEvent } from './events';
 import {
+  DEFAULT_ORANGE_COUNT,
   FEVER_BUCKET_POINTS,
   SHOT_TICK_LIMIT,
   STUCK_KILL_TICKS,
@@ -43,11 +44,11 @@ describe('attempt setup and the shot lifecycle', () => {
     expect(a.phase).toBe('aim');
     expect(a.result).toBeNull();
     expect(a.ballsLeft).toBe(10);
-    expect(a.orangeLeft).toBe(25);
+    expect(a.orangeLeft).toBe(DEFAULT_ORANGE_COUNT);
     expect(a.multiplier).toBe(1);
     expect(a.meterLevel).toBe(0);
     expect(a.score).toBe(0);
-    expect(a.pegIds('orange')).toHaveLength(25);
+    expect(a.pegIds('orange')).toHaveLength(DEFAULT_ORANGE_COUNT);
     expect(a.pegIds('green')).toHaveLength(2);
     expect(a.pegIds('purple')).toEqual([a.purple]);
     expect(a.color(a.purple)).toBe('purple');
@@ -97,32 +98,34 @@ describe('attempt setup and the shot lifecycle', () => {
     expect(a.world.isActive(1)).toBe(false);
     expect(a.world.isActive(10)).toBe(false);
     const tally = ofType(events, 'shotTally')[0];
-    // Peg 1 is orange with 2 left (x10), peg 10 blue with 1 left (x10): (1000 + 100) x 2.
-    expect(tally).toMatchObject({ sum: 1100, count: 2, shotScore: 2200, styleScore: 0 });
-    expect(a.score).toBe(2200);
+    // Two orange pegs scale the meter's bounds to 2 left for x2 and 1 left for x10 (spec 14.2).
+    // Peg 1 is orange with 2 left (x2), peg 10 blue with 1 left (x10): (200 + 100) x 2.
+    expect(tally).toMatchObject({ sum: 300, count: 2, shotScore: 600, styleScore: 0 });
+    expect(a.score).toBe(600);
   });
 });
 
 describe('scoring', () => {
   it('values each peg at the multiplier in force when it lights, also within one shot', () => {
-    // 5 orange left (x5): orange 1, orange 10, then the meter steps to x10 for blue peg 11.
+    // 5 orange pegs: the meter's bounds scale to 3 left for x2, 2 for x5 and 1 for x10. Orange 1
+    // and orange 10 score at x1, then the meter steps to x2 for blue peg 11.
     const spares: LevelElementInput[] = [900, 901, 902].map((id) => ({ ...SPARE, id }));
     const chain = grazeChain([ROD, FIRST, ...spares], [105, 175], (k) => k === 0);
     const a = newAttempt(dropLevel(RAMP_START, chain), fixedColors(5));
     const events = shoot(a, DOWN);
     const scored = ofType(events, 'pegScored');
     expect(scored.map((e) => [e.element, e.color, e.value, e.orangeLeft])).toEqual([
-      [1, 'orange', 500, 4],
-      [10, 'orange', 500, 3],
-      [11, 'blue', 100, 3],
+      [1, 'orange', 100, 4],
+      [10, 'orange', 100, 3],
+      [11, 'blue', 20, 3],
     ]);
-    expect(scored.map((e) => e.shotScore)).toEqual([500, 2000, 3300]);
+    expect(scored.map((e) => e.shotScore)).toEqual([100, 400, 660]);
     const step = events.findIndex((e) => e.type === 'meterStep');
-    expect(events[step]).toMatchObject({ multiplier: 10, orangeLeft: 3, meterLevel: 22 });
+    expect(events[step]).toMatchObject({ multiplier: 2, orangeLeft: 3, meterLevel: 2 });
     expect(events.indexOf(scored[1] as RulesEvent)).toBeLessThan(step);
     expect(events.indexOf(scored[2] as RulesEvent)).toBeGreaterThan(step);
-    expect(ofType(events, 'shotTally')[0]).toMatchObject({ sum: 1100, count: 3, shotScore: 3300 });
-    expect(a.multiplier).toBe(10);
+    expect(ofType(events, 'shotTally')[0]).toMatchObject({ sum: 220, count: 3, shotScore: 660 });
+    expect(a.multiplier).toBe(2);
   });
 
   it('scores the purple peg and moves it to a different blue peg after every shot', () => {

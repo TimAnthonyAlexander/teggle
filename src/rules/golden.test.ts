@@ -7,11 +7,11 @@ import { rulesDigest, rulesScenarioDigests } from '../../tests/fixtures/rules-go
 // `npm run test:engines` afterward. The same values come out of V8 (Node) and JavaScriptCore
 // (Bun).
 const GOLDEN: Record<string, string> = {
-  plinko: '9765e7a5687a0564',
-  bench: '9e93018a4023ed8a',
-  fever: '7c396d90a3999282',
-  slide: 'b393303a2486cf6e',
-  mixed: 'ae4d79f9efc00aef',
+  plinko: '03b50ea0ebf1ee7f',
+  bench: 'e45bba917065d01e',
+  fever: '0a474cd624cc4d0b',
+  slide: '1e897d352754729e',
+  mixed: 'e15fdd6583ca6c38',
 };
 
 describe('golden attempts', () => {
@@ -22,6 +22,6 @@ describe('golden attempts', () => {
   });
 
   it('combines into the cross-engine digest', () => {
-    expect(rulesDigest()).toBe('17a9ae4a032bf7cf');
+    expect(rulesDigest()).toBe('a53722bdebe77921');
   });
 });

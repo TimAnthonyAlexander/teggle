@@ -4,8 +4,22 @@
 
 import { PI } from '../core/dmath';
 
-/** Orange pegs per level unless a challenge sets more (spec 3; research 4.9). */
-export const DEFAULT_ORANGE_COUNT = 25;
+/**
+ * Orange pegs per level unless a challenge sets more. The original has 25 (spec 3; research
+ * 4.9); Teggle's wider board needs fewer (spec 14.1, "Orange pegs").
+ */
+export const DEFAULT_ORANGE_COUNT = 20;
+/** The original's orange count, which the fever meter's and Orange Rush's tables are built for. */
+export const ORIGINAL_ORANGE_COUNT = 25;
+/**
+ * Orange draw (spec 14.1 and 14.2): a flagged peg's weight falls with its distance d from the
+ * cannon pivot as 1 / (1 + (d / ORANGE_PULL_RADIUS)^4), and each further orange peg is also pulled
+ * toward the ones already drawn: its weight is multiplied by ORANGE_CLUSTER_FLOOR plus the sum of
+ * 1 / (1 + (d / ORANGE_CLUSTER_RADIUS)^4) over them. Distances in px from the elements' positions.
+ */
+export const ORANGE_PULL_RADIUS = 200;
+export const ORANGE_CLUSTER_RADIUS = 120;
+export const ORANGE_CLUSTER_FLOOR = 0.02;
 /** Balls at the start of a level (spec 4; research 4.9). */
 export const DEFAULT_BALLS = 10;
 export const GREEN_COUNT = 2;
@@ -22,8 +36,21 @@ export const PURPLE_VALUE = 500;
 export const FEVER_PEG_VALUE = 1000;
 export const FEVER_PURPLE_VALUE = 10000;
 
-/** The fever meter has one segment per orange peg of a 25-orange level (spec 3, visual guide 7.2). */
+/**
+ * The fever meter has one segment per orange peg of a 25-orange level (spec 3, visual guide 7.2);
+ * with fewer orange pegs it has one segment per orange peg.
+ */
 export const METER_SEGMENTS = 25;
+/**
+ * Orange left at or below which the multiplier steps up on a 25-orange level (spec 5): x2 at 15,
+ * x3 at 10, x5 at 6, x10 at 3. With fewer orange pegs each bound scales by count / 25, rounded.
+ */
+export const METER_STEPS: readonly (readonly [number, number])[] = [
+  [15, 2],
+  [10, 3],
+  [6, 5],
+  [3, 10],
+];
 
 /** Free ball thresholds on the shot score, style points excluded (spec 4; research 4.9). */
 export const FREE_BALL_THRESHOLDS: readonly number[] = [25000, 75000, 125000];

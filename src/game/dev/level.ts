@@ -1,8 +1,8 @@
 // DEV ONLY: #/dev/level/<file>. Loads public/levels/<file>.json and shows it on the full
 // machine (frame, HUD, cannon, bucket) with the physics running: moving parts move, a click
 // shoots a ball from the cannon toward the pointer, lit pegs and bricks go when the shot ends.
-// No rules run here: colors are a preview assignment (25 orange from the can-be-orange set,
-// 2 green, 1 purple), and a stuck ball loses the lit peg it touches after 500 ticks.
+// No rules run here: colors are the game's own draw for a seed (src/rules/colors.ts), and a
+// stuck ball loses the lit peg it touches after 500 ticks.
 //
 // Keys: R restarts the level, F toggles the flag view (blue = can be orange, orange = not,
 // green = quick disappear), T cycles the theme, P toggles the last shot's path.
@@ -11,6 +11,8 @@
 
 import { Rng } from '../../core/rng';
 import { parseLevel, type Level, type LevelElement } from '../../level/schema';
+import { assignColors } from '../../rules/colors';
+import { attemptConfig } from '../../rules/config';
 import { aimDirection, clampAim } from '../../sim/aim';
 import { compileLevel } from '../../sim/compile';
 import { World, type BodyView } from '../../sim/world';
@@ -49,17 +51,18 @@ interface Pop {
   readonly atMs: number;
 }
 
+/** The game's own color draw (src/rules/colors.ts) with the default config, by element id. */
 function previewColors(level: Level, seed: number): Map<number, PegColor> {
-  const rng = Rng.fromSeed(seed);
-  const scoring = level.elements.filter(
-    (e) => e.kind === 'peg' || e.kind === 'brick' || e.kind === 'curvedBrick',
-  );
-  const flagged = scoring.filter((e) => 'canBeOrange' in e && e.canBeOrange);
-  const colors = new Map<number, PegColor>(scoring.map((e) => [e.id, 'blue']));
-  const order = rng.shuffled(flagged.map((e) => e.id));
-  order.slice(0, 25).forEach((id) => colors.set(id, 'orange'));
-  order.slice(25, 27).forEach((id) => colors.set(id, 'green'));
-  order.slice(27, 28).forEach((id) => colors.set(id, 'purple'));
+  const compiled = compileLevel(level);
+  const config = attemptConfig();
+  const colors = new Map<number, PegColor>();
+  const flagged = level.elements.filter((e) => 'canBeOrange' in e && e.canBeOrange).length;
+  if (flagged < config.orangeCount) return colors;
+  const assigned = assignColors(compiled, config, Rng.fromSeed(seed)).colors;
+  compiled.bodies.forEach((b, i) => {
+    const c = assigned[i];
+    if (c !== null && c !== undefined) colors.set(b.id, c);
+  });
   return colors;
 }
 

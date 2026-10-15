@@ -269,7 +269,7 @@ describe('power style shots in random attempts', () => {
 
   it.each(cases)('%s: match the definitions shot by shot', (power, level, shot) => {
     let awarded = 0;
-    for (let seed = 1; seed <= 20; seed++) {
+    for (let seed = 1; seed <= 40; seed++) {
       for (const log of playLogged(level(), power, seed, power === 'flippers')) {
         const want = expected(log);
         for (const [id, earned] of Object.entries(want)) {

@@ -558,15 +558,19 @@ export function drawBallCounter(ctx: Ctx, k: number, s: BallCounterState): void 
 // Fever meter (7.2)
 
 export interface FeverMeterState {
-  /** Orange pegs hit so far, 0..25. */
+  /** Lit segments: orange pegs hit so far, 0..segments (the rules' meterLevel). */
   readonly orangeHit: number;
+  /** Segments in the tube: one per orange peg, 25 at most (the rules' meterSegments). */
+  readonly segments?: number;
+  /** Lit segments at which the multiplier steps up, and the multiplier reached. */
+  readonly steps?: readonly (readonly [number, number])[];
   /** Time since the latest segment lit, ms, for its flash. */
   readonly sinceHitMs?: number;
   readonly timeMs: number;
 }
 
 export const FEVER_SEGMENTS = 25;
-/** Orange hits at which the multiplier steps up (spec 5), and the multiplier reached. */
+/** Orange hits at which the multiplier steps up on a 25-orange level (spec 5). */
 export const FEVER_STEPS: readonly (readonly [number, number])[] = [
   [10, 2],
   [15, 3],
@@ -574,20 +578,23 @@ export const FEVER_STEPS: readonly (readonly [number, number])[] = [
   [22, 10],
 ];
 
-export function multiplierFor(orangeHit: number): number {
+export function multiplierFor(
+  orangeHit: number,
+  steps: readonly (readonly [number, number])[] = FEVER_STEPS,
+): number {
   let m = 1;
-  for (const [at, mult] of FEVER_STEPS) if (orangeHit >= at) m = mult;
+  for (const [at, mult] of steps) if (orangeHit >= at) m = mult;
   return m;
 }
 
-function fm() {
+function fm(segments = FEVER_SEGMENTS) {
   const x0 = layout.feverMeter.x;
   return {
     x0,
     cx: x0 + 46,
     orbY: 122,
     stack: { x: x0 + 23, y: 164, w: 46, h: 355 },
-    pitch: 355 / FEVER_SEGMENTS,
+    pitch: 355 / segments,
   };
 }
 
@@ -652,8 +659,8 @@ function tubePathFor(s: { x: number; y: number; w: number; h: number }): PathFn 
  * The meter is one ribbed glass tube: 25 rings, each catching light along its top edge, with a
  * dark groove between rings and cylinder shading across. Lit rings glow orange to yellow.
  */
-function paintFeverStack(ctx: Ctx, on: boolean): void {
-  const m = fm();
+function paintFeverStack(ctx: Ctx, on: boolean, segments: number): void {
+  const m = fm(segments);
   const s = m.stack;
   const tube = tubePathFor(s);
   withClip(ctx, tube, () => {
@@ -674,7 +681,7 @@ function paintFeverStack(ctx: Ctx, on: boolean): void {
           [0.82, color.meterOff],
           [1, '#1e0408'],
         ];
-    for (let i = 0; i < FEVER_SEGMENTS; i++) {
+    for (let i = 0; i < segments; i++) {
       const y = s.y + s.h - (i + 1) * m.pitch;
       const top = y + 0.7;
       const h = m.pitch - 1.4;
@@ -768,21 +775,23 @@ function drawStepPlate(ctx: Ctx, x: number, y: number, mult: number, reached: bo
 }
 
 export function drawFeverMeter(ctx: Ctx, k: number, s: FeverMeterState): void {
-  const m = fm();
+  const segments = s.segments ?? FEVER_SEGMENTS;
+  const steps = s.steps ?? FEVER_STEPS;
+  const m = fm(segments);
   const b = layout.feverMeter;
   drawLayer(
     ctx,
     layers.get('hud:feverMeter', k, b.x - 2, b.y - 4, b.w + 4, b.h + 6, paintFeverMeterBase),
   );
   const st = m.stack;
-  const off = layers.get('hud:feverOff', k, st.x, st.y, st.w, st.h, (c) => {
-    paintFeverStack(c, false);
+  const off = layers.get(`hud:feverOff:${String(segments)}`, k, st.x, st.y, st.w, st.h, (c) => {
+    paintFeverStack(c, false, segments);
   });
-  const on = layers.get('hud:feverOn', k, st.x, st.y, st.w, st.h, (c) => {
-    paintFeverStack(c, true);
+  const on = layers.get(`hud:feverOn:${String(segments)}`, k, st.x, st.y, st.w, st.h, (c) => {
+    paintFeverStack(c, true, segments);
   });
   drawLayer(ctx, off);
-  const n = Math.max(0, Math.min(FEVER_SEGMENTS, Math.floor(s.orangeHit)));
+  const n = Math.max(0, Math.min(segments, Math.floor(s.orangeHit)));
   if (n > 0) {
     const h = n * m.pitch;
     const srcY = (st.h - h) / st.h;
@@ -823,12 +832,12 @@ export function drawFeverMeter(ctx: Ctx, k: number, s: FeverMeterState): void {
     }
   }
   drawLayer(ctx, layers.get('hud:feverGlass', k, st.x, st.y, st.w, st.h, paintFeverGlass));
-  for (const [at, mult] of FEVER_STEPS) {
+  for (const [at, mult] of steps) {
     const y = st.y + st.h - at * m.pitch;
     drawStepPlate(ctx, st.x - 6, y, mult, n >= at);
   }
   // Orb: red-amber glass with a warm core that brightens with the multiplier.
-  const mult = multiplierFor(n);
+  const mult = multiplierFor(n, steps);
   const heat = mult === 1 ? 0 : mult === 2 ? 0.3 : mult === 3 ? 0.5 : mult === 5 ? 0.75 : 1;
   glassOrb(ctx, m.cx, m.orbY, 28, {
     hi: '#f5a623',

@@ -13,6 +13,7 @@
 import { Attempt } from '../../rules/attempt';
 import type { RulesEvent } from '../../rules/events';
 import { BASE_POWERS } from '../../rules/powers';
+import { meterLevelSteps, meterSegments } from '../../rules/scoring';
 import { aimDirection } from '../../sim/aim';
 import { TrajectoryPreview } from '../../sim/preview';
 import { CANNON_PIVOT_Y } from '../../sim/tuning';
@@ -78,7 +79,13 @@ interface MutableMachine {
     freeBall?: { stage: 1 | 2 | 3; tMs: number; showPoints: boolean };
     timeMs: number;
   };
-  fever: { orangeHit: number; sinceHitMs?: number; timeMs: number };
+  fever: {
+    orangeHit: number;
+    segments: number;
+    steps: readonly (readonly [number, number])[];
+    sinceHitMs?: number;
+    timeMs: number;
+  };
   scoreLeft: { line1: string; line2: string; value: number };
   scoreRight: { line1: string; line2: string; value: number };
   power: BannerState;
@@ -190,7 +197,12 @@ export class PlayScreen implements Screen {
     this.machine = {
       theme: this.theme,
       ballCounter: { balls: 0, columnBalls: 0, shotScore: 0, timeMs: 0 },
-      fever: { orangeHit: 0, timeMs: 0 },
+      fever: {
+        orangeHit: 0,
+        segments: meterSegments(first.config.orangeCount),
+        steps: meterLevelSteps(first.config.orangeCount),
+        timeMs: 0,
+      },
       scoreLeft: { ...host.left, value: 0 },
       scoreRight: { ...host.right, value: 0 },
       power: { name: '', active: false },
@@ -296,6 +308,8 @@ export class PlayScreen implements Screen {
 
   private startAttempt(attempt: Attempt): void {
     this.attempt = attempt;
+    this.machine.fever.segments = meterSegments(attempt.config.orangeCount);
+    this.machine.fever.steps = meterLevelSteps(attempt.config.orangeCount);
     this.ledger = new ScoreLedger();
     this.pres.reset(attempt);
     this.powers.reset(attempt.world);

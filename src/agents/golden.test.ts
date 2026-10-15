@@ -5,9 +5,9 @@ import { agentScenarioRuns, agentsDigest, runDigest } from '../../tests/fixtures
 // change to the agents, the rules or the physics, and run `npm run test:engines` afterward: V8
 // (Node) and JavaScriptCore (Bun) give the same values.
 const GOLDEN: Record<string, string> = {
-  noisyFlippers: '62ec192609cb5f6c',
-  greedySpaceBlast: '9358a08d6cf694f6',
-  randomMultiball: '53d8e4e27ab17b98',
+  noisyFlippers: 'c14b4c006dc84ac7',
+  greedySpaceBlast: '3fa27e32626e4719',
+  randomMultiball: '1d7e2ee124a30fb1',
 };
 
 describe('golden self-play runs', () => {
@@ -20,6 +20,6 @@ describe('golden self-play runs', () => {
   });
 
   it('combines into the cross-engine digest', () => {
-    expect(agentsDigest()).toBe('9ea5ba7a2424c907');
+    expect(agentsDigest()).toBe('2dc11bb2d53a9366');
   });
 });

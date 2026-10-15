@@ -29,15 +29,15 @@ interface PowerScenario {
 const SCENARIOS: readonly PowerScenario[] = [
   { name: 'guide', power: 'guide', level: plinkoLevel, seed: 1 },
   { name: 'multiball', power: 'multiball', level: plinkoLevel, seed: 1 },
-  { name: 'pyramid', power: 'pyramid', level: benchLevel, seed: 2 },
-  { name: 'spaceBlast', power: 'spaceBlast', level: plinkoLevel, seed: 2 },
-  { name: 'flippers', power: 'flippers', level: plinkoLevel, seed: 6 },
-  { name: 'spookyBall', power: 'spookyBall', level: mixedLevel, seed: 1 },
-  { name: 'flowerPower', power: 'flowerPower', level: plinkoLevel, seed: 9 },
-  { name: 'luckySpin', power: 'luckySpin', level: plinkoLevel, seed: 11 },
-  { name: 'luckySpin2', power: 'luckySpin', level: plinkoLevel, seed: 16 },
-  { name: 'fireball', power: 'fireball', level: benchLevel, seed: 2 },
-  { name: 'zenBall', power: 'zenBall', level: plinkoLevel, seed: 12 },
+  { name: 'pyramid', power: 'pyramid', level: benchLevel, seed: 5 },
+  { name: 'spaceBlast', power: 'spaceBlast', level: plinkoLevel, seed: 1 },
+  { name: 'flippers', power: 'flippers', level: plinkoLevel, seed: 1 },
+  { name: 'spookyBall', power: 'spookyBall', level: mixedLevel, seed: 3 },
+  { name: 'flowerPower', power: 'flowerPower', level: plinkoLevel, seed: 1 },
+  { name: 'luckySpin', power: 'luckySpin', level: plinkoLevel, seed: 1 },
+  { name: 'luckySpin2', power: 'luckySpin', level: plinkoLevel, seed: 23 },
+  { name: 'fireball', power: 'fireball', level: benchLevel, seed: 9 },
+  { name: 'zenBall', power: 'zenBall', level: plinkoLevel, seed: 1 },
 ];
 
 /** Digests rules events field by field, in their key order. */

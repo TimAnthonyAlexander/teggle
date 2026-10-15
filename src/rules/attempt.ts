@@ -433,11 +433,11 @@ export class Attempt implements AttemptView {
   }
 
   get multiplier(): number {
-    return multiplierFor(this.c.orangeLeft);
+    return multiplierFor(this.c.orangeLeft, this.init.config.orangeCount);
   }
 
   get meterLevel(): number {
-    return meterLevel(this.c.orangeLeft);
+    return meterLevel(this.c.orangeLeft, this.init.config.orangeCount);
   }
 
   get fever(): boolean {
@@ -740,7 +740,7 @@ export class Attempt implements AttemptView {
     const finishing = c.cleanFinishArmed;
     c.cleanFinishArmed = false;
 
-    let value = pegValue(color, c.orangeLeft, c.fever);
+    let value = pegValue(color, c.orangeLeft, this.init.config.orangeCount, c.fever);
     const list = this.effectList;
     for (let k = 0; k < list.length; k++) {
       const fx = list[k];
@@ -789,18 +789,19 @@ export class Attempt implements AttemptView {
 
   private orangeLit(e: PegLitEvent): void {
     const c = this.c;
-    if (c.orangeLeft > 0 && multiplierFor(c.orangeLeft) !== multiplierFor(c.orangeLeft + 1)) {
+    const n = this.init.config.orangeCount;
+    if (c.orangeLeft > 0 && multiplierFor(c.orangeLeft, n) !== multiplierFor(c.orangeLeft + 1, n)) {
       if (this.collect) {
         this.out.push({
           type: 'meterStep',
           tick: e.tick,
-          multiplier: multiplierFor(c.orangeLeft),
+          multiplier: multiplierFor(c.orangeLeft, n),
           orangeLeft: c.orangeLeft,
-          meterLevel: meterLevel(c.orangeLeft),
+          meterLevel: meterLevel(c.orangeLeft, n),
         });
       }
     }
-    if (c.shotOrange === orangeRushTarget(c.orangeAtLaunch)) {
+    if (c.shotOrange === orangeRushTarget(c.orangeAtLaunch, n)) {
       this.addStyle('orangeRush', STYLE_POINTS.orangeRush, e.ball, e.x, e.y);
     }
     if (c.orangeLeft === 0) this.startFever(e);

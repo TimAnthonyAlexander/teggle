@@ -84,8 +84,9 @@ describe('powers', () => {
     );
     const a = attemptWith([triple]);
     const first = shoot(a, DOWN);
-    // The green itself scores before the power runs; the blue peg after it is tripled.
-    expect(ofType(first, 'pegScored').map((e) => e.value)).toEqual([1000, 100, 300]);
+    // Two orange pegs: x2 with 2 left, x10 with 1 left. The green itself scores before the power
+    // runs; the blue peg after it is tripled.
+    expect(ofType(first, 'pegScored').map((e) => e.value)).toEqual([200, 100, 300]);
     expect(effectChanges(first)).toEqual(['tripleScore:granted:2']);
     expect(a.effects).toEqual([
       { power: 'triple', tag: 'tripleScore', shotsLeft: 1, pending: false },

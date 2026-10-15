@@ -23,7 +23,13 @@ import {
   styles,
 } from '../../tests/fixtures/rules';
 import { attemptConfig } from './config';
+import { orangeRushTarget } from './scoring';
 import { StyleTracker, type StyleShotId } from './style';
+
+/** `n` orange pegs nothing can touch, ids 900 and up. */
+function spares(n: number): LevelElementInput[] {
+  return Array.from({ length: n }, (_, k) => ({ ...SPARE, id: 900 + k }));
+}
 
 // ---------------------------------------------------------------------------------------------
 // The definitions, on hand-made event streams (spec 14.2).
@@ -263,10 +269,11 @@ describe('style shots in play', () => {
         ['longShot', 'longShot', 'doubleLongShot'],
       ],
     ];
+    // 25 orange pegs, all but the lit ones out of reach, so no Orange Rush joins in.
     for (const [ticks, expected] of cases) {
-      const elements = grazeChain([ROD, FIRST, SPARE], ticks);
+      const elements = grazeChain([ROD, FIRST, ...spares(24 - ticks.length)], ticks);
       const level = dropLevel(RAMP_START, elements);
-      const events = shoot(newAttempt(level, fixedColors(2 + ticks.length)), DOWN);
+      const events = shoot(newAttempt(level, fixedColors(25)), DOWN);
       expect(styles(events)).toEqual(expected);
       // Cross-check the distance of the first hop against the definition.
       const { events: sim } = shotPath(level, DOWN);
@@ -362,8 +369,8 @@ describe('style shots in play', () => {
   });
 
   it('awards Orange Rush when one shot reaches the target for the oranges left', () => {
-    // 5 orange left before the shot: 4 must light. Peg 1 and three grazed oranges, one spare.
-    const four = grazeChain([ROD, FIRST, SPARE], [60, 105, 175]);
+    // 5 orange pegs: peg 1, three grazed oranges and one spare out of reach.
+    const four = grazeChain([ROD, FIRST, ...spares(1)], [60, 105, 175]);
     const rush = shoot(newAttempt(dropLevel(RAMP_START, four), fixedColors(5)), DOWN);
     expect(ofType(rush, 'pegScored').map((e) => e.color)).toEqual([
       'orange',
@@ -371,10 +378,12 @@ describe('style shots in play', () => {
       'orange',
       'orange',
     ]);
+    // 5 orange pegs in all: the 25-orange table's target scales from 10 down to 2.
+    expect(orangeRushTarget(5, 5)).toBe(2);
     expect(styles(rush)).toContain('orangeRush');
-    const three = grazeChain([ROD, FIRST, SPARE, { ...SPARE, id: 901 }], [105, 175]);
-    const fewer = shoot(newAttempt(dropLevel(RAMP_START, three), fixedColors(5)), DOWN);
-    expect(ofType(fewer, 'pegScored')).toHaveLength(3);
+    const one = grazeChain([ROD, FIRST, ...spares(4)], [105, 175], () => false);
+    const fewer = shoot(newAttempt(dropLevel(RAMP_START, one), fixedColors(5)), DOWN);
+    expect(ofType(fewer, 'pegScored').map((e) => e.color)).toEqual(['orange', 'blue', 'blue']);
     expect(styles(fewer)).not.toContain('orangeRush');
   });
 

@@ -71,7 +71,7 @@ describe('replay', () => {
       { levelId: 'flippers', seed: 21, config },
       { powers: TEST_POWERS },
     );
-    const events = randomPlay(live, 5, { flippers: true });
+    const events = randomPlay(live, 6, { flippers: true });
     const record = live.record();
     // The scenario covers what it is meant to: flippers ran, and inputs were recorded.
     expect(events.some((e) => e.type === 'effect' && e.change === 'granted')).toBe(true);

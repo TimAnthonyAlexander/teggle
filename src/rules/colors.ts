@@ -1,12 +1,19 @@
 // Color assignment (spec 3 and 14.2). Every attempt draws its colors from its own seeded Rng:
-// the orange pegs from the pegs flagged canBeOrange, then 2 green and 1 purple from the
-// remaining flagged pegs, falling back to unflagged pegs only when the flagged set runs out.
+// the orange pegs from the pegs flagged canBeOrange (weighted toward the cannon and toward each
+// other, see drawOrange), then 2 green and 1 purple uniformly from the remaining flagged pegs,
+// falling back to unflagged pegs only when the flagged set runs out.
 // Colors are indexed by body index (level elements first, in file order).
 
 import type { Rng } from '../core/rng';
 import type { CompiledLevel } from '../sim/compile';
 import type { BodyView } from '../sim/world';
-import { GREEN_COUNT } from './tuning';
+import { CANNON_PIVOT_Y } from '../sim/tuning';
+import {
+  GREEN_COUNT,
+  ORANGE_CLUSTER_FLOOR,
+  ORANGE_CLUSTER_RADIUS,
+  ORANGE_PULL_RADIUS,
+} from './tuning';
 import type { AttemptConfig } from './config';
 import type { PegColor } from './scoring';
 
@@ -24,6 +31,64 @@ export interface ColorAssignment {
 function flagged(level: CompiledLevel, index: number): boolean {
   const e = level.bodies[index]?.element;
   return e !== null && e !== undefined && 'canBeOrange' in e && e.canBeOrange;
+}
+
+/** 1 / (1 + (d / r)^4) for the squared distance d2: near 1 inside r, falling fast beyond it. */
+function falloff(d2: number, r: number): number {
+  const q = d2 / (r * r);
+  return 1 / (1 + q * q);
+}
+
+/**
+ * Draws k orange pegs from `pool` without replacement (spec 14.1, "Orange pegs"): each draw
+ * picks a peg with probability proportional to its weight, which falls with its distance from
+ * the cannon pivot and rises with its nearness to the orange pegs already drawn, so orange pegs
+ * gather near the shooter and near each other while any flagged peg can still be one.
+ */
+function drawOrange(level: CompiledLevel, pool: readonly number[], k: number, rng: Rng): number[] {
+  const n = pool.length;
+  const xs = new Array<number>(n);
+  const ys = new Array<number>(n);
+  const pull = new Array<number>(n);
+  const near = new Array<number>(n).fill(ORANGE_CLUSTER_FLOOR);
+  const taken = new Array<boolean>(n).fill(false);
+  const px = level.level.board.width / 2;
+  for (let j = 0; j < n; j++) {
+    const e = level.bodies[pool[j] ?? -1]?.element;
+    const x = e?.x ?? px;
+    const y = e?.y ?? CANNON_PIVOT_Y;
+    xs[j] = x;
+    ys[j] = y;
+    pull[j] = falloff(
+      (x - px) * (x - px) + (y - CANNON_PIVOT_Y) * (y - CANNON_PIVOT_Y),
+      ORANGE_PULL_RADIUS,
+    );
+  }
+  const out: number[] = [];
+  for (let drawn = 0; drawn < k; drawn++) {
+    let total = 0;
+    for (let j = 0; j < n; j++) if (!taken[j]) total += (pull[j] ?? 0) * (near[j] ?? 0);
+    let r = rng.nextFloat() * total;
+    let pick = -1;
+    for (let j = 0; j < n; j++) {
+      if (taken[j]) continue;
+      pick = j;
+      r -= (pull[j] ?? 0) * (near[j] ?? 0);
+      if (r < 0) break;
+    }
+    if (pick < 0) break;
+    taken[pick] = true;
+    out.push(pool[pick] ?? -1);
+    const x = xs[pick] ?? 0;
+    const y = ys[pick] ?? 0;
+    for (let j = 0; j < n; j++) {
+      if (taken[j]) continue;
+      const dx = (xs[j] ?? 0) - x;
+      const dy = (ys[j] ?? 0) - y;
+      near[j] = (near[j] ?? 0) + falloff(dx * dx + dy * dy, ORANGE_CLUSTER_RADIUS);
+    }
+  }
+  return out;
 }
 
 /** Draws k blue pegs from `candidates`, flagged ones first. */
@@ -63,7 +128,7 @@ export function assignColors(
         `${config.orangeCount} orange pegs are needed`,
     );
   }
-  for (const i of rng.sample(pool, config.orangeCount)) colors[i] = 'orange';
+  for (const i of drawOrange(level, pool, config.orangeCount, rng)) colors[i] = 'orange';
 
   if (config.greens && greens.length === 0) {
     for (const i of drawBlue(level, colors, scoring, GREEN_COUNT, rng)) colors[i] = 'green';

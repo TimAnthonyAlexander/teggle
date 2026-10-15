@@ -525,6 +525,7 @@ Decided 2026-10-14 unless dated otherwise. Where a decision conflicts with an ea
 | Lines in the editor | A line produces either bricks or round pegs, chosen per line. |
 | Art and audio sources | No paid service is ever used, including paid image generation (decided 2026-10-15). Backgrounds and master characters are existing images found on the web, never drawn in code; Teggle is private, so licenses do not matter, but every source URL is recorded. Sound effects are synthesized. "Ode to Joy" is synthesized from the public-domain score. Every asset's source is recorded in an asset manifest. |
 | Undocumented constants | Set by tuning and recorded in section 14.2 as they are chosen. |
+| Orange pegs | Decided 2026-10-15 after play: the 16:9 board was far harder than the original. Balls stay at 10 and the levels stay as designed; a level has 20 orange pegs instead of 25, drawn closer to the shooter and closer together. The fever meter and Orange Rush scale to the orange count. Challenges with 35, 45 or 55 orange keep the original's rules. Details and measurements in 14.2. |
 
 ### 14.2 Rules not documented in any source
 
@@ -724,10 +725,17 @@ Decided in the mobile pass on 2026-10-15. Values live in `src/game/app/display.t
 - Memory: the shared layer cache holds at most 8 full-screen layers' worth of pixels as well as at most 160 layers (a level uses about 3.6), the thumbnail cache 2 and 40, the portrait cache 2 and 128; the oldest go first. Before, every new level picture and frame theme added a full-screen layer that stayed (about 2 Mpx each on a phone at DPR 3, 8 Mpx at 4K). The menus keep each level's picture at most 1,100 px wide, for the 16 levels they asked for last.
 - Audio: the context is created on the first pointer or key input and resumed on that touch's touchend (where iPhone Safari unlocks audio) and on any later input while it is not running, which also wakes it from Safari's interrupted state after the app comes back.
 
+Decided in the orange draw on 2026-10-15 (14.1, "Orange pegs"). Values live in `src/rules/tuning.ts`, the draw in `src/rules/colors.ts`, the meter in `src/rules/scoring.ts`.
+
+- Orange count: 20 per level (`DEFAULT_ORANGE_COUNT`). Challenges set their own.
+- Draw: the orange pegs come from the can-be-orange set one at a time, without replacement, each with probability proportional to its weight. A peg's weight is 1 / (1 + (d / 200)^4) for its distance d in px from the cannon pivot, times 0.02 plus the sum of 1 / (1 + (e / 120)^4) over its distances e to the orange pegs already drawn. Every flagged peg can still be orange; far ones rarely are. Green and purple stay uniform.
+- Fever meter: one segment per orange peg, 25 at most. With fewer than 25 orange pegs the original's bounds (x2 at 15 left, x3 at 10, x5 at 6, x10 at 3) scale by count / 25 and round up, so the last orange peg is always x10: with 20, x2 at 12 left, x3 at 8, x5 at 5, x10 at 3 (the 8th, 12th, 15th and 17th orange hit). With 25 or more orange pegs nothing changes.
+- Orange Rush with fewer than 25 orange pegs: the orange left scales up to the spec 5 table (rounded down), and the target scales back down (rounded); a target under 2 means none. With 20: 8 orange in one shot at 17 to 20 left, 7 at 13 to 16, and so on down to 3 at 4 left.
+- Measured on stage 1 with the noisy greedy agent at 0.03 rad and 0.015 rad, 100 runs per level, 10 balls (`npm run agents:report`): 25 orange drawn uniformly 0% and 2%; 20 orange uniformly 2% and 4%; 20 orange with only the pull toward each other 18% and 21%; 20 orange with the draw above 38% and 50%. The original's stage 1 with its own rules: 39% at 0.03 rad. The user's own play agreed: with 25 orange 4 to 7 were left at the end of a lost level; with this draw it played "much easier, in a good way".
+
 ### 14.3 Still open
 
 - Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)
-- Difficulty on the 16:9 board. With 25 orange pegs and 10 balls, a noisy greedy agent (best of 40 angles, 0.03 rad aim error, 30 runs per level) clears the original stage 1 round-peg levels 20 to 53% of the time on their 650 board, and Teggle's stage 1 0 to 3%. The original 1-1 alone drops from 40% to 10% when its pegs are only centered on the 916 board. Measured again on 2026-10-15 with the self-play agents, 200 runs per level, full rules (`docs/research/agent-difficulty.md`): at 0.03 rad the original's stage 1 clears 39% on average (18 to 55% per level, all five levels converted, bricks and solids included), Teggle's stage 1 0 to 2% per level with 10 balls and 25 orange, 21% (11 to 34%) with 15 and 20, 20% (7 to 32%) with 14 and 18, and 17% (6 to 31%) with 16 and 25. At 0.005 rad: original 61%, Teggle 4%, 43%, 38% and 42%; at 0.06 rad: 29%, 1%, 14%, 14% and 13%. Over its first ten shots Teggle's stage 1 lights 1.67 orange pegs per shot against the original's 2.16, and earns 1.7 free balls per run against 3.1. Without aim error the greedy agent clears both (99 to 100%). Whether to compensate (balls, orange count, side structures that turn balls back toward the middle) is open.
 
 ## 15. Level data (base game campaign)
 
