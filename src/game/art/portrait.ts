@@ -196,6 +196,24 @@ export function drawPortraitWindow(
     ctx.strokeStyle = '#06191c';
     ctx.stroke();
   }
+  paintWindowGlass(ctx, k, img, theme, cx, cy, r);
+  if (opts.active === true) drawWindowGlow(ctx, theme, cx, cy, opts.timeMs ?? 0, r);
+  circlePath(ctx, cx, cy, r);
+  ctx.lineWidth = 1;
+  ctx.strokeStyle = '#06191c';
+  ctx.stroke();
+}
+
+/** The window's glass with the portrait behind it: backdrop, picture, depth and reflections. */
+function paintWindowGlass(
+  ctx: Ctx,
+  k: number,
+  img: PortraitImage | null,
+  theme: Theme,
+  cx: number,
+  cy: number,
+  r: number,
+): void {
   const window: PathFn = (c) => {
     circlePath(c, cx, cy, r);
   };
@@ -219,11 +237,35 @@ export function drawPortraitWindow(
   ctx.lineCap = 'round';
   ctx.strokeStyle = 'rgba(200,235,255,0.2)';
   ctx.stroke();
-  if (opts.active === true) drawWindowGlow(ctx, theme, cx, cy, opts.timeMs ?? 0, r);
-  window(ctx);
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = '#06191c';
-  ctx.stroke();
+}
+
+/**
+ * The launcher's portrait window for the play screen (7.4): the same glass and portrait as
+ * drawPortraitWindow without the bezel and glow, cached per picture, theme, size and device
+ * scale, so a frame costs one image draw. The launcher draws the glow over it.
+ */
+export function drawLauncherPortrait(
+  ctx: Ctx,
+  k: number,
+  img: PortraitImage,
+  theme: Theme,
+  cx: number,
+  cy: number,
+  r = WINDOW_R,
+): void {
+  const pad = 1;
+  const layer = portraitLayers.get(
+    `window:${imageId(img)}:${theme.index}:${r}`,
+    k,
+    -r - pad,
+    -r - pad,
+    2 * (r + pad),
+    2 * (r + pad),
+    (c) => {
+      paintWindowGlass(c, k, img, theme, 0, 0, r);
+    },
+  );
+  drawLayer(ctx, layer, cx, cy);
 }
 
 /** Stage intro card portrait (10.5): the full portrait in a teal metal bevel with rivets. */

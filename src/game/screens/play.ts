@@ -11,15 +11,16 @@
 // raises them; during a shot a touch only works the flippers.
 
 import { Attempt } from '../../rules/attempt';
-import { attemptConfig } from '../../rules/config';
 import type { RulesEvent } from '../../rules/events';
-import { BASE_POWERS, type PowerId } from '../../rules/powers';
+import { BASE_POWERS } from '../../rules/powers';
 import { aimDirection } from '../../sim/aim';
 import { TrajectoryPreview } from '../../sim/preview';
 import { CANNON_PIVOT_Y } from '../../sim/tuning';
+import { masterPortraits, type PortraitImage } from '../art/masters';
 import { audioBus } from '../audio/bus';
 import { hoverCue, setGamePaused } from '../audio/cues';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
+import { OptionsDialog } from '../menus/options';
 import { WORLD_H, WORLD_W, layout } from '../layout';
 import {
   drawBucket,
@@ -37,8 +38,10 @@ import { AimController, ARROW_STEP, WHEEL_STEP } from '../play/aim';
 import type { BackdropPainter } from '../play/backdrop';
 import { BoardRenderer } from '../play/board';
 import { autoFlipper, installDebug, FrameStats, type AimGoal } from '../play/debug';
-import { Dialog, type DialogAction } from '../play/dialogs';
+import { Dialog, type DialogAction, type DialogLabels } from '../play/dialogs';
+import { MasterFace } from '../play/face';
 import { FeverShow } from '../play/fever';
+import type { PlayHost } from '../play/host';
 import type { LoadedLevel } from '../play/load';
 import { Overlay } from '../play/overlay';
 import { PowerShow, type BannerState } from '../play/powers';
@@ -48,20 +51,6 @@ import { slowMotionDue, SLOW_MOTION_LEAD_TICKS } from '../play/timing';
 import { SPARK, WHITE } from '../play/particles';
 import type { CompiledLevel } from '../../sim/compile';
 import type { BallView } from '../../sim/world';
-
-export interface PlayOptions {
-  /** Seed of the first attempt; retries use the next seeds. Random when omitted. */
-  readonly seed: number | null;
-  readonly theme: number;
-  /** Count tries as campaign tries for the clear bonus (spec 5). */
-  readonly campaign: boolean;
-  /** Balls at the start instead of 10. */
-  readonly balls: number | null;
-  /** Orange pegs to clear instead of 25 (challenges use 35, 45 or 55; spec 3). */
-  readonly orange: number | null;
-  /** The master's power the green pegs trigger, or null for none. */
-  readonly power: PowerId | null;
-}
 
 /** Keys that raise the flippers while held. */
 const FLIPPER_KEYS = ['Space', 'ShiftLeft', 'ShiftRight', 'KeyZ', 'KeyX'] as const;
@@ -77,12 +66,6 @@ const LAUNCHER_TAP_RADIUS = 58;
 const MACHINE_FADE_ZOOM = 0.14;
 const GUIDE_MAX_TICKS = 80;
 const GUIDE_DOT_STEP = 5;
-
-function randomSeed(): number {
-  const a = new Uint32Array(1);
-  crypto.getRandomValues(a);
-  return a[0] ?? 1;
-}
 
 interface MutableMachine {
   theme: Theme;
@@ -102,6 +85,7 @@ interface MutableMachine {
   menuButton: ButtonState;
   holdButton: ButtonState;
   timeMs: number;
+  portrait: PortraitImage | null;
 }
 
 export class PlayScreen implements Screen {
@@ -124,6 +108,12 @@ export class PlayScreen implements Screen {
   private held: RulesEvent[] = [];
   private flipperHeld = false;
   private dialog: Dialog | null = null;
+  /** The options dialog, opened from the pause dialog. */
+  private options: OptionsDialog | null = null;
+  private readonly face = new MasterFace();
+  /** The attempt's first shot was reported to the host; its end was. */
+  private attemptCounted = false;
+  private endReported = false;
   private readonly theme: Theme;
   private readonly pivotX: number;
   private readonly pivotY: number;
@@ -172,7 +162,7 @@ export class PlayScreen implements Screen {
   constructor(
     private readonly loaded: LoadedLevel,
     private readonly backdrop: BackdropPainter,
-    private readonly options: PlayOptions,
+    private readonly host: PlayHost,
     first: Attempt,
   ) {
     this.level = loaded.compiled;
@@ -181,13 +171,13 @@ export class PlayScreen implements Screen {
     this.pres = new Presenter(this.level, audioBus, this.board.offX, this.board.offY);
     this.powers = new PowerShow(
       audioBus,
-      options.power,
+      host.power,
       this.board.offX,
       this.board.offY,
       this.pres.particles,
     );
     this.preview = new TrajectoryPreview(this.level, GUIDE_MAX_TICKS);
-    this.theme = themeAt(options.theme);
+    this.theme = themeAt(host.theme);
     this.pivotX = this.board.offX + this.level.width / 2;
     this.pivotY = this.board.offY + CANNON_PIVOT_Y;
     const divider = this.level.feverBodies.find(
@@ -199,35 +189,26 @@ export class PlayScreen implements Screen {
       theme: this.theme,
       ballCounter: { balls: 0, columnBalls: 0, shotScore: 0, timeMs: 0 },
       fever: { orangeHit: 0, timeMs: 0 },
-      scoreLeft: { line1: 'Level', line2: 'Score', value: 0 },
-      scoreRight: { line1: 'Session', line2: 'Best', value: 0 },
+      scoreLeft: { ...host.left, value: 0 },
+      scoreRight: { ...host.right, value: 0 },
       power: { name: '', active: false },
       cannonAngle: 0,
       cannonLoaded: true,
       menuButton: 'normal',
       holdButton: 'normal',
       timeMs: 0,
+      portrait: null,
     };
     this.startAttempt(first);
   }
 
-  /** Makes the attempt a screen starts with: the first seed, the options' balls and campaign try. */
-  static firstAttempt(loaded: LoadedLevel, options: PlayOptions): Attempt {
-    return PlayScreen.makeAttempt(loaded, options, 1);
+  /** Makes the attempt a screen starts with, as the host plans it. */
+  static firstAttempt(loaded: LoadedLevel, host: PlayHost): Attempt {
+    return PlayScreen.makeAttempt(loaded, host, 1);
   }
 
-  private static makeAttempt(
-    loaded: LoadedLevel,
-    options: PlayOptions,
-    tryNumber: number,
-  ): Attempt {
-    const seed = options.seed === null ? randomSeed() : (options.seed + tryNumber - 1) >>> 0;
-    const config = attemptConfig({
-      ...(options.balls === null ? {} : { balls: options.balls }),
-      ...(options.orange === null ? {} : { orangeCount: options.orange }),
-      campaignTry: options.campaign ? tryNumber : null,
-      power: options.power,
-    });
+  private static makeAttempt(loaded: LoadedLevel, host: PlayHost, screenTry: number): Attempt {
+    const { seed, config } = host.plan(screenTry);
     return new Attempt(
       loaded.compiled,
       { levelId: loaded.path, seed, config },
@@ -240,6 +221,7 @@ export class PlayScreen implements Screen {
 
   enter(app: AppServices): void {
     this.app = app;
+    if (this.host.power !== null) void masterPortraits.preload(this.host.power);
     const h = layout.holdButton;
     app.input.setHoldControl('fastForward', (x, y) => hitCircle(h.x, h.y, h.r, x, y));
     this.removeDebug = installDebug({
@@ -307,6 +289,10 @@ export class PlayScreen implements Screen {
     this.fever.reset();
     this.overlay.resetAttempt();
     this.dialog = null;
+    this.options = null;
+    this.face.reset();
+    this.attemptCounted = false;
+    this.endReported = false;
     this.fireRequest = null;
     this.tapFire = false;
     this.fullClearShown = false;
@@ -320,7 +306,7 @@ export class PlayScreen implements Screen {
     this.bestScore = Math.max(this.bestScore, this.attempt.score);
     this.tries++;
     this.tipIndex++;
-    this.startAttempt(PlayScreen.makeAttempt(this.loaded, this.options, this.tries));
+    this.startAttempt(PlayScreen.makeAttempt(this.loaded, this.host, this.tries));
   }
 
   private canFire(): boolean {
@@ -371,11 +357,24 @@ export class PlayScreen implements Screen {
       if (e === undefined) break;
       this.ledger.add(e);
       if (e.type === 'fever') this.onFever(e);
+      this.report(e);
+      this.face.handle(e, this.showMs);
       this.powers.handle(e, this.attempt);
       this.pres.handle(e, this.attempt);
     }
     if (n > 0) this.held.splice(0, n);
     this.powers.noteHeld(this.held);
+  }
+
+  /** Tells the host about the attempt's first shot and its result, once each. */
+  private report(e: RulesEvent): void {
+    if (e.type === 'shotStart' && !this.attemptCounted) {
+      this.attemptCounted = true;
+      this.host.attemptStarted(this.attempt);
+    } else if ((e.type === 'levelWon' || e.type === 'levelLost') && !this.endReported) {
+      this.endReported = true;
+      this.host.attemptEnded(this.attempt, this.ledger.breakdown(this.attempt));
+    }
   }
 
   /** The flipper button: held while the flippers stand and a shot is in play (spec 7). */
@@ -526,10 +525,15 @@ export class PlayScreen implements Screen {
       breakdown,
       this.tries,
       this.tipIndex,
+      this.dialogLabels(kind === 'won' ? this.host.totalAfter(this.attempt.score) : null),
     );
     d.orangeLeft = this.attempt.orangeLeft;
     this.dialog = d;
     audioBus.emit({ type: 'dialogMove' });
+  }
+
+  private dialogLabels(total: number | null): DialogLabels {
+    return { next: this.host.next.label, quit: this.host.quit.label, total };
   }
 
   // -------------------------------------------------------------------------------------------
@@ -540,6 +544,11 @@ export class PlayScreen implements Screen {
     if (app === null) return;
     const input = app.input;
     const now = this.uiMs;
+    if (this.options !== null) {
+      // The options dialog over the pause dialog takes every input until it closes.
+      if (!this.options.update(input, now)) this.options = null;
+      return;
+    }
     for (const code of input.consumeKeys()) {
       if (code === 'Escape' || code === 'KeyP') {
         if (this.dialog?.kind === 'pause') this.closePause();
@@ -623,14 +632,21 @@ export class PlayScreen implements Screen {
       case 'retry':
         this.retry();
         break;
+      case 'continue':
+        if (this.host.next.hash === null) this.retry();
+        else this.app?.navigate(this.host.next.hash);
+        break;
+      case 'options':
+        this.options = new OptionsDialog(this.uiMs);
+        break;
       case 'quit':
-        this.app?.navigate('#/');
+        this.app?.navigate(this.host.quit.hash);
         break;
     }
   }
 
   private openPause(): void {
-    this.dialog = new Dialog('pause', this.uiMs, null, this.tries, 0);
+    this.dialog = new Dialog('pause', this.uiMs, null, this.tries, 0, this.dialogLabels(null));
     this.fireRequest = null;
     this.tapFire = false;
   }
@@ -719,9 +735,11 @@ export class PlayScreen implements Screen {
     this.overlay.drawFeverTitle(ctx, k, this.fever, this.showMs);
     if (this.dialog !== null) {
       const p = app.input.pointer;
-      hoverCue(this.dialog, p.kind !== 'touch' && this.dialog.hovering(p.x, p.y, this.uiMs));
-      this.dialog.render(ctx, k, this.uiMs, p.x, p.y, p.down);
+      const over = this.options === null && this.dialog.hovering(p.x, p.y, this.uiMs);
+      hoverCue(this.dialog, p.kind !== 'touch' && over);
+      this.dialog.render(ctx, k, this.uiMs, p.x, p.y, p.down && this.options === null);
     }
+    this.options?.render(ctx, k, app.input, this.uiMs);
     const t1 = performance.now();
     const interval = this.lastFrameAt < 0 ? 16.7 : t0 - this.lastFrameAt;
     this.lastFrameAt = t0;
@@ -894,7 +912,9 @@ export class PlayScreen implements Screen {
     m.fever.sinceHitMs = pres.gameMs - pres.meterMs;
     m.fever.timeMs = this.uiMs;
     m.scoreLeft.value = pres.shownScore;
-    m.scoreRight.value = Math.max(this.bestScore, pres.shownScore);
+    m.scoreRight.value = this.host.rightValue(pres.shownScore, this.bestScore);
+    const power = this.host.power;
+    m.portrait = power === null ? null : masterPortraits.best(power, this.face.at(this.showMs));
     m.cannonAngle =
       this.powers.zenCannonAngle ?? this.aim.prev + (this.aim.angle - this.aim.prev) * alpha;
     m.cannonLoaded = loaded || this.powers.zenCannonAngle !== null;

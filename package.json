@@ -22,6 +22,7 @@
     "shots": "tsx tools/screenshot.ts",
     "gen:level": "tsx tools/gen-level.ts",
     "shots:levels": "tsx tools/level-shots.ts",
+    "shots:menus": "tsx tools/menu-shots.ts",
     "audio:render": "tsx tools/render-audio.ts",
     "campaign:build": "tsx tools/campaign/build.ts",
     "campaign:art": "tsx tools/campaign/art.ts",

@@ -657,6 +657,24 @@ Decided in the campaign pipeline on 2026-10-15. Sources live in `campaign/`; the
 - Stage 1's world is the Cloud Isles: a pale, softly painted sky above the clouds with calm light-to-mid values where pegs sit and no large areas of saturated green, orange or magenta, so all four peg colors stay readable (checked over a style test in the play screen; a saturated green crown hid green pegs).
 - Level 1's ramps are rods lying on cloud tops near the walls, sloping toward the middle; its blocker is the balloon's basket, a polygon with a peaked top (a flat top held a resting ball).
 
+Decided in the menus on 2026-10-15. The save lives in `src/game/progress/`, the modes in `src/game/modes/`, the screens and their copy in `src/game/menus/`, the master's expressions in `src/game/play/face.ts`.
+
+- Progress is one localStorage record under `teggle.save.v1` (the version is in the key and the record): the campaign position (the next campaign level and the try number its next attempt gets), the master last picked for a Master level, and per level its tries, wins, best winning score, full clear mark, five best winning scores (with the master and the date) and the score of its campaign clear. Every field is validated on load and falls back on its own; a damaged level entry is dropped alone. Without storage the progress lasts the session.
+- An attempt counts as a try once its first shot leaves the cannon. Quitting or restarting after a shot uses up the try for the clear bonus; restarting before one does not.
+- Designer-placed greens apply on every campaign try until the level is first cleared.
+- Total score (the right score window in the Adventure, the level complete and stage complete cards) is the sum of each level's campaign clear; lost attempts and Quick Play add nothing. The left window reads "Stage 1-3" with the level score. In Quick Play the right window shows the level's best score.
+- Best scores and the top five count won attempts only, from either mode.
+- Unlocked stages and masters follow from the campaign position: a stage's master is met when the campaign reaches the stage, all ten from the Master levels on. Quick Play offers every cleared level with any master met, starting on the level's stage master (on a Master level the last pick); the master picker is skipped while only one master is met.
+- The Adventure shows the current stage's intro card each time it is entered. A won level's Continue goes to the next level, or after a stage's fifth level to the stage complete card and then the next stage's intro card. A Master level opens the master picker before it plays, starting on the last pick.
+- The campaign manifest decides what is playable: the intro card counts its levels, the level select has one page per stage in it, and a campaign past its last level says the next levels are not in the game yet.
+- Challenges: the main menu's slab stays disabled with its reason (finish stage 3; after that, not in the game yet), and the intro card shows the 15 groups locked. No challenge list exists yet.
+- Master expressions in the launcher window: power for 1.8 s on a green peg; happy for 2.2 s on a free ball, a style shot, a shot that lights 3 or more orange pegs and the last orange peg; sad for 1.8 s after a shot that lights no orange peg and earns nothing; a won or lost level holds happy or sad until the next attempt. They run on show time, so pause holds them. A missing expression shows the neutral portrait, a missing master an empty window.
+- The intro speech types at 48 characters per second after 0.35 s; a click or Space shows all of it.
+- No painted menu scene exists yet. `MENU_SCENE` in `src/game/menus/main.ts` names one under `public/art/menu/` once it does; until then the scene window shows a lit field, the current stage's master (or the latest master met with art) saying where the campaign stands, and the next campaign level's board.
+- Options: music volume, effects volume, mute, full screen (disabled where the browser has no element full screen) and How to Play. No reduced-motion setting.
+- The pause dialog: Resume, Options, Restart Level and the mode's way out (Main Menu in the Adventure, Level Select in Quick Play, Quit on `#/play/...`).
+- A met master without a portrait shows its frame emblem in the menus; a locked one without a portrait shows an empty plate.
+
 ### 14.3 Still open
 
 - Duel ball count: 6 in the PC 1.01 code, 5 in the patent (Duel is post-MVP)

@@ -20,8 +20,20 @@ import { drawText, formatNumber, measureText, textStyle, type TextStyle } from '
 import { color } from '../ui/tokens';
 import type { ScoreBreakdown } from './summary';
 
-export type DialogAction = 'retry' | 'resume' | 'restart' | 'quit';
+export type DialogAction = 'retry' | 'resume' | 'restart' | 'quit' | 'continue' | 'options';
 export type DialogKind = 'complete' | 'failed' | 'pause';
+
+/** What the mode puts in the dialogs: button labels and the total score row. */
+export interface DialogLabels {
+  /** The level complete button. */
+  readonly next: string;
+  /** The pause dialog's way out. */
+  readonly quit: string;
+  /** The total score row of the level complete dialog, or null for none. */
+  readonly total: number | null;
+}
+
+const TEST_LABELS: DialogLabels = { next: 'Play Again', quit: 'Quit', total: null };
 
 interface Button {
   readonly box: Box;
@@ -89,33 +101,30 @@ export class Dialog {
     private readonly result: ScoreBreakdown | null,
     private readonly tryNumber: number,
     tipIndex: number,
+    private readonly labels: DialogLabels = TEST_LABELS,
   ) {
     this.tip = TIPS[((tipIndex % TIPS.length) + TIPS.length) % TIPS.length] ?? '';
     if (kind === 'pause') {
-      this.box = { x: CENTER_X - 150, y: 190, w: 300, h: 196 };
+      this.box = { x: CENTER_X - 150, y: 176, w: 300, h: 238 };
       const bx = this.box.x + this.box.w / 2;
+      const choice = (y: number, label: string, action: DialogAction): Button => ({
+        box: { x: bx - 75, y, w: 150, h: 27 },
+        label,
+        variant: 'blue',
+        action,
+        primary: false,
+      });
       this.buttons.push(
         {
-          box: { x: bx - 85, y: 222, w: 171, h: 34 },
+          box: { x: bx - 85, y: 208, w: 171, h: 34 },
           label: 'Resume',
           variant: 'orange',
           action: 'resume',
           primary: true,
         },
-        {
-          box: { x: bx - 75, y: 282, w: 150, h: 27 },
-          label: 'Restart Level',
-          variant: 'blue',
-          action: 'restart',
-          primary: false,
-        },
-        {
-          box: { x: bx - 75, y: 327, w: 150, h: 27 },
-          label: 'Quit',
-          variant: 'blue',
-          action: 'quit',
-          primary: false,
-        },
+        choice(266, 'Options', 'options'),
+        choice(308, 'Restart Level', 'restart'),
+        choice(350, labels.quit, 'quit'),
       );
       return;
     }
@@ -123,9 +132,9 @@ export class Dialog {
     const b = this.box;
     this.buttons.push({
       box: { x: b.x + b.w / 2 - 85, y: b.y + b.h - 52, w: 171, h: 34 },
-      label: kind === 'complete' ? 'Play Again' : 'Retry Level',
+      label: kind === 'complete' ? labels.next : 'Try Again',
       variant: 'orange',
-      action: 'retry',
+      action: kind === 'complete' ? 'continue' : 'retry',
       primary: true,
     });
   }
@@ -218,6 +227,10 @@ export class Dialog {
     const count = ease.outCubic(Math.min(1, Math.max(0, (t - 250) / COUNT_MS)));
     const n = (v: number): string => formatNumber(Math.round(v * count));
     let y = c.y + 8;
+    if (won && this.labels.total !== null) {
+      drawRow(ctx, c.x, y, c.w, 'Total score:', n(this.labels.total));
+      y += 26;
+    }
     drawRow(ctx, c.x, y, c.w, 'Level score:', n(r.total));
     y += 26;
     if (won) {

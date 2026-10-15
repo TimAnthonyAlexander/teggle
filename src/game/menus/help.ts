@@ -1,0 +1,123 @@
+// How to Play: the rules in a few lines, each beside the peg or ball it is about, on the dialog
+// panel of visual guide 10.6. Teggle's own words; every statement matches the rules engine.
+
+import type { Input } from '../app/input';
+import { CENTER_X, type Box } from '../layout';
+import { drawBall } from '../render/ball';
+import { drawPeg } from '../render/pegs';
+import type { Ctx } from '../render/paint';
+import { drawPanel, drawPillButton } from '../ui/controls';
+import { dialogDrop } from '../ui/motion';
+import { drawText, textStyle, type TextStyle } from '../ui/text';
+import type { PegColor } from '../ui/tokens';
+import { ButtonSet } from './buttons';
+import { dimBehind, wrapText, type MenuOverlay } from './overlay';
+
+type Icon = { kind: 'ball' } | { kind: 'peg'; color: PegColor; lit: boolean } | { kind: 'none' };
+
+interface HelpRow {
+  readonly icon: Icon;
+  readonly text: string;
+}
+
+export const HELP_ROWS: readonly HelpRow[] = [
+  {
+    icon: { kind: 'ball' },
+    text: 'Aim with the mouse and click to shoot. The wheel or the arrow keys fine-tune your aim. On a touch screen, drag to aim and tap to shoot.',
+  },
+  {
+    icon: { kind: 'peg', color: 'orange', lit: false },
+    text: 'Hit every orange peg to clear the level. Run out of balls first and the level starts over with new colors.',
+  },
+  {
+    icon: { kind: 'peg', color: 'blue', lit: true },
+    text: 'Pegs light up when the ball touches them and vanish once it leaves the board. Each orange peg you hit raises the multiplier on the right.',
+  },
+  {
+    icon: { kind: 'peg', color: 'green', lit: false },
+    text: "Green pegs set off your master's power.",
+  },
+  {
+    icon: { kind: 'peg', color: 'purple', lit: false },
+    text: 'The purple peg is worth five times an orange one and moves after every shot.',
+  },
+  {
+    icon: { kind: 'ball' },
+    text: 'Catch the ball in the moving bucket to get it back. A shot earns a free ball as it passes 25,000, 75,000 and 125,000 points, and a shot that hits nothing flips a coin for one.',
+  },
+  {
+    icon: { kind: 'peg', color: 'orange', lit: true },
+    text: 'The last orange peg starts Fever: the ball falls into a bonus bucket worth up to 100,000, and every ball you did not use adds 10,000.',
+  },
+  {
+    icon: { kind: 'none' },
+    text: 'Esc pauses and M mutes. Between shots, hold the right mouse button or the green button to speed up the bucket.',
+  },
+];
+
+const BODY: TextStyle = { ...textStyle.body('#fff6c0'), cap: 9.2 };
+const LINE = 15.5;
+const GAP = 11;
+
+export class HelpDialog implements MenuOverlay {
+  private readonly box: Box = { x: CENTER_X - 280, y: 70, w: 560, h: 460 };
+  private readonly buttons: ButtonSet<'done'>;
+  private lines: string[][] | null = null;
+
+  constructor(private readonly t0: number) {
+    const b = this.box;
+    this.buttons = new ButtonSet([
+      {
+        action: 'done',
+        box: { x: CENTER_X - 85, y: b.y + b.h - 50, w: 171, h: 32 },
+        enabled: true,
+      },
+    ]);
+  }
+
+  private dy(now: number): number {
+    return dialogDrop(now - this.t0, 520);
+  }
+
+  update(input: Input, now: number): boolean {
+    for (const code of input.consumeKeys()) {
+      if (code === 'Escape' || code === 'Enter' || code === 'Space') return false;
+    }
+    return !this.buttons.handle(input, 0, this.dy(now)).includes('done');
+  }
+
+  render(ctx: Ctx, k: number, input: Input, now: number): void {
+    dimBehind(ctx, now - this.t0);
+    const dy = this.dy(now);
+    const b = this.box;
+    ctx.save();
+    ctx.translate(0, dy);
+    drawPanel(ctx, b, 'How to Play');
+    const textX = b.x + 76;
+    const textW = b.w - 76 - 34;
+    this.lines ??= HELP_ROWS.map((r) => wrapText(ctx, r.text, textW, BODY));
+    let y = b.y + 72;
+    HELP_ROWS.forEach((row, i) => {
+      const lines = this.lines?.[i] ?? [];
+      const iconY = y - 3 + ((lines.length - 1) * LINE) / 2;
+      drawIcon(ctx, k, row.icon, b.x + 46, iconY);
+      for (const line of lines) {
+        drawText(ctx, line, textX, y, BODY);
+        y += LINE;
+      }
+      y += GAP;
+    });
+    const done = this.buttons.items[0];
+    if (done !== undefined) {
+      drawPillButton(ctx, done.box, 'green', this.buttons.state(0, input, 0, dy), 'Done', {
+        lugs: true,
+      });
+    }
+    ctx.restore();
+  }
+}
+
+function drawIcon(ctx: Ctx, k: number, icon: Icon, x: number, y: number): void {
+  if (icon.kind === 'ball') drawBall(ctx, k, x, y, 8);
+  else if (icon.kind === 'peg') drawPeg(ctx, k, x, y, icon.color, icon.lit, 11);
+}

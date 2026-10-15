@@ -1,12 +1,22 @@
-// Route table. The dev review routes live under #/dev/ and load lazily, so they stay out of the
-// main bundle; no menu links to them.
+// Route table. The main menu is the default route; Adventure and Quick Play load their screens
+// lazily (src/game/modes/routes.ts). #/play/<path> plays a level file directly for testing. The
+// dev review routes live under #/dev/ and load lazily, so they stay out of the main bundle; no
+// menu links to them.
 
 import type { Route } from './app/router';
 import type { Screen } from './app/screens';
-import { TitleScreen } from './screens/title';
+import { MainMenuScreen } from './menus/main';
 
 export async function routeScreen(route: Route): Promise<Screen> {
   const [first, second] = route.segments;
+  if (first === 'adventure') {
+    const { adventureRoute } = await import('./modes/routes');
+    return adventureRoute(route);
+  }
+  if (first === 'quickplay') {
+    const { quickPlayRoute } = await import('./modes/routes');
+    return quickPlayRoute(route);
+  }
   if (first === 'play') {
     const { playRoute } = await import('./play/route');
     return playRoute(route);
@@ -30,5 +40,5 @@ export async function routeScreen(route: Route): Promise<Screen> {
       return new DevMastersScreen();
     }
   }
-  return new TitleScreen();
+  return new MainMenuScreen();
 }

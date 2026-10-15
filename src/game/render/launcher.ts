@@ -1,8 +1,10 @@
 // Launcher housing (guide 7.4): a brass housing over the cannon with a round portrait window, a
 // themed ring behind it, an arched power banner in the theme color (dark, or lit while the power
-// runs), a turns counter and the portrait glow. The window shows empty glass until master art
-// exists; nothing stands in for a portrait.
+// runs), a turns counter and the portrait glow. The window shows the master's portrait, or empty
+// glass where a master has no art yet; nothing stands in for a portrait.
 
+import { drawLauncherPortrait } from '../art/portrait';
+import type { PortraitImage } from '../art/masters';
 import { layout } from '../layout';
 import { darken, lighten, mix, rgba } from '../ui/color';
 import { drawText, drawTextOnArc } from '../ui/text';
@@ -210,6 +212,8 @@ export interface LauncherState {
   /** Turns left, shown in the counter; omitted when the power has no turn count. */
   readonly turns?: number;
   readonly timeMs: number;
+  /** The master's portrait in the window, or null for empty glass. */
+  readonly portrait?: PortraitImage | null;
 }
 
 /** Theme ring that sits behind the housing; draw it before the housing. */
@@ -222,7 +226,12 @@ export function drawLauncherBack(ctx: Ctx, k: number, theme: Theme): void {
 
 export function drawLauncher(ctx: Ctx, k: number, s: LauncherState): void {
   drawLayer(ctx, layers.get('launcher:housing', k, -92, -80, 184, 138, paintHousing), CX, CY);
-  drawLayer(ctx, layers.get('launcher:glass', k, -43, -43, 86, 86, paintWindowGlass), CX, CY);
+  const portrait = s.portrait ?? null;
+  if (portrait === null) {
+    drawLayer(ctx, layers.get('launcher:glass', k, -43, -43, 86, 86, paintWindowGlass), CX, CY);
+  } else {
+    drawLauncherPortrait(ctx, k, portrait, s.theme, CX, CY, layout.portrait.r);
+  }
   if (s.active) {
     const pulse = 0.8 + 0.2 * Math.sin(s.timeMs / 220);
     ctx.save();

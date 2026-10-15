@@ -16,7 +16,8 @@ export type BackdropPainter = (ctx: Ctx, k: number) => void;
 /** Background asset ids: lowercase words joined by hyphens (src/gen/lines.ts). */
 const ASSET_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-function paintPlain(ctx: Ctx): void {
+/** The plain field over the whole world (also under the level thumbnails of the menus). */
+export function paintPlain(ctx: Ctx): void {
   ctx.fillStyle = linear(ctx, 0, 0, 0, WORLD_H, [
     [0, '#0e1638'],
     [0.55, '#1a2350'],

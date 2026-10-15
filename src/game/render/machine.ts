@@ -2,6 +2,7 @@
 // columns, launcher housing, cannon. The playfield (background, frame shadow, objects, ball,
 // effects) is drawn before this, callouts and dialogs after.
 
+import type { PortraitImage } from '../art/masters';
 import { CANNON_PIVOT, layout } from '../layout';
 import { drawRoundButton, fastForwardIcon, type ButtonState } from '../ui/controls';
 import type { Theme } from '../ui/tokens';
@@ -32,6 +33,8 @@ export interface MachineState {
   readonly menuButton: ButtonState;
   readonly holdButton: ButtonState;
   readonly timeMs: number;
+  /** The master's portrait in the launcher window; empty glass when null or omitted. */
+  readonly portrait?: PortraitImage | null;
 }
 
 export function drawMachine(ctx: Ctx, k: number, s: MachineState): void {
@@ -52,6 +55,7 @@ export function drawMachine(ctx: Ctx, k: number, s: MachineState): void {
     active: s.power.active,
     timeMs: s.timeMs,
     ...(s.power.turns === undefined ? {} : { turns: s.power.turns }),
+    ...(s.portrait === undefined ? {} : { portrait: s.portrait }),
   });
   drawCannon(ctx, k, CANNON_PIVOT.x, CANNON_PIVOT.y, s.cannonAngle, s.cannonLoaded);
 }

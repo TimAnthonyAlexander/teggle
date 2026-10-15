@@ -309,8 +309,17 @@ export function fastForwardIcon(ctx: Ctx, cx: number, cy: number, r: number, ink
   }
 }
 
-/** Main menu gel slab: a dark green gel panel in a brass ring that lights lime on hover. */
-export function drawGelSlab(ctx: Ctx, b: Box, state: ButtonState, label: string): void {
+/**
+ * Main menu gel slab: a dark green gel panel in a brass ring that lights lime on hover. Disabled
+ * slabs turn to dull slate gel. `sub` adds a small second line under the label.
+ */
+export function drawGelSlab(
+  ctx: Ctx,
+  b: Box,
+  state: ButtonState,
+  label: string,
+  opts: { cap?: number; sub?: string } = {},
+): void {
   const r = 18;
   const ring: PathFn = (c) => {
     roundRect(c, b.x - 7, b.y - 7, b.w + 14, b.h + 14, r + 7);
@@ -329,6 +338,7 @@ export function drawGelSlab(ctx: Ctx, b: Box, state: ButtonState, label: string)
   ctx.fillStyle = '#000000';
   ctx.fill();
   const lit = state === 'hover' || state === 'down';
+  const off = state === 'disabled';
   const inner: PathFn = (c) => {
     roundRect(c, b.x + 1.5, b.y + 1.5, b.w - 3, b.h - 3, r - 1.5);
   };
@@ -341,15 +351,21 @@ export function drawGelSlab(ctx: Ctx, b: Box, state: ButtonState, label: string)
     b.x + b.w / 2,
     b.y + b.h / 2,
     b.w * 0.6,
-    [
-      [0, lit ? color.gelGreenHi : '#2c9a3c'],
-      [0.5, lit ? color.gelGreenHover : '#127a3c'],
-      [1, lit ? '#4f9a10' : color.gelGreen],
-    ],
+    off
+      ? [
+          [0, '#4f6670'],
+          [0.5, '#34474f'],
+          [1, '#1d2a30'],
+        ]
+      : [
+          [0, lit ? color.gelGreenHi : '#2c9a3c'],
+          [0.5, lit ? color.gelGreenHover : '#127a3c'],
+          [1, lit ? '#4f9a10' : color.gelGreen],
+        ],
   );
   ctx.fill();
   ctx.lineWidth = 2.2;
-  ctx.strokeStyle = color.gelGreenRim;
+  ctx.strokeStyle = off ? '#7c929b' : color.gelGreenRim;
   ctx.stroke();
   withClip(ctx, inner, () => {
     roundRect(ctx, b.x + 10, b.y + 5, b.w - 20, b.h * 0.38, 12);
@@ -359,28 +375,53 @@ export function drawGelSlab(ctx: Ctx, b: Box, state: ButtonState, label: string)
     ]);
     ctx.fill();
   });
+  const cap = opts.cap ?? 15;
+  const sub = opts.sub ?? '';
+  const labelY = b.y + b.h / 2 + 2 - (sub === '' ? 0 : cap * 0.55);
   drawText(
     ctx,
     label.toUpperCase(),
     b.x + b.w / 2,
-    b.y + b.h / 2 + 2,
+    labelY,
     {
-      cap: 15,
-      fill: lit
+      cap,
+      fill: off
         ? [
-            [0, '#ffffff'],
-            [1, '#f6ffc8'],
+            [0, '#c9d6db'],
+            [1, '#8fa3ab'],
           ]
-        : [
-            [0, '#f3ff9a'],
-            [1, '#b9e728'],
-          ],
-      outline: { color: '#06260f', width: 2 },
+        : lit
+          ? [
+              [0, '#ffffff'],
+              [1, '#f6ffc8'],
+            ]
+          : [
+              [0, '#f3ff9a'],
+              [1, '#b9e728'],
+            ],
+      outline: { color: off ? '#0d171b' : '#06260f', width: Math.max(2, cap * 0.1) },
       align: 'center',
       anchor: 'middle',
     },
     { maxWidth: b.w - 24 },
   );
+  if (sub !== '') {
+    drawText(
+      ctx,
+      sub.toUpperCase(),
+      b.x + b.w / 2,
+      labelY + cap * 1.25,
+      {
+        face: 'caps',
+        cap: Math.max(7, cap * 0.36),
+        fill: off ? '#d6e2e6' : '#e6ffb0',
+        outline: { color: off ? '#0d171b' : '#06260f', width: 1.4 },
+        align: 'center',
+        anchor: 'middle',
+      },
+      { maxWidth: b.w - 28 },
+    );
+  }
 }
 
 /** Paging arrow pill (level select). */

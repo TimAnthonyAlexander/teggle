@@ -11,8 +11,9 @@ import { numberParam, type Route } from '../app/router';
 import type { Screen } from '../app/screens';
 import { WORLD_H, WORLD_W } from '../layout';
 import { MessageScreen } from '../screens/message';
-import { PlayScreen, type PlayOptions } from '../screens/play';
+import { PlayScreen } from '../screens/play';
 import { loadBackdrop, type BackdropPainter } from './backdrop';
+import { testHost, type PlayOptions } from './host';
 import { checkLevelPath, loadLevel, LevelLoadError } from './load';
 import { routeMaster } from './powers';
 
@@ -40,7 +41,7 @@ function options(route: Route): PlayOptions {
  * Picks the painter for a level's background id: the dev picture, or the level's picture from
  * public/backgrounds/ with the plain field as the fallback.
  */
-async function backdropFor(id: string): Promise<BackdropPainter> {
+export async function backdropFor(id: string): Promise<BackdropPainter> {
   if (id === 'dev-backdrop') {
     // DEV picture for dev and example levels; loaded lazily so it stays out of the main bundle.
     const { drawDevBackdrop } = await import('../dev/backdrop');
@@ -57,12 +58,12 @@ export async function playRoute(route: Route): Promise<Screen> {
   try {
     const path = checkLevelPath(route.segments.slice(1));
     const loaded = await loadLevel(path, import.meta.env.BASE_URL);
-    const opts = options(route);
-    const first = PlayScreen.firstAttempt(loaded, opts);
-    return new PlayScreen(loaded, await backdropFor(loaded.level.background), opts, first);
+    const host = testHost(options(route));
+    const first = PlayScreen.firstAttempt(loaded, host);
+    return new PlayScreen(loaded, await backdropFor(loaded.level.background), host, first);
   } catch (err) {
     if (err instanceof LevelLoadError || err instanceof AttemptSetupError) {
-      return new MessageScreen('Level Not Playable', err.message, 'Back to Title', '#/');
+      return new MessageScreen('Level Not Playable', err.message, 'Main Menu', '#/');
     }
     throw err;
   }
