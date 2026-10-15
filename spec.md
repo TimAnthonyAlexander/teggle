@@ -391,9 +391,9 @@ Unverified:
 
 ## 12. Art and audio sourcing
 
-No paid service is ever used, including paid image generation (14.1). Art is drawn in code with Claude Code's help or comes from free sources. Level backgrounds may reuse the original's backgrounds where they are free to use, never art made by the original developer.
+No paid service is ever used, including paid image generation (14.1). Pictures are never drawn in code: backgrounds and master characters are existing images found on the web. Teggle is private, so licenses do not matter; each image's source URL is recorded in the asset manifest. The original game's own art is never used.
 
-- **Backgrounds:** none of the original's are free to use. The publisher's making-of credits every level background to its own artist (`docs/research/original-tech.md` section 7). All Teggle backgrounds therefore come from Pexels photos under the Pexels license, processed in code to fit the look, and recorded in the asset manifest.
+- **Backgrounds:** found images (painted or cartoon illustrations preferred, photos where they fit), cropped and graded so pegs stay readable. The original's backgrounds are not used.
 - **Master characters, sounds, music:** see section 14.1.
 
 **Background line editor.** Picture-outline levels are built from lines drawn over a background.
@@ -523,7 +523,7 @@ Decided 2026-10-14 unless dated otherwise. Where a decision conflicts with an ea
 | Mobile orientation | Landscape. Portrait shows a prompt to rotate. |
 | Touch controls | Fine aim by dragging at reduced sensitivity. Bucket speed-up by holding an on-screen button between shots. |
 | Lines in the editor | A line produces either bricks or round pegs, chosen per line. |
-| Art and audio sources | No paid service is ever used, including paid image generation (decided 2026-10-15). Backgrounds come from Pexels (free license); other art is drawn in code. Sound effects are synthesized. "Ode to Joy" is synthesized from the public-domain score. Every asset's source is recorded in an asset manifest. |
+| Art and audio sources | No paid service is ever used, including paid image generation (decided 2026-10-15). Backgrounds and master characters are existing images found on the web, never drawn in code; Teggle is private, so licenses do not matter, but every source URL is recorded. Sound effects are synthesized. "Ode to Joy" is synthesized from the public-domain score. Every asset's source is recorded in an asset manifest. |
 | Undocumented constants | Set by tuning and recorded in section 14.2 as they are chosen. |
 
 ### 14.2 Rules not documented in any source
