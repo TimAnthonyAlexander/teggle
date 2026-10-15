@@ -1,6 +1,6 @@
 # Asset manifest
 
-Every third-party file Teggle ships, with its source and license. Everything else on screen (frame, HUD, pegs, bricks, ball, cannon, buckets, buttons, panels, effects, the favicon) is drawn by Teggle's own code and contains no original game art.
+Every third-party file Teggle ships, with its source and license, and every generated image with its prompt. Everything else on screen (frame, HUD, pegs, bricks, ball, cannon, buckets, buttons, panels, effects, the favicon) is drawn by Teggle's own code and contains no original game art.
 
 | File | What it is | Source | License | Fetched | SHA-256 |
 | --- | --- | --- | --- | --- | --- |
@@ -9,6 +9,22 @@ Every third-party file Teggle ships, with its source and license. Everything els
 | `public/fonts/overload-caps.woff2` | "Overload Caps", derived from `overload.woff2`: the character map sends A and E to the font's own `ss01` alternates (squared caps) and the family is renamed. Glyph outlines unchanged. Made with fontTools 4.67.0. Used for small HUD labels such as STAGE and TOTAL SCORE. | derived from the file above | CC0 1.0 (permits modification) | 2026-10-14 | `02d69c7687ff86f28b2564e9a4204ce96e196031f246dfda7d78aab0e5c8e163` |
 | `public/fonts/exo2-latin.woff2` | Exo 2 by Natanael Gama, the sentence face. Variable font (weights 100 to 900), Latin subset, as served by Google Fonts (version v26). | [fonts.gstatic.com/s/exo2/v26/7cHmv4okm5zmbtYoK-4W4nIp.woff2](https://fonts.gstatic.com/s/exo2/v26/7cHmv4okm5zmbtYoK-4W4nIp.woff2), listed by [fonts.googleapis.com/css2?family=Exo+2](https://fonts.googleapis.com/css2?family=Exo+2:wght@500;700) | [SIL OFL 1.1](https://openfontlicense.org) | 2026-10-14 | `3dad6838887f694f0dbdaf521bf6241e4b1e4dabfd859eda6af27a77e4ba871a` |
 | `public/fonts/exo2-OFL.txt` | The Exo 2 license text from the Google Fonts repository. | [google/fonts ofl/exo2/OFL.txt](https://raw.githubusercontent.com/google/fonts/main/ofl/exo2/OFL.txt) | SIL OFL 1.1 | 2026-10-14 | `7f95a8eeecc6904ffc81cd10cc8ebc7fcee72a67922924bf45f02dff03b88127` |
+
+## Master portraits
+
+Generated for Teggle with OpenAI's gpt-image-2 (through the `gpt-image-2` MCP server), whose Terms of Use assign the output to the user. The only image inputs were Teggle's own earlier generations; no original game art was passed to the model, traced or copied. Prompts, inputs, the cast's designs and what each avoids from the original are in `docs/art/masters-prompts.md`; the raw outputs stay in `reference/teggle-art/masters/` (not committed).
+
+Edits, the same for every file: the flat chroma-key background removed and the edge despilled, the character scaled down around the bottom center where its top had less than 5.5% headroom (scale per file below), resized from 1024 to 896 px with Lanczos, encoded as WebP quality 80 with lossless alpha. All by `tools/master-art.ts`; no hand retouching.
+
+| File | Master, expression | Generated | Prompt | Scale | SHA-256 |
+| --- | --- | --- | --- | --- | --- |
+| `public/art/masters/guide/neutral.webp` | Unicorn, neutral | 2026-10-15, `edit_image`, inputs style tests 2 and 3 | prompts file, "Unicorn (`guide`)" | 0.962 | `1bc85d3395c762a81e1f28fdb58e5db94dcf866c1618af02838421c6aa26f46d` |
+| `public/art/masters/pyramid/neutral.webp` | Cat, neutral | 2026-10-15, `edit_image`, inputs style test 2 and the Unicorn neutral | prompts file, "Cat (`pyramid`)" | 0.976 | `d4017a5b47319e999c91f41ae25303cb68bef9f4170f9047f0f3341c1e9a7dea` |
+| `public/art/masters/spaceBlast/neutral.webp` | Alien, neutral | 2026-10-15, `edit_image`, inputs style test 3 and the Unicorn neutral | prompts file, "Alien (`spaceBlast`)" | 0.980 | `2742c5a10a07f37791df5259322691b0d634a817907d7ffdaaa7642b7091090a` |
+| `public/art/masters/flippers/neutral.webp` | Lobster, neutral | 2026-10-15, `edit_image`, inputs style test 3 and the Unicorn neutral | prompts file, "Lobster (`flippers`)" | 0.979 | `a00797626d2e9ba12cf382203d332726b2ebbbd301e7e6f36027c1dc93bf8ebe` |
+| `public/art/masters/spookyBall/neutral.webp` | Pumpkin, neutral | 2026-10-15, `edit_image`, inputs style test 2 and the Unicorn neutral | prompts file, "Pumpkin (`spookyBall`)" | 0.954 | `064f130b717c683712764b41274e405f6c3062f7186744db69dd211a54ffac5d` |
+
+Not made yet: the neutral portraits of the Gopher, Sunflower, Rabbit, Wyvern and Owl, and the happy, power and sad expressions of all ten (the API credit ran out; the prompts file has the ready prompts). The loader (`src/game/art/masters.ts`, `best`) falls back to the neutral portrait for a missing expression and gives nothing for a missing master, so its window stays empty.
 
 ## Audio
 

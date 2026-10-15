@@ -22,9 +22,23 @@ interface Shot {
   readonly hash: string;
   /** Devices to capture; all by default. */
   readonly only?: readonly string[];
+  /** Wait after boot before the capture, ms (default 250); longer for routes that load images. */
+  readonly settleMs?: number;
 }
 
 const KIT_PAGES = ['pegs', 'hud', 'top', 'themes', 'text', 'controls', 'dialogs', 'buckets'];
+const MASTERS = [
+  'guide',
+  'multiball',
+  'pyramid',
+  'spaceBlast',
+  'flippers',
+  'spookyBall',
+  'flowerPower',
+  'luckySpin',
+  'fireball',
+  'zenBall',
+];
 
 const SHOTS: readonly Shot[] = [
   { name: 'title', hash: '' },
@@ -38,6 +52,13 @@ const SHOTS: readonly Shot[] = [
   { name: 'kit-index', hash: '#/dev/kit', only: ['desktop'] },
   ...KIT_PAGES.map((p) => ({ name: `kit-${p}`, hash: `#/dev/kit/${p}?t=1200`, only: ['desktop'] })),
   { name: 'rotate', hash: '', only: ['iphone-portrait'] },
+  { name: 'masters/masters', hash: '#/dev/masters?t=0', settleMs: 1500 },
+  ...MASTERS.map((m) => ({
+    name: `masters/master-${m}`,
+    hash: `#/dev/masters/${m}?t=0`,
+    only: ['desktop'],
+    settleMs: 1500,
+  })),
 ];
 
 const DEVICES: Record<string, BrowserContextOptions> = {
@@ -113,8 +134,9 @@ async function main(): Promise<void> {
         await page.waitForFunction(() => document.documentElement.dataset.ready === '1', null, {
           timeout: 20_000,
         });
-        await page.waitForTimeout(250);
+        await page.waitForTimeout(shot.settleMs ?? 250);
         const file = path.join(OUT, `${shot.name}-${device}.png`);
+        await mkdir(path.dirname(file), { recursive: true });
         await page.screenshot({ path: file });
         console.log(`  ${path.relative(ROOT, file)}`);
       }
