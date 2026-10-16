@@ -8,8 +8,10 @@ function boot(): void {
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing #game canvas.');
   registerOffline();
   startAudio();
-  if (import.meta.env.DEV && window.location.hash.includes('touchdebug=1')) {
-    // DEV ONLY: the touch timeline for debugging input on a phone (src/game/dev/touch-debug.ts).
+  if (window.location.hash.includes('touchdebug=1')) {
+    // The touch timeline for debugging input on a real phone (src/game/dev/touch-debug.ts). Also
+    // in production builds, as a lazy chunk, so it works on the deployed site; nothing loads
+    // without the query.
     void import('./game/dev/touch-debug').then((m) => {
       m.installTouchDebug();
     });

@@ -1,5 +1,5 @@
-// DEV ONLY: a touch timeline for debugging input on a real phone. Enabled by `touchdebug=1` in
-// the hash query on the dev server (src/main.ts). It listens on the window in the capture phase,
+// A touch timeline for debugging input on a real phone. Enabled by `touchdebug=1` in
+// the hash query, in any build (src/main.ts). It listens on the window in the capture phase,
 // so it sees every event before the game does and changes nothing, and counts animation frames
 // separately from the game's loop. Each finger's hold is summarized when it lifts, in a small
 // text box that ignores touches: how long the hold was, how many pointer and touch events came
