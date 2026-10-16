@@ -521,7 +521,7 @@ Decided 2026-10-14 unless dated otherwise. Where a decision conflicts with an ea
 | Determinism basis | Verified against the ECMA-262 text: `Math.sin`, `cos`, `atan2`, `exp`, `pow`, `hypot` and `**` are implementation-approximated; `Math.sqrt`, `round`, `abs`, `imul` and basic arithmetic are exact. Measured: native sin/cos/atan2 over 24,000 inputs give different bits in V8 (Node) and JavaScriptCore (Bun); Teggle's ports in `src/core/dmath.ts` give identical bits. On 2026-10-15 Chromium, WebKit and Firefox gave Node's physics, rules and power digests bit for bit and replayed attempts with every power recorded in Node identically (`npm run test:browsers`). |
 | Target browsers | Chromium, WebKit (Safari) and Firefox, plus Node for headless runs. |
 | Mobile orientation | Landscape. Portrait shows a prompt to rotate. |
-| Touch controls | Fine aim by dragging at reduced sensitivity. Bucket speed-up by holding an on-screen button between shots. |
+| Touch controls | The cannon points at the finger and follows it while it is down; a tap fires (changed 2026-10-17 from a reduced-rate fine-aim drag). Bucket speed-up by holding an on-screen button between shots. |
 | Lines in the editor | A line produces either bricks or round pegs, chosen per line. |
 | Art and audio sources | No paid service is ever used, including paid image generation (decided 2026-10-15). Backgrounds and master characters are existing images found on the web, never drawn in code; Teggle is private, so licenses do not matter, but every source URL is recorded. Sound effects are synthesized. "Ode to Joy" is synthesized from the public-domain score. Every asset's source is recorded in an asset manifest. |
 | Undocumented constants | Set by tuning and recorded in section 14.2 as they are chosen. |
@@ -589,7 +589,7 @@ Decided in the play screen on 2026-10-15. Values live in `src/game/play/timing.t
 - Shot end: the tally's first line fades in over 170 ms; the first lit peg pops 12 ticks after the ball leaves, the rest clamp(8 - remaining/10, 1, 5) ticks apart; the finished tally holds 25 ticks before the purple peg moves and the next ball loads. Pegs removed during the shot (quick disappear, stuck ball) pop as they go and count in the tally.
 - Coin flip: the coin spins 1.3 s (the length of the original's spin sound) and shows its face for 1.1 s; a won ball joins the counter when the face shows.
 - Click jitter: a mouse click within 10 ticks of the barrel leaving an angle it held for 30 ticks fires at that angle only if the barrel moved less than 1 degree, so deliberate quick swings fire where they point.
-- Touch: a finger points the cannon at itself; dragging turns the aim by 0.001 rad per world unit of drag across the aim line; a tap (under 7 units of movement and 350 ms) fires as soon as the barrel points at it; a tap on the launcher fires without re-aiming.
+- Touch: a finger points the cannon at itself and the cannon follows it while it is down (changed 2026-10-17 after play on an iPhone: the earlier reduced-rate drag felt like no aim at all); lifting does not fire; a tap (under 7 units of movement and 350 ms) fires as soon as the barrel points at it; a tap on the launcher fires without re-aiming, and a finger that starts there aims once it moves past the tap slop. Pointer ids are any numbers: iOS Safari's are negative.
 - Fast forward (8x) runs only between shots; the original's in-shot speed-up is a cheat toggle.
 
 Decided in the level generator on 2026-10-15. Values live in `src/gen/constants.ts` and `src/gen/check.ts`.

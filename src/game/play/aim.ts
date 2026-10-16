@@ -3,8 +3,8 @@
 // arrow keys by 0.5 degree per tick, and after a nudge the mouse is ignored for 30 ticks so it
 // does not snap the fine aim back. A mouse click within 10 ticks of the barrel leaving a settled
 // aim (30 still ticks) by less than a degree fires at the settled angle, so the hand's twitch on
-// the click does not move the shot. Touch aims at the finger and fine-tunes by dragging at a
-// reduced rate (spec 14.1). Angles are radians from straight down, positive toward +x, as in
+// the click does not move the shot. Touch aims at the finger and follows it while it is down
+// (spec 14.1). Angles are radians from straight down, positive toward +x, as in
 // src/sim/aim.ts; only the launch direction derived from the final angle reaches the simulation.
 
 import { clampAim } from '../../sim/aim';
@@ -25,8 +25,6 @@ export const SETTLE_TICKS = 30;
 export const JITTER_TICKS = 10;
 /** ...if the barrel moved less than this from it (Teggle: the rule is for hand jitter). */
 export const JITTER_ANGLE = 1 * DEG;
-/** Touch drag fine aim: radians per world unit of drag across the aim line (spec 14.1). */
-export const TOUCH_FINE = 0.001;
 
 export class AimController {
   /** Barrel angle now and one tick ago (for interpolation). */
@@ -64,12 +62,6 @@ export class AimController {
     if (radians === 0) return;
     this.target = clampAim(this.target + radians);
     this.mouseIgnore = MOUSE_IGNORE_TICKS;
-  }
-
-  /** Touch fine aim: a drag of (dx, dy) world units turns the aim by its part across the aim line. */
-  drag(dx: number, dy: number): void {
-    const across = dx * Math.cos(this.target) - dy * Math.sin(this.target);
-    this.nudge(across * TOUCH_FINE);
   }
 
   /** One tick: the barrel turns toward the target. */

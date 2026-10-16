@@ -5,8 +5,9 @@
 //
 // Controls (spec 4, 14.1): the cannon follows the mouse; a click fires; the wheel and arrow keys
 // fine-tune; holding the right button or the green button runs the game 8x between shots. On
-// touch, a finger aims, dragging fine-tunes at a reduced rate, a quick tap fires, and a tap on
-// the cannon fires without re-aiming. Escape or the menu button pauses. While the Flippers stand
+// touch, the cannon points at the finger while it is down and follows it as it moves, a quick
+// tap fires there, and a tap on the cannon fires without re-aiming. Escape or the menu button
+// pauses. While the Flippers stand
 // (spec 7), holding the left button, Space, Shift, Z or X, or a finger anywhere on the board
 // raises them; during a shot a touch only works the flippers.
 
@@ -131,10 +132,14 @@ export class PlayScreen implements Screen {
   private uiMs = 0;
   private fireRequest: 'mouse' | 'touch' | null = null;
   private tapFire = false;
-  private touchId = -1;
+  /** The aiming finger's pointer id, or null. Any number is a valid id: iOS Safari's are negative. */
+  private touchId: number | null = null;
   private touchStart = 0;
   private touchMoved = 0;
   private touchOnLauncher = false;
+  /** Where the aiming finger is now, world units. */
+  private fingerX = 0;
+  private fingerY = 0;
   private lastPointerX = Number.NaN;
   private lastPointerY = Number.NaN;
   private bestScore = 0;
@@ -621,7 +626,7 @@ export class PlayScreen implements Screen {
     }
     if (p.crowded) {
       // A second finger: the touches are one gesture (a pinch, a two-finger tap), not a tap.
-      this.touchId = -1;
+      this.touchId = null;
       return;
     }
     const m = layout.menuButton;
@@ -636,6 +641,8 @@ export class PlayScreen implements Screen {
       this.touchId = p.id;
       this.touchStart = now;
       this.touchMoved = 0;
+      this.fingerX = p.x;
+      this.fingerY = p.y;
       const port = layout.portrait;
       this.touchOnLauncher = hitCircle(port.x, port.y, LAUNCHER_TAP_RADIUS, p.x, p.y);
       if (!this.touchOnLauncher) this.aim.pointAt(p.x, p.y, this.pivotX, this.pivotY, false);
@@ -659,7 +666,7 @@ export class PlayScreen implements Screen {
     if (r.kind === 'touch' && r.id === this.touchId) {
       // The finger's last moves count before deciding whether it was a tap.
       this.applyDrag(input);
-      this.touchId = -1;
+      this.touchId = null;
       if (!r.crowded && this.touchMoved <= TAP_SLOP && now - this.touchStart < TAP_MS) {
         if (this.touchOnLauncher) this.fireRequest = 'touch';
         else this.tapFire = true;
@@ -667,14 +674,19 @@ export class PlayScreen implements Screen {
     }
   }
 
-  /** Fine aim: only the finger that aims turns the cannon, not a resting palm or a second one. */
+  /**
+   * The cannon follows the aiming finger: only that finger, not a resting palm or a second one.
+   * A finger that started on the launcher aims once it has moved past the tap slop.
+   */
   private applyDrag(input: Input): void {
-    const drag = input.consumeDrag(this.touchId);
-    if (this.touchId >= 0 && (drag.dx !== 0 || drag.dy !== 0)) {
-      const before = this.touchMoved;
-      this.touchMoved += Math.abs(drag.dx) + Math.abs(drag.dy);
-      if (before > TAP_SLOP) this.aim.drag(drag.dx, drag.dy);
-    }
+    const id = this.touchId;
+    const drag = input.consumeDrag(id ?? undefined);
+    if (id === null || (drag.dx === 0 && drag.dy === 0)) return;
+    this.fingerX += drag.dx;
+    this.fingerY += drag.dy;
+    this.touchMoved += Math.abs(drag.dx) + Math.abs(drag.dy);
+    if (this.touchOnLauncher && this.touchMoved <= TAP_SLOP) return;
+    this.aim.pointAt(this.fingerX, this.fingerY, this.pivotX, this.pivotY, false);
   }
 
   private act(action: DialogAction): void {
@@ -704,7 +716,7 @@ export class PlayScreen implements Screen {
     this.dialog = new Dialog('pause', this.uiMs, null, this.tries, 0, this.dialogLabels(null));
     this.fireRequest = null;
     this.tapFire = false;
-    this.touchId = -1;
+    this.touchId = null;
   }
 
   private closePause(): void {

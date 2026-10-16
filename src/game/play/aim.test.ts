@@ -53,17 +53,6 @@ describe('cannon aim', () => {
     expect(aim.target).toBeCloseTo(-Math.PI / 4, 12);
   });
 
-  it('turns a touch drag across the aim line into fine aim at reduced sensitivity', () => {
-    const aim = new AimController();
-    aim.drag(100, 0);
-    // Straight down, a drag to the right turns the aim toward +x by 0.1 rad: much finer than
-    // pointing (100 units at a typical 300 unit reach is 0.32 rad).
-    expect(aim.target).toBeCloseTo(0.1, 12);
-    aim.set(Math.PI / 2);
-    aim.drag(0, -100);
-    expect(aim.target).toBeCloseTo(Math.PI / 2 + 0.1, 12);
-  });
-
   it('fires a click right after a small twitch at the settled angle', () => {
     const aim = new AimController();
     aim.set(0.5);
