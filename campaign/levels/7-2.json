@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "petal-terraces-trellis",
-    "prompt": "A garden path in sunny terraced flower gardens passes under three round-arched rose trellises standing one behind the other, seen from the front so that their arches nest inside each other. The front arch is the largest, spanning from about one fifth to four fifths of the picture width with its top at about one quarter of the picture height, below the open top center; the middle arch is about two thirds of its size and the back arch about a third, all three standing on the same ground line at about four fifths of the height. The arches are slender pale wood, and climbing roses in dusty rose, blush pink and cream spill over their tops and down their sides in clusters. Round stepping stones lead along the path through the arches. Low stone walls with soft peach and butter-yellow flowers run along both sides; the lower corners are low sage hedges."
+    "prompt": "A garden path in sunny terraced flower gardens passes under three round-arched rose trellises standing one behind the other, seen from the front so that their arches nest inside each other. The front arch is the largest, spanning from about one fifth to four fifths of the picture width with its top at about one quarter of the picture height, below the open top center; the middle arch is about two thirds of its size and the back arch about a third, all three standing on the same ground line at about four fifths of the height. The arches are slender pale wood, and climbing roses in dusty rose, blush pink and cream spill over their tops and down their sides in clusters. Round stepping stones lead along the path through the arches. Low stone walls with soft peach and butter-yellow flowers run along both sides; the lower corners are low sage hedges.",
+    "picture": {
+      "ref": "pexels:31469458",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/enchanting-garden-pathway-with-arched-pergola-31469458/",
+      "image": "https://images.pexels.com/photos/31469458/pexels-photo-31469458.jpeg",
+      "title": "A scenic garden path under a decorative metal pergola surrounded by lush greenery.",
+      "author": "King  Ho",
+      "authorUrl": "https://www.pexels.com/@king",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "5624f9f7913e29523a0fe2d05aeda2562b564734ae2d0e1898c9c97f03a8b1ee",
+      "size": [7728, 5152],
+      "crop": [0, 251, 7728, 4650],
+      "flop": false,
+      "adjust": { "brightness": 1.06, "saturation": 0.65, "paint": 3 }
+    }
   },
   "recipe": {
     "seed": 702,

@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "starlit-summit-spires",
-    "prompt": "The snowy summit above all the worlds at twilight. Tall ice crystal spires rise from the snow in three clusters: a middle cluster of three spires whose tallest tip reaches about two fifths of the picture height, below the open top center, and a cluster of three spires near each side edge whose tips reach about one quarter of the height. Each spire is a long, slender, pointed crystal with flat, faceted sides in pale ice blue and pearl. Two arches of clear ice span from the middle cluster to the side clusters at about half the height, and below them frozen terraces of smooth ice step down toward the middle on three tiers, fringed with short icicles. The sky is a luminous medium teal with small gold and silver stars; the lower corners are plain snow."
+    "prompt": "The snowy summit above all the worlds at twilight. Tall ice crystal spires rise from the snow in three clusters: a middle cluster of three spires whose tallest tip reaches about two fifths of the picture height, below the open top center, and a cluster of three spires near each side edge whose tips reach about one quarter of the height. Each spire is a long, slender, pointed crystal with flat, faceted sides in pale ice blue and pearl. Two arches of clear ice span from the middle cluster to the side clusters at about half the height, and below them frozen terraces of smooth ice step down toward the middle on three tiers, fringed with short icicles. The sky is a luminous medium teal with small gold and silver stars; the lower corners are plain snow.",
+    "picture": {
+      "ref": "pexels:35120334",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/majestic-glacial-peaks-of-perito-moreno-glacier-35120334/",
+      "image": "https://images.pexels.com/photos/35120334/pexels-photo-35120334.jpeg",
+      "title": "Breathtaking view of the icy blue formations of Perito Moreno Glacier in Argentina.",
+      "author": "Emiliano Arano",
+      "authorUrl": "https://www.pexels.com/@earano",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "05edce1ca54fb8b20445c3b0d4ff181cf850cf7cb5809c543afde00e9b647e21",
+      "size": [3500, 2333],
+      "crop": [0, 113, 3500, 2106],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 1101,

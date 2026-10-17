@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "lighthouse-cove-net",
-    "prompt": "A sunny beach in a seaside cove where one big fishing net hangs to dry between two tall wooden poles. The poles stand at about one sixth and five sixths of the picture width, from the sand up to about one quarter of the picture height. The net's top rope is tied to the pole tops and sags in a smooth curve to about one third of the height at the center, leaving open sky above it at the top center. The net itself hangs below the rope as one deep, rounded bag of even diamond mesh in pale sand and soft gray-blue, its lower edge curving down to about three quarters of the height at the center and back up to the poles, with a row of small round cork floats in faded cream along that edge. Behind it, clear aqua water with a white foam line and a soft blue sky; the lower corners and the lowest strip are smooth pale sand."
+    "prompt": "A sunny beach in a seaside cove where one big fishing net hangs to dry between two tall wooden poles. The poles stand at about one sixth and five sixths of the picture width, from the sand up to about one quarter of the picture height. The net's top rope is tied to the pole tops and sags in a smooth curve to about one third of the height at the center, leaving open sky above it at the top center. The net itself hangs below the rope as one deep, rounded bag of even diamond mesh in pale sand and soft gray-blue, its lower edge curving down to about three quarters of the height at the center and back up to the poles, with a row of small round cork floats in faded cream along that edge. Behind it, clear aqua water with a white foam line and a soft blue sky; the lower corners and the lowest strip are smooth pale sand.",
+    "picture": {
+      "ref": "pexels:36984335",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/fishing-nets-on-a-calm-beach-in-tokyo-36984335/",
+      "image": "https://images.pexels.com/photos/36984335/pexels-photo-36984335.jpeg",
+      "title": "Serene beach scene in Tokyo, Japan with fishing nets under a clear sky.",
+      "author": "Iban Lopez Luna",
+      "authorUrl": "https://www.pexels.com/@iban-lopez-luna-2159602676",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "270716e1ff6fd11a1283260fab6fe2f914609ecb53a6e29ab99cbc97f3e9d1c5",
+      "size": [6000, 4000],
+      "crop": [0, 194, 6000, 3611],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 503,

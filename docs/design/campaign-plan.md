@@ -1,25 +1,25 @@
 # Campaign plan: stages 2 to 11
 
-As of 2026-10-15. The plan for the 50 campaign levels after stage 1: ten worlds, every level's name, concept, archetypes, templates, counts, moving parts and difficulty target, and every picture's prompt. The sources are `campaign/stages.json` (worlds and picture styles) and `campaign/levels/<id>.json` (one per level); this page is their overview. Decisions are in spec 14.2, "Decided in the campaign plan".
+As of 2026-10-17. The plan for the 50 campaign levels after stage 1: ten worlds, every level's name, concept, archetypes, templates, counts, moving parts and difficulty target, and every picture's brief. The sources are `campaign/stages.json` (worlds and picture looks) and `campaign/levels/<id>.json` (one per level); this page is their overview. Decisions are in spec 14.2, "Decided in the campaign plan" and "Decided in the backgrounds".
 
 ## Status
 
-Stage 1 (Cloud Isles) is built. Stages 2 to 11 are drafts: each level has its concept, its plan, its seed (stage times 100 plus the level) and its count, and its picture prompt is ready for `npm run campaign:art -- prompt <id>`. No lines and no pictures exist yet. Two things block them: image generation (no API credit) and the open difficulty question (spec 14.3), which may change how layouts are built.
+Stages 1 (Cloud Isles) and 2 (Clover Burrows) are built. Stages 3 to 11 are drafts: each level has its concept, its plan, its seed (stage times 100 plus the level), its count and its picture, a found image already processed into `public/backgrounds/`; no lines exist yet. Every level's picture is recorded in `docs/assets.md`.
 
-A draft (`"draft": true`) is skipped by `npm run campaign:build`, never appears in the manifest and needs no lines file. `tools/campaign/plan.test.ts` checks every source against spec 15's counts, the original's level names and the reference bands.
+A draft (`"draft": true`) is skipped by `npm run campaign:build`, never appears in the manifest and needs no lines file. `tools/campaign/plan.test.ts` checks every source against spec 15's counts, the original's level names and the reference bands; `tools/campaign/backgrounds.test.ts` checks the pictures against their sources and the asset manifest.
 
 ## From draft to level
 
-1. Picture: print the prompt (`npm run campaign:art -- prompt <id>`), generate it at 2400 x 1440, import it (`npm run campaign:art -- import <id> <file>`) and record the generation in `background.picture`. The prompts place every large shape in fractions of the picture, so the lines can be traced over it.
-2. Lines: open `#/editor/<id>`. The draft opens with its seed and count; trace what `concept.layout` names, and add the solids, the one template part and the fill that `plan.templates` and `plan.fill` list.
-3. Difficulty: measure the level with `npm run agents:report` and tune it toward `plan.difficulty.target`.
-4. Remove `"draft": true` and run `npm run campaign:build -- <id>`. The manifest lists stages in order from 1, so a stage enters the game once every earlier stage has a built level.
+1. Picture: every draft has one. To replace it, search (`npm run campaign:art -- search <id> "<query>" --source pexels`), look at a candidate (`show <ref>`), try it under pegs (`import <id> <ref> --dry`), then import it (`import <id> <ref> [--crop x,y,w] [--set key=value]`), rewrite `background.prompt` as the brief of what the picture shows and where, and update `docs/assets.md` from `npm run campaign:art -- manifest`.
+2. Lines: `npm run campaign:grid -- <id>` draws the picture under a coordinate grid; trace what `concept.layout` names into `public/levels/campaign/<id>.lines.json` (or in `#/editor/<id>`), with the solids, the one template part and the fill that `plan.templates` and `plan.fill` list. Where the picture places a shape somewhere a template cannot build it, trace the shape and drop the template from the plan (stage 2 did so for its plinko field, spirals and house).
+3. Remove `"draft": true`, check the counts with `npm run campaign:build -- <id> --no-check --lines`, then run the full build.
+4. Difficulty: measure the stage with `npm run agents:report -- <stage> --tier noisy` and tune each level toward `plan.difficulty.target`. The manifest lists stages in order from 1, so a stage enters the game once every earlier stage has a built level.
 
 ## Rules every level follows
 
 - Counts: spec 15's count times 1.409, rounded. Levels with bricks keep the original's split: bricks times 1.409 rounded, pegs the rest of the total (13 levels where rounding both halves would miss the total by one).
 - Campaign composition, as spec 13.2 asks: 17 of 55 levels round pegs only, 5 bricks only, 42.3% of all objects bricks.
-- Pictures: the stage style, the shared layout text, then the subject. Open sky at the top center (the cannon), plain lower corners (the flippers' swing), a calm bottom strip. No people, animals, characters or faces, so a world shows its master's habitat and power, never the master.
+- Pictures: found images that show the level's subject in the stage's world, processed into the stage's look. A calm top center (the cannon), plain lower corners (the flippers' swing), a calm bottom strip. No people, animals, characters or faces, so a world shows its master's habitat and power, never the master.
 - Readability: light to medium values where pegs sit, never dark in the night and space worlds, and no large areas of saturated green, orange or magenta (or of the world's own risky color), so all four peg colors read. Stage 1's style test showed a saturated green crown hiding green pegs.
 - Recipes: solids, the traced lines, at most one more template, a fill. Bricks never change in count fitting, so a template's bricks must come out at the planned number.
 - Originals: no original scene, character, level picture or name (visual guide 15, research 5 and 7).
@@ -29,7 +29,7 @@ A draft (`"draft": true`) is skipped by `npm run campaign:build`, never appears 
 | Stage | Master (power, theme) | World | Palette and light | Why it fits |
 | --- | --- | --- | --- | --- |
 | 1 | Unicorn (Guide, blue) | Cloud Isles | powder-blue sky, cream clouds; even daylight | built |
-| 2 | Gopher (Multiball, green) | Clover Burrows | light sand, pale clay, muted sage meadow; picture-book light | the gopher's burrows in cross-section under a strip of meadow; forks and twin spirals echo the second ball |
+| 2 | Gopher (Multiball, green) | Clover Burrows | light sand, pale clay, muted sage meadow; picture-book light | built: the gopher's garden above ground; a fork and twin spirals echo the second ball |
 | 3 | Cat (Pyramid, gold) | Golden Rooftops | slate-blue roofs, honey stone, butter-yellow sky; low warm sun | rooftops at golden hour; gables and awnings echo the pyramid's slopes; nothing Egyptian |
 | 4 | Alien (Space Blast, purple) | Lilac Orbit | lilac, periwinkle and lavender space, never black; starlight | the alien's pastel sky; rings and bursts echo the blast radius |
 | 5 | Lobster (Flippers, aqua) | Lighthouse Cove | aqua water, pale sand, gray-blue wood; bright midday | a harbor of piers, buoys and lobster traps, above the water and without sea creatures |
@@ -42,19 +42,19 @@ A draft (`"draft": true`) is skipped by `npm run campaign:build`, never appears 
 
 ## Levels
 
-Templates are the recipe's parts (`outline` is the traced lines). Moving lists spec 9's movement types; "line movers" marks levels that need the generator extension below. The target is the intended clear rate of the reference agent (noisy greedy at σ 0.03, spec 13.5).
+Templates are the recipe's parts (`outline` is the traced lines). Moving lists spec 9's movement types; "line movers" marks levels whose moving parts are traced lines (the generator's moving lines, below). The target is the intended clear rate of the reference agent (noisy greedy at σ 0.03, spec 13.5).
 
 ### Stage 2: Clover Burrows
 
 | Level | Name | Archetypes | Templates | Pegs / bricks | Moving | Target |
 | --- | --- | --- | --- | --- | --- | --- |
-| 2-1 | Potato Rows | plinko, outline | outline, plinko | 158 / 0 | | 32% |
-| 2-2 | The Forked Burrow | outline | outline | 79 / 62 | | 31% |
-| 2-3 | Mushroom Grotto | outline | solids, outline | 81 / 68 | | 30% |
-| 2-4 | The Corkscrews | spiral, outline | outline, spiral | 66 / 73 | | 29% |
-| 2-5 | The Great Burrow | architecture, outline | outline, architecture | 59 / 104 | | 27% |
+| 2-1 | Peanut Rows | plinko, outline | outline, fill (lattice) | 158 / 0 | | 32% |
+| 2-2 | The Forked Lane | outline | outline | 79 / 62 | | 31% |
+| 2-3 | Mushroom Moss | outline | solids, outline | 81 / 68 | | 30% |
+| 2-4 | The Fiddleheads | spiral, outline | outline | 66 / 73 | | 29% |
+| 2-5 | The Sod House | architecture, outline | outline | 59 / 104 | | 27% |
 
-Potatoes in a funnel-shaped plinko grid; a burrow that forks into two slides back to the middle; mushroom caps as brick domes on solid stems; twin spiral burrows; a domed hall with storerooms and stairs.
+Built on 2026-10-17. A planted field whose rows are a staggered lattice crossed by four furrows; a lane forking in two, its branches long slides under a roof over the grass wedge; two mushrooms whose caps are double brick domes on solid stems; two fiddleheads traced as brick spirals with pegs on their inner turns; a sod-roofed stone house whose gable, roof and stone courses are traced brick architecture. Measured clear rates: "Stage 2 measured" below.
 
 ### Stage 3: Golden Rooftops
 
@@ -194,8 +194,8 @@ Every target lies inside its stage's reference band (`src/agents/bands.json`, th
 
 | Stage | Band | Targets, levels 1 to 5 | Mean |
 | --- | --- | --- | --- |
-| 1 | 18% to 54.5% | built; the original's stage 1 averages 39.3% | |
-| 2 | 24% to 33.5% | 32, 31, 30, 29, 27 | 29.8% |
+| 1 | 18% to 54.5% | built: 45, 23, 33, 43, 33 (40 runs); the original's stage 1 averages 39.3% | 35.4% |
+| 2 | 24% to 33.5% | 32, 31, 30, 29, 27; built: 33, 32, 32, 32, 28 (200 runs) | 29.8%; built 31.4% |
 | 3 | 23.5% to 49.5% | 34, 29, 30, 26, 27 | 29.2% |
 | 4 | 17.5% to 39% | 34, 28, 30, 26, 23 | 28.2% |
 | 5 | 24% to 60% | 31, 26, 29, 27, 25 | 27.6% |
@@ -206,10 +206,29 @@ Every target lies inside its stage's reference band (`src/agents/bands.json`, th
 | 10 | 10.5% to 46% | 25, 18, 21, 15, 13 | 18.4% |
 | 11 | 3.5% to 33.5% | 20, 16, 12, 9, 6 | 12.6% |
 
-The targets are clear rates of the reference agent, so they keep their meaning whatever spec 14.3 settles (more balls, fewer orange pegs, side structures that turn balls back toward the middle). Today Teggle's stage 1 clears 0 to 2% per level at 10 balls and 25 orange, far below its band (`docs/research/agent-difficulty.md`); the later stages' targets assume 14.3 closes that gap.
+The targets are clear rates of the reference agent, so they keep their meaning whatever the rules settle. Since the 20-orange draw (spec 14.1, "Orange pegs") the built stages land in their bands: stage 1 at 23 to 45% per level, stage 2 at 28 to 33% (measured 2026-10-17 with `npm run agents:report -- <stage> --tier noisy`).
 
-## What the plan needs from the generator
+### Stage 2 measured
 
-Six levels need traced lines whose objects move: 3-2 (lanterns traveling around a figure eight), 5-2 (the fish boat sliding), 7-3 (bubbles floating on small circles), 7-4 (wheels turning, ripples wrapping), 9-5 (lantern columns rising and wrapping) and 11-2 (rings gliding around ellipses). Lines and the outline template have no movement today, and the bricks-only levels 7-3, 7-4 and 11-2 cannot use the rotating or platforms templates, which add pegs. One extension covers all six: a line, or a group of lines, given one of spec 9's movements, either as a rigid group (slide, wrap, orbit around a point, float on a circle) or as a train whose phases step along the path (a figure eight, an ellipse, a rising column). The plan marks these levels with `needs: ["line-movers"]`.
+Traced as first drawn, stage 2 cleared 38, 55, 83, 40 and 75%: far too easy for its band. Teggle's orange pegs gather near the cannon and each other, so open pegs and brick slides under the cannon are lit several at a time. What brought each level into the band was a solid traced from the picture that turns balls away from that area, with an object or two sheltered under it (spec 14.2, "Decided in stages 1 and 2"):
+
+| Level | Shelter | First | Built (200 runs) |
+| --- | --- | --- | --- |
+| 2-1 Peanut Rows | two short rails at the field's far edge and a stone where the near furrows meet | 38% | 33% |
+| 2-2 The Forked Lane | the inner hedge tops beside the lane, the bushes under them | 55% | 32% |
+| 2-3 Mushroom Moss | a rim over each cap, one spot sheltered on the right cap | 83% | 32% |
+| 2-4 The Fiddleheads | the right curl's rim where it faces the cannon | 40% | 32% |
+| 2-5 The Sod House | the sod roof's ridge, four tufts of grass under it; the lower wall courses as single stones | 75% | 28% |
+
+A shelter is a strong lever: in trials one more sheltered peg on 2-5 took it from 26% to 17%, and rims over both of 2-4's curls took it to 0%. Tune one object at a time and measure with 200 runs, whose interval is about 6 points either way.
+
+## Moving lines
+
+Six levels have traced lines whose objects move: 3-2 (lanterns traveling around a figure eight), 5-2 (the fish boat sliding), 7-3 (bubbles floating on small circles), 7-4 (wheels turning, ripples wrapping), 9-5 (lantern columns rising and wrapping) and 11-2 (rings gliding around ellipses). The generator's moving lines build them with no added pegs (spec 14.2, "Decided in the moving lines"; the examples `eight`, `fish`, `bubbles` and `mill` show each kind):
+
+- a group of lines moves as one with any of spec 9's movements: the fish boat (horizontalCycle), each bubble (circle, neighbors turning opposite ways), each mill wheel (rotate about its hub), a row of ripples as a conveyor (horizontalWrap one brick per period), a column of lanterns as a conveyor (verticalWrap one lantern per period); a group can ride on another, as 11-2's planets would ride on their orbits (followPath along the orbit line);
+- a traveling line runs its objects along itself: 3-2's lanterns around the figure-eight wire, 11-2's ring bricks around their traced ellipses, 7-4's stream and 9-5's columns as an alternative to the conveyors.
+
+For sixteen evenly spaced lanterns to pass 3-2's crossing, its loops must differ in length (an even count on equal loops always meets there) and the wire must run about 1,700 px; fifteen or seventeen lanterns pass on equal loops. Spec 14.2 has the measure.
 
 Where a level uses a template that places itself (rotating, spiral, web, platforms, portals, helix), the prompt puts the picture's shape where the template builds it: the single wheel centered at about 58% of the height and two thirds of it across, the twin spirals at a quarter and three quarters of the width, the web centered a little above half height, the floaters' row at 20, 40, 60 and 80% of the width, the portal vaults near the top corners and the wrap portals at the walls a little below half height.

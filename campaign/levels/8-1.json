@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "ribbon-fair-helter-skelter",
-    "prompt": "A tall helter-skelter tower at a country fair on a breezy afternoon stands in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, striped in cream and muted brick red, with a pointed roof and a small flag on top below the open top center. Its wooden slide winds down around it: seen from the front, five long sloping runs cross in front of the tower in a zigzag, each reaching out past the tower's sides to about one quarter and three quarters of the picture width, the first sloping down to the left, the next to the right and so on, the lowest ending at about four fifths of the height. Strings of small triangular pennants run from the roof's tip down to two small booth tents near the left and right edges. A soft turquoise sky with puffy clouds; the lower corners are straw-covered ground."
+    "prompt": "A tall helter-skelter tower at a country fair on a breezy afternoon stands in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, striped in cream and muted brick red, with a pointed roof and a small flag on top below the open top center. Its wooden slide winds down around it: seen from the front, five long sloping runs cross in front of the tower in a zigzag, each reaching out past the tower's sides to about one quarter and three quarters of the picture width, the first sloping down to the left, the next to the right and so on, the lowest ending at about four fifths of the height. Strings of small triangular pennants run from the roof's tip down to two small booth tents near the left and right edges. A soft turquoise sky with puffy clouds; the lower corners are straw-covered ground.",
+    "picture": {
+      "ref": "pixabay:990280",
+      "kind": "painting",
+      "source": "Pixabay",
+      "page": "https://pixabay.com/illustrations/fair-tent-fun-top-big-tarp-clown-990280/",
+      "image": "https://cdn.pixabay.com/photo/2015/10/16/00/57/fair-990280_1280.jpg",
+      "title": "Free fair tent fun illustration",
+      "author": "Merio",
+      "authorUrl": "https://pixabay.com/users/merio-1480566/",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "fetched": "2026-10-15",
+      "sha256": "a84a77d5ef03b3985d1efd8ea6f9390f9693e9ad74ef04cb35052061191b06d1",
+      "size": [1280, 890],
+      "crop": [0, 60, 1280, 770],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 801,

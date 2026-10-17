@@ -21,7 +21,20 @@
   },
   "background": {
     "id": "lilac-orbit-comets",
-    "prompt": "Four comets streak through a soft lilac and periwinkle outer space, two from each upper corner, mirror images on the left and right. Each comet has a round pale-gold head about a twentieth of the picture wide and a long, smooth, gently curving tail of pale silver light trailing back up toward its corner. The upper comet on each side flies from its corner in a curve that ends with its head at about half the picture height, just beside the center, at about 40 and 60 percent of the width. The lower comet on each side starts lower on the side edge, at about one quarter of the height, and curves down to end with its head at about three quarters of the height, at about 30 and 70 percent of the width. A small pearl-gray moon peeks up at the bottom center. Thin scatterings of small stars fill the gaps; the top center is open, calm space; the lower corners are plain nebula haze."
+    "prompt": "Four comets streak through a soft lilac and periwinkle outer space, two from each upper corner, mirror images on the left and right. Each comet has a round pale-gold head about a twentieth of the picture wide and a long, smooth, gently curving tail of pale silver light trailing back up toward its corner. The upper comet on each side flies from its corner in a curve that ends with its head at about half the picture height, just beside the center, at about 40 and 60 percent of the width. The lower comet on each side starts lower on the side edge, at about one quarter of the height, and curves down to end with its head at about three quarters of the height, at about 30 and 70 percent of the width. A small pearl-gray moon peeks up at the bottom center. Thin scatterings of small stars fill the gaps; the top center is open, calm space; the lower corners are plain nebula haze.",
+    "picture": {
+      "ref": "wallhaven:5755g1",
+      "kind": "painting",
+      "source": "wallhaven",
+      "page": "https://wallhaven.cc/w/5755g1",
+      "image": "https://w.wallhaven.cc/full/57/wallhaven-5755g1.jpg",
+      "fetched": "2026-10-15",
+      "sha256": "4d3589096f23ca73b3bbc298f7c16d98c9f1c4c9e31a0c316729e00d5f77b62c",
+      "size": [3936, 2624],
+      "crop": [0, 127, 3936, 2369],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 403,

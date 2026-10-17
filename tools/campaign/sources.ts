@@ -18,31 +18,45 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, readdir, appendFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from '@playwright/test';
+import { z } from 'zod';
+import { PICTURE_KINDS } from '../../src/gen/campaign-source';
 import { ROOT } from './source';
 
 export const SOURCES = ['pexels', 'pixabay', 'wallhaven', 'openverse', 'commons'] as const;
 export type SourceName = (typeof SOURCES)[number];
 
+const REF = new RegExp(`^(?:${SOURCES.join('|')}):.+$`);
+
 /** One search result, the same shape for every source. */
-export interface Candidate {
+export const candidateSchema = z.strictObject({
   /** "<source>:<id>"; the art tool imports by it. */
-  readonly ref: string;
+  ref: z.string().regex(REF),
   /** The site's name, as recorded with the picture. */
-  readonly source: string;
-  readonly kind: 'painting' | 'photo';
-  readonly page: string;
+  source: z.string().min(1),
+  kind: z.enum(PICTURE_KINDS),
+  page: z.url(),
   /** The largest file the source offers without an account. */
-  readonly image: string;
+  image: z.url(),
   /** A small preview for the contact sheet. */
-  readonly thumb: string;
+  thumb: z.url(),
   /** Pixel size of `image`, 0 when the source does not say. */
-  readonly width: number;
-  readonly height: number;
-  readonly title: string | null;
-  readonly author: string | null;
-  readonly authorUrl: string | null;
-  readonly license: string | null;
-  readonly licenseUrl: string | null;
+  width: z.int().min(0),
+  height: z.int().min(0),
+  title: z.string().min(1).nullable(),
+  author: z.string().min(1).nullable(),
+  authorUrl: z.url().nullable(),
+  license: z.string().min(1).nullable(),
+  licenseUrl: z.url().nullable(),
+});
+
+export type Candidate = Readonly<z.output<typeof candidateSchema>>;
+
+/** A search as cached: the request it answers and the candidates that came back. */
+const searchCacheSchema = z.object({ key: z.string(), results: z.array(candidateSchema) });
+
+/** Keeps the candidates a picture record can be made from (every link a URL, and so on). */
+export function usable(candidates: readonly Candidate[]): Candidate[] {
+  return candidates.filter((c) => candidateSchema.safeParse(c).success);
 }
 
 export const ART_DIR = path.join(ROOT, 'reference', 'teggle-art');
@@ -60,9 +74,11 @@ function hash(text: string): string {
   return createHash('sha256').update(text).digest('hex');
 }
 
-async function readJson<T>(file: string): Promise<T | null> {
+/** A cached search, or null when it is missing or not in the current format. */
+async function readSearch(file: string): Promise<z.output<typeof searchCacheSchema> | null> {
   try {
-    return JSON.parse(await readFile(file, 'utf8')) as T;
+    const r = searchCacheSchema.safeParse(JSON.parse(await readFile(file, 'utf8')));
+    return r.success ? r.data : null;
   } catch {
     return null;
   }
@@ -86,14 +102,17 @@ function list(v: unknown): unknown[] {
 
 /** Text of an HTML fragment (Commons metadata holds HTML). */
 export function plainText(html: string): string {
-  return html
-    .replace(/<[^>]*>/g, '')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#0?39;/g, "'")
-    .replace(/&nbsp;/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    html
+      .replace(/<[^>]*>/g, '')
+      .replace(/&quot;/g, '"')
+      .replace(/&#0?39;/g, "'")
+      .replace(/&nbsp;/g, ' ')
+      // Last, so "&amp;quot;" stays the text "&quot;".
+      .replace(/&amp;/g, '&')
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 // --- Parsers: one search response to candidates. Pure, so they are tested on fixtures. ---
@@ -257,7 +276,9 @@ async function pexelsRecent(): Promise<number> {
 async function pexelsGet(url: string): Promise<unknown> {
   const key = process.env.PEXELS_API_KEY;
   if (key === undefined || key === '') {
-    throw new Error('PEXELS_API_KEY is not set (run through npm run campaign:art, which loads .env.local).');
+    throw new Error(
+      'PEXELS_API_KEY is not set (run through npm run campaign:art, which loads .env.local).',
+    );
   }
   const recent = await pexelsRecent();
   if (recent >= PEXELS_HOURLY) {
@@ -307,7 +328,7 @@ async function pixabayTiles(query: string, page: number): Promise<PixabayTile[]>
             thumb: src,
             thumbWidth: img.naturalWidth,
             thumbHeight: img.naturalHeight,
-            author: user?.textContent?.trim() ?? null,
+            author: user?.textContent.trim() ?? null,
             authorUrl: user?.href ?? null,
             alt: img.alt || null,
           },
@@ -337,10 +358,14 @@ function searchUrl(source: SourceName, query: string, page: number): string {
 }
 
 /** Searches one source, from the cache when the same search ran before. */
-export async function search(source: SourceName, query: string, page: number): Promise<Candidate[]> {
+export async function search(
+  source: SourceName,
+  query: string,
+  page: number,
+): Promise<Candidate[]> {
   const key = searchUrl(source, query, page);
   const file = path.join(sourceDir(source), 'search', `${hash(key).slice(0, 20)}.json`);
-  const cached = await readJson<{ key: string; results: Candidate[] }>(file);
+  const cached = await readSearch(file);
   if (cached !== null && cached.key === key) return cached.results;
   let results: Candidate[];
   switch (source) {
@@ -360,7 +385,7 @@ export async function search(source: SourceName, query: string, page: number): P
       results = parsePixabay(await pixabayTiles(query, page));
       break;
   }
-  results = results.filter((c) => c.image !== '' && c.thumb !== '');
+  results = usable(results);
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(file, `${JSON.stringify({ key, query, page, results }, null, 1)}\n`);
   return results;
@@ -373,7 +398,7 @@ export async function findCandidate(ref: string): Promise<Candidate | null> {
   const dir = path.join(sourceDir(source), 'search');
   const files = await readdir(dir).catch(() => [] as string[]);
   for (const f of files) {
-    const cached = await readJson<{ results: Candidate[] }>(path.join(dir, f));
+    const cached = await readSearch(path.join(dir, f));
     const hit = cached?.results.find((c) => c.ref === ref);
     if (hit !== undefined) return hit;
   }
@@ -387,7 +412,11 @@ function extension(url: string): string {
 }
 
 /** Where a downloaded file is cached. */
-export function cachePath(source: SourceName | 'web', url: string, kind: 'originals' | 'thumbs'): string {
+export function cachePath(
+  source: SourceName | 'web',
+  url: string,
+  kind: 'originals' | 'thumbs',
+): string {
   return path.join(sourceDir(source), kind, `${hash(url).slice(0, 24)}${extension(url)}`);
 }
 

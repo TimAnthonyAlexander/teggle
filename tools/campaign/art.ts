@@ -21,8 +21,13 @@
 //   npm run campaign:art -- process [<id> ...]
 //       Renders the shipped pictures again from the cached files and the recorded settings
 //       (every level with a picture by default), after a stage's look changes.
-//   npm run campaign:art -- sheet
-//       A contact sheet of every shipped background, into reference/teggle-shots/backgrounds/.
+//   npm run campaign:art -- sheet [--pegs]
+//       A contact sheet of every shipped background, into reference/teggle-shots/backgrounds/;
+//       with --pegs one sheet per stage, each picture at the logical canvas's size under pegs
+//       of all four colors.
+//   npm run campaign:art -- manifest
+//       Prints the background tables of docs/assets.md from the sources and the shipped files
+//       (manifest.ts); tools/campaign/backgrounds.test.ts checks that the document holds them.
 
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -35,7 +40,8 @@ import {
   type Picture,
 } from '../../src/gen/campaign-source';
 import { sourceJson } from '../../src/gen/json';
-import { ASPECT, centerCrop, imageSize, parseCrop, render, type Crop } from './look';
+import { ASPECT, centerCrop, imageSize, parseCrop, render, toolVersions, type Crop } from './look';
+import { backgroundsManifest, type ShippedFile } from './manifest';
 import { BACKGROUNDS_DIR, loadCampaign, ROOT, SOURCE_DIR, type LoadedLevelSource } from './source';
 import {
   ART_DIR,
@@ -121,7 +127,11 @@ async function screenshot(html: string, width: number, out: string): Promise<voi
     const page = await browser.newPage({ viewport: { width, height: 400 }, deviceScaleFactor: 1 });
     await page.setContent(html);
     await page.waitForFunction(() => [...document.images].every((i) => i.complete));
-    await page.screenshot({ path: out, fullPage: true, type: out.endsWith('.png') ? 'png' : 'jpeg' });
+    await page.screenshot({
+      path: out,
+      fullPage: true,
+      type: out.endsWith('.png') ? 'png' : 'jpeg',
+    });
   } finally {
     await browser.close();
   }
@@ -174,7 +184,8 @@ function loadEnv(): void {
 async function resolve(ref: string): Promise<{ candidate: Candidate; source: SourceName | 'web' }> {
   if (/^https?:\/\//.test(ref)) {
     const page = arg('page');
-    if (page === undefined) throw new Error('A file given by URL needs --page <the page it is on>.');
+    if (page === undefined)
+      throw new Error('A file given by URL needs --page <the page it is on>.');
     const kind = (arg('kind') ?? 'painting') as Candidate['kind'];
     return {
       source: 'web',
@@ -292,7 +303,10 @@ async function importCommand(id: string, ref: string): Promise<void> {
   };
   raw.background = { ...raw.background, picture: pictureRecord(picture) };
   await writeFile(sourceFile, sourceJson(raw));
-  await renderLevel({ ...src, level: { ...src.level, background: { ...src.level.background, picture } } });
+  await renderLevel({
+    ...src,
+    level: { ...src.level, background: { ...src.level.background, picture } },
+  });
 }
 
 /** The picture as written in the source file: optional fields only when set. */
@@ -437,6 +451,19 @@ async function sheetCommand(): Promise<void> {
   await screenshot(html, 2400, path.join(SHOTS_DIR, 'contact-sheet.jpg'));
 }
 
+/** Prints the asset manifest's background tables (manifest.ts) and the tools that made them. */
+async function manifestCommand(): Promise<void> {
+  const campaign = await loadCampaign();
+  const files = new Map<string, ShippedFile>();
+  for (const l of campaign.levels) {
+    const id = l.level.background.id;
+    const bytes = await readFile(path.join(BACKGROUNDS_DIR, `${id}.webp`)).catch(() => null);
+    if (bytes !== null) files.set(id, { bytes: bytes.length, sha256: sha256(bytes) });
+  }
+  console.log(`Processed with ${await toolVersions()}.\n`);
+  console.log(backgroundsManifest(campaign.stages, campaign.levels, files));
+}
+
 async function main(): Promise<void> {
   const [command, a, b] = positional();
   if (command === 'search' && a !== undefined && b !== undefined) return searchCommand(a, b);
@@ -444,8 +471,9 @@ async function main(): Promise<void> {
   if (command === 'import' && a !== undefined && b !== undefined) return importCommand(a, b);
   if (command === 'process') return processCommand(positional().slice(1));
   if (command === 'sheet') return sheetCommand();
+  if (command === 'manifest') return manifestCommand();
   throw new Error(
-    'Usage: campaign:art -- search <id> "<query>" [--source s] [--page n] | show <ref> | import <id> <ref|url> [--crop x,y,w] [--flop] [--set k=v] [--dry] | process [<id> ...] | sheet',
+    'Usage: campaign:art -- search <id> "<query>" [--source s] [--page n] | show <ref> | import <id> <ref|url> [--crop x,y,w] [--flop] [--set k=v] [--dry] | process [<id> ...] | sheet [--pegs] | manifest',
   );
 }
 

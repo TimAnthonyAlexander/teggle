@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "golden-rooftops-awnings",
-    "prompt": "A tall market house at golden hour seen from the front, its facade filling the middle three fifths of the picture width from about one quarter of the picture height down to the bottom, with open sky above its flat roof at the top center. On each side of the facade, four striped awnings in cream and muted dusty-rose stripes shade four stacked balconies: the top awning slants down toward the middle, the next one outward, the third toward the middle again and the lowest outward, so that they form a zigzag down each side, the left and right sides mirror images of each other. Each awning is about a seventh of the picture wide. Small potted plants and paper lanterns stand along the balcony rails under the awnings. Honey and cream stone walls with slate-blue shutters; two narrow stair towers stand at the far left and right edges; the lower corners are plain stone."
+    "prompt": "A tall market house at golden hour seen from the front, its facade filling the middle three fifths of the picture width from about one quarter of the picture height down to the bottom, with open sky above its flat roof at the top center. On each side of the facade, four striped awnings in cream and muted dusty-rose stripes shade four stacked balconies: the top awning slants down toward the middle, the next one outward, the third toward the middle again and the lowest outward, so that they form a zigzag down each side, the left and right sides mirror images of each other. Each awning is about a seventh of the picture wide. Small potted plants and paper lanterns stand along the balcony rails under the awnings. Honey and cream stone walls with slate-blue shutters; two narrow stair towers stand at the far left and right edges; the lower corners are plain stone.",
+    "picture": {
+      "ref": "pexels:26436574",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/house-with-windows-with-red-and-white-stripe-awnings-26436574/",
+      "image": "https://images.pexels.com/photos/26436574/pexels-photo-26436574.jpeg",
+      "title": "Close-up of a Spanish house in Madrid with red and white striped awnings under a clear sky.",
+      "author": "Altamart",
+      "authorUrl": "https://www.pexels.com/@altamar",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "7eab52629ef08007a8c984ba2e9d57a231efa3b7f7ba2116be16fc3df31d829b",
+      "size": [4334, 2709],
+      "crop": [0, 50, 4334, 2608],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 305,

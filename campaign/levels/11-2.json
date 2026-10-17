@@ -20,7 +20,6 @@
       }
     ],
     "features": ["Two levels of 134 bricks (spec 8): the second, 189 bricks scaled"],
-    "needs": ["line-movers"],
     "difficulty": {
       "target": 0.16,
       "note": "Shot timing decides it: the inner rings are reached only when gaps in the outer ones line up."
@@ -28,7 +27,25 @@
   },
   "background": {
     "id": "starlit-summit-orrery",
-    "prompt": "A giant orrery stands on the snowy summit above all the worlds at twilight, seen at a slight tilt. Its three thin rings of muted brass and silver are wide concentric ellipses centered at about 56 percent of the picture height: the outer ring spans from about 8 to 92 percent of the picture width and about three fifths of the picture height, the middle ring about three quarters of its size and the inner ring about half. Each ring is broken by two or three small gaps and carries one small round planet of pearl, pale ice blue or soft gold. A small pale-gold sun sits at the center. Two curved support arms rise from a stand at the bottom center and hold the outer ring at its left and right ends. The sky is a luminous medium teal with small gold and silver stars, open at the top center; the lower corners are plain snow."
+    "prompt": "A giant orrery stands on the snowy summit above all the worlds at twilight, seen at a slight tilt. Its three thin rings of muted brass and silver are wide concentric ellipses centered at about 56 percent of the picture height: the outer ring spans from about 8 to 92 percent of the picture width and about three fifths of the picture height, the middle ring about three quarters of its size and the inner ring about half. Each ring is broken by two or three small gaps and carries one small round planet of pearl, pale ice blue or soft gold. A small pale-gold sun sits at the center. Two curved support arms rise from a stand at the bottom center and hold the outer ring at its left and right ends. The sky is a luminous medium teal with small gold and silver stars, open at the top center; the lower corners are plain snow.",
+    "picture": {
+      "ref": "pexels:35070529",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/metallic-solar-system-sculpture-in-garden-35070529/",
+      "image": "https://images.pexels.com/photos/35070529/pexels-photo-35070529.jpeg",
+      "title": "Intricate metallic sculpture of the solar system in a lush outdoor garden setting.",
+      "author": "宜楣 陳",
+      "authorUrl": "https://www.pexels.com/@709228376",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "be87ea1bb747efcb00f6d54b1a2c1b436345f442ce5f6df9c75c3925dfd60402",
+      "size": [4032, 3024],
+      "crop": [0, 299, 4032, 2426],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 1102,

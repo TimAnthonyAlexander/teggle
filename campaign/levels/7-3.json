@@ -23,7 +23,6 @@
       "Floating circles (spec 8): soap bubbles",
       "Bricks only (spec 8): the first of stage 7's two bricks-only levels"
     ],
-    "needs": ["line-movers"],
     "difficulty": {
       "target": 0.28,
       "note": "Second easiest: every object is a brick in an open, airy board; the moving gaps make it uneven, not hard."
@@ -31,7 +30,25 @@
   },
   "background": {
     "id": "petal-terraces-bubbles",
-    "prompt": "Soap bubbles drift over sunny terraced flower gardens in late spring. Eight round, clear soap bubbles with thin pearly rims and a faint pastel sheen float in two loose rows across the picture: four in an upper row at about one third of the picture height, at about 15, 33, 67 and 85 percent of the width, each about a tenth of the picture wide, leaving the top center open; and four in a lower row at about three fifths of the height, at about 24, 42, 58 and 76 percent of the width. Below them, low terrace walls of pale stone step down from both sides toward the middle at about three quarters of the height, topped with blossoms in dusty rose, cream and butter yellow. A clear, soft sky; the lower corners are low sage hedges."
+    "prompt": "Soap bubbles drift over sunny terraced flower gardens in late spring. Eight round, clear soap bubbles with thin pearly rims and a faint pastel sheen float in two loose rows across the picture: four in an upper row at about one third of the picture height, at about 15, 33, 67 and 85 percent of the width, each about a tenth of the picture wide, leaving the top center open; and four in a lower row at about three fifths of the height, at about 24, 42, 58 and 76 percent of the width. Below them, low terrace walls of pale stone step down from both sides toward the middle at about three quarters of the height, topped with blossoms in dusty rose, cream and butter yellow. A clear, soft sky; the lower corners are low sage hedges.",
+    "picture": {
+      "ref": "pexels:32141249",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/vibrant-soap-bubbles-floating-outdoors-32141249/",
+      "image": "https://images.pexels.com/photos/32141249/pexels-photo-32141249.jpeg",
+      "title": "Colorful soap bubbles floating in a garden, reflecting light on a sunny day.",
+      "author": "Christina & Peter",
+      "authorUrl": "https://www.pexels.com/@christina99999",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "f3b158176076f96619bd05b50cbb9b79c5d6ec00549dd239d1fe306661e8d6d6",
+      "size": [6240, 4160],
+      "crop": [0, 202, 6240, 3755],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 703,

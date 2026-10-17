@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "moonlit-hollow-patch",
-    "prompt": "A moonlit pumpkin patch at dusk across three soft rolling hills. A wide low hill spans the bottom third of the picture with its crest at about two thirds of the height; two smaller hills rise on the left and right with their crests at about two fifths of the height near the side edges. Along each hill's crest sit round pumpkins in burgundy, plum and dusty cream, each about a fourteenth of the picture wide, evenly spaced and linked by curling vines and broad leaves: five on the wide hill and three on each side hill. Crooked wooden fence posts stand at the inner ends of the side hills. A huge pale silver moon hangs high on the left; silver mist drifts between the hills. The top center is open sky; the lower corners are plain misty slopes."
+    "prompt": "A moonlit pumpkin patch at dusk across three soft rolling hills. A wide low hill spans the bottom third of the picture with its crest at about two thirds of the height; two smaller hills rise on the left and right with their crests at about two fifths of the height near the side edges. Along each hill's crest sit round pumpkins in burgundy, plum and dusty cream, each about a fourteenth of the picture wide, evenly spaced and linked by curling vines and broad leaves: five on the wide hill and three on each side hill. Crooked wooden fence posts stand at the inner ends of the side hills. A huge pale silver moon hangs high on the left; silver mist drifts between the hills. The top center is open sky; the lower corners are plain misty slopes.",
+    "picture": {
+      "ref": "pexels:39649371",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/vast-pumpkin-field-in-oland-sweden-39649371/",
+      "image": "https://images.pexels.com/photos/39649371/pexels-photo-39649371.jpeg",
+      "title": "Expansive field of pumpkins in Öland, Sweden. A scenic autumn harvest.",
+      "author": "Olavi Anttila",
+      "authorUrl": "https://www.pexels.com/@olavi-anttila-264846761",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "490a13e9e0ec6e1581c0d829985eeaf710523e510892fca805a7aa9a97903c23",
+      "size": [5472, 3648],
+      "crop": [0, 177, 5472, 3293],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 603,

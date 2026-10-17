@@ -1,30 +1,69 @@
 {
   "id": "2-5",
-  "name": "The Great Burrow",
-  "draft": true,
+  "name": "The Sod House",
   "concept": {
-    "subject": "The gopher's grand underground hall: a domed central chamber on pillars of twisted roots, flanked by smaller arched storerooms, with stairs dug down from the meadow at both upper corners.",
-    "composition": "The ground line crosses at a fifth of the height. The great dome stands in the center from a third to four fifths of the height, a third of the picture wide; two smaller arched storerooms step outward on each side; stairs of five or six steps descend from both upper corners toward the middle, ending at two fifths of the height. The lower corners are plain earth.",
-    "layout": "59 round pegs and 104 bricks, the stage's brick-heavy finale. The architecture template's temple builds the dome, the root pillars, the side arches and the stairs from bricks; pegs sit on the stairs' landings, inside the side arches as stored seeds and in a ring under the dome."
+    "subject": "An old stone house dug into a grassy hillside, its long sod roof grown over with grass, a wooden gable and a plank door at its left end.",
+    "composition": "The gable stands on the left with its peak at about a quarter of the width and a quarter of the height; the sod roof runs from it along the hillside to the right and down to about seven eighths of the width; the dry stone wall fills the band from a little over half to four fifths of the height, with the door near its left end; a meadow fills the bottom, and the wooded hillside with thin trunks the top.",
+    "layout": "59 round pegs and 104 bricks, the stage's brick-heavy finale. The house is brick architecture traced from the picture: the gable's edges, beam and planks, the eaves board, the long wall's top course with two courses of single stones under it, the short wall left of the door, the door posts and two stones on the earth bank. The sod roof's ridge is a solid that sheds balls off the house; grass tufts sit on it and four spots of grass shelter under it on the roof's face. The hillside's logs, trunks, branch and bushes are bricks, its grass pegs, and two rows of pegs cross the meadow."
   },
   "plan": {
     "archetypes": ["architecture", "outline"],
-    "templates": ["outline", "architecture"],
+    "templates": ["outline"],
     "fill": "none",
     "pegs": 59,
     "bricks": 104,
     "features": ["Brick-heavy last level (spec 8): 104 of its 163 objects are bricks"],
     "difficulty": {
       "target": 0.27,
-      "note": "The stage's hardest: the arches shield the stored seeds and the ring under the dome, so the last orange pegs hide under bricks."
+      "note": "The stage's hardest: the solid ridge turns balls away from the roof, so the grass sheltered under it is reached only by balls bounced back up from the eaves and the stones."
     }
   },
   "background": {
     "id": "clover-burrows-hall",
-    "prompt": "A grand underground hall seen in cross-section under a clover meadow. The meadow's ground line runs across the picture at about one fifth of its height; the top center above it is open sky. A great domed chamber stands in the center, from about one third to four fifths of the picture height and about a third of the picture wide, its smooth round dome carried on thick pillars of twisted pale roots. On each side of it stand two smaller round-arched storerooms, stepping outward, filled with neat piles of seeds and nuts. From both upper corners, wide stairs dug into the earth descend toward the middle in five or six even steps, ending at about two fifths of the height. The walls of the hall are smooth light clay; the lower corners and the lowest strip are plain, calm earth."
+    "prompt": "A photo of an old stone house dug into a grassy hillside, under an overcast sky. Its wooden gable stands on the left, the peak at about a quarter of the width and a quarter of the height, the eaves at about the left edge and two fifths of the width at a little over half the height; a long sod roof grown over with grass runs from it along the hillside and down to the right to about seven eighths of the width. A dry stone wall of flat gray stones fills the band from a little over half to about four fifths of the height, from the left edge to about four fifths of the width, with a plank door at about a fifth to a third of the width. A meadow fills the bottom fifth; the wooded hillside above has thin trunks, a fallen trunk at the top center and bare branches on the right.",
+    "picture": {
+      "ref": "pexels:35238255",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/historic-stone-cottage-in-norwegian-countryside-35238255/",
+      "image": "https://images.pexels.com/photos/35238255/pexels-photo-35238255.jpeg",
+      "title": "A rustic stone cottage with a grass roof nestled in lush Norwegian greenery.",
+      "author": "Andreas Berget",
+      "authorUrl": "https://www.pexels.com/@fauske",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "d47a47728945e39dd4efc648b00a0fda07ddef6e2db63c89e2652e7432294bbb",
+      "size": [6240, 4160],
+      "crop": [0, 202, 6240, 3755],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 205,
-    "targetCount": 163
+    "targetCount": 163,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [328, 167],
+            [398, 153],
+            [458, 143],
+            [532, 157],
+            [643, 181],
+            [725, 224],
+            [796, 281],
+            [784, 295],
+            [715, 240],
+            [637, 199],
+            [528, 175],
+            [458, 161],
+            [402, 171],
+            [332, 185]
+          ]
+        }
+      ]
+    }
   }
 }

@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "moonlit-hollow-glasshouse",
-    "prompt": "An old glasshouse stands in a moonlit pumpkin hollow at dusk. Its central hall is a tall round dome of slender silver-gray iron ribs and pale glass, standing in the middle of the picture from about one third of the picture height down to the bottom and about a third of the picture wide, carried on slim pillars. On each side two lower wings with round-arched glass roofs step outward, with wooden shelves of small burgundy and plum pumpkins inside. From the upper left and upper right corners, stone steps climb down the hollow's banks toward the wings in five or six even steps. A huge pale silver moon hangs high on the left and shines softly on the glass. The top center is open sky; the lower corners are plain stone and mist."
+    "prompt": "An old glasshouse stands in a moonlit pumpkin hollow at dusk. Its central hall is a tall round dome of slender silver-gray iron ribs and pale glass, standing in the middle of the picture from about one third of the picture height down to the bottom and about a third of the picture wide, carried on slim pillars. On each side two lower wings with round-arched glass roofs step outward, with wooden shelves of small burgundy and plum pumpkins inside. From the upper left and upper right corners, stone steps climb down the hollow's banks toward the wings in five or six even steps. A huge pale silver moon hangs high on the left and shines softly on the glass. The top center is open sky; the lower corners are plain stone and mist.",
+    "picture": {
+      "ref": "pexels:34672177",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/historic-glasshouse-at-belfast-botanic-gardens-34672177/",
+      "image": "https://images.pexels.com/photos/34672177/pexels-photo-34672177.jpeg",
+      "title": "A stunning view of the Palm House in Belfast Botanic Gardens with vibrant floral displays.",
+      "author": "Adrien Olichon",
+      "authorUrl": "https://www.pexels.com/@adrien-olichon-1257089",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "a155b7b25a5faf9c446919fe24faf146dbe277990de7fd1cf185b6b8e4f3cbcb",
+      "size": [8980, 5977],
+      "crop": [180, 598, 7184, 4323],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 605,

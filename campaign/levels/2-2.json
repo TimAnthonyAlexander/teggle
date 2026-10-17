@@ -1,29 +1,74 @@
 {
   "id": "2-2",
-  "name": "The Forked Burrow",
-  "draft": true,
+  "name": "The Forked Lane",
   "concept": {
-    "subject": "A gopher's front burrow: a shaft drops from a little entrance mound and forks into two smooth tunnels that loop back toward the middle into two stocked chambers.",
-    "composition": "The ground line crosses at a fifth of the height with the entrance mound just below the open top center. The shaft forks at a third of the height; the tunnels swing out to a fifth and four fifths of the width at half height and curve back down and in, ending in two round chambers left and right of the center at three quarters of the height. Roots hang between the tunnels and the walls; the lower corners are plain earth.",
-    "layout": "79 round pegs and 62 bricks. Each tunnel's outer floor is one long brick slide that carries balls back toward the middle, and the shaft's walls are short brick chains below the cannon's clearance. Pegs follow the tunnels' inner walls, ring the two chambers with a few acorns inside and hang from the roots; a single peg sits on the fork."
+    "subject": "A sandy country lane coming in from the horizon between hedges and forking in two in the foreground, a wedge of clover and grass between its branches.",
+    "composition": "An overcast sky fills the top third; bushes line the lane on both sides from a third to three fifths of the height, with lupines on the right; the lane comes in under the cannon and forks a little above half height, its branches running out to the lower left and lower right, and the grass wedge between them fills the bottom middle.",
+    "layout": "79 round pegs and 62 bricks. The far edges of both branches are long brick slides that run down toward the walls, and their near edges are one brick chain peaked at the fork, a roof over the grass wedge, with two peaked rows of clover bricks inside it. The inner hedge tops beside the lane are solids that shed balls toward the lane; pegs run through the bushes under them, along the outer hedge tops by the walls, along wisps of cloud and down the lane under the cannon; a long low cloud is a brick slide, and pegs dot the grass at the foot of the wedge."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 79,
     "bricks": 62,
     "difficulty": {
       "target": 0.31,
-      "note": "Close to the opener: the slides return balls to the middle, where the bucket runs; the acorns inside the chambers are the hard pegs."
+      "note": "Close to the opener: the slides carry balls out along the lane toward the walls, and the roof over the wedge sheds them to both sides; the pegs sheltered under the solid hedge tops are the hard ones."
     }
   },
   "background": {
     "id": "clover-burrows-fork",
-    "prompt": "A gopher burrow seen in cross-section under a clover meadow. The meadow's ground line runs across the picture at about one fifth of its height, with a small rounded mound and a round burrow entrance just below the open top center. From the entrance a short shaft drops to about one third of the picture height, where the burrow forks into two wide, smooth tunnels about a twelfth of the picture high: they curve outward and down to about one fifth and four fifths of the picture width at half the height, then bend back inward, ending at about three quarters of the height in two round chambers left and right of the center, each about a seventh of the picture wide and stocked with a few acorns. Fine pale roots hang from the meadow into the earth between the tunnels and the side edges. The lower corners and the lowest strip are plain, light sandy earth."
+    "prompt": "A photo of a sandy country lane forking in two in the foreground, on an overcast summer day. A pale gray sky fills the top third; bushes and young trees line the lane on both sides from about a third to three fifths of the height, with blue lupines on the right. The lane comes in from the horizon just right of the center at about half the height and forks a little lower: one branch runs out to the lower left, reaching the left edge at about four fifths of the height, the other to the lower right, reaching the right edge at about the same height. A wedge of grass and clover between them fills the bottom middle.",
+    "picture": {
+      "ref": "pexels:17342282",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/dirt-roads-junction-in-countryside-17342282/",
+      "image": "https://images.pexels.com/photos/17342282/pexels-photo-17342282.jpeg",
+      "title": "Forked dirt road surrounded by greenery under an overcast sky in the countryside.",
+      "author": "Alexey Chudin",
+      "authorUrl": "https://www.pexels.com/@chudin-alexey",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-16",
+      "sha256": "61ad2e84d78796053f95f6562cd6adb6b6ff43f1da057316fd6eb20d983e05f9",
+      "size": [3735, 2061],
+      "crop": [155, 0, 3424, 2060],
+      "flop": false,
+      "adjust": { "saturation": 0.75 }
+    }
   },
   "recipe": {
     "seed": 202,
-    "targetCount": 141
+    "targetCount": 141,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [201, 183],
+            [322, 201],
+            [400, 224],
+            [435, 251],
+            [425, 265],
+            [392, 240],
+            [318, 219],
+            [199, 201]
+          ]
+        },
+        {
+          "points": [
+            [501, 248],
+            [553, 215],
+            [641, 207],
+            [726, 227],
+            [722, 245],
+            [639, 225],
+            [559, 233],
+            [511, 264]
+          ]
+        }
+      ]
+    }
   }
 }

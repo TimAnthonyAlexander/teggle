@@ -5,200 +5,212 @@
   "lines": [
     {
       "id": "keel",
-      "note": "The hull's bottom, from the raised bow down under the ship and up to the raised stern",
+      "note": "The hull's bottom, from the bow down under the ship and up to the stern",
       "mode": "bricks",
       "points": [
-        [222, 356], [244, 396], [298, 436], [376, 468], [458, 480], [540, 468], [618, 436],
-        [672, 396], [694, 356]
+        [250, 340], [244, 392], [264, 436], [304, 468], [372, 486], [458, 490], [544, 486],
+        [612, 468], [654, 442], [684, 406], [700, 362]
       ]
     },
     {
       "id": "jib",
-      "note": "Leading edge of the jib, the small sail between the bowsprit and the fore mast",
+      "note": "Leading edge of the jib, the small sail under the bowsprit",
       "mode": "bricks",
-      "points": [[138, 330], [146, 286], [160, 248], [178, 220], [196, 200]]
+      "points": [[196, 344], [212, 312], [232, 284], [254, 262]]
     },
     {
       "id": "spanker",
-      "note": "Trailing edge of the spanker, the small sail between the stern and the mizzen mast",
+      "note": "The stern post, from the stern rail up to the poop deck",
       "mode": "bricks",
-      "points": [[778, 330], [770, 286], [756, 248], [738, 220], [720, 200]]
+      "points": [[716, 340], [717, 300], [706, 266], [690, 244]]
+    },
+    {
+      "id": "yard-fore",
+      "note": "Top yard of the fore sail",
+      "mode": "bricks",
+      "points": [[352, 114], [278, 106]]
     },
     {
       "id": "sail-fore",
-      "note": "Top yard and billowing leading edge of the fore sail",
+      "note": "The fore sail's leading edge, beside the bowsprit's rope coil",
       "mode": "bricks",
-      "corners": [1],
-      "points": [[336, 176], [246, 166], [228, 214], [224, 256], [236, 296], [258, 324]]
+      "points": [[248, 128], [246, 170], [250, 212], [258, 236]]
+    },
+    {
+      "id": "yard-main",
+      "note": "A yard across the main sail, under the cannon",
+      "mode": "bricks",
+      "points": [[514, 170], [436, 162]]
     },
     {
       "id": "sail-main",
-      "note": "Top yard and billowing leading edge of the main sail",
+      "note": "The main sail's edge down the fore mast",
       "mode": "bricks",
-      "corners": [1],
-      "points": [[504, 170], [414, 160], [396, 212], [392, 254], [404, 294], [426, 322]]
+      "points": [[404, 182], [396, 222], [396, 262], [406, 296], [422, 322]]
     },
     {
       "id": "sail-mizzen",
-      "note": "Top yard and billowing leading edge of the mizzen sail",
+      "note": "Top edge of the stern sail and its leading edge",
       "mode": "bricks",
       "corners": [1],
-      "points": [[672, 176], [582, 166], [564, 214], [560, 256], [572, 296], [594, 324]]
+      "points": [[644, 94], [570, 116], [550, 160], [548, 206], [556, 250], [574, 288]]
     },
     {
       "id": "cloth-fore-1",
       "note": "First seam of the fore sail's cloth",
       "mode": "pegs",
       "spacing": 50,
-      "points": [[270, 212], [270, 312]]
+      "points": [[300, 152], [300, 282]]
     },
     {
       "id": "cloth-fore-2",
       "note": "Second seam of the fore sail's cloth",
       "mode": "pegs",
       "spacing": 50,
-      "points": [[304, 212], [304, 312]]
+      "points": [[342, 156], [342, 286]]
     },
     {
       "id": "cloth-fore-3",
-      "note": "Third seam of the fore sail's cloth, along the mast",
+      "note": "The rope running from the bowsprit to the left",
       "mode": "pegs",
-      "spacing": 50,
-      "points": [[338, 212], [338, 312]]
+      "spacing": 40,
+      "points": [[36, 158], [80, 164], [124, 170], [168, 176], [210, 182]]
     },
     {
       "id": "cloth-main-1",
       "note": "First seam of the main sail's cloth",
       "mode": "pegs",
       "spacing": 50,
-      "points": [[436, 206], [436, 306]]
+      "points": [[446, 206], [446, 306]]
     },
     {
       "id": "cloth-main-2",
       "note": "Second seam of the main sail's cloth",
       "mode": "pegs",
       "spacing": 50,
-      "points": [[470, 206], [470, 306]]
+      "points": [[480, 210], [480, 310]]
     },
     {
       "id": "cloth-main-3",
       "note": "Third seam of the main sail's cloth, along the mast",
       "mode": "pegs",
       "spacing": 50,
-      "points": [[504, 206], [504, 306]]
+      "points": [[514, 214], [514, 314]]
     },
     {
       "id": "cloth-mizzen-1",
-      "note": "First seam of the mizzen sail's cloth",
+      "note": "The seam down the middle of the stern sail's cloth",
       "mode": "pegs",
       "spacing": 50,
-      "points": [[604, 212], [604, 312]]
+      "points": [[598, 144], [598, 254]]
     },
     {
-      "id": "cloth-mizzen-2",
-      "note": "Second seam of the mizzen sail's cloth",
-      "mode": "pegs",
-      "spacing": 50,
-      "points": [[638, 212], [638, 312]]
+      "id": "leech-mizzen",
+      "note": "The stern sail's billowing trailing edge",
+      "mode": "bricks",
+      "points": [[648, 126], [642, 170], [638, 214], [638, 258]]
     },
     {
       "id": "cloth-mizzen-3",
-      "note": "Third seam of the mizzen sail's cloth, along the mast",
+      "note": "Open sky behind the stern sail, above the stern",
       "mode": "pegs",
-      "spacing": 50,
-      "points": [[672, 212], [672, 312]]
+      "spacing": 40,
+      "points": [[676, 196], [716, 214], [756, 234]]
     },
     {
       "id": "deck",
-      "note": "The deck line along the top of the hull",
+      "note": "The gunwale along the top of the hull, from the bow down to the waist and up to the stern",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[262, 356], [330, 366], [400, 372], [458, 374], [516, 372], [586, 366], [654, 356]]
+      "points": [
+        [298, 318], [350, 336], [410, 348], [470, 352], [530, 352], [590, 350], [640, 334],
+        [680, 314]
+      ]
     },
     {
       "id": "portholes",
-      "note": "Row of portholes along the hull",
+      "note": "A row of pegs along the hull's planks",
       "mode": "pegs",
       "spacing": 37,
-      "points": [[330, 404], [394, 414], [458, 417], [522, 414], [586, 404]]
+      "points": [[300, 384], [360, 404], [420, 416], [480, 420], [540, 418], [600, 408], [646, 392]]
     },
     {
       "id": "pennant-fore",
-      "note": "Pennant flying from the fore mast top",
+      "note": "The gull gliding left of the sails",
       "mode": "pegs",
       "spacing": 34,
-      "points": [[344, 128], [378, 120]]
+      "points": [[92, 214], [132, 208]]
     },
     {
       "id": "pennant-mizzen",
-      "note": "Pennant flying from the mizzen mast top",
+      "note": "The small green balloon floating high on the right",
       "mode": "pegs",
       "spacing": 34,
-      "points": [[680, 128], [714, 120]]
+      "points": [[700, 46], [736, 42]]
     },
     {
       "id": "puff-left",
-      "note": "Round cloud ahead of the bow",
+      "note": "Ring in the open sky ahead of the bow, left of the jib",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
       "points": [
-        [80, 188], [108.5, 199], [120, 226], [108.5, 253], [80, 264], [51.5, 253], [40, 226],
-        [51.5, 199]
+        [120, 244], [148.5, 255], [160, 282], [148.5, 309], [120, 320], [91.5, 309], [80, 282],
+        [91.5, 255]
       ]
     },
     {
       "id": "puff-right",
-      "note": "Round cloud behind the stern",
+      "note": "Ring on the soft cloud in the upper right",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
       "points": [
-        [836, 188], [864.5, 199], [876, 226], [864.5, 253], [836, 264], [807.5, 253], [796, 226],
-        [807.5, 199]
+        [852, 82], [880.5, 93], [892, 120], [880.5, 147], [852, 158], [823.5, 147], [812, 120],
+        [823.5, 93]
       ]
     },
     {
       "id": "cloud-mid-left",
-      "note": "Cloud tops at mid height ahead of the bow",
+      "note": "Open sky at mid height by the left wall",
       "mode": "pegs",
       "spacing": 36,
-      "points": [[24, 372], [56, 354], [92, 350], [116, 368]]
+      "points": [[24, 372], [56, 354], [92, 352], [124, 364]]
     },
     {
       "id": "cloud-mid-right",
-      "note": "Cloud tops at mid height behind the stern",
+      "note": "Open sky at mid height behind the stern",
       "mode": "pegs",
       "spacing": 36,
-      "points": [[892, 372], [860, 354], [824, 350], [800, 368]]
+      "points": [[892, 300], [860, 282], [824, 278], [790, 290]]
     },
     {
       "id": "cloud-high-left",
-      "note": "Cloud tops in the upper left",
+      "note": "The gull high in the upper left",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[30, 92], [70, 78], [112, 84], [150, 74], [190, 88]]
+      "points": [[26, 92], [62, 76], [100, 70], [140, 72], [180, 82]]
     },
     {
       "id": "cloud-high-right",
-      "note": "Cloud tops in the upper right",
+      "note": "The gull gliding behind the stern sail",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[886, 92], [846, 78], [804, 84], [766, 74], [726, 88]]
+      "points": [[724, 164], [754, 152], [784, 144]]
     },
     {
       "id": "cloud-low-left",
       "note": "Cloud tops low on the left, below the bow",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[24, 470], [60, 452], [100, 446], [140, 458], [176, 450], [212, 472], [248, 494]]
+      "points": [[24, 470], [60, 452], [100, 446], [140, 458], [176, 450], [210, 470]]
     },
     {
       "id": "cloud-low-right",
       "note": "Cloud tops low on the right, below the stern",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[892, 470], [856, 452], [816, 446], [776, 458], [740, 450], [704, 472], [668, 494]]
+      "points": [[892, 470], [856, 452], [816, 446], [776, 458], [740, 452], [712, 472]]
     }
   ]
 }

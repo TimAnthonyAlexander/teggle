@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "golden-rooftops-laundry",
-    "prompt": "Washing lines strung across the rooftops of a hill town at golden hour. Four thin ropes hang in long, smooth sagging curves across the picture: the highest from the upper left and upper right corners, dipping to about one third of the picture height beside the open top center, which stays plain sky; the second from edge to edge, dipping to about half the height; the third to about three fifths of the height; and the lowest across the middle three fifths of the width at about three quarters of the height. Small square sheets, towels and shirts in cream, pale blue and dusty rose hang from the ropes by wooden clothespins, staggered so that no piece hangs directly above another. Muted slate-blue roofs with chimneys rise at the left and right edges where the ropes are tied; the lower corners show only roof slopes."
+    "prompt": "Washing lines strung across the rooftops of a hill town at golden hour. Four thin ropes hang in long, smooth sagging curves across the picture: the highest from the upper left and upper right corners, dipping to about one third of the picture height beside the open top center, which stays plain sky; the second from edge to edge, dipping to about half the height; the third to about three fifths of the height; and the lowest across the middle three fifths of the width at about three quarters of the height. Small square sheets, towels and shirts in cream, pale blue and dusty rose hang from the ropes by wooden clothespins, staggered so that no piece hangs directly above another. Muted slate-blue roofs with chimneys rise at the left and right edges where the ropes are tied; the lower corners show only roof slopes.",
+    "picture": {
+      "ref": "pexels:12406735",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/clothes-hanging-in-between-concrete-buildings-12406735/",
+      "image": "https://images.pexels.com/photos/12406735/pexels-photo-12406735.jpeg",
+      "title": "Outdoor laundry hanging on lines against an Italian building with blue sky.",
+      "author": "Anastasiia Lopushynska",
+      "authorUrl": "https://www.pexels.com/@lapushkina",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "0ffcc6ff6140c03ad860416cd9d4149902e949e673dd414e449d84e4dd0d9281",
+      "size": [5616, 3744],
+      "crop": [0, 182, 5616, 3379],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 304,

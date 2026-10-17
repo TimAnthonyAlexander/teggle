@@ -22,7 +22,25 @@
   },
   "background": {
     "id": "petal-terraces-pinwheels",
-    "prompt": "Terraced flower gardens on a sunny hillside in late spring. Two big garden pinwheels on tall slender sticks spin in the lower half of the picture, centered at about one quarter and three quarters of the width and about three fifths of the height, each about half the picture height across, with five broad curved blades in cream and dusty rose around a round center. A garland of small blossoms in blush pink and cream arches across the middle of the picture between them at about one third of the height, below the open top center. Curving flower beds edged with pale stone run along the bottom and between the pinwheels, with butter-yellow and soft peach blossoms and muted sage leaves. A clear, soft sky; the lower corners are low gray-green hedges."
+    "prompt": "Terraced flower gardens on a sunny hillside in late spring. Two big garden pinwheels on tall slender sticks spin in the lower half of the picture, centered at about one quarter and three quarters of the width and about three fifths of the height, each about half the picture height across, with five broad curved blades in cream and dusty rose around a round center. A garland of small blossoms in blush pink and cream arches across the middle of the picture between them at about one third of the height, below the open top center. Curving flower beds edged with pale stone run along the bottom and between the pinwheels, with butter-yellow and soft peach blossoms and muted sage leaves. A clear, soft sky; the lower corners are low gray-green hedges.",
+    "picture": {
+      "ref": "pexels:12615038",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/multi-color-pinwheels-under-blue-sly-12615038/",
+      "image": "https://images.pexels.com/photos/12615038/pexels-photo-12615038.jpeg",
+      "title": "Colorful pinwheels spinning under a cloudy sky in Oostende, Belgium.",
+      "author": "Budget Bizar",
+      "authorUrl": "https://www.pexels.com/@budget-bizar-92378004",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "31a36e4fccf250bb50f4629a134b50c4f2f242cce9daa10c3b4da5893f559669",
+      "size": [6000, 4000],
+      "crop": [0, 194, 6000, 3611],
+      "flop": false,
+      "adjust": { "saturation": 0.55 }
+    }
   },
   "recipe": {
     "seed": 701,

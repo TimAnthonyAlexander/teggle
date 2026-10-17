@@ -11,7 +11,7 @@ A web rebuild of the 2007 PC pachinko shooter, for personal play. `spec.md` is t
 - `npm run format`: Prettier (Markdown is excluded on purpose; never reformat `spec.md`)
 - `npm run campaign:build [-- 1-3]`: campaign levels from `campaign/` and their lines through the generator's full checks, plus the manifest (`--no-check` writes a draft for review only)
 - `npm run campaign:grid -- 1-3 [--lines --level --crop x0,y0,x1,y1 --sketch]`: a level's picture with a board-coordinate grid, for tracing lines; `--sketch` renders the lines as a layout guide for painting the picture
-- `npm run campaign:art -- prompt 1-3` / `import 1-3 <file>`: the picture's prompt; a generated picture into `public/backgrounds/`
+- `npm run campaign:art -- search 1-3 "<query>"` / `show <ref>` / `import 1-3 <ref|url>` / `process` / `manifest`: found background pictures: search a source, preview a candidate, crop and process it into `public/backgrounds/` and record it in the level source, re-render after a look change, print the `docs/assets.md` tables
 - `npm run campaign:shots [-- 1-3]`: plays campaign levels in Chromium and captures start, mid-level and Fever screenshots
 
 ## Layout

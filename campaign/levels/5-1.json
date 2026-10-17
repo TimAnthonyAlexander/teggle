@@ -22,7 +22,25 @@
   },
   "background": {
     "id": "lighthouse-cove-life-rings",
-    "prompt": "A calm seaside cove on a sunny day. Two weathered wooden piers on gray-blue pilings reach out from the left and right edges toward the middle at about two fifths of the picture height, each about a third of the picture wide, their decks sloping gently down toward their tips, which stop short of the center and leave a wide gap of open water between them. The cove's clear aqua water fills the lower half of the picture, its calm surface at about half height. Four round life rings in white and pale teal float in a row on the water at about three fifths of the height, evenly spaced at about 20, 40, 60 and 80 percent of the width, each about a tenth of the picture wide, their lower parts below the waterline. Gentle lines of white foam curl along the surface between them. A soft blue sky with a few small clouds fills the top, open at the top center; the lower corners are calm water over pale sand."
+    "prompt": "A calm seaside cove on a sunny day. Two weathered wooden piers on gray-blue pilings reach out from the left and right edges toward the middle at about two fifths of the picture height, each about a third of the picture wide, their decks sloping gently down toward their tips, which stop short of the center and leave a wide gap of open water between them. The cove's clear aqua water fills the lower half of the picture, its calm surface at about half height. Four round life rings in white and pale teal float in a row on the water at about three fifths of the height, evenly spaced at about 20, 40, 60 and 80 percent of the width, each about a tenth of the picture wide, their lower parts below the waterline. Gentle lines of white foam curl along the surface between them. A soft blue sky with a few small clouds fills the top, open at the top center; the lower corners are calm water over pale sand.",
+    "picture": {
+      "ref": "pexels:30860316",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/wooden-pier-over-turquoise-waters-under-clear-sky-30860316/",
+      "image": "https://images.pexels.com/photos/30860316/pexels-photo-30860316.jpeg",
+      "title": "A stunning view of a wooden pier extending over clear turquoise waters against a blue sky.",
+      "author": "Abdulhamid Jalab",
+      "authorUrl": "https://www.pexels.com/@abdulhamid-jalab-3612181",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "54b2266a8cc95e48e26af42f330935042c098fcc2275e5d943d079b6d2ae3d75",
+      "size": [4000, 3000],
+      "crop": [0, 600, 2880, 1733],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 501,

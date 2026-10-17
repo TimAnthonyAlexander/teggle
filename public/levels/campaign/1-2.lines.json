@@ -4,164 +4,133 @@
   "board": { "width": 916, "height": 560 },
   "lines": [
     {
-      "id": "kite-left-roof",
-      "note": "Upper two edges of the left kite's frame",
-      "mode": "bricks",
-      "corners": [1],
-      "points": [[105, 150], [180, 45], [255, 150]]
-    },
-    {
-      "id": "kite-left-edges",
-      "note": "Lower two edges of the left kite, down to its tip",
-      "mode": "pegs",
-      "spacing": 38,
-      "corners": [1],
-      "points": [[126, 182], [180, 262], [234, 182]]
-    },
-    {
-      "id": "kite-left-spar",
-      "note": "The left kite's upright spar",
-      "mode": "pegs",
-      "spacing": 37,
-      "points": [[180, 112], [180, 222]]
-    },
-    {
-      "id": "kite-left-cross",
-      "note": "The left kite's cross spar",
-      "mode": "pegs",
-      "spacing": 34,
-      "points": [[146, 152], [214, 152]]
-    },
-    {
-      "id": "tail-left-inner",
-      "note": "Inner ribbon of the left kite's tail, sliding toward the middle",
-      "mode": "bricks",
-      "points": [[205, 300], [226, 340], [265, 375], [322, 400], [385, 413], [432, 416]]
-    },
-    {
-      "id": "tail-left-outer",
-      "note": "Outer ribbon of the left kite's tail, sweeping low",
-      "mode": "bricks",
-      "points": [[160, 300], [150, 350], [154, 410], [190, 458], [250, 488], [320, 502], [365, 507]]
-    },
-    {
-      "id": "tail-left-bows",
-      "note": "Bows tied between the two ribbons of the left tail",
+      "id": "kites",
+      "note": "Down the wingtips of the train of five stacked kites under the cannon",
       "mode": "pegs",
       "spacing": 40,
-      "points": [[190, 370], [215, 420], [265, 445], [330, 455], [380, 462]]
+      "keepSpacing": true,
+      "points": [[438, 214], [447, 252], [456, 292]]
     },
     {
-      "id": "kite-right-roof",
-      "note": "Upper two edges of the right kite's frame",
+      "id": "kite-noses",
+      "note": "The kites' leading edges, one brick spine down the train",
       "mode": "bricks",
-      "corners": [1],
-      "points": [[811, 150], [736, 45], [661, 150]]
+      "points": [[477, 164], [490, 230], [503, 296]]
     },
     {
-      "id": "kite-right-edges",
-      "note": "Lower two edges of the right kite, down to its tip",
+      "id": "tail-outer",
+      "note": "The outer ribbon tail, from the kites over the top left and down the left side",
+      "mode": "bricks",
+      "points": [
+        [418, 176], [399, 160], [367, 138], [335, 122], [286, 104], [237, 99], [201, 106],
+        [171, 127], [150, 150], [138, 180], [131, 227], [130, 273], [136, 301], [155, 337],
+        [181, 366]
+      ]
+    },
+    {
+      "id": "tail-inner",
+      "note": "The inner ribbon tail, from the kites to the left and down into its loop",
+      "mode": "bricks",
+      "points": [
+        [404, 226], [386, 222], [350, 222], [319, 227], [283, 242], [253, 258], [232, 278],
+        [220, 302], [213, 328], [212, 352], [219, 373], [234, 390]
+      ]
+    },
+    {
+      "id": "tail-middle",
+      "note": "The middle ribbon tail, a third slide between the outer and the inner one",
+      "mode": "bricks",
+      "points": [[352, 172], [306, 170], [257, 184], [216, 211], [190, 244], [176, 280]]
+    },
+    {
+      "id": "loop-curl",
+      "note": "Inside the tails' loop, following the inner tail",
       "mode": "pegs",
       "spacing": 38,
-      "corners": [1],
-      "points": [[790, 182], [736, 262], [682, 182]]
+      "points": [[400, 262], [360, 262], [322, 272], [292, 292], [272, 320], [264, 352], [270, 384]]
     },
     {
-      "id": "kite-right-spar",
-      "note": "The right kite's upright spar",
+      "id": "loop-heart",
+      "note": "The innermost curl of the loop",
       "mode": "pegs",
-      "spacing": 37,
-      "points": [[736, 112], [736, 222]]
+      "spacing": 38,
+      "points": [[402, 312], [366, 314], [336, 330], [319, 360], [323, 392]]
     },
     {
-      "id": "kite-right-cross",
-      "note": "The right kite's cross spar",
-      "mode": "pegs",
-      "spacing": 34,
-      "points": [[770, 152], [702, 152]]
-    },
-    {
-      "id": "tail-right-inner",
-      "note": "Inner ribbon of the right kite's tail, sliding toward the middle",
-      "mode": "bricks",
-      "points": [[711, 300], [690, 340], [651, 375], [594, 400], [531, 413], [484, 416]]
-    },
-    {
-      "id": "tail-right-outer",
-      "note": "Outer ribbon of the right kite's tail, sweeping low",
-      "mode": "bricks",
-      "points": [[756, 300], [766, 350], [762, 410], [726, 458], [666, 488], [596, 502], [551, 507]]
-    },
-    {
-      "id": "tail-right-bows",
-      "note": "Bows tied between the two ribbons of the right tail",
+      "id": "tails-bottom",
+      "note": "The tails running along the bottom toward the right",
       "mode": "pegs",
       "spacing": 40,
-      "points": [[726, 370], [701, 420], [651, 445], [586, 455], [536, 462]]
+      "points": [[256, 424], [292, 440], [335, 446], [380, 446], [425, 442], [470, 436], [515, 428]]
     },
     {
-      "id": "wisp-top-left",
-      "note": "Short wisp of cloud right of the left kite",
+      "id": "tails-under",
+      "note": "The lowest tail, sweeping under the others",
       "mode": "pegs",
-      "spacing": 34,
-      "points": [[290, 130], [325, 118], [358, 124]]
+      "spacing": 40,
+      "points": [[300, 480], [345, 490], [392, 492], [440, 486], [488, 476], [530, 464], [566, 452]]
     },
     {
-      "id": "wisp-top-right",
-      "note": "Short wisp of cloud left of the right kite",
+      "id": "tail-right-high",
+      "note": "A tail rising to the right, a slide back toward the middle",
+      "mode": "bricks",
+      "points": [[540, 400], [581, 389], [638, 360], [684, 344], [710, 322], [722, 298]]
+    },
+    {
+      "id": "tail-right-low",
+      "note": "Another tail rising to the right and curling down at its end",
+      "mode": "bricks",
+      "points": [[600, 424], [638, 402], [689, 386], [738, 366], [770, 374], [792, 404], [804, 438]]
+    },
+    {
+      "id": "wisp-under",
+      "note": "Wind under the rising tails",
       "mode": "pegs",
-      "spacing": 34,
-      "points": [[558, 124], [591, 118], [626, 130]]
+      "spacing": 40,
+      "points": [[620, 470], [665, 462], [710, 450], [755, 440]]
+    },
+    {
+      "id": "wisp-0",
+      "note": "Wind high in the open sky on the right",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[622, 60], [672, 50], [722, 48], [772, 54], [822, 68]]
     },
     {
       "id": "wisp-1",
-      "note": "Upper wisp of cloud across the middle",
+      "note": "Wind in the open sky right of the cannon",
       "mode": "pegs",
-      "spacing": 36,
-      "points": [[300, 215], [370, 200], [458, 212], [546, 200], [616, 215]]
+      "spacing": 40,
+      "points": [[600, 128], [650, 116], [705, 114], [760, 122], [810, 138], [856, 160]]
     },
     {
       "id": "wisp-2",
-      "note": "Middle wisp of cloud",
+      "note": "Wind in the open sky on the right",
       "mode": "pegs",
-      "spacing": 36,
-      "points": [[318, 290], [390, 274], [458, 284], [526, 274], [598, 290]]
+      "spacing": 40,
+      "points": [[572, 208], [628, 194], [688, 190], [748, 198], [804, 216], [856, 242]]
     },
     {
       "id": "wisp-3",
-      "note": "Lower wisp of cloud, between the inner ribbons",
+      "note": "Wind in the open sky on the right, above the rising tails",
       "mode": "pegs",
-      "spacing": 36,
-      "points": [[348, 356], [420, 338], [458, 342], [496, 338], [568, 356]]
+      "spacing": 40,
+      "points": [[596, 280], [648, 268], [704, 264], [760, 272], [812, 292], [860, 320]]
+    },
+    {
+      "id": "wisp-left",
+      "note": "Wind in the open sky in the upper left, outside the outer tail",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[30, 120], [62, 92], [100, 70], [144, 58], [190, 54]]
     },
     {
       "id": "cloud-left",
-      "note": "Small round cloud on the left, outside the tail, above the flippers' swing",
+      "note": "A small ring in the open sky by the left wall, outside the outer tail",
       "mode": "pegs",
       "closed": true,
-      "spacing": 36,
-      "points": [
-        [68, 330], [99.1, 340], [112, 364], [99.1, 388], [68, 398], [36.9, 388], [24, 364],
-        [36.9, 340]
-      ]
-    },
-    {
-      "id": "cloud-right",
-      "note": "Small round cloud on the right, outside the tail, above the flippers' swing",
-      "mode": "pegs",
-      "closed": true,
-      "spacing": 36,
-      "points": [
-        [848, 330], [878.9, 340], [892, 364], [878.9, 388], [848, 398], [816.9, 388], [804, 364],
-        [816.9, 340]
-      ]
-    },
-    {
-      "id": "cloud-bottom",
-      "note": "Top of the cloud between the tails' ends",
-      "mode": "pegs",
-      "spacing": 38,
-      "points": [[414, 478], [458, 466], [502, 478]]
+      "spacing": 37,
+      "points": [[60, 214], [91.2, 232], [91.2, 268], [60, 286], [28.8, 268], [28.8, 232]]
     }
   ]
 }

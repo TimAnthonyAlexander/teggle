@@ -1,0 +1,275 @@
+{
+  "formatVersion": 1,
+  "background": "clover-burrows-mushrooms",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "cap-left-rim",
+      "note": "Over the solid rim along the top of the tall mushroom's cap",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[158, 207], [166, 160], [196, 111], [244, 79], [300, 66], [332, 68]]
+    },
+    {
+      "id": "gills-left",
+      "note": "The gills under the rim of the left cap",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[196, 242], [226, 248], [262, 254], [300, 256], [342, 252], [384, 244]]
+    },
+    {
+      "id": "stem-left-left",
+      "note": "The left side of the left mushroom's stem",
+      "mode": "bricks",
+      "points": [[242, 284], [234, 340], [226, 392]]
+    },
+    {
+      "id": "stem-left-right",
+      "note": "The right side of the left mushroom's stem",
+      "mode": "bricks",
+      "points": [[372, 282], [380, 338], [388, 392]]
+    },
+    {
+      "id": "cap-right-rim",
+      "note": "Over the solid rim along the top of the shorter mushroom's cap",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[470, 166], [504, 140], [556, 120], [613, 120], [666, 145], [699, 192]]
+    },
+    {
+      "id": "cap-right-crown",
+      "note": "A spot on the right cap, sheltered under its solid rim",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[578, 242], [578, 250]]
+    },
+    {
+      "id": "gills-right",
+      "note": "The gills under the rim of the right cap",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[492, 320], [528, 328], [566, 324], [606, 310]]
+    },
+    {
+      "id": "stem-right-left",
+      "note": "The left side of the right mushroom's stem",
+      "mode": "bricks",
+      "points": [[514, 352], [500, 396], [486, 436]]
+    },
+    {
+      "id": "stem-right-right",
+      "note": "The right side of the right mushroom's stem",
+      "mode": "bricks",
+      "points": [[656, 316], [678, 368], [698, 420]]
+    },
+    {
+      "id": "stalk-right",
+      "note": "The long grass stalk leaning across the right side",
+      "mode": "bricks",
+      "points": [[878, 44], [822, 206], [760, 386]]
+    },
+    {
+      "id": "stalk-right-short",
+      "note": "A shorter grass stalk beside the long one",
+      "mode": "bricks",
+      "points": [[872, 226], [810, 344]]
+    },
+    {
+      "id": "twig-left",
+      "note": "The dark twig rising on the left",
+      "mode": "bricks",
+      "points": [[40, 140], [84, 282], [126, 404]]
+    },
+    {
+      "id": "leaf-left-high",
+      "note": "A leaf of the bush in the upper left",
+      "mode": "bricks",
+      "points": [[62, 86], [140, 66]]
+    },
+    {
+      "id": "leaf-left-middle",
+      "note": "A leaf of the bush on the left, under the high one",
+      "mode": "bricks",
+      "points": [[84, 120], [148, 104]]
+    },
+    {
+      "id": "leaf-left-low",
+      "note": "A leaf of the bush beside the left cap",
+      "mode": "bricks",
+      "points": [[90, 180], [124, 224]]
+    },
+    {
+      "id": "leaf-right-low",
+      "note": "A leaf between the right cap and the stalk",
+      "mode": "bricks",
+      "points": [[728, 222], [748, 290]]
+    },
+    {
+      "id": "moss-clump-1",
+      "note": "A clump of moss in front of the twig",
+      "mode": "bricks",
+      "points": [[146, 426], [200, 420]]
+    },
+    {
+      "id": "moss-clump-2",
+      "note": "A clump of moss in front of the left stem",
+      "mode": "bricks",
+      "points": [[236, 428], [292, 422]]
+    },
+    {
+      "id": "moss-clump-3",
+      "note": "A clump of moss in front of the left stem",
+      "mode": "bricks",
+      "points": [[330, 422], [384, 428]]
+    },
+    {
+      "id": "moss-clump-4",
+      "note": "A tuft of moss between the stems",
+      "mode": "bricks",
+      "points": [[404, 426], [458, 434]]
+    },
+    {
+      "id": "moss-clump-5",
+      "note": "A clump of moss low on the left",
+      "mode": "bricks",
+      "points": [[120, 468], [220, 462]]
+    },
+    {
+      "id": "moss-clump-6",
+      "note": "A clump of moss low on the left",
+      "mode": "bricks",
+      "points": [[262, 468], [362, 464]]
+    },
+    {
+      "id": "moss-clump-7",
+      "note": "A tuft of moss low in the middle",
+      "mode": "bricks",
+      "points": [[396, 472], [456, 468]]
+    },
+    {
+      "id": "moss-clump-8",
+      "note": "A clump of moss low in the middle",
+      "mode": "bricks",
+      "points": [[500, 466], [600, 470]]
+    },
+    {
+      "id": "moss-clump-9",
+      "note": "A clump of moss in front of the right stem",
+      "mode": "bricks",
+      "points": [[640, 464], [740, 460]]
+    },
+    {
+      "id": "moss-clump-10",
+      "note": "A tuft of moss low on the right",
+      "mode": "bricks",
+      "points": [[776, 458], [812, 456]]
+    },
+    {
+      "id": "moss-clump-11",
+      "note": "A clump of moss on the right, under the stalk",
+      "mode": "bricks",
+      "points": [[722, 426], [812, 412]]
+    },
+    {
+      "id": "moss-low",
+      "note": "The low moss along the bottom",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[150, 510], [300, 508], [460, 510], [620, 506], [780, 510]]
+    },
+    {
+      "id": "foliage-left",
+      "note": "Leaves left of the tall mushroom's stem",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[166, 290], [170, 334], [174, 378]]
+    },
+    {
+      "id": "bush-left",
+      "note": "The leaves of the bush in the upper left",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[26, 40], [70, 40], [112, 36]]
+    },
+    {
+      "id": "sky-left",
+      "note": "Leaves high between the bush and the left cap",
+      "mode": "pegs",
+      "spacing": 46,
+      "points": [[200, 40], [250, 36]]
+    },
+    {
+      "id": "gap-middle",
+      "note": "Down the dark gap between the two mushrooms",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[444, 300], [446, 340], [448, 380]]
+    },
+    {
+      "id": "foliage-right",
+      "note": "Leaves between the right cap and the stalk",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[722, 104], [744, 150], [764, 196]]
+    },
+    {
+      "id": "foliage-top",
+      "note": "Leaves in the background right of the cannon",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[660, 50], [712, 40], [764, 52], [810, 84]]
+    },
+    {
+      "id": "stem-gap-right",
+      "note": "A leaf between the right stem and the stalk",
+      "mode": "pegs",
+      "points": [[734, 330], [734, 338]]
+    },
+    {
+      "id": "twig-gap-left",
+      "note": "Leaves between the twig and the left cap",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[128, 252], [134, 300]]
+    },
+    {
+      "id": "edge-left",
+      "note": "Leaves at the left edge, left of the twig",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[24, 222], [26, 260], [24, 296]]
+    },
+    {
+      "id": "edge-left-low",
+      "note": "Leaves low at the left edge, right of the twig",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[56, 330], [58, 372]]
+    },
+    {
+      "id": "spore-middle",
+      "note": "A spore floating between the caps",
+      "mode": "pegs",
+      "points": [[418, 246], [418, 254]]
+    },
+    {
+      "id": "foliage-top-low",
+      "note": "A leaf under the leaves right of the cannon",
+      "mode": "pegs",
+      "points": [[620, 66], [620, 74]]
+    },
+    {
+      "id": "leaf-gap-left",
+      "note": "Between the leaves of the bush on the left",
+      "mode": "pegs",
+      "points": [[124, 146], [124, 154]]
+    },
+    {
+      "id": "undergrowth-right",
+      "note": "The undergrowth right of the stalk",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[878, 300], [866, 344], [856, 392]]
+    }
+  ]
+}

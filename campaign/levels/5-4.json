@@ -22,7 +22,25 @@
   },
   "background": {
     "id": "lighthouse-cove-helm",
-    "prompt": "A great wooden ship's wheel stands at the end of a pier in a sunny cove, turning slowly. The wheel fills the middle of the picture, centered at about 58 percent of the picture height, its round rim about two thirds of the picture height across, in honey-colored weathered wood with fittings of soft muted brass, with six spokes meeting at a round hub and short turned handles sticking out from the rim. On the left and right, at about one sixth and five sixths of the width, two soft gray iron anchors hang from wooden posts, their curved arms at about half the picture height. A coiled rope lies on the planks beside each post. The pier's planks run along the bottom; behind them, clear aqua water and a soft blue sky, open at the top center; the lower corners are plain planks."
+    "prompt": "A great wooden ship's wheel stands at the end of a pier in a sunny cove, turning slowly. The wheel fills the middle of the picture, centered at about 58 percent of the picture height, its round rim about two thirds of the picture height across, in honey-colored weathered wood with fittings of soft muted brass, with six spokes meeting at a round hub and short turned handles sticking out from the rim. On the left and right, at about one sixth and five sixths of the width, two soft gray iron anchors hang from wooden posts, their curved arms at about half the picture height. A coiled rope lies on the planks beside each post. The pier's planks run along the bottom; behind them, clear aqua water and a soft blue sky, open at the top center; the lower corners are plain planks.",
+    "picture": {
+      "ref": "pexels:12355827",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/steering-wheel-picture-12355827/",
+      "image": "https://images.pexels.com/photos/12355827/pexels-photo-12355827.jpeg",
+      "title": "Close-up of a ship's wooden steering wheel and throttle against clear blue sky.",
+      "author": "Kimani Marley",
+      "authorUrl": "https://www.pexels.com/@kimani-marley-416891",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "1ddbb7523cb537c41b433b27e41177c6a0fa465414bfbf7e3957cd25894fcfb3",
+      "size": [4032, 3024],
+      "crop": [161, 605, 2500, 1504],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 504,

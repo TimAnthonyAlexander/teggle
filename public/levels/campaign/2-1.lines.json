@@ -1,0 +1,57 @@
+{
+  "formatVersion": 1,
+  "background": "clover-burrows-potatoes",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "field",
+      "note": "The field below the treeline: the area the rows of potatoes fill",
+      "mode": "pegs",
+      "closed": true,
+      "corners": [0, 1, 2, 3],
+      "points": [[20, 168], [896, 168], [896, 520], [20, 520]]
+    },
+    {
+      "id": "track-left",
+      "note": "The double dirt track left of the middle, running from the horizon down to the lower left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[430, 162], [392, 238], [334, 346], [276, 446], [244, 512]]
+    },
+    {
+      "id": "track-right",
+      "note": "The dirt track right of the middle, running from the horizon down to the lower right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[470, 162], [502, 238], [546, 340], [590, 440], [618, 512]]
+    },
+    {
+      "id": "track-far-left",
+      "note": "The far dirt track on the left, fanning out toward the left wall",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[392, 168], [300, 214], [192, 268], [86, 326], [26, 358]]
+    },
+    {
+      "id": "track-far-right",
+      "note": "The far dirt track on the right, fanning out toward the right wall",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[508, 168], [604, 230], [720, 306], [848, 388]]
+    },
+    {
+      "id": "horizon-left",
+      "note": "The far edge of the field under the treeline, on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 160], [120, 158], [230, 158], [352, 161]]
+    },
+    {
+      "id": "horizon-right",
+      "note": "The far edge of the field under the treeline, on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[564, 161], [690, 158], [800, 158], [892, 160]]
+    }
+  ]
+}

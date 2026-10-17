@@ -22,7 +22,25 @@
   },
   "background": {
     "id": "ribbon-fair-prize-wheel",
-    "prompt": "A giant prize wheel stands on its booth at a country fair on a breezy afternoon. The wheel fills the middle of the picture, centered at about 58 percent of the picture height, its round rim about two thirds of the picture height across, divided into twelve wedge-shaped segments in alternating cream, pale teal, straw yellow and muted brick red, with a round hub in the center and a small pointer at the top of the rim. A wide arch of round unlit marquee light bulbs frames the booth, rising from the left and right edges to about one fifth of the picture height on both sides of the open top center. On each side of the wheel, two wooden prize shelves slope gently down toward it, holding wrapped prize boxes and ribbons. A soft turquoise sky shows above the arch; the lower corners are plain wooden boards."
+    "prompt": "A giant prize wheel stands on its booth at a country fair on a breezy afternoon. The wheel fills the middle of the picture, centered at about 58 percent of the picture height, its round rim about two thirds of the picture height across, divided into twelve wedge-shaped segments in alternating cream, pale teal, straw yellow and muted brick red, with a round hub in the center and a small pointer at the top of the rim. A wide arch of round unlit marquee light bulbs frames the booth, rising from the left and right edges to about one fifth of the picture height on both sides of the open top center. On each side of the wheel, two wooden prize shelves slope gently down toward it, holding wrapped prize boxes and ribbons. A soft turquoise sky shows above the arch; the lower corners are plain wooden boards.",
+    "picture": {
+      "ref": "pexels:19679714",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/ferris-wheel-at-amusement-park-19679714/",
+      "image": "https://images.pexels.com/photos/19679714/pexels-photo-19679714.jpeg",
+      "title": "A large Ferris wheel towers against a bright blue sky, symbolizing fun and adventure.",
+      "author": "Tomris🇹🇷",
+      "authorUrl": "https://www.pexels.com/@tomris-656234478",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "4b2f43618d6150c1ae179349cbefbb82390c1291d0fd8e5ecb07d6ba87ec6121",
+      "size": [6000, 4000],
+      "crop": [0, 194, 6000, 3611],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 805,

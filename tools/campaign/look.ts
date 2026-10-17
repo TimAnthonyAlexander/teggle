@@ -30,6 +30,11 @@ const WORK_H = PICTURE_H / 2;
 export const MAX_BYTES = 300_000;
 const QUALITY_MIN = 40;
 const QUALITY_MAX = 92;
+/**
+ * ImageMagick's threads: one, so a batch keeps the machine quiet. The bytes do not depend on
+ * the count (the shipped files came out the same with ImageMagick's default and with 1 and 4).
+ */
+const MAGICK_THREADS = 1;
 
 /** x, y, width, height in the source file's pixels. */
 export type Crop = readonly [number, number, number, number];
@@ -102,11 +107,17 @@ export function magickArgs(
     'Lanczos',
     '-resize',
     `${WORK_W}x${WORK_H}!`,
-    ...(look.paint > 0 ? ['-kuwahara', String(look.paint)] : []),
+    // Softening: fine texture (grass, leaves, grain) melts where it is low in contrast, then
+    // the edge-preserving smoothing flattens what is left into patches...
+    ...(look.paint > 0
+      ? ['-selective-blur', `0x${look.paint * 2}+12%`, '-kuwahara', String(look.paint)]
+      : []),
     '-filter',
     'Lanczos',
     '-resize',
     `${PICTURE_W}x${PICTURE_H}!`,
+    // ...whose edges a soft blur rounds off, like the strokes of a soft brush.
+    ...(look.paint > 0 ? ['-blur', `0x${Math.round(look.paint * 120) / 100}`] : []),
     '-modulate',
     `${pct(look.brightness)},${pct(look.saturation)},100`,
     // The palette's gradient map: the picture's luminance through shadow, middle and light.
@@ -180,7 +191,10 @@ export async function render(
   const tmp = await mkdtemp(path.join(tmpdir(), 'teggle-look-'));
   try {
     const png = path.join(tmp, 'picture.png');
-    await run('magick', magickArgs(input, crop, flop, look, png), { maxBuffer: 1 << 24 });
+    await run('magick', magickArgs(input, crop, flop, look, png), {
+      maxBuffer: 1 << 24,
+      env: { ...process.env, MAGICK_THREAD_LIMIT: String(MAGICK_THREADS) },
+    });
     if (pngOut !== undefined) await copyFile(png, pngOut);
     // Highest quality within the budget (size grows with quality).
     let lo = QUALITY_MIN;
@@ -206,6 +220,31 @@ export async function render(
   }
 }
 
+/** Pixel size of a WebP file from its header (lossy, lossless or extended), or null. */
+export function webpSize(bytes: Uint8Array): [number, number] | null {
+  const text = (at: number): string => String.fromCharCode(...bytes.subarray(at, at + 4));
+  if (bytes.length < 30 || text(0) !== 'RIFF' || text(8) !== 'WEBP') return null;
+  const b = (i: number): number => bytes[i] ?? 0;
+  switch (text(12)) {
+    case 'VP8 ':
+      // A key frame: 3 bytes of frame tag, the start code, then 14-bit width and height.
+      if (b(23) !== 0x9d || b(24) !== 0x01 || b(25) !== 0x2a) return null;
+      return [(b(26) | (b(27) << 8)) & 0x3fff, (b(28) | (b(29) << 8)) & 0x3fff];
+    case 'VP8L': {
+      if (b(20) !== 0x2f) return null;
+      const bits = b(21) | (b(22) << 8) | (b(23) << 16) | (b(24) << 24);
+      return [(bits & 0x3fff) + 1, ((bits >>> 14) & 0x3fff) + 1];
+    }
+    case 'VP8X':
+      return [
+        (b(24) | (b(25) << 8) | (b(26) << 16)) + 1,
+        (b(27) | (b(28) << 8) | (b(29) << 16)) + 1,
+      ];
+    default:
+      return null;
+  }
+}
+
 /** Pixel size of an image file. */
 export async function imageSize(file: string): Promise<[number, number]> {
   const { stdout } = await run('magick', ['identify', '-format', '%w %h\n', `${file}[0]`]);
@@ -217,6 +256,6 @@ export async function imageSize(file: string): Promise<[number, number]> {
 /** The tool versions that decide the bytes, for the asset manifest. */
 export async function toolVersions(): Promise<string> {
   const magick = (await run('magick', ['-version'])).stdout.split('\n')[0] ?? '';
-  const cwebp = (await run('cwebp', ['-version'])).stdout.trim();
+  const cwebp = (await run('cwebp', ['-version'])).stdout.trim().split('\n')[0] ?? '';
   return `${/ImageMagick \S+/.exec(magick)?.[0] ?? magick}, cwebp ${cwebp}`;
 }

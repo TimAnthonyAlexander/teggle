@@ -1,0 +1,337 @@
+{
+  "formatVersion": 1,
+  "background": "clover-burrows-hall",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "gable",
+      "note": "The two edges of the gable roof, up to its peak and down to the eaves",
+      "mode": "bricks",
+      "corners": [2],
+      "points": [[50, 284], [134, 216], [218, 148], [290, 212], [362, 278]]
+    },
+    {
+      "id": "gable-beam",
+      "note": "The beam along the foot of the gable, over the stone wall and the door",
+      "mode": "bricks",
+      "points": [[100, 298], [210, 304], [300, 309]]
+    },
+    {
+      "id": "plank-2",
+      "note": "The middle plank of the gable",
+      "mode": "bricks",
+      "points": [[164, 230], [266, 238]]
+    },
+    {
+      "id": "plank-3",
+      "note": "The low plank of the gable",
+      "mode": "bricks",
+      "points": [[130, 264], [300, 274]]
+    },
+    {
+      "id": "eaves",
+      "note": "The roof's front board along the long stone wall, sloping slightly down to the right",
+      "mode": "bricks",
+      "points": [[390, 306], [600, 318], [820, 332]]
+    },
+    {
+      "id": "course-1",
+      "note": "The top course of stones of the long wall, under the eaves",
+      "mode": "bricks",
+      "points": [[290, 346], [500, 356], [722, 370]]
+    },
+    {
+      "id": "course-2-1",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[290.5, 384], [325.4, 386.1]]
+    },
+    {
+      "id": "course-2-2",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[339.4, 386.9], [374.4, 388.9]]
+    },
+    {
+      "id": "course-2-3",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[388.3, 389.8], [423.3, 391.8]]
+    },
+    {
+      "id": "course-2-4",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[437.2, 392.6], [472.2, 394.7]]
+    },
+    {
+      "id": "course-2-5",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[486.2, 395.5], [521.1, 397.5]]
+    },
+    {
+      "id": "course-2-6",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[535.1, 398.3], [570, 400.4]]
+    },
+    {
+      "id": "course-2-7",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[584, 401.2], [618.9, 403.3]]
+    },
+    {
+      "id": "course-2-8",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[632.9, 404.1], [667.9, 406.1]]
+    },
+    {
+      "id": "course-2-9",
+      "note": "A stone of the middle course of the long wall",
+      "mode": "bricks",
+      "points": [[682, 407], [717, 409]]
+    },
+    {
+      "id": "course-3-1",
+      "note": "A stone of the bottom course of the long wall",
+      "mode": "bricks",
+      "points": [[315, 425.4], [349.9, 427.5]]
+    },
+    {
+      "id": "course-3-2",
+      "note": "A stone of the bottom course of the long wall",
+      "mode": "bricks",
+      "points": [[363.9, 428.3], [398.8, 430.3]]
+    },
+    {
+      "id": "course-3-3",
+      "note": "A stone of the bottom course of the long wall",
+      "mode": "bricks",
+      "points": [[412.8, 431.1], [447.7, 433.2]]
+    },
+    {
+      "id": "course-3-4",
+      "note": "A stone of the bottom course of the long wall",
+      "mode": "bricks",
+      "points": [[461.7, 434], [496.7, 436]]
+    },
+    {
+      "id": "course-3-5",
+      "note": "A stone of the bottom course of the long wall",
+      "mode": "bricks",
+      "points": [[510.6, 436.8], [545.6, 438.8]]
+    },
+    {
+      "id": "course-3-6",
+      "note": "A stone of the bottom course of the long wall, where it ends in the slope",
+      "mode": "bricks",
+      "points": [[559.5, 439.7], [594.5, 441.7]]
+    },
+    {
+      "id": "wall-left-1-1",
+      "note": "A stone of the top course of the short wall left of the door",
+      "mode": "bricks",
+      "points": [[64.5, 350], [99.4, 347.1]]
+    },
+    {
+      "id": "wall-left-1-2",
+      "note": "A stone of the top course of the short wall left of the door",
+      "mode": "bricks",
+      "points": [[113.3, 345.9], [148.2, 343]]
+    },
+    {
+      "id": "wall-left-2",
+      "note": "The middle course of the short stone wall",
+      "mode": "bricks",
+      "points": [[104, 390], [160, 384]]
+    },
+    {
+      "id": "wall-left-3",
+      "note": "The bottom course of the short stone wall",
+      "mode": "bricks",
+      "points": [[108, 430], [160, 424]]
+    },
+    {
+      "id": "door-left",
+      "note": "The door's left post",
+      "mode": "bricks",
+      "points": [[192, 336], [192, 434]]
+    },
+    {
+      "id": "door-right",
+      "note": "The door's right post",
+      "mode": "bricks",
+      "points": [[266, 336], [266, 434]]
+    },
+    {
+      "id": "trunk-right",
+      "note": "The thin leaning trunk on the hillside right of the cannon",
+      "mode": "bricks",
+      "points": [[598, 26], [628, 92], [660, 156]]
+    },
+    {
+      "id": "log-left",
+      "note": "The fallen log on the hillside in the upper left",
+      "mode": "bricks",
+      "points": [[36, 100], [100, 86], [168, 82]]
+    },
+    {
+      "id": "branch-right",
+      "note": "The bare branch reaching across the upper right",
+      "mode": "bricks",
+      "points": [[740, 70], [814, 90], [890, 116]]
+    },
+    {
+      "id": "birch-right",
+      "note": "The birch trunk at the right edge",
+      "mode": "bricks",
+      "points": [[868, 160], [868, 230], [872, 300]]
+    },
+    {
+      "id": "door",
+      "note": "Down the planks of the door",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[229, 340], [229, 420]]
+    },
+    {
+      "id": "gable-peak",
+      "note": "The top plank of the gable, under its peak",
+      "mode": "pegs",
+      "points": [[216, 192], [216, 200]]
+    },
+    {
+      "id": "tufts-left",
+      "note": "Grass tufts on the sod roof behind the gable",
+      "mode": "pegs",
+      "spacing": 50,
+      "points": [[306, 146], [356, 132]]
+    },
+    {
+      "id": "tufts-right",
+      "note": "Grass tufts on the sod roof right of the cannon",
+      "mode": "pegs",
+      "spacing": 50,
+      "points": [[540, 129], [590, 134]]
+    },
+    {
+      "id": "birch-left",
+      "note": "The thin birch trunk behind the gable",
+      "mode": "bricks",
+      "points": [[214, 24], [212, 80], [208, 136]]
+    },
+    {
+      "id": "hill-left",
+      "note": "The grass of the hillside under the log",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[40, 140], [90, 132], [140, 130]]
+    },
+    {
+      "id": "hill-mid",
+      "note": "The grass of the hillside left of the cannon",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[262, 70], [300, 86]]
+    },
+    {
+      "id": "hill-right",
+      "note": "The grass of the hillside right of the trunk",
+      "mode": "pegs",
+      "spacing": 52,
+      "points": [[650, 40], [700, 60], [690, 110]]
+    },
+    {
+      "id": "bush-right",
+      "note": "The bushes above the far end of the house",
+      "mode": "bricks",
+      "points": [[740, 150], [780, 180], [816, 222], [830, 270]]
+    },
+    {
+      "id": "meadow",
+      "note": "The meadow in front of the house",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[130, 474], [300, 476], [458, 478], [620, 476], [790, 470]]
+    },
+    {
+      "id": "meadow-low",
+      "note": "The low meadow along the bottom",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[170, 510], [458, 510], [750, 508]]
+    },
+    {
+      "id": "sod-face-1",
+      "note": "Grass on the face of the sod roof, sheltered under its ridge",
+      "mode": "pegs",
+      "points": [[600, 242], [600, 250]]
+    },
+    {
+      "id": "sod-face-2",
+      "note": "Grass on the face of the sod roof, sheltered under its ridge",
+      "mode": "pegs",
+      "points": [[520, 232], [520, 240]]
+    },
+    {
+      "id": "bank-1",
+      "note": "A stone on the earth bank where the long wall ends",
+      "mode": "bricks",
+      "points": [[740, 414], [772, 400]]
+    },
+    {
+      "id": "bank-2",
+      "note": "A stone higher on the earth bank",
+      "mode": "bricks",
+      "points": [[794, 386], [824, 368]]
+    },
+    {
+      "id": "tufts-far-right",
+      "note": "Grass tufts on the sod roof toward its far end",
+      "mode": "pegs",
+      "spacing": 46,
+      "points": [[700, 176], [741, 200]]
+    },
+    {
+      "id": "log-left-high",
+      "note": "A log high on the hillside in the upper left",
+      "mode": "bricks",
+      "points": [[36, 46], [176, 38]]
+    },
+    {
+      "id": "bush-left",
+      "note": "The bushes on the hillside left of the gable",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[30, 176], [66, 192], [30, 236]]
+    },
+    {
+      "id": "branch-gap",
+      "note": "Under the bare branch in the upper right",
+      "mode": "pegs",
+      "spacing": 50,
+      "points": [[790, 130], [840, 140]]
+    },
+    {
+      "id": "edge-right",
+      "note": "The grass at the right edge, below the birch",
+      "mode": "pegs",
+      "points": [[860, 346], [860, 354]]
+    },
+    {
+      "id": "sod-face-3",
+      "note": "Grass on the face of the sod roof, sheltered under its ridge",
+      "mode": "pegs",
+      "points": [[680, 268], [680, 276]]
+    },
+    {
+      "id": "sod-face-4",
+      "note": "Grass low on the face of the sod roof, above the eaves",
+      "mode": "pegs",
+      "points": [[620, 280], [620, 288]]
+    }
+  ]
+}

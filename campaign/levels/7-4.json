@@ -22,7 +22,6 @@
       "Moving ground and brick wheels (spec 8): the mill stream and two mill wheels",
       "Bricks only (spec 8): the second of stage 7's two bricks-only levels"
     ],
-    "needs": ["line-movers"],
     "difficulty": {
       "target": 0.26,
       "note": "Second hardest: three kinds of motion at once, and the ripples carry balls sideways away from the bucket."
@@ -30,7 +29,25 @@
   },
   "background": {
     "id": "petal-terraces-mill",
-    "prompt": "A little water mill in a sunny terraced garden in late spring. A big wooden overshot water wheel with flat paddles turns left of the center, centered at about one third of the picture width and two fifths of the picture height, about two fifths of the picture height across; a wooden chute comes in from the upper left and ends just above the wheel's top. Right of the center, a smaller round wooden gear wheel, about a quarter of the picture height across, turns at about two thirds of the width and one third of the height, below the soft gray-blue roof slope of the mill house at the upper right. The mill stream flows straight across the whole picture at about two thirds of the height in a narrow band of clear pale-aqua water with rows of small curved ripples. Below it, grassy banks with dusty rose and cream flowers slope gently toward the middle. The top center is open sky; the lower corners are low sage hedges."
+    "prompt": "A little water mill in a sunny terraced garden in late spring. A big wooden overshot water wheel with flat paddles turns left of the center, centered at about one third of the picture width and two fifths of the picture height, about two fifths of the picture height across; a wooden chute comes in from the upper left and ends just above the wheel's top. Right of the center, a smaller round wooden gear wheel, about a quarter of the picture height across, turns at about two thirds of the width and one third of the height, below the soft gray-blue roof slope of the mill house at the upper right. The mill stream flows straight across the whole picture at about two thirds of the height in a narrow band of clear pale-aqua water with rows of small curved ripples. Below it, grassy banks with dusty rose and cream flowers slope gently toward the middle. The top center is open sky; the lower corners are low sage hedges.",
+    "picture": {
+      "ref": "pixabay:3576188",
+      "kind": "painting",
+      "source": "Pixabay",
+      "page": "https://pixabay.com/illustrations/mill-on-the-brook-mill-bach-water-3576188/",
+      "image": "https://cdn.pixabay.com/photo/2018/07/31/23/31/mill-on-the-brook-3576188_1280.jpg",
+      "title": "Free mill on the brook mill bach illustration",
+      "author": "mobasoft24",
+      "authorUrl": "https://pixabay.com/users/mobasoft24-3250123/",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "fetched": "2026-10-15",
+      "sha256": "0fa9fe0cc880e63b8b962d598d7e461ba3ff4c1bc8742c519827d33f4de5d640",
+      "size": [1280, 853],
+      "crop": [0, 41, 1280, 770],
+      "flop": false,
+      "adjust": { "saturation": 0.65, "paint": 3 }
+    }
   },
   "recipe": {
     "seed": 704,

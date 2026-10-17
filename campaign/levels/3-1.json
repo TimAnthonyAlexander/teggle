@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "golden-rooftops-gables",
-    "prompt": "A row of five tall, narrow town houses with steep triangular gables, seen from the front against a calm golden-hour sky, standing shoulder to shoulder across the lower two thirds of the picture. The two tallest stand at about one quarter and three quarters of the width, each about a sixth of the picture wide, their gable peaks at about one quarter of the picture height; two shorter houses stand close to the side edges and a low, wide house stands in the middle, all three with their peaks at about two fifths of the height, so the top center stays open sky. The roofs are muted slate blue, the walls honey and cream stone; each front has two round windows and a small balcony, and narrow gaps of sky separate the houses. A square chimney rises beside each of the two tallest gables. The houses stand on a low stone wall along the bottom; the house fronts near the lower corners are plain stone without windows."
+    "prompt": "A row of five tall, narrow town houses with steep triangular gables, seen from the front against a calm golden-hour sky, standing shoulder to shoulder across the lower two thirds of the picture. The two tallest stand at about one quarter and three quarters of the width, each about a sixth of the picture wide, their gable peaks at about one quarter of the picture height; two shorter houses stand close to the side edges and a low, wide house stands in the middle, all three with their peaks at about two fifths of the height, so the top center stays open sky. The roofs are muted slate blue, the walls honey and cream stone; each front has two round windows and a small balcony, and narrow gaps of sky separate the houses. A square chimney rises beside each of the two tallest gables. The houses stand on a low stone wall along the bottom; the house fronts near the lower corners are plain stone without windows.",
+    "picture": {
+      "ref": "pexels:38510919",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/historic-stockholm-rooftops-and-bell-tower-scene-38510919/",
+      "image": "https://images.pexels.com/photos/38510919/pexels-photo-38510919.jpeg",
+      "title": "Scenic view of Stockholm's historic rooftops and a distinctive bell tower under a cloudy sky.",
+      "author": "Silambarasan",
+      "authorUrl": "https://www.pexels.com/@silambarasan-2162810010",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "d8ff7938f27d075ad695813e7eac5dde497949a9ee46395c83b87f71fa609f3a",
+      "size": [4000, 2252],
+      "crop": [129, 0, 3742, 2252],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 301,

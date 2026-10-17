@@ -2,13 +2,31 @@
   "id": "1-1",
   "name": "Balloon Morning",
   "concept": {
-    "subject": "A striped hot-air balloon rising through a pale morning sky, strung with pennant bunting, with six small balloons drifting around it.",
-    "composition": "The big balloon's envelope fills the middle of the board, its basket hangs low over the bucket's path; the bunting strings droop from the upper corners to the envelope's sides; the small balloons float in pairs, high above the strings, at mid height by the walls and low above the cloud banks that fill the lower corners.",
-    "layout": "Round pegs only, 135 of them. The envelope is a curved grid: pegs along its outline and down the middle of its five inner panels. One peg sits on each pennant, rings of eight pegs surround the small balloons with one more peg on each balloon, peg lines follow the cloud tops and leave the lower corners to the flippers. Level 1 introduces ramps and blockers: two rails lie on the cloud tops near the side walls and slope toward the middle, and the basket is a blocker with a peaked top."
+    "subject": "A big rainbow-striped hot-air balloon rising through a sky of puffy clouds, with three more balloons around it.",
+    "composition": "The big balloon's envelope fills the middle of the board with its basket hanging low over the bucket's path; a dark-paneled balloon rises in the lower left, a red-and-blue one is cut by the right edge at mid height and a blue-and-white one is low on the right; the clouds fill the upper half and blue sky the lower.",
+    "layout": "Round pegs only, 135 of them. The envelope is a curved grid: pegs along its outline and down five of its seams. Strings of single pegs droop from the upper corners over the clouds to the envelope's sides; rings of eight pegs with a peg inside sit on the lower-left and right-edge balloons, above the low right one and on three bright cloud tufts; peg lines run over the crowns of the side balloons and through the open sky, and leave the lower corners to the flippers. Level 1 introduces ramps and blockers: a rail on the lower-left balloon by the left wall and one on the right-edge balloon slope toward the middle, and the basket is a blocker with a peaked top."
   },
   "background": {
     "id": "cloud-isles-balloons",
-    "prompt": "A large hot-air balloon floats in the center. Its round envelope fills the middle of the picture, from about one seventh to three quarters of the picture height and about one third of its width, made of broad vertical panels in alternating muted blue and cream with clearly visible curved seams running from its top to its bottom. A woven basket hangs below it on four short ropes, its bottom just above the lowest tenth of the picture. Two strings of small triangular pennant flags hang in gentle curves from the upper left and upper right corners down to the sides of the envelope. Six small distant striped balloons, each about a twentieth of the picture wide, float around it in pairs: one high on each side above the pennant strings (at about a quarter and three quarters of the width), one at mid height close to each side edge, and one low on each side just above the clouds. Soft cumulus clouds fill the lower corners and run along the bottom."
+    "prompt": "A photo looking up at hot-air balloons in a blue sky with puffy white clouds. A large balloon with narrow rainbow stripes (red, green, yellow, coral) fills the middle: its envelope spans from about a third to two thirds of the picture width and from about an eighth to seven tenths of the height, its small basket hanging at about four fifths of the height just left of the center. A balloon with dark, purple and blue panels rises in the lower left, from the left edge to about three tenths of the width and from a little over half the height down past the bottom edge; a red, white and blue striped balloon is cut by the right edge between about two fifths and seven tenths of the height; a blue-and-white striped balloon sits low on the right, between about four fifths and nineteen twentieths of the width, from about three quarters of the height down past the bottom. Clouds cover the upper half; the lower half is clear blue sky.",
+    "picture": {
+      "ref": "pexels:37901530",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/colorful-hot-air-balloons-against-blue-sky-37901530/",
+      "image": "https://images.pexels.com/photos/37901530/pexels-photo-37901530.jpeg",
+      "title": "Vibrant hot air balloons soaring under a clear blue sky, perfect for travel and adventure themes.",
+      "author": "Steve Tarr",
+      "authorUrl": "https://www.pexels.com/@steve-tarr-251772292",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "c0cddf62ee4361d45dfa31b0e242dd96fe92ca84bd1d4c0ba8905d9903cb4a12",
+      "size": [3200, 2168],
+      "crop": [0, 0, 2765, 1664],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 101,
@@ -17,17 +35,17 @@
       "polygons": [
         {
           "points": [
-            [427, 471],
-            [465, 458],
-            [503, 471],
-            [498, 510],
-            [432, 510]
+            [424, 448],
+            [445, 433],
+            [466, 448],
+            [463, 476],
+            [427, 476]
           ]
         }
       ],
       "rods": [
-        { "a": [56, 358], "b": [132, 397] },
-        { "a": [834, 306], "b": [770, 340] }
+        { "a": [36, 350], "b": [98, 380] },
+        { "a": [884, 222], "b": [826, 262] }
       ]
     }
   }

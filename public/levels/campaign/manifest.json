@@ -47,6 +47,53 @@
           "background": "cloud-isles-dandelions"
         }
       ]
+    },
+    {
+      "stage": 2,
+      "world": "Clover Burrows",
+      "master": "multiball",
+      "levels": [
+        {
+          "id": "2-1",
+          "number": 6,
+          "name": "Peanut Rows",
+          "file": "campaign/2-1.json",
+          "lines": "campaign/2-1.lines.json",
+          "background": "clover-burrows-potatoes"
+        },
+        {
+          "id": "2-2",
+          "number": 7,
+          "name": "The Forked Lane",
+          "file": "campaign/2-2.json",
+          "lines": "campaign/2-2.lines.json",
+          "background": "clover-burrows-fork"
+        },
+        {
+          "id": "2-3",
+          "number": 8,
+          "name": "Mushroom Moss",
+          "file": "campaign/2-3.json",
+          "lines": "campaign/2-3.lines.json",
+          "background": "clover-burrows-mushrooms"
+        },
+        {
+          "id": "2-4",
+          "number": 9,
+          "name": "The Fiddleheads",
+          "file": "campaign/2-4.json",
+          "lines": "campaign/2-4.lines.json",
+          "background": "clover-burrows-corkscrews"
+        },
+        {
+          "id": "2-5",
+          "number": 10,
+          "name": "The Sod House",
+          "file": "campaign/2-5.json",
+          "lines": "campaign/2-5.lines.json",
+          "background": "clover-burrows-hall"
+        }
+      ]
     }
   ]
 }

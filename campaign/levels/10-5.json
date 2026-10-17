@@ -27,7 +27,25 @@
   },
   "background": {
     "id": "silverwood-willows",
-    "prompt": "Two silver willows grow at the left and right edges of a birch forest at misty dawn, their rounded crowns in the upper corners and their long, thin hanging strands falling in two soft curtains down both side edges to about three quarters of the picture height, swaying in a gentle breeze so that each curtain forms two wavy strands weaving around a straight line. Across the middle of the picture, a little below half its height, two long ribbons of pale silver-blue mist drift side by side from the left curtain to the right one, rippling in gentle waves, one rising where the other dips. Small round river stones lie below the ribbons. Slender white birches stand in the background; the top center is open, pale dawn sky; the lower corners are plain moss."
+    "prompt": "Two silver willows grow at the left and right edges of a birch forest at misty dawn, their rounded crowns in the upper corners and their long, thin hanging strands falling in two soft curtains down both side edges to about three quarters of the picture height, swaying in a gentle breeze so that each curtain forms two wavy strands weaving around a straight line. Across the middle of the picture, a little below half its height, two long ribbons of pale silver-blue mist drift side by side from the left curtain to the right one, rippling in gentle waves, one rising where the other dips. Small round river stones lie below the ribbons. Slender white birches stand in the background; the top center is open, pale dawn sky; the lower corners are plain moss.",
+    "picture": {
+      "ref": "pexels:5511804",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/willow-trees-and-pond-in-park-5511804/",
+      "image": "https://images.pexels.com/photos/5511804/pexels-photo-5511804.jpeg",
+      "title": "Beautiful landscape of a tranquil pond surrounded by lush weeping willows in fall.",
+      "author": "Mike van Schoonderwalt",
+      "authorUrl": "https://www.pexels.com/@mike-van-schoonderwalt-1884800",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "189cf3290d2f7bdf51d4949be8b4f251ef9704534f939c7c8f71147f6a4187e8",
+      "size": [3701, 3592],
+      "crop": [0, 682, 3701, 2227],
+      "flop": false,
+      "adjust": { "saturation": 0.7, "paint": 3 }
+    }
   },
   "recipe": {
     "seed": 1005,

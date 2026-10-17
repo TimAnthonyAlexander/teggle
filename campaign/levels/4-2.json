@@ -21,7 +21,20 @@
   },
   "background": {
     "id": "lilac-orbit-station",
-    "prompt": "A wheel-shaped space station turns slowly in a soft lilac and periwinkle outer space. The station is a large round wheel in the middle of the picture, centered at about 58 percent of the picture height, its outer rim about two thirds of the picture height across, made of smooth pearl-gray hull segments with four wide docking gaps evenly spaced around it. Six thin spokes run from the rim to a small round hub in the center. Two small satellites with flat rectangular solar panels float in the upper left and upper right corners, and loose clusters of small pale silver stars drift along both sides. The top center is open, calm space; the lower corners are plain nebula haze."
+    "prompt": "A wheel-shaped space station turns slowly in a soft lilac and periwinkle outer space. The station is a large round wheel in the middle of the picture, centered at about 58 percent of the picture height, its outer rim about two thirds of the picture height across, made of smooth pearl-gray hull segments with four wide docking gaps evenly spaced around it. Six thin spokes run from the rim to a small round hub in the center. Two small satellites with flat rectangular solar panels float in the upper left and upper right corners, and loose clusters of small pale silver stars drift along both sides. The top center is open, calm space; the lower corners are plain nebula haze.",
+    "picture": {
+      "ref": "wallhaven:6o7r87",
+      "kind": "painting",
+      "source": "wallhaven",
+      "page": "https://wallhaven.cc/w/6o7r87",
+      "image": "https://w.wallhaven.cc/full/6o/wallhaven-6o7r87.jpg",
+      "fetched": "2026-10-15",
+      "sha256": "cd3d10694e6abdc727ff4cd51b30f3045f06c455a6b81394cf13b9a5d8cd81a4",
+      "size": [3072, 1296],
+      "crop": [459, 0, 2153, 1296],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 402,

@@ -2,13 +2,31 @@
   "id": "1-3",
   "name": "The Sky Tree",
   "concept": {
-    "subject": "A great round-crowned tree in blossom on a small floating island, flanked by two flat-topped floating rocks with small round trees of their own.",
-    "composition": "The tree's crown spreads over the middle of the board; the island's grassy top and tapering underside sit below it; the two rocks hover at mid height by the side walls; petals stream from the crown toward the upper corners; cloud puffs float between the rocks and the island and cloud banks fill the lower corners.",
-    "layout": "137 round pegs; the first level with green pegs. Pegs trace the crown's scalloped outline and fill it with a lattice of blossoms; the island's top and underside are peg lines. The two side rocks are solid platforms sloping toward the middle, each under a ring of pegs for its small tree with three blossoms inside. Petal streams, cloud puffs with a peg in the middle and cloud banks carry the rest; the lower corners stay free for the flippers."
+    "subject": "A great round-crowned tree in white blossom on a grassy hill under a pale sky, between two smaller blossoming trees at the edges.",
+    "composition": "The great crown spreads over the middle of the board with its trunk on the hill line just below; the smaller trees stand at the left and right edges; the hill slopes gently down to the right at a little over half the height and its meadow fills the lower half.",
+    "layout": "137 round pegs; the first level with green pegs. Pegs trace the crown's outline and fill it with a lattice of blossoms, with a peg on the trunk; peg lines run along the hill at the tree's foot and in a V below it. Rings of pegs with three blossoms inside mark the side trees, each over a solid mound of the hill sloping toward the middle. Petal streams blow from the crown toward the upper corners, two tufts with a peg in the middle sit in the meadow and low lines leave the lower corners to the flippers."
   },
   "background": {
     "id": "cloud-isles-tree",
-    "prompt": "A small floating island in the center carries one great round-crowned tree in blossom. The crown is a wide rounded canopy of six overlapping round lobes with clear scalloped edges, in soft muted sage and blue-green dotted with small pale blossoms, filling the middle of the picture from about one seventh to three fifths of its height and from about 28 to 72 percent of its width. A short trunk stands on the island's grassy top at about two thirds of the picture height; the island's rocky underside tapers to a point near the bottom. Streams of blossom petals blow from the crown toward the upper left and upper right corners. On the far left and far right, two smaller rocks hover at a little over half height, each with a flat grassy top tilted slightly down toward the center and a pointed underside, each carrying a small round bush-like tree about a tenth of the picture wide. A small round cloud puff floats between each rock and the island, and soft clouds fill the lower corners."
+    "prompt": "A photo of a great round-crowned tree in white blossom on a green hill under a pale blue-gray sky. Its crown fills the middle of the picture, from about 29 to 70 percent of the width and from about a sixth to a little over half the height, its trunk standing on the hill line at about three fifths of the height just right of the center. Two smaller blossoming trees stand at the edges: one cut by the left edge, reaching a seventh of the width, from about a fifth to a little over half the height; one at the right edge from about 83 percent of the width, from a third to three fifths of the height. The hill line runs across at about 56 percent of the height on the left, sloping down to about 63 percent on the right; below it a meadow fills the picture.",
+    "picture": {
+      "ref": "pexels:32050739",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/springtime-blossom-trees-on-a-green-hill-32050739/",
+      "image": "https://images.pexels.com/photos/32050739/pexels-photo-32050739.jpeg",
+      "title": "Three cherry blossom trees on a lush green hill under a blue sky.",
+      "author": "Manfredo Mozzarella",
+      "authorUrl": "https://www.pexels.com/@manfredo-mozzarella-476184758",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "50236699b1047c06217705458bffd914aa6bd5de28fd6b5f5515e8ee5a294391",
+      "size": [7683, 5122],
+      "crop": [1652, 1193, 4610, 2774],
+      "flop": false,
+      "adjust": { "saturation": 0.45 }
+    }
   },
   "recipe": {
     "seed": 103,
@@ -17,28 +35,28 @@
       "polygons": [
         {
           "points": [
-            [22, 304],
-            [168, 324],
-            [156, 348],
-            [122, 388],
+            [22, 316],
+            [168, 332],
+            [156, 352],
+            [122, 390],
             [90, 428],
-            [60, 386],
-            [28, 340]
+            [60, 388],
+            [28, 344]
           ]
         },
         {
           "points": [
-            [894, 304],
-            [748, 324],
-            [760, 348],
-            [794, 388],
+            [894, 340],
+            [752, 356],
+            [766, 374],
+            [796, 400],
             [826, 428],
-            [856, 386],
-            [888, 340]
+            [856, 394],
+            [886, 364]
           ]
         }
       ]
     },
-    "fill": { "style": "lattice", "spacing": 35, "clearance": 22, "within": "crown" }
+    "fill": { "style": "lattice", "spacing": 35, "clearance": 14, "within": "crown" }
   }
 }

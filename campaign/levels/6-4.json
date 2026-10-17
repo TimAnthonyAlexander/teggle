@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "moonlit-hollow-well",
-    "prompt": "An old round stone well stands in the lower middle of a moonlit pumpkin hollow at dusk, about a fifth of the picture wide, its rim at about three quarters of the picture height and its small peaked shingle roof on two posts reaching up to about half the height, with a wooden winch and a rope. From the well, two soft wisps of silver mist rise and curl outward into two loose spirals, one on each side at about one third of the height, centered at about 30 and 70 percent of the width, leaving the top center open. Two bare, twisting trees stand near the left and right edges with their branches reaching inward and small unlit lanterns hanging from them. A huge pale silver moon hangs high on the right. Silver mist lies along the bottom; the lower corners are plain misty ground."
+    "prompt": "An old round stone well stands in the lower middle of a moonlit pumpkin hollow at dusk, about a fifth of the picture wide, its rim at about three quarters of the picture height and its small peaked shingle roof on two posts reaching up to about half the height, with a wooden winch and a rope. From the well, two soft wisps of silver mist rise and curl outward into two loose spirals, one on each side at about one third of the height, centered at about 30 and 70 percent of the width, leaving the top center open. Two bare, twisting trees stand near the left and right edges with their branches reaching inward and small unlit lanterns hanging from them. A huge pale silver moon hangs high on the right. Silver mist lies along the bottom; the lower corners are plain misty ground.",
+    "picture": {
+      "ref": "pexels:35791830",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/rustic-well-in-coesfeld-countryside-35791830/",
+      "image": "https://images.pexels.com/photos/35791830/pexels-photo-35791830.jpeg",
+      "title": "Classic stone well with wooden roof in Coesfeld's tranquil rural landscape.",
+      "author": "Sergej  *****",
+      "authorUrl": "https://www.pexels.com/@strannik-sk",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "6674c03960b2e58833dcc9747a7c1c0c3034bc6de90230e1e0e590a3ab6b86e5",
+      "size": [6000, 4000],
+      "crop": [0, 194, 6000, 3611],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 604,

@@ -15,7 +15,6 @@
     "bricks": 0,
     "moving": [{ "what": "the fish boat, about 30 pegs moving as one", "type": "horizontalCycle" }],
     "features": ["A moving fish shape (spec 8): a fish-shaped boat crossing the cove"],
-    "needs": ["line-movers"],
     "difficulty": {
       "target": 0.26,
       "note": "Second hardest: the boat's orange pegs come and go, and while it passes it shields the wave rows below it."
@@ -23,7 +22,25 @@
   },
   "background": {
     "id": "lighthouse-cove-fish-boat",
-    "prompt": "A little wooden boat built in the shape of a fish floats on the calm water of a sunny cove, in the middle of the picture at about half its height, about a third of the picture wide: a rounded fish-shaped hull of pale weathered wood with soft gray-blue stripes, a round porthole window near its front like an eye, a small fin-shaped sail on top and a wide fan-shaped tail rudder at the back. The waterline runs straight across the picture at about three fifths of its height; below it the clear aqua water shows rows of gentle wave crests in soft white lines, evenly spaced down to the bottom. Two round buoys in faded cream and pale teal bob near the left and right edges at the waterline. Above, a soft blue sky with a few small flat clouds; the top center is open sky; the lower corners are calm water."
+    "prompt": "A little wooden boat built in the shape of a fish floats on the calm water of a sunny cove, in the middle of the picture at about half its height, about a third of the picture wide: a rounded fish-shaped hull of pale weathered wood with soft gray-blue stripes, a round porthole window near its front like an eye, a small fin-shaped sail on top and a wide fan-shaped tail rudder at the back. The waterline runs straight across the picture at about three fifths of its height; below it the clear aqua water shows rows of gentle wave crests in soft white lines, evenly spaced down to the bottom. Two round buoys in faded cream and pale teal bob near the left and right edges at the waterline. Above, a soft blue sky with a few small flat clouds; the top center is open sky; the lower corners are calm water.",
+    "picture": {
+      "ref": "pexels:8299829",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/brown-wooden-boat-on-water-8299829/",
+      "image": "https://images.pexels.com/photos/8299829/pexels-photo-8299829.jpeg",
+      "title": "Aerial photo of a lone wooden boat floating on turquoise water, creating serene ripples.",
+      "author": "Mikhail Nilov",
+      "authorUrl": "https://www.pexels.com/@mikhail-nilov",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "670b3f81a787d929d2aca1290169a6ad2dfcb304cc3e0825ed21520bf83ff32f",
+      "size": [2995, 2246],
+      "crop": [0, 222, 2995, 1802],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 502,

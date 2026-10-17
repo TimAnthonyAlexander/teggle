@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "moonlit-hollow-web",
-    "prompt": "A great spider web strung in front of a huge pale silver moon in a moonlit pumpkin hollow at dusk, with no spider anywhere. The web is a wide oval centered in the picture a little above half height, from about one sixth to five sixths of the picture width and from about one eighth of the height down to near the bottom, made of twelve straight spokes and five or six rings of thread strung straight from spoke to spoke and sagging slightly toward the center, every thread beaded with small round drops of dew. Two smaller quarter webs fill the upper left and upper right corners. Bare, twisting branches frame the web at both sides; silver mist lies along the bottom. The top center shows only open, moonlit sky through a gap at the top of the web; the lower corners are plain mist."
+    "prompt": "A great spider web strung in front of a huge pale silver moon in a moonlit pumpkin hollow at dusk, with no spider anywhere. The web is a wide oval centered in the picture a little above half height, from about one sixth to five sixths of the picture width and from about one eighth of the height down to near the bottom, made of twelve straight spokes and five or six rings of thread strung straight from spoke to spoke and sagging slightly toward the center, every thread beaded with small round drops of dew. Two smaller quarter webs fill the upper left and upper right corners. Bare, twisting branches frame the web at both sides; silver mist lies along the bottom. The top center shows only open, moonlit sky through a gap at the top of the web; the lower corners are plain mist.",
+    "picture": {
+      "ref": "pexels:20583741",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/large-white-spiderweb-20583741/",
+      "image": "https://images.pexels.com/photos/20583741/pexels-photo-20583741.jpeg",
+      "title": "Close-up shot of a detailed spider web with dew drops against a blurred background.",
+      "author": "Nikola Tomašić",
+      "authorUrl": "https://www.pexels.com/@nikola-tomasic-58494762",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "53ff0de318b093adfae2cebaf02371a763aa1026f62b2d757eeb2f19cc858c88",
+      "size": [5328, 4000],
+      "crop": [0, 397, 5328, 3206],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 602,

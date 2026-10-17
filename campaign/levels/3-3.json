@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "golden-rooftops-bell",
-    "prompt": "A stone bell tower at golden hour rises in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, its pointed slate-blue roof ending well below the open top center. Halfway up, an open round-arched belfry about a fifth of the picture wide holds one great pale bronze bell with a clearly visible round rim. On the left and right, at about one fifth and four fifths of the width, stand two lower round towers with conical slate-blue roofs whose tips are at about two fifths of the height. Two stone bridges with round arches link the side towers to the bell tower at about three fifths of the height, with small lanterns hanging under them. Honey and cream stone walls under a calm sky fading from pale butter yellow to soft blue; the lower corners show only low roofs."
+    "prompt": "A stone bell tower at golden hour rises in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, its pointed slate-blue roof ending well below the open top center. Halfway up, an open round-arched belfry about a fifth of the picture wide holds one great pale bronze bell with a clearly visible round rim. On the left and right, at about one fifth and four fifths of the width, stand two lower round towers with conical slate-blue roofs whose tips are at about two fifths of the height. Two stone bridges with round arches link the side towers to the bell tower at about three fifths of the height, with small lanterns hanging under them. Honey and cream stone walls under a calm sky fading from pale butter yellow to soft blue; the lower corners show only low roofs.",
+    "picture": {
+      "ref": "pexels:33676898",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/charming-croatian-town-square-and-church-tower-33676898/",
+      "image": "https://images.pexels.com/photos/33676898/pexels-photo-33676898.jpeg",
+      "title": "Picturesque evening view of a historic church tower in a Croatian town square.",
+      "author": "Ramon Karolan",
+      "authorUrl": "https://www.pexels.com/@ramonkaphotography",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "c46bbb52b19d35d400c20c0d9150ba8b3d35ec7287ec447a5b6a455322cf19fd",
+      "size": [7723, 5149],
+      "crop": [0, 251, 7723, 4647],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 303,

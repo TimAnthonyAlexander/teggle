@@ -2,13 +2,31 @@
   "id": "1-4",
   "name": "Cloud Ship",
   "concept": {
-    "subject": "A wooden sailing ship flying through a late-afternoon sky under three billowing sails.",
-    "composition": "The hull's long deep curve fills the lower middle with the bow to the left; the three sails stand above it, a small jib at the bow and a spanker at the stern; pennants fly from two mast tops; round clouds float ahead of the bow and behind the stern, flat clouds drift in the corners.",
-    "layout": "93 round pegs and 45 bricks; the first level with a purple peg. The hull's bottom is one long brick curve, a bowl whose lowest bricks quick-disappear (the stuck check found the spots); the deck and the portholes are peg rows. Each sail is a brick top yard with a billowing brick leading edge and a three-by-three grid of sailcloth pegs inside; the jib and spanker edges are brick slides at the bow and the stern."
+    "subject": "A drawn wooden sailing ship flying through a blue sky above the clouds, with gulls around it and a small balloon far off.",
+    "composition": "The hull's deep curve fills the lower middle with the bow to the left and a raised stern on the right; the cream sails stand above it, the fore sail left of the cannon, the main sail under it and the stern sail to the right, with a small jib under the bowsprit; gulls glide on both sides, a small green balloon floats high on the right and clouds fill the bottom and the upper right.",
+    "layout": "93 round pegs and 45 bricks; the first level with a purple peg. The hull's bottom is one long brick curve, a bowl whose lowest bricks quick-disappear (the stuck check found the spots); the gunwale and the planks are peg rows. Each sail has a brick top yard and a brick leading edge with seams of sailcloth pegs inside, the stern sail also a brick trailing edge; the jib's edge and the stern post are brick slides at the bow and the stern. Peg lines follow the gulls, the bowsprit's rope and the clouds, and rings sit ahead of the bow and on the cloud in the upper right."
   },
   "background": {
     "id": "cloud-isles-ship",
-    "prompt": "A wooden sailing ship flies through the sky in the center, seen from the side with its bow to the left. The hull is a long, deep, smooth curve of warm honey-colored wood spanning from about a quarter to three quarters of the picture width, its deck at about three fifths of the picture height and its rounded bottom near the lowest eighth, with a row of round portholes along its side. Three masts carry three square sails in cream and pale blue, each billowing forward toward the bow with a straight top yard and a rounded leading edge, together spanning from about a quarter to three fifths of the picture height. A small triangular jib stretches from the bowsprit and a small spanker sail from the stern. Little pennants fly from the fore and mizzen mast tops. A round cloud floats ahead of the bow and another behind the stern at about two fifths of the height, flat clouds drift along the top corners and the lower corners. Late afternoon light with a faint peach tint in the clouds."
+    "prompt": "A cartoon drawing of a wooden sailing ship flying through a blue sky above white and pink clouds, seen from the side with its bow to the left. The hull spans from about a quarter to four fifths of the picture width, its gunwale at about 53 to 62 percent of the height and its rounded bottom at about seven eighths, with a coiled rope bowsprit rising at about 28 percent of the width. Cream sails stand above it from about an eighth to three fifths of the height: the fore sail from a quarter to two fifths of the width, the main sail from two fifths to two thirds, the stern sail from three fifths to seven tenths, with top sails at the top center; a small jib hangs under the bowsprit. Gulls glide in the upper left, at the left a third of the way down and at the right a quarter of the way down; a small green balloon floats near the top at about four fifths of the width; clouds fill the upper right corner and the bottom.",
+    "picture": {
+      "ref": "pixabay:5514965",
+      "kind": "painting",
+      "source": "Pixabay",
+      "page": "https://pixabay.com/vectors/wallpaper-hd-flying-ship-antique-5514965/",
+      "image": "https://cdn.pixabay.com/photo/2020/08/24/20/02/wallpaper-5514965_1280.png",
+      "title": "Free wallpaper hd flying illustration",
+      "author": "kirillsl",
+      "authorUrl": "https://pixabay.com/users/kirillsl-8058952/",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "fetched": "2026-10-15",
+      "sha256": "0fd0c50507e5bd8563a0348d2691dcb0d0f800cb1f6d557ea045594f069e007a",
+      "size": [1280, 854],
+      "crop": [310, 153, 970, 584],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 104,

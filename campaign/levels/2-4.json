@@ -1,30 +1,61 @@
 {
   "id": "2-4",
-  "name": "The Corkscrews",
-  "draft": true,
+  "name": "The Fiddleheads",
   "concept": {
-    "subject": "Two corkscrew burrows that coil down into the earth left and right of the middle, a pair of spiral tunnels in a cutaway.",
-    "composition": "The ground line crosses at a fifth of the height. Under it two spiral tunnels, mirror images, are centered at a quarter and three quarters of the width a little below half height, each about two fifths of the picture tall, coiling inward over two and a half turns; a column of seed pockets runs down the middle between them, below the open top center. The lower corners are plain earth.",
-    "layout": "66 round pegs and 73 bricks. The twin spirals are the spiral template's mirror-image pair: bricks on the outer turns, where they work as curved slides, pegs on the inner turns, no hub. Peg lines follow the ground beside the cannon, and the column of seed pockets is a peg line down the middle."
+    "subject": "Two fern fiddleheads curled into tight spirals on a branch, seen close up against a soft blurred green garden.",
+    "composition": "The two curls stand side by side below the cannon, the left one centered at a third of the width and three fifths of the height, the right one at two thirds of the width a little higher, each about a quarter of the picture across; their stalks hang down between them to the bottom, the branch runs along the bottom on both sides, and blurred fronds curl at the left edge and across the upper right corner.",
+    "layout": "66 round pegs and 73 bricks. Each curl is a traced spiral: its stalk and outer turns are one long brick chain, curved slides that carry balls around and in, with pegs on the inner turn; peg arcs follow the fuzzy halo over each curl, and where the right curl's halo faces the cannon it is a solid rim that sheds balls off the curl. The branch is a brick ledge on both sides and the blurred fronds are brick slides; pegs follow the light band in the upper left, the stems in the background and the branch."
   },
   "plan": {
     "archetypes": ["spiral", "outline"],
-    "templates": ["outline", "spiral"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 66,
     "bricks": 73,
-    "features": ["Spiral layout (spec 8): twin corkscrew burrows"],
+    "features": ["Spiral layout (spec 8): two fiddlehead curls traced as spirals"],
     "difficulty": {
       "target": 0.29,
-      "note": "Harder than the grotto: the outer brick turns carry balls around and out of the spirals, and the inner pegs stay shielded until the outer ones are cleared."
+      "note": "Harder than the moss: the outer brick turns carry balls around the curls, and the inner pegs stay shielded until the outer bricks are cleared."
     }
   },
   "background": {
     "id": "clover-burrows-corkscrews",
-    "prompt": "Two corkscrew burrows seen in cross-section under a clover meadow. The meadow's ground line runs across the picture at about one fifth of its height; the top center above it is open sky. Below it, two round spiral tunnels coil into the light sandy earth, one on each side of the center, mirror images of each other: each spiral is centered at about one quarter and three quarters of the picture width and a little below half the picture height, about two fifths of the picture height across, and winds inward over two and a half smooth turns with an even gap between the turns, the left one turning clockwise and the right one counterclockwise. Between the spirals, a single column of small round seed pockets runs from just under the ground down the middle. The tunnel walls are a slightly deeper clay color; the lower corners and the lowest strip are plain, calm earth with a few pebbles."
+    "prompt": "A close photo of two fern fiddleheads curled into tight spirals, side by side on a branch against a soft blurred green and brown garden. The left curl is centered at about a third of the width and three fifths of the height, the right one at about 64 percent of the width and 55 percent of the height, each about a quarter of the picture across, light green and cream with a fuzzy brown rim; their uncurling stalks hang down between them to the bottom edge, and the branch they grow from runs along the bottom fifth on both sides. Blurred fronds curl at the left edge and cross the upper right corner.",
+    "picture": {
+      "ref": "pexels:17440100",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/buds-of-leaves-17440100/",
+      "image": "https://images.pexels.com/photos/17440100/pexels-photo-17440100.jpeg",
+      "title": "Macro shot of green fern fiddleheads unfurling in natural setting.",
+      "author": "Tri Warno",
+      "authorUrl": "https://www.pexels.com/@triew0814",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "cf555360f59c13e157c20e624ad1162861c15ced3e55cd5cd884adda7a4dbdf4",
+      "size": [6916, 4614],
+      "crop": [692, 1058, 5187, 3121],
+      "flop": false,
+      "adjust": { "brightness": 1.1, "gamma": 1.15, "floor": 0.24 }
+    }
   },
   "recipe": {
     "seed": 204,
-    "targetCount": 139
+    "targetCount": 139,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [441, 221],
+            [479, 180],
+            [517, 153],
+            [527, 167],
+            [489, 192],
+            [453, 231]
+          ]
+        }
+      ]
+    }
   }
 }

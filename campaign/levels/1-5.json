@@ -2,13 +2,31 @@
   "id": "1-5",
   "name": "Dandelion Wind",
   "concept": {
-    "subject": "A breezy sky where two giant dandelion clocks shed their seeds into curling ribbons of wind.",
-    "composition": "The two seed heads stand low by the side walls on short stems; wind ribbons rise from them and curl into three loose spirals, two in the upper middle and a larger one in the lower middle; small curls turn in the upper corners and two long waves of wind run along the bottom.",
-    "layout": "144 round pegs. The seed heads are two concentric rings with a center peg; the wind ribbons are peg lines that rise from the seed heads and curl into the three spirals; curls, seed trails and the two low waves spread the rest across the board, with a single seed under the cannon."
+    "subject": "Dandelion clocks seen from below against a soft blue-gray sky, two big seed heads and three small ones on long green stems.",
+    "composition": "A big seed head stands left of the middle a little below half height, another right of the cannon at a third of the height on a long stem leaning down to the left; small heads sit low on the left, on the right at mid height and cut by the right edge higher up; the stems rise from low shrubs along the bottom.",
+    "layout": "144 round pegs. The big seed heads are two concentric rings with a center peg and a stem of pegs below; the small ones are rings, the right one with a center peg and the one at the edge an arc. Wind ribbons curl into spirals in the open sky, one in the upper left and a larger one between the big heads; curls, seed trails and two low waves of wind between the stems spread the rest, with a single seed under the cannon and a short line up the closed bud on the right."
   },
   "background": {
     "id": "cloud-isles-dandelions",
-    "prompt": "A breezy sky full of drifting dandelion seeds. Two large round dandelion seed heads, soft white puffballs about one sixth of the picture wide, sit at about three fifths of the picture height near the left and right edges, centered at about 17 and 83 percent of the width, on short curving stems that rise from small cloud banks along the bottom edge, each bank on the inner side of its stem, a little in from the lower corners. Long ribbons of wind, painted as smooth pale swirling strokes, rise from the seed heads and curl into loose spirals: one spiral left of the top center, one right of the top center, both at about a third of the picture height, and a larger one in the lower middle, fed by a ribbon that sweeps in from the left seed head. Small curls of wind turn in the upper corners, a thin trail of seeds drifts across the middle between the upper spirals, and two long gentle waves of wind run across the bottom between the seed heads. Many small seeds float along the ribbons."
+    "prompt": "A photo of dandelion clocks seen from below against a soft blue-gray sky with a few pale clouds. A big seed head is centered at about 29 percent of the width and 56 percent of the height, about a quarter of the picture wide; another, about a fifth of the picture wide, is centered at about 69 percent of the width and 35 percent of the height on a long stem that leans down to the left to about three fifths of the width at the bottom. Small seed heads sit low on the left at about a tenth of the width and seven tenths of the height, on the right at about 89 percent of the width and three fifths of the height, and cut by the right edge at about 28 percent of the height. A closed bud rises at about 86 percent of the width near the bottom, and low shrubs line the bottom edge.",
+    "picture": {
+      "ref": "pexels:13301473",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/dandelion-flowers-on-a-field-13301473/",
+      "image": "https://images.pexels.com/photos/13301473/pexels-photo-13301473.jpeg",
+      "title": "Artistic dandelion sculptures reaching up to a clear blue sky in Seoul, capturing the essence of nature and creativity.",
+      "author": "Andrea De Santis",
+      "authorUrl": "https://www.pexels.com/@santesson89",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "dac2b4b388cea41c8af7278b73f54c6cc4f4006fa23af87abfb92cd1d94d53cf",
+      "size": [10368, 6912],
+      "crop": [0, 0, 10368, 6239],
+      "flop": false,
+      "adjust": { "saturation": 0.55 }
+    }
   },
   "recipe": {
     "seed": 105,

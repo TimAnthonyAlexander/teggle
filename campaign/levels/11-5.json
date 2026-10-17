@@ -24,7 +24,25 @@
   },
   "background": {
     "id": "starlit-summit-aurora",
-    "prompt": "The snowy summit above all the worlds at twilight. Across the luminous medium teal sky, two long aurora ribbons in pale ice blue and soft gold twist around each other in gentle waves, one pair across the middle of the picture at about half its height and a second pair lower, at about three quarters of the height, each pair stretching from near the left edge to near the right edge. At the left and right edges, two narrow curtains of aurora hang straight down in the same twisting pattern. Small gold and silver stars dot the sky; a row of low snowy peaks runs along the bottom; the top center is open sky; the lower corners are plain snow."
+    "prompt": "The snowy summit above all the worlds at twilight. Across the luminous medium teal sky, two long aurora ribbons in pale ice blue and soft gold twist around each other in gentle waves, one pair across the middle of the picture at about half its height and a second pair lower, at about three quarters of the height, each pair stretching from near the left edge to near the right edge. At the left and right edges, two narrow curtains of aurora hang straight down in the same twisting pattern. Small gold and silver stars dot the sky; a row of low snowy peaks runs along the bottom; the top center is open sky; the lower corners are plain snow.",
+    "picture": {
+      "ref": "pexels:4124435",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/northern-lights-above-snow-covered-mountain-4124435/",
+      "image": "https://images.pexels.com/photos/4124435/pexels-photo-4124435.jpeg",
+      "title": "Capture of the vibrant northern lights dancing over snow-capped mountains in winter nightscape.",
+      "author": "Soubhagya Maharana",
+      "authorUrl": "https://www.pexels.com/@soubhagya23",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "929d5b3f5bb94b03a1a13d479f3de0bd6f3153ff644f44509bd66dfecb0a5e59",
+      "size": [6000, 4000],
+      "crop": [0, 194, 6000, 3611],
+      "flop": false,
+      "adjust": { "brightness": 1.25, "saturation": 0.6, "gamma": 1.25, "floor": 0.3 }
+    }
   },
   "recipe": {
     "seed": 1105,

@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "silverwood-stones",
-    "prompt": "A ring of tall standing stones in a misty clearing of a silver birch forest at dawn, seen from the front as a row of five stone gateways, each made of two upright pale gray stones with a flat stone laid across their tops, the top stones slightly ridged. The middle gateway is the lowest, its top at about two fifths of the picture height, below the open top center; the two gateways beside it rise to about one third of the height, and the two outer ones, near the side edges, to about one quarter. The uprights stand on the ground at about four fifths of the height. Small cairns of round river stones and curling ferns stand between and inside the gateways; a band of pale silver-blue mist drifts through them at about three fifths of the height. Slender white birches stand behind; the lower corners are plain moss."
+    "prompt": "A ring of tall standing stones in a misty clearing of a silver birch forest at dawn, seen from the front as a row of five stone gateways, each made of two upright pale gray stones with a flat stone laid across their tops, the top stones slightly ridged. The middle gateway is the lowest, its top at about two fifths of the picture height, below the open top center; the two gateways beside it rise to about one third of the height, and the two outer ones, near the side edges, to about one quarter. The uprights stand on the ground at about four fifths of the height. Small cairns of round river stones and curling ferns stand between and inside the gateways; a band of pale silver-blue mist drifts through them at about three fifths of the height. Slender white birches stand behind; the lower corners are plain moss.",
+    "picture": {
+      "ref": "pexels:39734609",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/ancient-stone-archway-on-misty-hilltop-39734609/",
+      "image": "https://images.pexels.com/photos/39734609/pexels-photo-39734609.jpeg",
+      "title": "Historic stone arch ruins in misty landscape, Vila Nova de Cerveira, Portugal.",
+      "author": "Sergei  Gussev",
+      "authorUrl": "https://www.pexels.com/@sergei",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "71b78c410bb093031c165cb2118fcac511c518a1e1e67ac573abf10f936557f0",
+      "size": [4032, 3024],
+      "crop": [0, 299, 4032, 2426],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 1004,

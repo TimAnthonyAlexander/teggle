@@ -25,7 +25,21 @@
   },
   "background": {
     "id": "lilac-orbit-supernova",
-    "prompt": "A star bursts in a soft lilac and periwinkle outer space. Its small, bright pale-gold core sits in the center of the picture at about three fifths of the picture height. Around it a round ring of shock wave in pale silver-lilac, about two thirds of the picture height across, is broken into four equal arcs by four even gaps, with faint streaks running from the core to the ring. Outside it, on the left and right, two nested crescent-shaped arcs of an outer shock wave curve around the ring from about one quarter to four fifths of the picture height, each crescent broken into three arcs, with short straight rays of light pointing outward from the gaps. Thin scatterings of small stars; the top center is open, calm space; the lower corners are plain nebula haze."
+    "prompt": "A star bursts in a soft lilac and periwinkle outer space. Its small, bright pale-gold core sits in the center of the picture at about three fifths of the picture height. Around it a round ring of shock wave in pale silver-lilac, about two thirds of the picture height across, is broken into four equal arcs by four even gaps, with faint streaks running from the core to the ring. Outside it, on the left and right, two nested crescent-shaped arcs of an outer shock wave curve around the ring from about one quarter to four fifths of the picture height, each crescent broken into three arcs, with short straight rays of light pointing outward from the gaps. Thin scatterings of small stars; the top center is open, calm space; the lower corners are plain nebula haze.",
+    "picture": {
+      "ref": "wallhaven:572d95",
+      "kind": "painting",
+      "source": "wallhaven",
+      "page": "https://wallhaven.cc/w/572d95",
+      "image": "https://w.wallhaven.cc/full/57/wallhaven-572d95.png",
+      "authorUrl": "https://webbtelescope.org/contents/media/images/2022/033/01G70BGTSYBHS69T7K3N3ASSEB",
+      "fetched": "2026-10-15",
+      "sha256": "5fbb7f4aa4a204286d4ec24d77971cd712d9770eb4d4b986d1b8fc5001374242",
+      "size": [4600, 4284],
+      "crop": [0, 758, 4600, 2768],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 405,

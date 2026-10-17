@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "moonlit-hollow-vines",
-    "prompt": "A moonlit pumpkin hollow at dusk. Two giant pumpkin vines grow from the hollow's floor at about one quarter and three quarters of the picture width and climb in great smooth arches, mirror images of each other: each vine rises, sweeps outward to about one sixth and five sixths of the width at about one third of the picture height, then curls back inward into a loose spiral tip at about one quarter of the height, leaving the top center open. Broad leaves grow along the vines, and round burgundy and plum pumpkins, each about a twelfth of the picture wide, hang on their inner side at about half the height. A crooked wooden fence rail slopes down toward the middle on each side at about three quarters of the height. A huge pale silver moon rises low on the right behind the vines; silver mist lies along the floor, and the lower corners are plain misty ground."
+    "prompt": "A moonlit pumpkin hollow at dusk. Two giant pumpkin vines grow from the hollow's floor at about one quarter and three quarters of the picture width and climb in great smooth arches, mirror images of each other: each vine rises, sweeps outward to about one sixth and five sixths of the width at about one third of the picture height, then curls back inward into a loose spiral tip at about one quarter of the height, leaving the top center open. Broad leaves grow along the vines, and round burgundy and plum pumpkins, each about a twelfth of the picture wide, hang on their inner side at about half the height. A crooked wooden fence rail slopes down toward the middle on each side at about three quarters of the height. A huge pale silver moon rises low on the right behind the vines; silver mist lies along the floor, and the lower corners are plain misty ground.",
+    "picture": {
+      "ref": "pexels:35507692",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/full-moon-through-bare-winter-trees-35507692/",
+      "image": "https://images.pexels.com/photos/35507692/pexels-photo-35507692.jpeg",
+      "title": "A stunning full moon captured through bare trees at twilight, casting a serene glow.",
+      "author": "Cara Denison",
+      "authorUrl": "https://www.pexels.com/@cara-denison-886614634",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "cc167273878a3d94a1f7c2697641f188e5f46e12052836b9dd5a1be116415cc5",
+      "size": [4239, 2825],
+      "crop": [0, 137, 4239, 2551],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 601,

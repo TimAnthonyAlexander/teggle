@@ -1,11 +1,10 @@
 {
   "id": "2-3",
-  "name": "Mushroom Grotto",
-  "draft": true,
+  "name": "Mushroom Moss",
   "concept": {
-    "subject": "An underground grotto where seven tall mushrooms stand at different heights, their wide domed caps stepping down like a staircase of umbrellas.",
-    "composition": "The meadow's ground line, fringed with roots, forms the grotto's ceiling at a fifth of the height. A large mushroom stands in the middle with its cap at two fifths of the height; two medium ones at a quarter and three quarters of the width reach a third of the height; two small ones near the side walls have their caps at half height; two low ones left and right of the center at two thirds. The floor is a smooth sandy mound and the lower corners stay plain.",
-    "layout": "81 round pegs and 68 bricks. Each cap's top is a brick dome that sheds balls to both sides, the largest in the middle and the others stepping outward and down; the thick stems are solid posts that block straight drops. Pegs line the caps' undersides (the gills), the root fringe and the floor, and a few spores float between the caps."
+    "subject": "Two plump mushrooms with brown domed caps standing in pale moss on a forest floor, among leaves, twigs and grass stalks.",
+    "composition": "The taller mushroom stands left of the cannon, its cap from about a fifth to a third of the width at a sixth to two fifths of the height; the shorter one right of the middle, its cap from half to three quarters of the width a little lower; pale moss fills the bottom third, a dark twig rises on the left and a long grass stalk leans across the right.",
+    "layout": "81 round pegs and 68 bricks. A solid rim arches over each cap and sheds balls to both sides; pegs run over the rims, along the gills under the caps and down the gap between the mushrooms, and one spot on the right cap sits sheltered under its rim. The thick stems are solid posts between brick sides that block straight drops. The twig and the grass stalks are long brick slides, a few leaves short brick pieces; the moss is two rows of brick clumps above a row of pegs, and pegs follow the leaves around the caps."
   },
   "plan": {
     "archetypes": ["outline"],
@@ -15,15 +14,95 @@
     "bricks": 68,
     "difficulty": {
       "target": 0.3,
-      "note": "Middle of the stage: the domes spread the ball sideways, and the stems shield the low caps from straight drops."
+      "note": "Middle of the stage: the solid rims turn balls away from the caps, the spot under the right rim is the hard peg, and the stems shield the gills from straight drops."
     }
   },
   "background": {
     "id": "clover-burrows-mushrooms",
-    "prompt": "An underground grotto beneath a clover meadow, seen in cross-section. The meadow's ground line, with a fringe of fine pale roots hanging from it, forms the grotto's ceiling at about one fifth of the picture height; the top center above it is open sky. Seven mushrooms with thick pale stems and wide, smooth domed caps stand on the grotto floor: a large one in the middle whose cap spans from about 38 to 62 percent of the width at about two fifths of the height; two medium ones centered at about one quarter and three quarters of the width with their caps at about one third of the height; two small ones close to the side edges with their caps at about half the height; and two low ones left and right of the center with their caps at about two thirds of the height. The caps are muted cream, dusty rose-beige and pale sand with soft spots, their undersides showing fine gills. The floor is a smooth mound of light sand; the lower corners and the lowest strip are calm and plain."
+    "prompt": "A close photo of two plump mushrooms with brown domed caps and thick pale stems in pale green moss. The taller one stands left of the middle: its cap spans from about a fifth to half the width, from about a sixth to two fifths of the height, its stem down to about seven tenths. The shorter one stands right of the middle: its cap spans from about half to three quarters of the width, from about 30 to 55 percent of the height, its stem down to about four fifths. Pale moss fills the bottom third; green leaves and a dark twig fill the upper left, a long grass stalk leans across the right from the top right corner to about four fifths of the width at seven tenths of the height, and leafy undergrowth fills the rest.",
+    "picture": {
+      "ref": "wallhaven:8xd9zo",
+      "kind": "photo",
+      "source": "wallhaven",
+      "page": "https://wallhaven.cc/w/8xd9zo",
+      "image": "https://w.wallhaven.cc/full/8x/wallhaven-8xd9zo.jpg",
+      "fetched": "2026-10-15",
+      "sha256": "af895bcdc2923ed9372eb58b5b38701b27587fda53615d0361df9f505f8f5f1b",
+      "size": [2000, 1272],
+      "crop": [0, 34, 2000, 1204],
+      "flop": false,
+      "adjust": { "brightness": 1.06, "saturation": 0.65, "paint": 1 }
+    }
   },
   "recipe": {
     "seed": 203,
-    "targetCount": 149
+    "targetCount": 149,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [185, 211],
+            [192, 169],
+            [216, 130],
+            [254, 104],
+            [302, 93],
+            [351, 100],
+            [394, 125],
+            [424, 157],
+            [438, 197],
+            [422, 203],
+            [408, 167],
+            [382, 139],
+            [345, 116],
+            [302, 111],
+            [262, 120],
+            [228, 142],
+            [208, 175],
+            [203, 213]
+          ]
+        },
+        {
+          "points": [
+            [459, 270],
+            [461, 230],
+            [481, 192],
+            [516, 166],
+            [556, 153],
+            [584, 142],
+            [612, 153],
+            [649, 169],
+            [674, 203],
+            [681, 243],
+            [663, 245],
+            [658, 209],
+            [639, 183],
+            [604, 169],
+            [563, 169],
+            [524, 182],
+            [495, 204],
+            [479, 234],
+            [477, 270]
+          ]
+        },
+        {
+          "points": [
+            [268, 302],
+            [309, 282],
+            [350, 302],
+            [364, 386],
+            [250, 386]
+          ]
+        },
+        {
+          "points": [
+            [540, 364],
+            [591, 344],
+            [642, 364],
+            [668, 422],
+            [520, 422]
+          ]
+        }
+      ]
+    }
   }
 }

@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "ember-highlands-basalt",
-    "prompt": "A cliff of tall hexagonal basalt columns in a volcanic highland under a hazy pale-gold sky. The columns stand side by side across the whole picture, soft blue-gray with lighter sandstone tops, and their flat tops form one great stairway shaped like a wide V: the lowest columns stand in the middle with their tops at about four fifths of the picture height, and each column to the left and right is a step taller, about ten steps on each side, the tallest at the side edges reaching about one quarter of the height. Through the columns on each side, at about one third and two thirds of the width, a round natural arch opens at about three fifths of the height. Thin plumes of steam rise from the gap in the middle; the top center is open sky; the lower corners are plain blue-gray rock."
+    "prompt": "A cliff of tall hexagonal basalt columns in a volcanic highland under a hazy pale-gold sky. The columns stand side by side across the whole picture, soft blue-gray with lighter sandstone tops, and their flat tops form one great stairway shaped like a wide V: the lowest columns stand in the middle with their tops at about four fifths of the picture height, and each column to the left and right is a step taller, about ten steps on each side, the tallest at the side edges reaching about one quarter of the height. Through the columns on each side, at about one third and two thirds of the width, a round natural arch opens at about three fifths of the height. Thin plumes of steam rise from the gap in the middle; the top center is open sky; the lower corners are plain blue-gray rock.",
+    "picture": {
+      "ref": "pexels:28639129",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/unique-basalt-rock-formation-coastal-landscape-28639129/",
+      "image": "https://images.pexels.com/photos/28639129/pexels-photo-28639129.jpeg",
+      "title": "Stunning coastal basalt rock formations with a clear blue sky, perfect for travel and geology enthusiasts.",
+      "author": "Stephen Leonardi",
+      "authorUrl": "https://www.pexels.com/@stephen-leonardi-587681991",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "3889e1a26ec3a8f0d7573fdef72ea9ab8812d5ce0d6e48fbaac5d85a3d31337d",
+      "size": [5982, 3990],
+      "crop": [0, 195, 5982, 3600],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 904,

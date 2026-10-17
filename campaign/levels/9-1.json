@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "ember-highlands-bridges",
-    "prompt": "A deep canyon in a volcanic highland under a hazy pale-gold sky, spanned by natural stone bridges. A row of four round stone arches on thick pillars crosses the whole picture, the arches' tops at about three fifths of the picture height; above it, on each side of the open top center, an upper tier of two smaller arches stands at about one third of the height. The stone is soft blue-gray basalt and warm sandstone. Thin plumes of pale steam rise from the canyon floor between the pillars, and a few small lanterns with tiny ember-colored flames hang under the arches. Sandstone ledges step down along both side edges; a smoking volcano stands far off in the haze; the lower corners are plain rock."
+    "prompt": "A deep canyon in a volcanic highland under a hazy pale-gold sky, spanned by natural stone bridges. A row of four round stone arches on thick pillars crosses the whole picture, the arches' tops at about three fifths of the picture height; above it, on each side of the open top center, an upper tier of two smaller arches stands at about one third of the height. The stone is soft blue-gray basalt and warm sandstone. Thin plumes of pale steam rise from the canyon floor between the pillars, and a few small lanterns with tiny ember-colored flames hang under the arches. Sandstone ledges step down along both side edges; a smoking volcano stands far off in the haze; the lower corners are plain rock.",
+    "picture": {
+      "ref": "pexels:38341517",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/mesa-arch-in-canyonlands-national-park-38341517/",
+      "image": "https://images.pexels.com/photos/38341517/pexels-photo-38341517.jpeg",
+      "title": "Scenic view of Mesa Arch framing distant rock formations in Canyonlands National Park, Utah.",
+      "author": "Ronapei",
+      "authorUrl": "https://www.pexels.com/@ronapei-2162406956",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "bd1798dd88ef0eb00de8d67b9d61de82c968497fb88798e6025be9315fd82e50",
+      "size": [6000, 4000],
+      "crop": [0, 194, 6000, 3611],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 901,

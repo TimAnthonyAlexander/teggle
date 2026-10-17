@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "starlit-summit-lake",
-    "prompt": "A frozen lake lies on the snowy summit above all the worlds at twilight, filling the lower two thirds of the picture below a snowy far shore at about one third of the picture height. The smooth pale ice is carved with long looping tracks of skates: two large figure-eight loops on the left and right halves at about three fifths of the height, and smaller curls between them. Four slanted blocks of clear ice stand up through the lake at about half the height, at about 20, 40, 60 and 80 percent of the width, each about a tenth of the picture wide, the left two leaning to the right and the right two leaning to the left. Small gold and silver stars are reflected in the ice. The sky above the shore is a luminous medium teal with small stars, open at the top center; the lower corners are plain ice."
+    "prompt": "A frozen lake lies on the snowy summit above all the worlds at twilight, filling the lower two thirds of the picture below a snowy far shore at about one third of the picture height. The smooth pale ice is carved with long looping tracks of skates: two large figure-eight loops on the left and right halves at about three fifths of the height, and smaller curls between them. Four slanted blocks of clear ice stand up through the lake at about half the height, at about 20, 40, 60 and 80 percent of the width, each about a tenth of the picture wide, the left two leaning to the right and the right two leaning to the left. Small gold and silver stars are reflected in the ice. The sky above the shore is a luminous medium teal with small stars, open at the top center; the lower corners are plain ice.",
+    "picture": {
+      "ref": "pexels:300857",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/ice-river-photography-300857/",
+      "image": "https://images.pexels.com/photos/300857/pexels-photo-300857.jpeg",
+      "title": "A serene winter landscape featuring a frozen lake surrounded by snow-covered mountains in Switzerland.",
+      "author": "Riccardo",
+      "authorUrl": "https://www.pexels.com/@riciardus",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "c4b5ec172aa096d59380c4033a4081ec1faac6b668255f09b8afdd7c7979dbec",
+      "size": [5008, 3339],
+      "crop": [0, 162, 5008, 3014],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 1104,

@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "petal-terraces-pergola",
-    "prompt": "A long garden pergola stands on the highest terrace of a sunny flower garden in late spring. A row of six round arches on slender pale stone pillars spans the lower half of the picture from edge to edge, the arches' tops at about half the picture height; on each side of the open top center, an upper tier of three smaller arches stands on top of the lower row, reaching up to about one quarter of the height. Long clusters of wisteria blossoms in soft lilac-pink and cream hang inside every arch. Stone steps lead up to the pergola along the bottom; a clear, soft sky behind; the lower corners are plain stone."
+    "prompt": "A long garden pergola stands on the highest terrace of a sunny flower garden in late spring. A row of six round arches on slender pale stone pillars spans the lower half of the picture from edge to edge, the arches' tops at about half the picture height; on each side of the open top center, an upper tier of three smaller arches stands on top of the lower row, reaching up to about one quarter of the height. Long clusters of wisteria blossoms in soft lilac-pink and cream hang inside every arch. Stone steps lead up to the pergola along the bottom; a clear, soft sky behind; the lower corners are plain stone.",
+    "picture": {
+      "ref": "pexels:36996236",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/beautiful-wisteria-arbor-in-full-bloom-outdoors-36996236/",
+      "image": "https://images.pexels.com/photos/36996236/pexels-photo-36996236.jpeg",
+      "title": "A stunning pergola adorned with vibrant purple wisteria blooms in a sunny outdoor park.",
+      "author": "Davide Comunian",
+      "authorUrl": "https://www.pexels.com/@tuttosfocato",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "bc32d31ea1cc384d0a47a7de61f0f7a4177098c1d7e2ed67d3d04b71f7d38717",
+      "size": [5848, 3899],
+      "crop": [0, 190, 5848, 3519],
+      "flop": false,
+      "adjust": { "saturation": 0.7, "paint": 3 }
+    }
   },
   "recipe": {
     "seed": 705,

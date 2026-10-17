@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "lilac-orbit-moon-phases",
-    "prompt": "A row of seven moons in their phases hangs across a soft lilac and periwinkle outer space along one wide, smooth arc shaped like a smile: it starts high on the left at about one third of the picture height near the side edge, dips to about two thirds of the height at the center and rises again to the same height near the right edge. The moons are evenly spaced along the arc, each about a ninth of the picture wide: thin crescents at both ends, growing fuller toward the middle, and one full round moon at the bottom center. The crescents on the left are lit on their right side and those on the right on their left side, mirror images. The moons are pearl gray and pale cream with soft round craters. Thin scatterings of small silver stars fill the space above the arc; the top center is open, calm space; the lower corners are plain nebula haze."
+    "prompt": "A row of seven moons in their phases hangs across a soft lilac and periwinkle outer space along one wide, smooth arc shaped like a smile: it starts high on the left at about one third of the picture height near the side edge, dips to about two thirds of the height at the center and rises again to the same height near the right edge. The moons are evenly spaced along the arc, each about a ninth of the picture wide: thin crescents at both ends, growing fuller toward the middle, and one full round moon at the bottom center. The crescents on the left are lit on their right side and those on the right on their left side, mirror images. The moons are pearl gray and pale cream with soft round craters. Thin scatterings of small silver stars fill the space above the arc; the top center is open, calm space; the lower corners are plain nebula haze.",
+    "picture": {
+      "ref": "pixabay:7320960",
+      "kind": "painting",
+      "source": "Pixabay",
+      "page": "https://pixabay.com/illustrations/moon-phases-moon-half-moon-7320960/",
+      "image": "https://cdn.pixabay.com/photo/2022/07/14/10/20/moon-phases-7320960_1280.jpg",
+      "title": "Free Moon Phases Moon illustration and picture",
+      "author": "Placidplace",
+      "authorUrl": "https://pixabay.com/users/placidplace-25572496/",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "fetched": "2026-10-15",
+      "sha256": "c00ac103969a4329d079eef0c695131fdc9baeb0535237ce3f084b5c8e12f36c",
+      "size": [1280, 736],
+      "crop": [28, 0, 1223, 736],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 404,

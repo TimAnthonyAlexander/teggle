@@ -21,7 +21,20 @@
   },
   "background": {
     "id": "lilac-orbit-ringed-planet",
-    "prompt": "A huge pastel ringed planet floats in a soft lilac and periwinkle outer space. Its round disk sits in the center of the picture, from about one third to four fifths of the picture height and about a third of the picture wide, with soft horizontal cloud bands in pale lavender, cream and dusty teal. A wide, flat ring circles it as a long ellipse tilted only slightly, spanning from about one tenth to nine tenths of the picture width; its front arc passes in front of the lower half of the planet and its back arc is hidden behind the planet. Two small cratered moons in pearl gray float high on the left and right, at about one quarter of the height and about one fifth and four fifths of the width. Small pale silver stars are scattered thinly; the top center is open, calm space; the lower corners are plain nebula haze."
+    "prompt": "A huge pastel ringed planet floats in a soft lilac and periwinkle outer space. Its round disk sits in the center of the picture, from about one third to four fifths of the picture height and about a third of the picture wide, with soft horizontal cloud bands in pale lavender, cream and dusty teal. A wide, flat ring circles it as a long ellipse tilted only slightly, spanning from about one tenth to nine tenths of the picture width; its front arc passes in front of the lower half of the planet and its back arc is hidden behind the planet. Two small cratered moons in pearl gray float high on the left and right, at about one quarter of the height and about one fifth and four fifths of the width. Small pale silver stars are scattered thinly; the top center is open, calm space; the lower corners are plain nebula haze.",
+    "picture": {
+      "ref": "wallhaven:7pkm29",
+      "kind": "painting",
+      "source": "wallhaven",
+      "page": "https://wallhaven.cc/w/7pkm29",
+      "image": "https://w.wallhaven.cc/full/7p/wallhaven-7pkm29.jpg",
+      "fetched": "2026-10-15",
+      "sha256": "b35b98ffb50b222cebef280792bdd6b9153fb6173f6e375895b1cdfc5340ef08",
+      "size": [2560, 1440],
+      "crop": [84, 0, 2392, 1439],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 401,

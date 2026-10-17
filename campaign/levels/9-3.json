@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "ember-highlands-geysers",
-    "prompt": "Three geysers erupt in a volcanic highland under a hazy pale-gold sky. Each rises from a round, smooth mound of pale cream mineral rock: one in the middle of the picture and two at about one fifth and four fifths of the width, the mounds' tops at about three quarters of the picture height, each mound about a sixth of the picture wide. From each mound a tall, narrow column of white water and steam shoots straight up and spreads at its top into a round, puffy crown: the side plumes reach about one quarter of the picture height, the middle plume only about two fifths, leaving the top center open. Ledges of blue-gray basalt columns step along both side edges; a few tiny embers glow in cracks at the mounds' feet; the lower corners are plain rock."
+    "prompt": "Three geysers erupt in a volcanic highland under a hazy pale-gold sky. Each rises from a round, smooth mound of pale cream mineral rock: one in the middle of the picture and two at about one fifth and four fifths of the width, the mounds' tops at about three quarters of the picture height, each mound about a sixth of the picture wide. From each mound a tall, narrow column of white water and steam shoots straight up and spreads at its top into a round, puffy crown: the side plumes reach about one quarter of the picture height, the middle plume only about two fifths, leaving the top center open. Ledges of blue-gray basalt columns step along both side edges; a few tiny embers glow in cracks at the mounds' feet; the lower corners are plain rock.",
+    "picture": {
+      "ref": "pexels:34576348",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/geyser-eruption-at-yellowstone-national-park-34576348/",
+      "image": "https://images.pexels.com/photos/34576348/pexels-photo-34576348.jpeg",
+      "title": "Captivating geyser eruption at Yellowstone National Park, USA, showcasing geothermal activity.",
+      "author": "Marije Kouyzer",
+      "authorUrl": "https://www.pexels.com/@marije-kouyzer-3828951",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "e4614cc1cbac121240b8d0526036709967e617233ea8b8e52428419c5ef5db81",
+      "size": [5083, 3389],
+      "crop": [0, 165, 5083, 3059],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 903,

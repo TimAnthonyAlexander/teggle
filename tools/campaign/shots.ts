@@ -7,7 +7,7 @@
 // with more balls to reach its Fever.
 //
 // Uses the dev server on http://localhost:47823, which must be running, or the one TEGGLE_BASE
-// names. It never starts or stops a server.
+// names. It never starts or stops a server. The browser runs muted.
 //
 // Usage: npm run campaign:shots [-- <id> ...]   (default: every level in the manifest)
 //        --seed <n> (first attempt's seed, default 1)
@@ -141,7 +141,8 @@ async function main(): Promise<void> {
   const levels = wanted.length === 0 ? all : all.filter((l) => wanted.includes(l.id));
   const seed = Number(arg('seed') ?? 1);
   await mkdir(OUT, { recursive: true });
-  const browser = await chromium.launch();
+  // The game is silent under automation; muting the browser as well keeps a run quiet anyway.
+  const browser = await chromium.launch({ args: ['--mute-audio'] });
   try {
     const context = await browser.newContext({
       viewport: { width: 1600, height: 900 },

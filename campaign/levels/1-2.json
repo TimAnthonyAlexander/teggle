@@ -2,13 +2,31 @@
   "id": "1-2",
   "name": "Kite Tails",
   "concept": {
-    "subject": "Two diamond kites high in a bright midday sky, each trailing a pair of long ribbon tails that sweep down toward the middle.",
-    "composition": "The kites fly in the upper left and upper right; each tail's two ribbons sweep down and in, the inner one ending at three quarters of the height beside the center, the outer one dipping close to the bottom; bows are tied between the ribbons; three thin cloud wisps cross the middle and small clouds sit by the walls a little below mid height, above the flippers.",
-    "layout": "83 round pegs and 48 bricks. Each kite's upper frame is a brick roof, its lower edges and spars are pegs. Each tail is a pair of long brick slides that carry balls down toward the middle, with a line of pegs on the bows between them. Three wisps of pegs cross the middle, two short ones sit beside the kites, rings of pegs mark the side clouds and a short arc the cloud between the tails' ends."
+    "subject": "A train of five stunt kites in a pale hazy sky, trailing long ribbon tails that loop around to the left and sweep back along the bottom.",
+    "composition": "The kite train hangs just below the cannon in the middle; three tails loop up and over to the upper left, down the left side and along the bottom, two of them rising again on the right; the right half of the sky is open.",
+    "layout": "83 round pegs and 48 bricks. The kites' leading edges are a short brick spine with a peg on their wingtips; three of the tails' strands are long brick slides looping from the kites over the top left and down the left side, and two more rise on the right as slides back toward the middle. Peg lines follow the tails along the bottom and curl inside their loop; wisps of wind cross the open sky on the right, with a ring by the left wall and a wisp in the upper left."
   },
   "background": {
     "id": "cloud-isles-kites",
-    "prompt": "Two large diamond-shaped kites fly high on the left and right, each about a sixth of the picture wide, centered at about one fifth and four fifths of the width, their top points near the top edge and their bottom points at a little under half the picture height. Each kite has a cross of two thin wooden spars and a sail in cream and soft blue. From each kite's bottom point hang two long parallel ribbon tails in soft blue, a hand's width apart: they sweep down and in toward the center in one smooth curve; the inner ribbon ends at about three quarters of the picture height just beside the center, the outer ribbon dips close to the bottom and ends a little further out. Small bow ties are tied between the two ribbons of each tail. Three thin horizontal wisps of cloud drift across the middle at about one third, one half and three fifths of the picture height, with two shorter wisps higher up beside the kites. A small round cloud floats near each side edge at about two thirds of the picture height, and a soft cloud sits at the bottom center between the ends of the tails."
+    "prompt": "A photo of a train of five stacked blue delta stunt kites with yellow suns in a plain pale blue sky. The train hangs in the middle, from about 45 to 55 percent of the width and from about three tenths to a half of the height. Their long ribbon tails, dashed in red, yellow and blue, loop up and over to the left, reaching about a sixth of the height at the top and about a seventh of the width at the left, run down the left side and along the bottom at about three quarters to nine tenths of the height, and two of them rise again on the right to about four fifths of the width. The right half of the sky is empty.",
+    "picture": {
+      "ref": "pexels:30221789",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/colorful-kites-flying-in-clear-sky-30221789/",
+      "image": "https://images.pexels.com/photos/30221789/pexels-photo-30221789.jpeg",
+      "title": "Multiple colorful kites with long tails flying against a clear sky, showcasing vibrant patterns.",
+      "author": "Sharath G.",
+      "authorUrl": "https://www.pexels.com/@dropshado",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "f957e010998ad6f7022f1354bee04f59106706e367225ec15a1edceed4794f61",
+      "size": [3273, 2178],
+      "crop": [0, 104, 3273, 1970],
+      "flop": false,
+      "adjust": { "palette": ["#4f6f9e", "#8fb4e0", "#d4e4f6"], "tint": 0.6, "paint": 1 }
+    }
   },
   "recipe": {
     "seed": 102,

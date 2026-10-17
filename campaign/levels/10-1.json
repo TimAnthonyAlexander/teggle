@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "silverwood-hollows",
-    "prompt": "A quiet silver birch forest at misty dawn. Two great old birch trunks stand near the left and right edges, white and silver with soft gray markings, each with one large round hollow in its trunk, the hollows centered at about one seventh and six sevenths of the picture width and one quarter of the picture height, each about a sixth of the picture wide, with a soft shadowed silver-gray inside and a clearly drawn round rim. Low on each side, at about one sixth and five sixths of the width and four fifths of the height, a fallen mossy log shows a round knothole facing the viewer. In the middle, three small cairns of smooth round river stones stand on a mossy rise with curling ferns between them; a band of pale silver-blue mist drifts across at about half the height. The top center is open, pale dawn sky; the lower corners are plain moss."
+    "prompt": "A quiet silver birch forest at misty dawn. Two great old birch trunks stand near the left and right edges, white and silver with soft gray markings, each with one large round hollow in its trunk, the hollows centered at about one seventh and six sevenths of the picture width and one quarter of the picture height, each about a sixth of the picture wide, with a soft shadowed silver-gray inside and a clearly drawn round rim. Low on each side, at about one sixth and five sixths of the width and four fifths of the height, a fallen mossy log shows a round knothole facing the viewer. In the middle, three small cairns of smooth round river stones stand on a mossy rise with curling ferns between them; a band of pale silver-blue mist drifts across at about half the height. The top center is open, pale dawn sky; the lower corners are plain moss.",
+    "picture": {
+      "ref": "pexels:11538991",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/grayscale-photo-of-bare-trees-11538991/",
+      "image": "https://images.pexels.com/photos/11538991/pexels-photo-11538991.jpeg",
+      "title": "Atmospheric black and white photo of misty birch trees in a foggy winter forest.",
+      "author": "Alexey Demidov",
+      "authorUrl": "https://www.pexels.com/@alexeydemidov",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "48fc50aff69f6e9a3b3889d845eb2aa0820013cb70045dde3227e528ad10c6ea",
+      "size": [3000, 1928],
+      "crop": [0, 61, 3000, 1805],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 1001,

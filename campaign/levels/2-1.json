@@ -1,16 +1,15 @@
 {
   "id": "2-1",
-  "name": "Potato Rows",
-  "draft": true,
+  "name": "Peanut Rows",
   "concept": {
-    "subject": "A vegetable bed seen in cross-section, where round potatoes hang from fine roots in neat staggered rows under a line of leafy potato plants.",
-    "composition": "The meadow's ground line crosses the top at a fifth of the height, with potato plants left and right of the open center. Below it the bed of soft earth forms a wide funnel, from a twelfth to eleven twelfths of the width just under the ground, narrowing to two fifths of the width at four fifths of the height, packed with staggered rows of potatoes; outside the funnel the earth is plain, and the lower corners hold only pebbles.",
-    "layout": "Round pegs only, 158 of them. The potatoes are a plinko grid in a funnel envelope, about a dozen staggered rows that narrow toward the bucket; short peg lines follow the plants' leaves and the ground line beside the cannon. The funnel's narrowing keeps the lower corners free for the flippers."
+    "subject": "A planted field at the edge of a wood, its rows of low leafy plants and sandy furrows running from the horizon toward the viewer.",
+    "composition": "The treeline and a strip of sky fill the top third, the field's far edge crosses at a third of the height, and the furrows fan out from a point under the cannon to the lower corners; the field fills everything below.",
+    "layout": "Round pegs only, 158 of them. The plants are a plinko grid: a staggered lattice fill over the whole field. Peg lines run down the four furrows that fan out from the horizon, the two near ones to the bottom and the two far ones to the walls, and along the field's far edge beside the cannon; the lattice keeps its clearance from them, so the furrows read as lanes. Two short rails lie in the field just below its far edge, left and right, sloping toward the middle and sheltering the rows under them, and a round stone sits where the near furrows meet under the cannon."
   },
   "plan": {
     "archetypes": ["plinko", "outline"],
-    "templates": ["outline", "plinko"],
-    "fill": "none",
+    "templates": ["solids", "outline"],
+    "fill": "lattice",
     "pegs": 158,
     "bricks": 0,
     "difficulty": {
@@ -20,10 +19,44 @@
   },
   "background": {
     "id": "clover-burrows-potatoes",
-    "prompt": "A vegetable garden bed seen in cross-section, like a cutaway page of a picture book. The meadow's ground line runs straight across the picture at about one fifth of its height, with small leafy potato plants standing on it left and right of the open top center, none in the middle third. Below the ground, the bed of soft, light sandy earth forms a wide funnel shape: from about one twelfth to eleven twelfths of the picture width just under the ground, narrowing evenly to about two fifths of the width at four fifths of the height. Inside the funnel, round pale cream-tan potatoes hang from thin pale roots in about a dozen neat staggered rows, each potato about a thirtieth of the picture wide, all evenly spaced. Outside the funnel the earth is plainer, slightly deeper sand with a few small pebbles; the lower corners and the lowest strip are smooth, calm soil."
+    "prompt": "A photo of a planted field in late summer, low leafy plants in rows on light sandy soil. A pale sky fills the top tenth, a dark treeline crosses from about a tenth to a quarter of the picture height, rising a little to the right, and the field's far edge runs straight across at about 27 percent of the height. Sandy furrows fan out from a point just left of the center on that edge: the two near ones run to about a quarter and two thirds of the width at the bottom, the far ones to the left edge at about three fifths of the height and to the right edge at about 70 percent. Between them, rows of green plants fill the field to the bottom.",
+    "picture": {
+      "ref": "pexels:9799056",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/peanut-plants-in-a-field-9799056/",
+      "image": "https://images.pexels.com/photos/9799056/pexels-photo-9799056.jpeg",
+      "title": "A sprawling peanut field in rural North Carolina, showcasing rows of mature peanut plants ready for harvest.",
+      "author": "Mark Stebnicki",
+      "authorUrl": "https://www.pexels.com/@nc-farm-bureau-mark",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "7b60bc8d4bc653d1ca3cc7fcfeb193dc63e413e7b72077edab69081919357f7a",
+      "size": [4228, 2377],
+      "crop": [139, 0, 3950, 2377],
+      "flop": false,
+      "adjust": { "saturation": 0.75, "floor": 0.26, "paint": 3 }
+    }
   },
   "recipe": {
     "seed": 201,
-    "targetCount": 158
+    "targetCount": 158,
+    "solids": {
+      "rods": [
+        { "a": [150, 184], "b": [250, 194] },
+        { "a": [666, 194], "b": [766, 184] }
+      ],
+      "circles": [{ "x": 458, "y": 202, "r": 12 }]
+    },
+    "lines": [
+      "track-left",
+      "track-right",
+      "track-far-left",
+      "track-far-right",
+      "horizon-left",
+      "horizon-right"
+    ],
+    "fill": { "style": "lattice", "clearance": 14, "within": "field" }
   }
 }

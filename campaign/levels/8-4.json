@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "ribbon-fair-rosettes",
-    "prompt": "Five giant prize rosettes are pinned to a wooden prize board at a country fair. The board's top edge runs straight across the picture at about one fifth of its height, with a soft turquoise sky above it, open at the top center. Each rosette is a round ring of pleated ribbon around a flat round center button, with two ribbon tails hanging below it and splaying outward. The largest rosette hangs in the middle of the picture, centered a little below half the height, about a quarter of the picture wide; two smaller ones hang high on the left and right at about one quarter of the height and about one fifth and four fifths of the width; two more hang low on the left and right at about three fifths of the height and about 30 and 70 percent of the width. The ribbons are cream, pale teal, soft straw yellow and muted brick red. The board is pale weathered wood; the lower corners are plain board."
+    "prompt": "Five giant prize rosettes are pinned to a wooden prize board at a country fair. The board's top edge runs straight across the picture at about one fifth of its height, with a soft turquoise sky above it, open at the top center. Each rosette is a round ring of pleated ribbon around a flat round center button, with two ribbon tails hanging below it and splaying outward. The largest rosette hangs in the middle of the picture, centered a little below half the height, about a quarter of the picture wide; two smaller ones hang high on the left and right at about one quarter of the height and about one fifth and four fifths of the width; two more hang low on the left and right at about three fifths of the height and about 30 and 70 percent of the width. The ribbons are cream, pale teal, soft straw yellow and muted brick red. The board is pale weathered wood; the lower corners are plain board.",
+    "picture": {
+      "ref": "pixabay:6904040",
+      "kind": "painting",
+      "source": "Pixabay",
+      "page": "https://pixabay.com/vectors/badge-ribbon-certificate-award-6904040/",
+      "image": "https://cdn.pixabay.com/photo/2021/12/30/14/42/badge-6904040_1280.png",
+      "title": "Free badge ribbon certificate illustration",
+      "author": "Neflo",
+      "authorUrl": "https://pixabay.com/users/neflo-5962038/",
+      "license": "Pixabay Content License",
+      "licenseUrl": "https://pixabay.com/service/license-summary/",
+      "fetched": "2026-10-15",
+      "sha256": "6c07251355d7d2b7ee12afcffd4bb94d571bc9bed35ff6694fa26d5e47a0a904",
+      "size": [1280, 1056],
+      "crop": [0, 143, 1280, 770],
+      "flop": false,
+      "adjust": { "saturation": 0.5 }
+    }
   },
   "recipe": {
     "seed": 804,

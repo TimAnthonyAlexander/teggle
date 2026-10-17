@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "silverwood-footbridge",
-    "prompt": "A wooden arched footbridge crosses a still pool in a silver birch forest at misty dawn. The bridge's round arch spans the middle of the picture from about one quarter to three quarters of the width, its top at about one third of the picture height, below the open top center; its pale weathered wood and simple railings are mirrored perfectly in the calm water below, the waterline crossing the picture at about three fifths of the height, so that the arch and its reflection together form an almost complete circle. On each side of the bridge, two or three flat oval rings of gentle ripples spread across the water's surface. Round stepping stones cross the pool below the reflection. Slender white birch trunks stand at the left and right edges, pale silver-blue mist drifts between them, and the lower corners are plain still water."
+    "prompt": "A wooden arched footbridge crosses a still pool in a silver birch forest at misty dawn. The bridge's round arch spans the middle of the picture from about one quarter to three quarters of the width, its top at about one third of the picture height, below the open top center; its pale weathered wood and simple railings are mirrored perfectly in the calm water below, the waterline crossing the picture at about three fifths of the height, so that the arch and its reflection together form an almost complete circle. On each side of the bridge, two or three flat oval rings of gentle ripples spread across the water's surface. Round stepping stones cross the pool below the reflection. Slender white birch trunks stand at the left and right edges, pale silver-blue mist drifts between them, and the lower corners are plain still water.",
+    "picture": {
+      "ref": "pexels:18826650",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/trees-around-footbridge-on-river-in-park-18826650/",
+      "image": "https://images.pexels.com/photos/18826650/pexels-photo-18826650.jpeg",
+      "title": "Tranquil view of a bridge over a lush green river in Kuala Lumpur park.",
+      "author": "Costa Karabelas",
+      "authorUrl": "https://www.pexels.com/@costa",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "1ce33dbb5fa92808b8e54f55976b5270fc5adead9f5891b822028248c7943f1d",
+      "size": [5752, 3835],
+      "crop": [0, 187, 5752, 3461],
+      "flop": false,
+      "adjust": { "brightness": 1.1, "saturation": 0.65, "gamma": 1.1, "paint": 3 }
+    }
   },
   "recipe": {
     "seed": 1002,

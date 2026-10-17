@@ -20,7 +20,6 @@
       }
     ],
     "features": ["Pegs in an infinity shape that spin in a loop (spec 8): a lantern string"],
-    "needs": ["line-movers"],
     "difficulty": {
       "target": 0.29,
       "note": "Middle of the stage: the moving lanterns are easy to hit by luck and hard to hit on purpose; the roofs below are open."
@@ -28,7 +27,25 @@
   },
   "background": {
     "id": "golden-rooftops-lanterns",
-    "prompt": "A festival above a hill town's rooftops at golden hour. Two tall stone chimney stacks rise on the left and right, at about one fifth and four fifths of the picture width, from the roofs up to about one quarter of the picture height. Between them, one long thin wire is strung in a single smooth figure-eight loop lying on its side, spanning from about one quarter to three quarters of the picture width and from about one third to two thirds of the height, its two loops equal in size and crossing at the center of the picture. About sixteen round paper lanterns in cream and pale gold hang evenly along the wire. Below, the town's roofs fill the bottom third: muted slate-blue roof slopes on each side that descend toward the middle, with small round windows under them. The top center is open sky; the lower corners are plain roof slopes."
+    "prompt": "A festival above a hill town's rooftops at golden hour. Two tall stone chimney stacks rise on the left and right, at about one fifth and four fifths of the picture width, from the roofs up to about one quarter of the picture height. Between them, one long thin wire is strung in a single smooth figure-eight loop lying on its side, spanning from about one quarter to three quarters of the picture width and from about one third to two thirds of the height, its two loops equal in size and crossing at the center of the picture. About sixteen round paper lanterns in cream and pale gold hang evenly along the wire. Below, the town's roofs fill the bottom third: muted slate-blue roof slopes on each side that descend toward the middle, with small round windows under them. The top center is open sky; the lower corners are plain roof slopes.",
+    "picture": {
+      "ref": "pexels:37498728",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/colorful-paper-lanterns-hanging-against-blue-sky-37498728/",
+      "image": "https://images.pexels.com/photos/37498728/pexels-photo-37498728.jpeg",
+      "title": "Vibrant red, blue, and orange paper lanterns hanging on a wire against a clear blue sky with clouds.",
+      "author": "Sóc Năng Động",
+      "authorUrl": "https://www.pexels.com/@soc-nang-d-ng-2150345854",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "4e4aeec1d7328d89396b8d8bc203ca0964cd0da7a4bf27772507001c9dbea022",
+      "size": [3600, 2400],
+      "crop": [0, 117, 3600, 2166],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 302,

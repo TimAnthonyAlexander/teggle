@@ -120,14 +120,6 @@ export const ARCHETYPES = [
   'web',
 ] as const;
 
-/**
- * Generator capabilities a plan relies on that the generator does not have yet.
- *   line-movers: the objects of a traced line move, as one rigid group (slide, wrap, orbit,
- *                float) or as a train with phases stepped along one path (a figure-eight, a
- *                wave, rising columns). Lines and the outline template carry no movement today.
- */
-export const PLAN_NEEDS = ['line-movers'] as const;
-
 /** The parts every campaign recipe may hold; besides them it places at most one template. */
 const RECIPE_BASE_TEMPLATES: ReadonlySet<string> = new Set(['solids', 'outline']);
 
@@ -152,8 +144,6 @@ export const planSchema = z
       .default([]),
     /** Spec 8's documented stage features this level carries. */
     features: z.array(z.string().min(1)).default([]),
-    /** Generator capabilities the plan relies on that do not exist yet. */
-    needs: z.array(z.enum(PLAN_NEEDS)).default([]),
     difficulty: z.strictObject({
       /**
        * Intended clear rate of the reference agent (src/agents/bands.json: the noisy greedy
@@ -191,7 +181,7 @@ export const PICTURE_KINDS = ['painting', 'photo'] as const;
  */
 export const PAINT_BY_KIND: Readonly<Record<(typeof PICTURE_KINDS)[number], number>> = {
   painting: 1,
-  photo: 3,
+  photo: 2,
 };
 
 /**

@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "starlit-summit-gates",
-    "prompt": "The snowy summit above all the worlds at twilight, where two archways of clear ice stand at the left and right edges a little below half the picture height, their round openings facing each other across the picture. Between them, constellations of small gold and silver stars are drawn in the luminous medium teal sky, each joined by thin, faint lines: a five-pointed crown in the middle at about two fifths of the picture height, below the open top center; an hourglass on each side at about one third of the height, at about one quarter and three quarters of the width; and a long key lying across the lower middle at about two thirds of the height. Low snowy ridges run along the bottom; the lower corners are plain snow."
+    "prompt": "The snowy summit above all the worlds at twilight, where two archways of clear ice stand at the left and right edges a little below half the picture height, their round openings facing each other across the picture. Between them, constellations of small gold and silver stars are drawn in the luminous medium teal sky, each joined by thin, faint lines: a five-pointed crown in the middle at about two fifths of the picture height, below the open top center; an hourglass on each side at about one third of the height, at about one quarter and three quarters of the width; and a long key lying across the lower middle at about two thirds of the height. Low snowy ridges run along the bottom; the lower corners are plain snow.",
+    "picture": {
+      "ref": "pexels:34125813",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/winter-scene-through-ice-cave-in-graubunden-34125813/",
+      "image": "https://images.pexels.com/photos/34125813/pexels-photo-34125813.jpeg",
+      "title": "Captivating view of snowy mountains through an ice cave in Graubünden, Switzerland.",
+      "author": "Oskar Gross",
+      "authorUrl": "https://www.pexels.com/@oskar-gross-1074333632",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "91c7d1e13a2c6a7a9e10026d261598da6494708aa8be0b78f26e829c3b07ff77",
+      "size": [6192, 4128],
+      "crop": [0, 201, 6192, 3726],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 1103,

@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "ribbon-fair-carousel",
-    "prompt": "A carousel at a country fair on a breezy afternoon, seen from the front. Its conical striped canopy in cream and muted brick red spans from about one fifth to four fifths of the picture width, its peak at about three tenths of the picture height with a small pennant on top, its two straight slopes running down to a valance at about two fifths of the height whose lower edge is a row of small round arches. Below the valance, eight twisted pale-gold poles run down to the carousel's round wooden platform, whose rim curves gently across the picture at about four fifths of the height; between the poles stand only empty bench seats, no animals and no riders. Near the left and right edges, two small ticket booths with peaked roofs stand at about half the height. A soft turquoise sky with puffy clouds, open at the top center; the lower corners are straw-covered ground."
+    "prompt": "A carousel at a country fair on a breezy afternoon, seen from the front. Its conical striped canopy in cream and muted brick red spans from about one fifth to four fifths of the picture width, its peak at about three tenths of the picture height with a small pennant on top, its two straight slopes running down to a valance at about two fifths of the height whose lower edge is a row of small round arches. Below the valance, eight twisted pale-gold poles run down to the carousel's round wooden platform, whose rim curves gently across the picture at about four fifths of the height; between the poles stand only empty bench seats, no animals and no riders. Near the left and right edges, two small ticket booths with peaked roofs stand at about half the height. A soft turquoise sky with puffy clouds, open at the top center; the lower corners are straw-covered ground.",
+    "picture": {
+      "ref": "pexels:17276871",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/a-carousel-at-an-amusement-park-17276871/",
+      "image": "https://images.pexels.com/photos/17276871/pexels-photo-17276871.jpeg",
+      "title": "Vintage black and white carousel in an empty amusement park during summer day.",
+      "author": "ayça bilge",
+      "authorUrl": "https://www.pexels.com/@ayca-bilge-599948960",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "5065beb15f3410bf78ce3a976818e871bfd2823b7f918bc29987da3a6093cc1b",
+      "size": [5184, 3456],
+      "crop": [207, 207, 4147, 2495],
+      "flop": false,
+      "adjust": { "tint": 0.45 }
+    }
   },
   "recipe": {
     "seed": 802,

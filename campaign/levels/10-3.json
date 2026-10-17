@@ -23,7 +23,25 @@
   },
   "background": {
     "id": "silverwood-pools",
-    "prompt": "A chain of still pools steps down through a silver birch forest at misty dawn. Three round pools with smooth stone rims sit in tiers: one in the middle at about three quarters of the picture height, about a third of the picture wide, and two smaller ones higher on the left and right at about half the height, at about one quarter and three quarters of the width; each pool mirrors the pale sky. Two hollow birch logs lie at the left and right edges a little below half the height, their round open ends facing each other across the picture. Thin reeds and curling ferns stand around the pools; a band of pale silver-blue mist drifts across at about one third of the height. Slender white birch trunks rise in the background; the top center is open, pale dawn sky; the lower corners are plain moss."
+    "prompt": "A chain of still pools steps down through a silver birch forest at misty dawn. Three round pools with smooth stone rims sit in tiers: one in the middle at about three quarters of the picture height, about a third of the picture wide, and two smaller ones higher on the left and right at about half the height, at about one quarter and three quarters of the width; each pool mirrors the pale sky. Two hollow birch logs lie at the left and right edges a little below half the height, their round open ends facing each other across the picture. Thin reeds and curling ferns stand around the pools; a band of pale silver-blue mist drifts across at about one third of the height. Slender white birch trunks rise in the background; the top center is open, pale dawn sky; the lower corners are plain moss.",
+    "picture": {
+      "ref": "pexels:16047148",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/fog-over-birches-in-forest-16047148/",
+      "image": "https://images.pexels.com/photos/16047148/pexels-photo-16047148.jpeg",
+      "title": "Serene misty lakeshore scene with birch trees in fog, capturing autumn's essence.",
+      "author": "Annija U",
+      "authorUrl": "https://www.pexels.com/@annija-u-492300719",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "39e59e2fe01d8b243894d50490fe19169afa00de672d53b4b086125fc38216ec",
+      "size": [5674, 3788],
+      "crop": [0, 187, 5674, 3414],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 1003,

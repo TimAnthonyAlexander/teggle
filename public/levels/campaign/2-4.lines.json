@@ -1,0 +1,144 @@
+{
+  "formatVersion": 1,
+  "background": "clover-burrows-corkscrews",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "spiral-left",
+      "note": "The left fiddlehead's stalk and the outer turns of its curl, winding up the right side, over the top and inward",
+      "mode": "bricks",
+      "points": [
+        [394, 505], [399, 470], [404, 436], [406.9, 405.4], [425.2, 342.8], [410.2, 281.6],
+        [368, 237.8], [311.6, 221.8], [257.1, 235.6], [218.4, 273.5], [204.7, 323.5],
+        [217.4, 371.4], [251, 404.9], [294.6, 416.3], [336, 404.8], [364.3, 375.6],
+        [373.4, 338.2], [363, 303.5], [338.1, 280.4], [307.1, 273.6], [279, 282.8], [270.3, 290]
+      ]
+    },
+    {
+      "id": "spiral-left-heart",
+      "note": "The inner turn of the left curl",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [
+        [257.6, 313.1], [257.9, 335.9], [268.3, 353.9], [284.5, 363.6], [301.4, 364.1],
+        [314.7, 357], [321.7, 345.8]
+      ]
+    },
+    {
+      "id": "spiral-right",
+      "note": "The right fiddlehead's stalk and the outer turns of its curl, winding up the left side, over the top and inward",
+      "mode": "bricks",
+      "points": [
+        [500, 508], [495, 474], [489, 440], [486, 410], [485.1, 385.4], [466.8, 322.8],
+        [481.8, 261.6], [524, 217.8], [580.4, 201.8], [634.9, 215.6], [673.6, 253.5],
+        [687.3, 303.5], [674.6, 351.4], [641, 384.9], [597.4, 396.3], [556, 384.8],
+        [527.7, 355.6], [518.6, 318.2], [529, 283.5], [553.9, 260.4], [584.9, 253.6], [613, 262.8],
+        [621.7, 270]
+      ]
+    },
+    {
+      "id": "spiral-right-heart",
+      "note": "The inner turn of the right curl",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [
+        [634.4, 293.1], [634.1, 315.9], [623.7, 333.9], [607.5, 343.6], [590.6, 344.1],
+        [577.3, 337], [570.3, 325.8]
+      ]
+    },
+    {
+      "id": "branch-left",
+      "note": "The top of the branch the fiddleheads grow from, on the left",
+      "mode": "bricks",
+      "points": [[100, 428], [160, 436], [234, 446]]
+    },
+    {
+      "id": "branch-right",
+      "note": "The top of the branch on the right",
+      "mode": "bricks",
+      "points": [[660, 458], [740, 452], [815, 446]]
+    },
+    {
+      "id": "curl-left",
+      "note": "The blurred frond curling at the left edge, behind the fiddleheads",
+      "mode": "bricks",
+      "points": [[24, 176], [70, 186], [108, 220], [124, 268], [118, 320], [98, 366]]
+    },
+    {
+      "id": "frond-top-right",
+      "note": "The pale blurred frond crossing the upper right corner",
+      "mode": "bricks",
+      "points": [[700, 40], [780, 62], [860, 90]]
+    },
+    {
+      "id": "halo-left",
+      "note": "The fuzzy halo around the top of the left fiddlehead",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[162, 262], [196, 206], [273, 170], [358, 177], [419, 215]]
+    },
+    {
+      "id": "halo-right",
+      "note": "The fuzzy halo around the top of the right fiddlehead, beyond its solid rim",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[556, 150], [600, 145], [672, 169], [733, 230], [742, 262]]
+    },
+    {
+      "id": "light-top-left",
+      "note": "The light band across the upper left",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[30, 70], [110, 58], [190, 56], [270, 64], [340, 80]]
+    },
+    {
+      "id": "light-top-right",
+      "note": "Under the pale frond in the upper right",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[566, 96], [620, 104], [674, 118]]
+    },
+    {
+      "id": "stem-right",
+      "note": "A blurred stem in the background right of the fiddleheads",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[800, 150], [786, 210], [784, 270], [780, 330], [790, 390]]
+    },
+    {
+      "id": "edge-right",
+      "note": "The blurred leaf at the right edge",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[870, 160], [860, 220], [856, 280], [862, 340]]
+    },
+    {
+      "id": "edge-left",
+      "note": "Down the dark gap between the left curl and the left fiddlehead",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[160, 300], [158, 340], [162, 380]]
+    },
+    {
+      "id": "moss-left",
+      "note": "Along the branch below the left fiddlehead",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[240, 480], [290, 486], [340, 490]]
+    },
+    {
+      "id": "moss-right",
+      "note": "Along the branch below the right fiddlehead",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[540, 492], [590, 488], [630, 488]]
+    },
+    {
+      "id": "light-left-low",
+      "note": "Under the light band in the upper left",
+      "mode": "pegs",
+      "spacing": 46,
+      "points": [[184, 122], [234, 114]]
+    }
+  ]
+}

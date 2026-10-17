@@ -5,89 +5,93 @@
   "lines": [
     {
       "id": "crown",
-      "note": "Scalloped outline of the great tree's crown, from its lower right round the top to its lower left; the trunk leaves the gap at the bottom",
+      "note": "Outline of the great blossoming tree's crown, from its lower right round the top to its lower left; the trunk leaves the gap at the bottom",
       "mode": "pegs",
       "spacing": 38,
       "points": [
-        [503.5, 325.5], [512.5, 315], [519, 303], [569.5, 327], [607, 326], [634, 311],
-        [652, 288.5], [659.5, 261], [656.5, 233], [642.5, 207.5], [617.5, 188], [593.5, 174],
-        [587, 153], [574.5, 135], [556.5, 122.5], [535, 116.5], [512.5, 118], [497, 104.5],
-        [478.5, 93.5], [458, 90], [437.5, 93.5], [419, 104.5], [403.5, 118], [381, 116.5],
-        [359.5, 122.5], [341.5, 135], [329, 153], [322.5, 174], [298.5, 188], [273.5, 207.5],
-        [259.5, 233], [256.5, 261], [264, 288.5], [282, 311], [309, 326], [346.5, 327], [397, 303],
-        [403.5, 315], [412.5, 325.5]
+        [508, 318], [540, 326], [575, 326], [612, 316], [636, 296], [640, 268], [636, 242],
+        [620, 214], [600, 188], [578, 160], [552, 136], [522, 118], [490, 106], [458, 104],
+        [425, 106], [392, 112], [360, 124], [330, 142], [307, 166], [292, 190], [277, 214],
+        [266, 240], [268, 268], [280, 294], [302, 314], [336, 322], [372, 322], [408, 314],
+        [440, 318]
       ]
     },
     {
+      "id": "trunk",
+      "note": "A peg on the great tree's trunk, in the gap of the crown",
+      "mode": "pegs",
+      "points": [[475, 338], [475, 346]]
+    },
+    {
       "id": "island-top",
-      "note": "Grassy top edge of the central island",
+      "note": "Along the hill at the foot of the great tree, sloping down to the right like the hill",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[306, 380], [380, 372], [458, 369], [536, 372], [610, 380]]
+      "points": [[306, 370], [380, 374], [458, 378], [536, 382], [610, 388]]
     },
     {
       "id": "island-underside",
-      "note": "Rocky underside of the island, tapering to its point",
+      "note": "A V of pegs in the meadow below the great tree, pointing down at the bucket",
       "mode": "pegs",
       "spacing": 38,
       "corners": [3],
-      "points": [[326, 410], [378, 444], [424, 478], [458, 503], [492, 478], [538, 444], [590, 410]]
+      "points": [[330, 416], [380, 448], [424, 480], [458, 505], [492, 480], [536, 448], [586, 416]]
     },
     {
       "id": "tree-left",
-      "note": "Round crown of the small tree on the left rock",
+      "note": "Round crown of the blossoming tree at the left edge",
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
       "points": [
-        [96, 170], [135.5, 186.5], [152, 226], [135.5, 265.5], [96, 282], [56.5, 265.5], [40, 226],
-        [56.5, 186.5]
+        [80, 159], [119.6, 175.4], [136, 215], [119.6, 254.6], [80, 271], [40.4, 254.6], [24, 215],
+        [40.4, 175.4]
       ]
     },
     {
       "id": "tree-left-blossoms",
-      "note": "Three blossoms inside the small left crown",
+      "note": "Three blossoms inside the left crown",
       "mode": "pegs",
       "closed": true,
       "spacing": 46,
-      "points": [[96, 206], [115, 239], [77, 239]]
+      "points": [[80, 195], [99, 228], [61, 228]]
     },
     {
       "id": "tree-right",
-      "note": "Round crown of the small tree on the right rock",
+      "note": "Round crown of the blossoming tree at the right edge",
       "mode": "pegs",
       "closed": true,
       "spacing": 35,
       "points": [
-        [820, 170], [859.5, 186.5], [876, 226], [859.5, 265.5], [820, 282], [780.5, 265.5],
-        [764, 226], [780.5, 186.5]
+        [836, 196], [875.6, 212.4], [892, 252], [875.6, 291.6], [836, 308], [796.4, 291.6],
+        [780, 252], [796.4, 212.4]
       ]
     },
     {
       "id": "tree-right-blossoms",
-      "note": "Three blossoms inside the small right crown",
+      "note": "Three blossoms inside the right crown",
       "mode": "pegs",
       "closed": true,
       "spacing": 46,
-      "points": [[820, 206], [839, 239], [801, 239]]
+      "points": [[836, 232], [855, 265], [817, 265]]
     },
     {
       "id": "petals-left",
       "note": "Blossom petals blowing from the crown toward the upper left",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[238, 172], [204, 142], [166, 122], [126, 112], [86, 108], [48, 112], [24, 128]]
+      "points": [[250, 170], [214, 142], [176, 124], [136, 114], [96, 110], [56, 114], [28, 130]]
     },
     {
       "id": "petals-right",
       "note": "Blossom petals blowing from the crown toward the upper right",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[678, 172], [712, 142], [750, 122], [790, 112], [830, 108], [868, 112], [892, 128]]
+      "points": [[650, 172], [686, 144], [724, 126], [764, 116], [804, 112], [844, 116], [884, 132]]
     },
     {
       "id": "puff-left",
-      "note": "Small cloud puff between the left rock and the island",
+      "note": "A round tuft in the meadow left of the middle",
       "mode": "pegs",
       "closed": true,
       "spacing": 37,
@@ -98,40 +102,40 @@
     },
     {
       "id": "puff-right",
-      "note": "Small cloud puff between the right rock and the island",
+      "note": "A round tuft in the meadow right of the middle",
       "mode": "pegs",
       "closed": true,
       "spacing": 37,
       "points": [
-        [680, 384], [708.5, 394.5], [720, 420], [708.5, 445.5], [680, 456], [651.5, 445.5],
-        [640, 420], [651.5, 394.5]
+        [680, 390], [708.5, 400.5], [720, 426], [708.5, 451.5], [680, 462], [651.5, 451.5],
+        [640, 426], [651.5, 400.5]
       ]
     },
     {
       "id": "puff-left-center",
-      "note": "Middle of the left cloud puff",
+      "note": "Middle of the left tuft",
       "mode": "pegs",
       "points": [[236, 416], [236, 424]]
     },
     {
       "id": "puff-right-center",
-      "note": "Middle of the right cloud puff",
+      "note": "Middle of the right tuft",
       "mode": "pegs",
-      "points": [[680, 416], [680, 424]]
+      "points": [[680, 422], [680, 430]]
     },
     {
       "id": "cloud-left",
-      "note": "Tops of the cloud bank below the left rock",
+      "note": "Low across the meadow in the lower left, above the flippers' swing",
       "mode": "pegs",
       "spacing": 37,
       "points": [[30, 500], [66, 486], [104, 480], [142, 488], [180, 480], [218, 490], [250, 505]]
     },
     {
       "id": "cloud-right",
-      "note": "Tops of the cloud bank below the right rock",
+      "note": "Low across the meadow in the lower right, above the flippers' swing",
       "mode": "pegs",
       "spacing": 37,
-      "points": [[886, 500], [850, 486], [812, 480], [774, 488], [736, 480], [698, 490], [666, 505]]
+      "points": [[886, 500], [850, 486], [812, 480], [774, 488], [736, 480], [698, 492], [666, 505]]
     }
   ]
 }

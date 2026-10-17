@@ -193,7 +193,7 @@ describe('level pictures', () => {
 
   it("processes a picture with its stage's look, its kind's softening and its own changes", () => {
     const photo = pictureSchema.parse({ ...picture, adjust: { brightness: 1.1 } });
-    expect(lookOf(stage, photo)).toEqual({ ...look, paint: 3, brightness: 1.1 });
+    expect(lookOf(stage, photo)).toEqual({ ...look, paint: 2, brightness: 1.1 });
     const painting = pictureSchema.parse({ ...picture, kind: 'painting', adjust: { paint: 0 } });
     expect(lookOf(stage, painting)).toEqual({ ...look, paint: 0 });
   });
@@ -227,7 +227,7 @@ describe('draft levels', () => {
   it('accepts a plan whose pegs and bricks make the count, with no lines yet', () => {
     const r = draft({});
     expect(r.success).toBe(true);
-    expect(r.data?.plan).toMatchObject({ pegs: 36, bricks: 24, needs: [] });
+    expect(r.data?.plan).toMatchObject({ pegs: 36, bricks: 24 });
   });
 
   it('needs a plan, and a plan that adds up to the recipe count', () => {

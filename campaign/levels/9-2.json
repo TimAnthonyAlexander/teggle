@@ -20,7 +20,25 @@
   },
   "background": {
     "id": "ember-highlands-springs",
-    "prompt": "Terraced hot springs step down a hillside in a volcanic highland under a hazy pale-gold sky. Seven round pools of milky pale-aqua water sit in three tiers, each held by a smooth, rounded lip of pale cream and sandstone mineral rock that bulges outward and spills down to the tier below: two pools high on the left and right at about one third of the picture height, near the side edges; three across the middle at about half the height, at about 25, 50 and 75 percent of the width; and two low beside the center at about three quarters of the height, at about 37 and 63 percent of the width. Each pool is about a sixth of the picture wide. Soft plumes of pale steam rise from the water. Blue-gray basalt slopes frame both sides; the top center is open sky; the lower corners are plain rock."
+    "prompt": "Terraced hot springs step down a hillside in a volcanic highland under a hazy pale-gold sky. Seven round pools of milky pale-aqua water sit in three tiers, each held by a smooth, rounded lip of pale cream and sandstone mineral rock that bulges outward and spills down to the tier below: two pools high on the left and right at about one third of the picture height, near the side edges; three across the middle at about half the height, at about 25, 50 and 75 percent of the width; and two low beside the center at about three quarters of the height, at about 37 and 63 percent of the width. Each pool is about a sixth of the picture wide. Soft plumes of pale steam rise from the water. Blue-gray basalt slopes frame both sides; the top center is open sky; the lower corners are plain rock.",
+    "picture": {
+      "ref": "pexels:11117440",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/ice-mountains-11117440/",
+      "image": "https://images.pexels.com/photos/11117440/pexels-photo-11117440.jpeg",
+      "title": "The white travertine terraces of Pamukkale with vibrant blue mineral pools.",
+      "author": "Maciej Cisowski",
+      "authorUrl": "https://www.pexels.com/@maciej-cisowski-174297128",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "273aca2ef35079e53c68fa679c6a81485c34ff1b0104cec253995051201d522f",
+      "size": [6720, 4480],
+      "crop": [0, 218, 6720, 4044],
+      "flop": false,
+      "adjust": {}
+    }
   },
   "recipe": {
     "seed": 902,

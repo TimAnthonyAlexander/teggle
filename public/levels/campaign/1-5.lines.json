@@ -5,108 +5,124 @@
   "lines": [
     {
       "id": "head-left",
-      "note": "Outer edge of the left dandelion seed head",
+      "note": "Outer edge of the big seed head on the left",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
       "points": [
-        [158, 252], [197, 262.5], [225.5, 291], [236, 330], [225.5, 369], [197, 397.5],
-        [158, 408], [119, 397.5], [90.5, 369], [80, 330], [90.5, 291], [119, 262.5]
+        [271, 226], [317, 238.3], [350.7, 272], [363, 318], [350.7, 364], [317, 397.7],
+        [271, 410], [225, 397.7], [191.3, 364], [179, 318], [191.3, 272], [225, 238.3]
       ]
     },
     {
       "id": "head-left-inner",
-      "note": "Inner ring of seeds of the left seed head",
+      "note": "Inner ring of seeds of the big left seed head",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
-      "points": [[158, 288], [194.5, 309], [194.5, 351], [158, 372], [121.5, 351], [121.5, 309]]
+      "points": [[271, 276], [307.5, 297], [307.5, 339], [271, 360], [234.5, 339], [234.5, 297]]
     },
     {
       "id": "head-left-heart",
-      "note": "Center of the left seed head",
+      "note": "Center of the big left seed head",
       "mode": "pegs",
-      "points": [[158, 326], [158, 334]]
+      "points": [[271, 314], [271, 322]]
     },
     {
       "id": "stem-left",
-      "note": "Stem of the left dandelion, down to its cloud bank",
+      "note": "The big left dandelion's stem, below its seed head",
       "mode": "pegs",
       "spacing": 34,
-      "points": [[162, 444], [152, 476], [138, 508]]
+      "points": [[278, 444], [282, 478], [286, 512]]
     },
     {
       "id": "head-right",
-      "note": "Outer edge of the right dandelion seed head",
+      "note": "Outer edge of the big seed head right of the cannon",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
       "points": [
-        [758, 252], [797, 262.5], [825.5, 291], [836, 330], [825.5, 369], [797, 397.5],
-        [758, 408], [719, 397.5], [690.5, 369], [680, 330], [690.5, 291], [719, 262.5]
+        [627, 122], [669, 133.3], [699.7, 164], [711, 206], [699.7, 248], [669, 278.7],
+        [627, 290], [585, 278.7], [554.3, 248], [543, 206], [554.3, 164], [585, 133.3]
       ]
     },
     {
       "id": "head-right-inner",
-      "note": "Inner ring of seeds of the right seed head",
+      "note": "Inner ring of seeds of the big right seed head",
       "mode": "pegs",
       "closed": true,
       "spacing": 36,
-      "points": [[758, 288], [794.5, 309], [794.5, 351], [758, 372], [721.5, 351], [721.5, 309]]
+      "points": [[627, 166], [661.6, 186], [661.6, 226], [627, 246], [592.4, 226], [592.4, 186]]
     },
     {
       "id": "head-right-heart",
-      "note": "Center of the right seed head",
+      "note": "Center of the big right seed head",
       "mode": "pegs",
-      "points": [[758, 326], [758, 334]]
+      "points": [[627, 202], [627, 210]]
     },
     {
       "id": "stem-right",
-      "note": "Stem of the right dandelion, down to its cloud bank",
+      "note": "The big right dandelion's long stem, leaning down to the left",
       "mode": "pegs",
       "spacing": 34,
-      "points": [[754, 444], [764, 476], [778, 508]]
+      "points": [[602, 326], [586, 394], [570, 462], [562, 500]]
     },
     {
-      "id": "wind-left",
-      "note": "Wind ribbon rising from the left seed head and curling clockwise into a spiral",
+      "id": "head-small-left",
+      "note": "Ring around the small seed head low on the left",
       "mode": "pegs",
-      "spacing": 37,
+      "closed": true,
+      "spacing": 36,
       "points": [
-        [247.5, 221.5], [237, 178], [249.5, 137.5], [279, 111], [316, 104.5], [349, 117],
-        [369, 143], [372, 173], [360, 198], [338.5, 212], [315.5, 212], [298, 201.5],
-        [289.5, 185], [291.5, 169], [300.5, 159]
+        [104, 338], [135.1, 350.9], [148, 382], [135.1, 413.1], [104, 426], [72.9, 413.1],
+        [60, 382], [72.9, 350.9]
       ]
     },
     {
-      "id": "wind-right",
-      "note": "Wind ribbon rising from the right seed head and curling counterclockwise into a spiral",
+      "id": "head-small-right",
+      "note": "Ring around the small seed head on the right",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 36,
+      "points": [
+        [812, 294], [843.1, 306.9], [856, 338], [843.1, 369.1], [812, 382], [780.9, 369.1],
+        [768, 338], [780.9, 306.9]
+      ]
+    },
+    {
+      "id": "head-small-right-heart",
+      "note": "Center of the small seed head on the right",
+      "mode": "pegs",
+      "points": [[812, 334], [812, 342]]
+    },
+    {
+      "id": "wind-left",
+      "note": "Wind ribbon rising beside the big left seed head and curling clockwise into a spiral",
       "mode": "pegs",
       "spacing": 37,
       "points": [
-        [668.5, 221.5], [679, 178], [666.5, 137.5], [637, 111], [600, 104.5], [567, 117],
-        [547, 143], [544, 173], [556, 198], [577.5, 212], [600.5, 212], [618, 201.5],
-        [626.5, 185], [624.5, 169], [615.5, 159]
+        [157.5, 201.5], [147, 158], [159.5, 117.5], [189, 91], [226, 84.5], [259, 97], [279, 123],
+        [282, 153], [270, 178], [248.5, 192], [225.5, 192], [208, 181.5], [199.5, 165],
+        [201.5, 149], [210.5, 139]
       ]
     },
     {
       "id": "wind-middle",
-      "note": "Wind ribbon from the left seed head sweeping right and curling into the middle spiral",
+      "note": "Wind ribbon from the big left seed head sweeping right and curling into the middle spiral",
       "mode": "pegs",
       "spacing": 37,
       "points": [
-        [244, 434], [286, 434], [330, 418], [362, 398], [379.5, 338], [400, 303.5],
-        [433.5, 284.5], [469.5, 285.5], [498.5, 303.5], [513.5, 332], [512, 361.5], [497, 384.5],
-        [474, 396], [450.5, 394], [433, 381.5], [425.5, 364], [428, 346.5], [438, 335],
-        [450.5, 331.5]
+        [372, 414], [392, 390], [404.5, 348], [425, 313.5], [458.5, 294.5], [494.5, 295.5],
+        [523.5, 313.5], [538.5, 342], [537, 371.5], [522, 394.5], [499, 406], [475.5, 404],
+        [458, 391.5], [450.5, 374], [453, 356.5], [463, 345], [475.5, 341.5]
       ]
     },
     {
       "id": "seeds-drift",
-      "note": "Seeds drifting between the two upper spirals",
+      "note": "Seeds drifting from the left seed head toward the right one",
       "mode": "pegs",
-      "spacing": 34,
-      "points": [[358, 248], [392, 238], [426, 228], [458, 234], [490, 228], [524, 238], [558, 248]]
+      "spacing": 40,
+      "points": [[388, 232], [420, 222], [452, 216], [484, 220], [506, 230]]
     },
     {
       "id": "seed-top",
@@ -120,61 +136,61 @@
       "mode": "pegs",
       "spacing": 36,
       "points": [
-        [119, 151], [136, 129.5], [140, 104], [131, 81.5], [113, 67.5], [92, 65], [74, 73],
-        [63.5, 87.5], [62, 104], [68.5, 117.5], [80, 125], [92, 125], [101, 119.5]
+        [89, 151], [106, 129.5], [110, 104], [101, 81.5], [83, 67.5], [62, 65], [44, 73],
+        [33.5, 87.5], [32, 104], [38.5, 117.5], [50, 125], [62, 125], [71, 119.5]
       ]
     },
     {
       "id": "curl-right",
-      "note": "Small curl of wind in the upper right",
+      "note": "Small curl of wind in the open sky between the right seed heads",
       "mode": "pegs",
       "spacing": 36,
       "points": [
-        [797, 151], [780, 129.5], [776, 104], [785, 81.5], [803, 67.5], [824, 65], [842, 73],
-        [852.5, 87.5], [854, 104], [847.5, 117.5], [836, 125], [824, 125], [815, 119.5]
+        [757, 151], [740, 129.5], [736, 104], [745, 81.5], [763, 67.5], [784, 65], [802, 73],
+        [812.5, 87.5], [814, 104], [807.5, 117.5], [796, 125], [784, 125], [775, 119.5]
       ]
     },
     {
       "id": "seeds-left",
-      "note": "Seeds blown from the left seed head toward the wall",
+      "note": "Seeds blown toward the left wall",
       "mode": "pegs",
       "spacing": 34,
-      "points": [[28, 164], [30, 196], [44, 228], [48, 262]]
+      "points": [[26, 166], [30, 198], [42, 230], [48, 262]]
     },
     {
       "id": "seeds-right",
-      "note": "Seeds blown from the right seed head toward the wall",
+      "note": "Along the seed head cut off by the right edge",
       "mode": "pegs",
       "spacing": 34,
-      "points": [[888, 164], [886, 196], [872, 228], [868, 262]]
+      "points": [[866, 104], [851, 136], [844, 170], [849, 204], [864, 236]]
     },
     {
       "id": "breeze-low",
-      "note": "Long low wave of wind across the bottom between the seed heads",
+      "note": "Low wave of wind between the two long stems",
       "mode": "pegs",
       "spacing": 37,
-      "points": [[250, 476], [320, 462], [390, 474], [458, 462], [526, 474], [596, 462], [666, 476]]
+      "points": [[322, 470], [372, 458], [420, 468], [468, 458], [516, 468]]
     },
     {
       "id": "breeze-floor",
-      "note": "Lowest wave of wind, just above the cloud floor",
+      "note": "Lowest wave of wind, just above the grass tips",
       "mode": "pegs",
       "spacing": 38,
-      "points": [[292, 510], [360, 502], [428, 510], [488, 510], [556, 502], [624, 510]]
+      "points": [[330, 510], [380, 500], [430, 510], [480, 502], [528, 510]]
     },
     {
       "id": "cloud-left",
-      "note": "Cloud bank at the foot of the left dandelion, on the inner side of its stem",
+      "note": "Over the grass tips in the lower left, above the flippers' swing",
       "mode": "pegs",
       "spacing": 36,
-      "points": [[176, 502], [204, 490], [232, 500]]
+      "points": [[140, 508], [176, 496], [212, 506]]
     },
     {
       "id": "cloud-right",
-      "note": "Cloud bank at the foot of the right dandelion, on the inner side of its stem",
+      "note": "Up the closed dandelion bud low on the right",
       "mode": "pegs",
-      "spacing": 36,
-      "points": [[740, 502], [712, 490], [684, 500]]
+      "spacing": 34,
+      "points": [[790, 440], [790, 474], [791, 506]]
     }
   ]
 }

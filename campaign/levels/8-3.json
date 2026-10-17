@@ -21,7 +21,25 @@
   },
   "background": {
     "id": "ribbon-fair-ring-toss",
-    "prompt": "A ring toss stall at a country fair, seen from the front. A striped awning in cream and muted brick red runs along the top of the stall on both sides of the open top center, at about one fifth of the picture height, with a string of round unlit light bulbs along its edge. Inside, three long wooden shelves step down across the picture, each sloping gently down from the sides toward the middle, at about two fifths, three fifths and four fifths of the height. Short round wooden posts stand evenly along each shelf, and about a third of them are ringed by thrown wooden hoops in cream and pale teal, each hoop about a fifteenth of the picture wide, some lying flat around a post, some leaning. The stall's back wall is pale weathered wood; the lower corners are plain wooden boards."
+    "prompt": "A ring toss stall at a country fair, seen from the front. A striped awning in cream and muted brick red runs along the top of the stall on both sides of the open top center, at about one fifth of the picture height, with a string of round unlit light bulbs along its edge. Inside, three long wooden shelves step down across the picture, each sloping gently down from the sides toward the middle, at about two fifths, three fifths and four fifths of the height. Short round wooden posts stand evenly along each shelf, and about a third of them are ringed by thrown wooden hoops in cream and pale teal, each hoop about a fifteenth of the picture wide, some lying flat around a post, some leaning. The stall's back wall is pale weathered wood; the lower corners are plain wooden boards.",
+    "picture": {
+      "ref": "pexels:15530629",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/wooden-garden-bar-counter-15530629/",
+      "image": "https://images.pexels.com/photos/15530629/pexels-photo-15530629.jpeg",
+      "title": "Rustic garden scene with a wooden cart, glass bottles, and greenery.",
+      "author": "Taha Samet Arslan",
+      "authorUrl": "https://www.pexels.com/@tahaasamett",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-15",
+      "sha256": "8080ab6ec69abe9bcc97530e5c5e4aa746b97f3e9c0448a6b38a5569cd74722c",
+      "size": [5297, 3369],
+      "crop": [0, 90, 5297, 3188],
+      "flop": false,
+      "adjust": { "brightness": 1.06, "saturation": 0.65, "paint": 3 }
+    }
   },
   "recipe": {
     "seed": 803,
