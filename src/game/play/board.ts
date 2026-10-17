@@ -11,7 +11,7 @@ import type { BallView, World } from '../../sim/world';
 import { legibleScale } from '../app/display';
 import { WORLD_H, WORLD_W } from '../layout';
 import { ballSprite } from '../render/ball';
-import { createCanvas, context2d, drawLayer, type Layer } from '../render/cache';
+import { createCanvas, context2d, drawLayer, releaseCanvas, type Layer } from '../render/cache';
 import { drawFireball } from '../render/ball';
 import { drawGuideArrow, drawGuideHit, guideDotSprite } from '../render/cannon';
 import { circlePath, linear, radial, type Ctx } from '../render/paint';
@@ -210,6 +210,12 @@ export class BoardRenderer {
     this.ball = ballSprite(k);
     this.dot = guideDotSprite(k);
     this.flash = whiteGlowSprite(k, 20);
+    // The static picture is drawn again at the new resolution, in the same canvas.
+  }
+
+  /** The screen is gone: frees the static picture's canvas at once (releaseCanvas). */
+  release(): void {
+    if (this.staticCanvas !== null) releaseCanvas(this.staticCanvas);
     this.staticCanvas = null;
   }
 
@@ -309,12 +315,12 @@ export class BoardRenderer {
   ): void {
     const w = Math.ceil(WORLD_W * k);
     const h = Math.ceil(WORLD_H * k);
-    if (
-      this.staticCanvas === null ||
-      this.staticCanvas.width !== w ||
-      this.staticCanvas.height !== h
-    ) {
+    if (this.staticCanvas === null) {
       this.staticCanvas = createCanvas(w, h);
+    } else if (this.staticCanvas.width !== w || this.staticCanvas.height !== h) {
+      // Resized in place: a new canvas would hold the old one's memory until it is collected.
+      this.staticCanvas.width = w;
+      this.staticCanvas.height = h;
     }
     this.staticK = k;
     const c = context2d(this.staticCanvas);

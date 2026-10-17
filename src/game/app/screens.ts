@@ -37,6 +37,11 @@ export interface Screen {
   letterbox?(): string;
   /** The page was hidden or the phone turned upright: pause whatever is running. */
   interrupt?(): void;
+  /**
+   * True while a reload would lose something the screen holds (a level in play, unsaved
+   * edits), so a newer build must not take over yet (app/offline.ts). Absent means never.
+   */
+  busy?(): boolean;
 }
 
 export class ScreenManager {
@@ -79,6 +84,10 @@ export class ScreenManager {
 
   interrupt(): void {
     for (const s of this.stack) s.interrupt?.();
+  }
+
+  busy(): boolean {
+    return this.stack.some((s) => s.busy?.() === true);
   }
 
   letterbox(): string | undefined {

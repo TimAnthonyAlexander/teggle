@@ -14,7 +14,14 @@ import {
 import { FREE_BALL_THRESHOLDS } from '../../rules/tuning';
 import { legibleScale } from '../app/display';
 import { CENTER_X, WORLD_H, WORLD_W } from '../layout';
-import { createCanvas, context2d, drawLayer, layers, type Layer } from '../render/cache';
+import {
+  createCanvas,
+  context2d,
+  drawLayer,
+  layers,
+  releaseCanvas,
+  type Layer,
+} from '../render/cache';
 import { circlePath, linear, radial, roundRect, type Ctx } from '../render/paint';
 import { drawBallsWarning } from '../ui/callouts';
 import { ease, popIn } from '../ui/motion';
@@ -117,6 +124,13 @@ export class Overlay {
   private ballsLine = '';
   private bonusLine = '';
   private bucketLine = '';
+
+  /** The screen is gone: frees the arch's and the lettering's canvases at once (releaseCanvas). */
+  release(): void {
+    if (this.arch !== null) releaseCanvas(this.arch);
+    this.arch = null;
+    this.sprites.release();
+  }
 
   /**
    * Builds the sprites of every style shot callout and free ball notice at resolution `k`, so a
@@ -305,7 +319,12 @@ export class Overlay {
   private archLayer(k: number): HTMLCanvasElement {
     if (this.arch !== null && this.archK === k) return this.arch;
     this.archK = k;
-    const c = createCanvas(WORLD_W * k, WORLD_H * k);
+    const w = Math.ceil(WORLD_W * k);
+    const h = Math.ceil(WORLD_H * k);
+    // A new resolution redraws the same canvas: a new one would hold the old one's memory.
+    const c = this.arch ?? createCanvas(w, h);
+    c.width = w;
+    c.height = h;
     const ctx = context2d(c);
     ctx.scale(c.width / WORLD_W, c.height / WORLD_H);
     paintArch(ctx);

@@ -21,6 +21,30 @@ export function createCanvas(width: number, height: number): HTMLCanvasElement {
   return c;
 }
 
+/**
+ * Frees a canvas's backing store now. Safari counts every canvas against a fixed budget (about
+ * 224 MB on many iPhones) until the garbage collector takes it, and new canvases beyond the
+ * budget fail; a dropped canvas only gives its memory back at once when shrunk to nothing.
+ * Only for a canvas nothing draws from any more (drawing a 0 x 0 canvas throws).
+ */
+export function releaseCanvas(canvas: HTMLCanvasElement): void {
+  canvas.width = 0;
+  canvas.height = 0;
+}
+
+/** Device pixels per world unit of the screen, for the caches' budgets; 0 until the app sets it. */
+let screenK = 0;
+
+/** The app's resolution changed (app.ts): the caches' pixel budgets follow it. */
+export function setScreenScale(k: number): void {
+  screenK = Math.round(k * 100) / 100;
+}
+
+/** The screen's device pixels per world unit, or 0 before the app has measured it. */
+export function screenScale(): number {
+  return screenK;
+}
+
 export function context2d(canvas: HTMLCanvasElement): Ctx {
   const ctx = canvas.getContext('2d');
   if (ctx === null) throw new Error('Canvas 2D is not available.');
@@ -39,13 +63,16 @@ export class LayerCache {
 
   /**
    * Holds at most `maxEntries` layers, and at most `maxWorlds` times the pixels of a layer that
-   * covers the whole world at the current resolution: full-screen layers (the frame of each
+   * covers the whole world at the screen's resolution: full-screen layers (the frame of each
    * theme, each level's picture, the menu plates) would otherwise pile up level after level,
-   * hundreds of megabytes on a phone (spec 14.2, mobile pass). The oldest layers go first.
+   * hundreds of megabytes on a phone (spec 14.2, mobile pass). The oldest layers go first. An
+   * evicted layer covering at least `releaseArea` square world units has its canvas freed at
+   * once (releaseCanvas), so such layers must be drawn when fetched and never kept.
    */
   constructor(
     private readonly maxEntries = 160,
     private readonly maxWorlds = Infinity,
+    private readonly releaseArea = Infinity,
   ) {}
 
   /**
@@ -78,21 +105,29 @@ export class LayerCache {
     const layer: Layer = { canvas, x, y, w, h };
     this.layers.set(full, layer);
     this.pixels += canvas.width * canvas.height;
-    // The budget follows the screen's resolution, the highest in the cache: small copies drawn
-    // at a lower one (the pegs of a thumbnail) must not shrink it.
+    // The budget follows the screen's resolution: copies drawn at a lower one (the pegs of a
+    // thumbnail) must not shrink it, nor copies drawn finer (the Lucky Spin wheel) grow it.
+    // Before the app has measured the screen, the highest resolution in the cache stands in.
     this.topK = Math.max(this.topK, kk);
-    const budget = this.maxWorlds * worldPixels(this.topK);
+    const budget = this.maxWorlds * worldPixels(screenK > 0 ? screenK : this.topK);
     while (this.layers.size > 1 && (this.layers.size > this.maxEntries || this.pixels > budget)) {
       const oldest = this.layers.entries().next();
       if (oldest.done === true) break;
       const [oldKey, old] = oldest.value;
       this.layers.delete(oldKey);
       this.pixels -= old.canvas.width * old.canvas.height;
+      if (old.w * old.h >= this.releaseArea) releaseCanvas(old.canvas);
     }
     return layer;
   }
 
+  /**
+   * Drops every layer and frees its canvas at once. The app clears the shared cache only when
+   * the resolution changes, and everything that keeps a layer between frames (the board's
+   * sprites, the coin, the wheel, the particles) keys it by the resolution and fetches it again.
+   */
   clear(): void {
+    for (const l of this.layers.values()) releaseCanvas(l.canvas);
     this.layers.clear();
     this.pixels = 0;
     this.topK = 0;
@@ -119,8 +154,11 @@ export function drawLayer(ctx: Ctx, layer: Layer, dx = 0, dy = 0): void {
 }
 
 /**
- * Shared cache for the whole renderer. A level keeps about 3.6 full-world layers in use (its
- * frame, the frame's shadow, its picture, the HUD and sprites), a menu about 1.6; 8 holds both
- * with room, so nothing in use is ever evicted.
+ * Shared cache for the whole renderer. A level keeps about 3.3 full-world layers in use (its
+ * frame, the frame's shadow, its picture, the HUD and sprites), the menus about 2.6 (the chrome,
+ * the Quick Play plate, the main menu's field); 6 holds a level and the menus, so nothing in use
+ * is evicted, and the pictures and frames of earlier levels go first. Those big layers are
+ * always drawn when fetched, so an evicted layer of a quarter of the world or more is freed at
+ * once; the small sprites the board, the coin, the wheel and the particles keep are not.
  */
-export const layers = new LayerCache(160, 8);
+export const layers = new LayerCache(160, 6, (WORLD_W * WORLD_H) / 4);

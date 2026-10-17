@@ -153,6 +153,7 @@ export function challengeHost(store: ProgressStore, active: ActiveRun, name: Lev
     quit: { label: 'Challenges', hash: listHash(def) },
     challenge: {
       restart: { label: 'Restart Challenge', hash: active.startHash },
+      laterLevel: index > 0,
       end: (attempt, result) =>
         active.run.status === 'playing'
           ? null

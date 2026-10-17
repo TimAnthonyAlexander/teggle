@@ -427,8 +427,17 @@ function paintBrickLocal(ctx: Ctx, b: BrickShape, p: BrickPalette): void {
   }
 }
 
-/** Bricks need their own, larger cache: a level holds up to about 190 of them. */
-const brickLayers = new LayerCache(900);
+/**
+ * Bricks need their own, larger cache: a level holds up to about 190 of them, each baked at its
+ * rotation, with a glow per lit color. At most two full-screen layers' worth of pixels, so
+ * earlier levels' bricks go (spec 14.2, mobile pass); the board keeps the sprites it drew with.
+ */
+const brickLayers = new LayerCache(900, 2);
+
+/** DEV: what the brick cache holds (app.ts, window.__teggleLayers). */
+export function brickLayerStats(): ReturnType<LayerCache['stats']> {
+  return brickLayers.stats();
+}
 
 function brickKey(b: BrickShape): string {
   return b.kind === 'brick'

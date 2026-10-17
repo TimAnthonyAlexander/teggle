@@ -6,12 +6,14 @@
 // the touches made meanwhile.
 
 import { WORLD_H, WORLD_W } from '../layout';
-import { layers } from '../render/cache';
+import { layers, setScreenScale } from '../render/cache';
+import { brickLayerStats } from '../render/pegs';
 import { themeAt } from '../ui/tokens';
 import { setDisplay } from './display';
 import { loadFonts } from './fonts';
 import { Input } from './input';
 import { FixedStepClock, Loop } from './loop';
+import { routeShown, type PageState } from './offline';
 import {
   drawRotatePrompt,
   enterFullscreen,
@@ -66,6 +68,7 @@ export class App implements AppServices {
   async start(): Promise<void> {
     this.safeArea = createSafeAreaProbe();
     this.resize();
+    this.watchPixelRatio();
     window.addEventListener('resize', this.resize);
     window.addEventListener('orientationchange', this.onOrientation);
     window.addEventListener('hashchange', this.onHashChange);
@@ -79,7 +82,12 @@ export class App implements AppServices {
     }
     if (import.meta.env.DEV) {
       Object.assign(window, {
-        __teggleLayers: () => ({ ...layers.stats(), dpr: this.fit.dpr, k: this.fit.k }),
+        __teggleLayers: () => ({
+          ...layers.stats(),
+          bricks: brickLayerStats().pixels,
+          dpr: this.fit.dpr,
+          k: this.fit.k,
+        }),
       });
     }
     await loadFonts();
@@ -100,13 +108,26 @@ export class App implements AppServices {
   }
 
   private routeToken = 0;
+  private shownToken = 0;
+
+  /** Whether a newer build may take over now (app/offline.ts). */
+  pageState(): PageState {
+    return { navigating: this.shownToken !== this.routeToken, busy: this.screens.busy() };
+  }
 
   private async showRoute(): Promise<void> {
     const token = ++this.routeToken;
     const route = parseRoute(window.location.hash);
-    const screen = await this.routes(route);
-    // A later navigation may have finished first; only the newest one wins.
-    if (token === this.routeToken) this.screens.replace(screen, route);
+    try {
+      const screen = await this.routes(route);
+      // A later navigation may have finished first; only the newest one wins.
+      if (token === this.routeToken) this.screens.replace(screen, route);
+    } finally {
+      if (token === this.routeToken) {
+        this.shownToken = token;
+        routeShown();
+      }
+    }
   }
 
   private readonly onHashChange = (): void => {
@@ -133,6 +154,22 @@ export class App implements AppServices {
     this.screens.interrupt();
   };
 
+  /**
+   * The device pixel ratio can change without a resize event (a window dragged to a screen of
+   * another density); a media query on the current ratio reports it.
+   */
+  private watchPixelRatio(): void {
+    const query = window.matchMedia(`(resolution: ${String(window.devicePixelRatio)}dppx)`);
+    query.addEventListener(
+      'change',
+      () => {
+        this.resize();
+        this.watchPixelRatio();
+      },
+      { once: true },
+    );
+  }
+
   private readonly onOrientation = (): void => {
     this.resize();
     setTimeout(this.resize, SETTLE_MS);
@@ -153,6 +190,7 @@ export class App implements AppServices {
     if (this.canvas.height !== this.fit.pixelHeight) this.canvas.height = this.fit.pixelHeight;
     if (Math.abs(this.fit.k - this.lastK) > 1e-6) {
       // Cached layers are drawn for one resolution; drop them instead of letting them pile up.
+      setScreenScale(this.fit.k);
       layers.clear();
       this.lastK = this.fit.k;
       this.governor.restart();

@@ -6,7 +6,8 @@ import { routeScreen } from './game/routes';
 function boot(): void {
   const canvas = document.getElementById('game');
   if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing #game canvas.');
-  registerOffline();
+  const app = new App(canvas, routeScreen);
+  registerOffline(() => app.pageState());
   startAudio();
   if (window.location.hash.includes('touchdebug=1')) {
     // The touch timeline for debugging input on a real phone (src/game/dev/touch-debug.ts). Also
@@ -16,7 +17,6 @@ function boot(): void {
       m.installTouchDebug();
     });
   }
-  const app = new App(canvas, routeScreen);
   app.start().catch((err: unknown) => {
     const message = err instanceof Error ? err.message : String(err);
     document.body.dataset.error = message;

@@ -29,4 +29,9 @@ export class EditorScreen implements Screen {
   letterbox(): string {
     return '#141517';
   }
+
+  /** A newer build never reloads the page under the editor and its edits (app/offline.ts). */
+  busy(): boolean {
+    return true;
+  }
 }

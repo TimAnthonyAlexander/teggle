@@ -2,8 +2,9 @@
 // page, its scripts, fonts, levels, pictures, icons) in one cache, so an installed Teggle plays
 // offline. The cache is named after a hash of every file it holds, so each build that changes
 // anything gets a new cache, and the old one goes once no page uses it any more. A new version
-// installs in the background and waits; the page lets it take over when it is on the main menu
-// and then reloads (src/game/app/offline.ts), so a page never mixes files of two builds.
+// installs in the background and waits; the page lets it take over once a reload loses nothing
+// (a menu, a level before its first shot) and then reloads (src/game/app/offline.ts), so a page
+// never mixes files of two builds.
 //
 // Only production builds register it (src/main.ts); the Vite dev server never does.
 //

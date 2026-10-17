@@ -45,8 +45,11 @@ export const THUMB_SIZE = 66;
 
 const SILHOUETTE = '#07060f';
 
-/** At most 128 portraits, together no larger than two full-screen layers (spec 14.2). */
-const portraitLayers = new LayerCache(128, 2);
+/**
+ * At most 128 portraits, together no larger than two full-screen layers (spec 14.2). Every
+ * portrait is drawn from here each frame and kept nowhere else, so evicted ones are freed at once.
+ */
+const portraitLayers = new LayerCache(128, 2, 0);
 const imageIds = new WeakMap<object, number>();
 let nextImageId = 1;
 

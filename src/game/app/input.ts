@@ -377,7 +377,9 @@ export class Input {
   };
 
   private readonly onPointerLeave = (e: PointerEvent): void => {
-    if (kindOf(e) === 'mouse') this.pointer.inside = false;
+    // A pen that lifts or leaves its hover range must not leave a hover state behind, as a mouse
+    // that leaves does not. A finger's leave follows every lift; the screens judge it by `down`.
+    if (kindOf(e) !== 'touch') this.pointer.inside = false;
   };
 
   private readonly onWheel = (e: WheelEvent): void => {

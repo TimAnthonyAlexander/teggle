@@ -49,6 +49,8 @@ export interface PlayHost {
 export interface ChallengeHooks {
   /** The pause dialog's restart: it starts the whole run over, here. */
   readonly restart: { readonly label: string; readonly hash: string };
+  /** A level after the run's first: the run lives in memory, so a reload would end it. */
+  readonly laterLevel: boolean;
   /**
    * The challenge end dialog once the attempt is over, or null when the run goes on to its next
    * level (the level complete dialog then shows, its button leading to `next`).

@@ -4,7 +4,7 @@
 // centered on the anchor and rendered at twice the device resolution, so the 1.85x pop stays
 // sharp.
 
-import { createCanvas, context2d } from '../render/cache';
+import { createCanvas, context2d, releaseCanvas } from '../render/cache';
 import type { Ctx } from '../render/paint';
 import { drawText, measureText, type TextStyle } from '../ui/text';
 
@@ -46,10 +46,14 @@ export class TextSprites {
   private k = 0;
   private readonly styles = new Map<string, Map<string, TextSprite>>();
 
-  /** The sprite of `text` in `style`; `styleId` names the style (one id per distinct style). */
+  /**
+   * The sprite of `text` in `style`; `styleId` names the style (one id per distinct style). A
+   * sprite is drawn when it is fetched and kept nowhere else, so a new resolution frees the old
+   * sprites' canvases at once (releaseCanvas).
+   */
   get(k: number, styleId: string, style: TextStyle, text: string): TextSprite {
     if (k !== this.k) {
-      this.styles.clear();
+      this.release();
       this.k = k;
     }
     let byText = this.styles.get(styleId);
@@ -67,7 +71,16 @@ export class TextSprites {
 
   /** Forgets the texts of one style (tally lines change every shot). */
   forget(styleId: string): void {
+    for (const s of this.styles.get(styleId)?.values() ?? []) releaseCanvas(s.canvas);
     this.styles.delete(styleId);
+  }
+
+  /** Forgets every sprite and frees its canvas (a new resolution, or the screen is gone). */
+  release(): void {
+    for (const byText of this.styles.values()) {
+      for (const s of byText.values()) releaseCanvas(s.canvas);
+    }
+    this.styles.clear();
   }
 }
 

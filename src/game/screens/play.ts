@@ -6,8 +6,8 @@
 // Controls (spec 4, 14.1): the cannon follows the mouse; a click fires; the wheel and arrow keys
 // fine-tune; holding the right button or the green button runs the game 8x between shots. On
 // touch, the cannon points at the finger while it is down and follows it as it moves, a quick
-// tap fires there, and a tap on the cannon fires without re-aiming. Escape or the menu button
-// pauses. While the Flippers stand
+// tap fires there, and a tap on the cannon fires without re-aiming; a pen press fires where it
+// lands as a tap does. Escape or the menu button pauses. While the Flippers stand
 // (spec 7), holding the left button, Space, Shift, Z or X, or a finger anywhere on the board
 // raises them; during a shot a touch only works the flippers.
 
@@ -23,6 +23,7 @@ import { audioBus } from '../audio/bus';
 import { hoverCue, setGamePaused } from '../audio/cues';
 import { minTarget } from '../app/display';
 import type { Input, PointerEventInfo } from '../app/input';
+import { levelBusy } from '../app/offline';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { OptionsDialog } from '../menus/options';
 import { WORLD_H, WORLD_W, layout } from '../layout';
@@ -124,6 +125,8 @@ export class PlayScreen implements Screen {
   /** The attempt's first shot was reported to the host; its end was. */
   private attemptCounted = false;
   private endReported = false;
+  /** A shot has left the cannon on this screen (any attempt). */
+  private shotTaken = false;
   private readonly theme: Theme;
   private readonly pivotX: number;
   private readonly pivotY: number;
@@ -291,10 +294,18 @@ export class PlayScreen implements Screen {
     this.removeDebug();
     this.app = null;
     setGamePaused(false);
+    // Safari counts a dropped canvas against its budget until it is collected (render/cache.ts).
+    this.board.release();
+    this.overlay.release();
   }
 
   letterbox(): string {
     return this.theme.dark;
+  }
+
+  /** A newer build waits until this level is left once it has taken a shot (app/offline.ts). */
+  busy(): boolean {
+    return levelBusy(this.shotTaken, this.host.challenge?.laterLevel === true);
   }
 
   /**
@@ -404,6 +415,7 @@ export class PlayScreen implements Screen {
   private report(e: RulesEvent): void {
     if (e.type === 'shotStart' && !this.attemptCounted) {
       this.attemptCounted = true;
+      this.shotTaken = true;
       this.host.attemptStarted(this.attempt);
     } else if ((e.type === 'levelWon' || e.type === 'levelLost') && !this.endReported) {
       this.endReported = true;
@@ -667,6 +679,18 @@ export class PlayScreen implements Screen {
       const port = layout.portrait;
       this.touchOnLauncher = hitCircle(port.x, port.y, LAUNCHER_TAP_RADIUS, p.x, p.y);
       if (!this.touchOnLauncher) this.aim.pointAt(p.x, p.y, this.pivotX, this.pivotY, false);
+    } else if (p.kind === 'pen') {
+      // A pen can land without hovering first (an iPad's Pencil), so the barrel may point
+      // anywhere: the press aims where it lands and fires once the barrel points there, as a
+      // tap does; on the launcher it fires without re-aiming.
+      if (this.attempt.phase !== 'aim' || this.powers.holding) return;
+      const port = layout.portrait;
+      if (hitCircle(port.x, port.y, LAUNCHER_TAP_RADIUS, p.x, p.y)) {
+        this.fireRequest = 'touch';
+      } else {
+        this.aim.pointAt(p.x, p.y, this.pivotX, this.pivotY, false);
+        this.tapFire = true;
+      }
     } else {
       // A click fires where the barrel points: the pointer already aimed it, and a click
       // must not undo fine aim from the wheel or the arrow keys.

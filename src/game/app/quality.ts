@@ -4,6 +4,10 @@
 // the session. Frame times
 // measured on a phone-sized screen showed full resolution keeping 60 fps where the canvas is
 // drawn on the GPU, so this only acts where it is not (a weak or blocklisted GPU).
+//
+// Slow frames are not always slow drawing: Safari on an iPhone in Low Power Mode runs animation
+// frames at 30 per second however little is drawn. So each step is a trial: one that does not
+// make the frames faster is undone, and no further step follows that session.
 
 export interface GovernorOptions {
   /** Real time averaged before a decision, ms. */
@@ -16,6 +20,8 @@ export interface GovernorOptions {
   readonly step: number;
   /** The cap never goes below this. */
   readonly floor: number;
+  /** A step stands only if it brings the average frame interval to this fraction or less. */
+  readonly gain: number;
 }
 
 export const GOVERNOR: GovernorOptions = {
@@ -24,12 +30,17 @@ export const GOVERNOR: GovernorOptions = {
   settleMs: 3000,
   step: 0.75,
   floor: 1.5,
+  gain: 0.9,
 };
 
 export class ResolutionGovernor {
   private sum = 0;
   private count = 0;
   private settle: number;
+  /** The step on trial: the cap before it and the average frame interval that asked for it. */
+  private trial: { readonly cap: number; readonly avgMs: number } | null = null;
+  /** A step did not help: the frames are held back by something else, so no more steps. */
+  private done = false;
 
   constructor(
     /** The current cap on the device pixel ratio. */
@@ -46,8 +57,9 @@ export class ResolutionGovernor {
     this.count = 0;
   }
 
-  /** Feeds one frame's interval; true when the cap has just stepped down. */
+  /** Feeds one frame's interval; true when the cap has just changed. */
   frame(frameMs: number): boolean {
+    if (this.done) return false;
     if (this.settle > 0) {
       this.settle -= frameMs;
       return false;
@@ -55,10 +67,18 @@ export class ResolutionGovernor {
     this.sum += frameMs;
     this.count++;
     if (this.sum < this.opts.windowMs) return false;
-    const slow = this.sum / this.count > this.opts.slowMs;
+    const avgMs = this.sum / this.count;
     this.sum = 0;
     this.count = 0;
-    if (!slow || this.cap <= this.opts.floor) return false;
+    const trial = this.trial;
+    this.trial = null;
+    if (trial !== null && avgMs > trial.avgMs * this.opts.gain) {
+      this.cap = trial.cap;
+      this.done = true;
+      return true;
+    }
+    if (avgMs <= this.opts.slowMs || this.cap <= this.opts.floor) return false;
+    this.trial = { cap: this.cap, avgMs };
     this.cap = Math.max(this.opts.floor, this.cap * this.opts.step);
     this.settle = this.opts.settleMs;
     return true;
