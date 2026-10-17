@@ -3,6 +3,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { agentLabel } from '../../src/agents/agent';
+import { ORANGE_DRAWS, type OrangeDraw } from '../../src/rules/config';
 import type { Measured } from './measure';
 
 /** Where the tools write their JSON (gitignored with the rest of reference/). */
@@ -23,6 +24,14 @@ export function intOption(
     throw new UsageError(`--${name} needs an integer of at least ${min}`);
   }
   return n;
+}
+
+/** --draw: the orange draw by name, or undefined when the option is absent. */
+export function drawOption(value: string | undefined): OrangeDraw | undefined {
+  if (value === undefined) return undefined;
+  const draw = ORANGE_DRAWS.find((d) => d === value);
+  if (draw === undefined) throw new UsageError(`--draw is one of ${ORANGE_DRAWS.join(', ')}`);
+  return draw;
 }
 
 export function listOption(value: string | undefined): string[] {

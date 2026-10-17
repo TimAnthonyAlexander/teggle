@@ -6,6 +6,7 @@
 import type { AttemptView } from '../../rules/attempt';
 import { attemptConfig, type AttemptConfig } from '../../rules/config';
 import type { PowerId } from '../../rules/powers';
+import type { ChallengeEndView } from './dialogs';
 import type { ScoreBreakdown } from './summary';
 
 export interface AttemptPlan {
@@ -40,6 +41,19 @@ export interface PlayHost {
   readonly next: { readonly label: string; readonly hash: string | null };
   /** The pause dialog's way out. */
   readonly quit: { readonly label: string; readonly hash: string };
+  /** A challenge run (src/game/modes/challenge-host.ts); absent in the other modes. */
+  readonly challenge?: ChallengeHooks;
+}
+
+/** What a challenge changes in the play screen. */
+export interface ChallengeHooks {
+  /** The pause dialog's restart: it starts the whole run over, here. */
+  readonly restart: { readonly label: string; readonly hash: string };
+  /**
+   * The challenge end dialog once the attempt is over, or null when the run goes on to its next
+   * level (the level complete dialog then shows, its button leading to `next`).
+   */
+  end(attempt: AttemptView, result: ScoreBreakdown): ChallengeEndView | null;
 }
 
 export function randomSeed(): number {

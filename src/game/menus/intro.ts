@@ -1,19 +1,31 @@
 // The stage intro card (visual guide 10.5): a full-screen indigo panel with the stage in the
 // title pill, the power's tagline and the master line, the master's portrait in a teal bevel
 // beside a dark speech panel whose text types out, the progress rows (a thumbnail per master,
-// a square per challenge group) and the orange Continue pill in a brass housing.
+// a square per challenge group: locked, or open with a pip per challenge that turns gold when it
+// is passed and the medal once all five are) and the orange Continue pill in a brass housing.
 
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { masterPortraits } from '../art/masters';
 import { audioBus } from '../audio/bus';
 import { CENTER_X, WORLD_H, WORLD_W, type Box } from '../layout';
 import { STAGE_COUNT } from '../../level/campaign';
+import { CHALLENGE_GROUPS, CHALLENGES, challengesOf } from '../../rules/challenges';
 import { MASTERS, masterOfStage } from '../../rules/masters';
 import type { PowerId } from '../../rules/powers';
-import { brass, innerBevel, linear, roundRect, type Ctx, type PathFn } from '../render/paint';
-import { challengeState, unlockedStage, type Progress } from '../progress/save';
+import { groupOpen } from '../modes/challenge-run';
+import {
+  brass,
+  circlePath,
+  innerBevel,
+  linear,
+  roundRect,
+  type Ctx,
+  type PathFn,
+} from '../render/paint';
+import { isPassed, passedCount, unlockedStage, type Progress } from '../progress/save';
 import { drawPanel, drawPillButton, drawRoundButton, type ButtonState } from '../ui/controls';
 import { darken, mix } from '../ui/color';
+import { drawMedal } from '../ui/medal';
 import { drawText, measureText, textStyle, type TextStyle } from '../ui/text';
 import { color } from '../ui/tokens';
 import { ButtonSet } from './buttons';
@@ -29,8 +41,6 @@ const TILE = 70;
 const TILE_GAP = 8;
 const SQUARE = 46;
 const SQUARE_GAP = 8;
-/** Challenge groups (spec 8: 75 challenges in 15 groups of 5). */
-const CHALLENGE_GROUPS = 15;
 /** Characters typed per second. */
 const TYPE_CPS = 48;
 
@@ -261,27 +271,37 @@ export class StageIntroScreen implements Screen {
       const state = s === d.stage ? 'current' : s <= reached ? 'normal' : 'locked';
       drawMasterTile(ctx, k, power, x0 + (s - 1) * (TILE + TILE_GAP), y, TILE, state);
     }
-    const challenges = challengeState(d.progress);
+    const p = d.progress;
+    const anyOpen = CHALLENGE_GROUPS.some((_, g) => groupOpen(p, g));
     drawParts(
       ctx,
-      [
-        ['CHALLENGES: ', '#ffffff'],
-        [
-          challenges === 'locked' ? 'LOCKED UNTIL STAGE 3 IS COMPLETE' : 'NOT IN THE GAME YET',
-          '#ffb340',
-        ],
-      ],
+      anyOpen
+        ? [
+            ['CHALLENGES: ', '#ffffff'],
+            [`${passedCount(p)} OF ${CHALLENGES.length}`, '#8dff4a'],
+            [' PASSED', '#ffffff'],
+          ]
+        : [
+            ['CHALLENGES: ', '#ffffff'],
+            ['LOCKED UNTIL STAGE 3 IS COMPLETE', '#ffb340'],
+          ],
       CENTER_X,
       450,
       ROW_LABEL,
     );
-    const sqW = CHALLENGE_GROUPS * SQUARE + (CHALLENGE_GROUPS - 1) * SQUARE_GAP;
+    const n = CHALLENGE_GROUPS.length;
+    const sqW = n * SQUARE + (n - 1) * SQUARE_GAP;
     const sx0 = CENTER_X - sqW / 2;
     const sy = 464;
     this.drawWell(ctx, { x: sx0 - 10, y: sy - 7, w: sqW + 20, h: SQUARE + 14 });
-    for (let g = 0; g < CHALLENGE_GROUPS; g++) {
-      drawLockedSquare(ctx, sx0 + g * (SQUARE + SQUARE_GAP), sy, SQUARE, g);
-    }
+    CHALLENGE_GROUPS.forEach((group, g) => {
+      const x = sx0 + g * (SQUARE + SQUARE_GAP);
+      if (group.duel || !groupOpen(p, g)) drawLockedSquare(ctx, x, sy, SQUARE, g);
+      else {
+        const passed = challengesOf(group.id).map((c) => isPassed(p, c.id));
+        drawOpenSquare(ctx, x, sy, SQUARE, g, passed);
+      }
+    });
   }
 
   private drawWell(ctx: Ctx, b: Box): void {
@@ -304,21 +324,76 @@ export class StageIntroScreen implements Screen {
 /** Hues of the challenge squares along the row, after the original's group colors (10.5). */
 const SQUARE_HUES = ['#2a4fb8', '#1f8a9a', '#5a8a1c', '#a89a18', '#b8641a', '#a8282a', '#9a2a8a'];
 
-function drawLockedSquare(ctx: Ctx, x: number, y: number, s: number, group: number): void {
-  const hue =
-    SQUARE_HUES[
-      Math.min(SQUARE_HUES.length - 1, Math.floor((group * SQUARE_HUES.length) / CHALLENGE_GROUPS))
-    ] ?? '#2a4fb8';
-  const base = mix(hue, '#1a1840', 0.55);
-  const path: PathFn = (c) => {
-    roundRect(c, x, y, s, s, 8);
-  };
-  path(ctx);
+function squareHue(group: number): string {
+  const n = CHALLENGE_GROUPS.length;
+  const i = Math.min(SQUARE_HUES.length - 1, Math.floor((group * SQUARE_HUES.length) / n));
+  return SQUARE_HUES[i] ?? '#2a4fb8';
+}
+
+/** The teal frame every challenge square sits in. */
+function squareFrame(ctx: Ctx, x: number, y: number, s: number): void {
+  roundRect(ctx, x, y, s, s, 8);
   ctx.fillStyle = linear(ctx, 0, y, 0, y + s, [
     [0, '#8fc4cc'],
     [1, color.tealDeep],
   ]);
   ctx.fill();
+}
+
+/**
+ * An open group's square: its hue lit, a pip per challenge along the bottom (gold once passed),
+ * and the medal when all five are passed.
+ */
+function drawOpenSquare(
+  ctx: Ctx,
+  x: number,
+  y: number,
+  s: number,
+  group: number,
+  passed: readonly boolean[],
+): void {
+  const hue = squareHue(group);
+  squareFrame(ctx, x, y, s);
+  roundRect(ctx, x + 4, y + 4, s - 8, s - 8, 5);
+  ctx.fillStyle = linear(ctx, 0, y, 0, y + s, [
+    [0, mix(hue, '#ffffff', 0.35)],
+    [0.55, hue],
+    [1, darken(hue, 0.35)],
+  ]);
+  ctx.fill();
+  // Gloss on the upper half.
+  roundRect(ctx, x + 7, y + 6, s - 14, s * 0.32, 4);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+  ctx.fill();
+  const all = passed.length > 0 && passed.every((p) => p);
+  if (all) drawMedal(ctx, x + s / 2, y + s / 2 - 5, 9, false);
+  else {
+    drawText(ctx, String(group + 1), x + s / 2, y + s / 2 - 4, {
+      cap: 13,
+      fill: '#ffffff',
+      outline: { color: darken(hue, 0.6), width: 1.6 },
+      align: 'center',
+      anchor: 'middle',
+    });
+  }
+  const pip = 3.3;
+  const gap = 1.9;
+  const rowW = passed.length * pip * 2 + (passed.length - 1) * gap;
+  const px = x + s / 2 - rowW / 2 + pip;
+  passed.forEach((done, i) => {
+    circlePath(ctx, px + i * (2 * pip + gap), y + s - 10, pip);
+    ctx.fillStyle = done ? '#ffd23a' : 'rgba(6, 8, 30, 0.6)';
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = done ? '#6e4210' : 'rgba(255, 255, 255, 0.35)';
+    ctx.stroke();
+  });
+}
+
+/** A group that is not open (or not in the game): its hue dimmed, with a lock. */
+function drawLockedSquare(ctx: Ctx, x: number, y: number, s: number, group: number): void {
+  const base = mix(squareHue(group), '#1a1840', 0.55);
+  squareFrame(ctx, x, y, s);
   roundRect(ctx, x + 4, y + 4, s - 8, s - 8, 5);
   ctx.fillStyle = linear(ctx, 0, y, 0, y + s, [
     [0, base],

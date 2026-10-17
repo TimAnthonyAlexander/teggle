@@ -11,7 +11,8 @@
 //   --angles N           angles the greedy search tries per shot (default 40)
 //   --search-ticks N     tick limit of each searched shot (default 3000)
 //   --balls N            balls at the start instead of 10
-//   --orange N           orange pegs instead of 25
+//   --orange N           orange pegs instead of 20 (the original's levels: 25)
+//   --draw D             orange draw: weighted (Teggle's levels) or uniform (the original's)
 //   --power ID           a master's power for every level, "none", or "any" (one drawn per run)
 //   --seed N             base seed of the runs (default 1)
 //   --workers N          worker threads (default: every core)
@@ -34,6 +35,7 @@ import {
   SEARCH_TICK_LIMIT,
 } from '../../src/agents/tuning';
 import {
+  drawOption,
   intOption,
   listOption,
   measuredJson,
@@ -106,6 +108,7 @@ async function main(): Promise<void> {
       'search-ticks': { type: 'string' },
       balls: { type: 'string' },
       orange: { type: 'string' },
+      draw: { type: 'string' },
       power: { type: 'string' },
       seed: { type: 'string' },
       workers: { type: 'string' },
@@ -124,9 +127,11 @@ async function main(): Promise<void> {
   const agents = agentsFrom(values);
   const balls = intOption(values.balls, 'balls', 1);
   const orange = intOption(values.orange, 'orange', 1);
+  const draw = drawOption(values.draw);
   const overrides: Overrides = {
     ...(balls === undefined ? {} : { balls }),
     ...(orange === undefined ? {} : { orange }),
+    ...(draw === undefined ? {} : { draw }),
     ...(values.power === undefined ? {} : { power: values.power }),
   };
 

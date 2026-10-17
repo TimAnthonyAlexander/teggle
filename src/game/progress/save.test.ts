@@ -4,15 +4,23 @@ import {
   SAVE_KEY,
   campaignFinished,
   campaignTotal,
+  challengeRecord,
   challengeState,
+  emptyChallenge,
   emptyProgress,
+  groupOpensAfterStage,
   idOfNumber,
   isCleared,
+  isPassed,
   levelRecord,
   localDate,
   numberOfId,
+  openGroups,
   parseProgress,
+  passedCount,
   recordAttemptStart,
+  recordChallengeEnd,
+  recordChallengeStart,
   recordPick,
   recordWin,
   serializeProgress,
@@ -21,6 +29,7 @@ import {
   stagesComplete,
   unlockedMasters,
   unlockedStage,
+  type ChallengeEnd,
   type Progress,
   type Win,
 } from './save';
@@ -185,6 +194,89 @@ describe('campaign progress', () => {
 
   it('formats local dates', () => {
     expect(localDate(new Date(2026, 0, 5))).toBe('2026-01-05');
+  });
+});
+
+describe('challenges in the save', () => {
+  const end = (id: string, more: Partial<ChallengeEnd> = {}): ChallengeEnd => ({
+    id,
+    passed: false,
+    levelsWon: 0,
+    total: null,
+    date: '2026-10-17',
+    ...more,
+  });
+
+  it('reads a save from before the challenges as having none', () => {
+    const old = JSON.stringify({
+      version: 1,
+      campaign: { next: 3, try: 1, pick: null },
+      levels: {
+        '1-1': { tries: 1, wins: 1, fullClear: false, best: 9, campaignScore: 9, top: [] },
+      },
+    });
+    const p = parseProgress(old);
+    expect(p.challenges).toEqual({});
+    expect(p.campaign.next).toBe(3);
+    expect(levelRecord(p, '1-1').wins).toBe(1);
+    expect(challengeRecord(p, 'orange-1.1')).toEqual(emptyChallenge());
+  });
+
+  it('records tries, passes, the best run and the first pass date', () => {
+    let p = recordChallengeStart(emptyProgress(), 'cup-1.1');
+    p = recordChallengeEnd(p, end('cup-1.1', { levelsWon: 1, total: 287_000 }));
+    expect(isPassed(p, 'cup-1.1')).toBe(false);
+    p = recordChallengeStart(p, 'cup-1.1');
+    p = recordChallengeEnd(p, end('cup-1.1', { passed: true, levelsWon: 1, total: 312_400 }));
+    p = recordChallengeStart(p, 'cup-1.1');
+    p = recordChallengeEnd(
+      p,
+      end('cup-1.1', { passed: true, levelsWon: 1, total: 301_000, date: '2026-10-18' }),
+    );
+    expect(challengeRecord(p, 'cup-1.1')).toEqual({
+      tries: 3,
+      passes: 2,
+      bestLevels: 1,
+      best: 312_400,
+      passedOn: '2026-10-17',
+    });
+    // A run lost on its second level keeps the levels won, not a total.
+    p = recordChallengeEnd(p, end('runs.3', { levelsWon: 2 }));
+    expect(challengeRecord(p, 'runs.3')).toMatchObject({ bestLevels: 2, best: null, passes: 0 });
+    expect(passedCount(p)).toBe(1);
+    expect(passedCount(p, 'cup-1')).toBe(1);
+    expect(passedCount(p, 'runs')).toBe(0);
+    expect(parseProgress(serializeProgress(p))).toEqual(p);
+  });
+
+  it('drops damaged challenge entries and challenges the game does not have', () => {
+    const raw = JSON.stringify({
+      version: 1,
+      campaign: { next: 1, try: 1, pick: null },
+      levels: {},
+      challenges: {
+        'orange-1.1': { tries: 2, passes: 1, bestLevels: 1, best: 9000, passedOn: '2026-10-17' },
+        'cup-2.3': { tries: 'two', passes: 0, bestLevels: -1, best: 'x', passedOn: 'today' },
+        'orange-9.1': { tries: 1, passes: 1, bestLevels: 1, best: 1, passedOn: null },
+        'runs.2': 'broken',
+      },
+    });
+    const p = parseProgress(raw);
+    expect(Object.keys(p.challenges).sort()).toEqual(['cup-2.3', 'orange-1.1']);
+    expect(p.challenges['cup-2.3']).toEqual(emptyChallenge());
+    expect(isPassed(p, 'orange-1.1')).toBe(true);
+  });
+
+  it('opens one group per stage from stage 3, and all of them after the campaign', () => {
+    expect(openGroups(through(15))).toBe(0);
+    expect(openGroups(through(16))).toBe(1);
+    expect(openGroups(through(21))).toBe(2);
+    expect(openGroups(through(51))).toBe(8);
+    expect(openGroups(through(55))).toBe(8);
+    expect(openGroups(through(CAMPAIGN_LEVELS + 1))).toBe(15);
+    expect(groupOpensAfterStage(0)).toBe(3);
+    expect(groupOpensAfterStage(7)).toBe(10);
+    expect(groupOpensAfterStage(8)).toBeNull();
   });
 });
 

@@ -11,7 +11,8 @@
 //
 // Campaign levels and the original's play with the rules of their campaign slot (greens from
 // level 3, purple from level 4, the stage master's power; on the Master levels each run draws a
-// master). Level files play with the Quick Play defaults and no power.
+// master), the original's with its own 25 orange pegs drawn uniformly. Level files play with the
+// Quick Play defaults and no power.
 
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -19,6 +20,7 @@ import { parseCampaignManifest } from '../../src/level/campaign';
 import { parseLevel, type Level } from '../../src/level/schema';
 import { attemptConfig, campaignConfig, type AttemptConfig } from '../../src/rules/config';
 import { masterOfStage } from '../../src/rules/masters';
+import { ORIGINAL_ORANGE_COUNT } from '../../src/rules/tuning';
 import { loadOriginal, ORIGINAL_CAMPAIGN } from './original';
 
 export const CAMPAIGN_DIR = 'public/levels';
@@ -76,15 +78,18 @@ function campaignTargets(filter: (stage: number, id: string) => boolean): Target
   return out;
 }
 
+/** The original's levels play with its own 25 orange pegs, drawn uniformly (spec 14.2). */
 function originalTarget(number: number): Target {
   const o = loadOriginal(number);
+  const slot = slotConfig(number);
   return {
     key: `original ${o.id}`,
     source: 'original',
     stage: o.stage,
     number,
     level: o.level,
-    ...slotConfig(number),
+    config: { ...slot.config, orangeCount: ORIGINAL_ORANGE_COUNT, orangeDraw: 'uniform' },
+    anyMaster: slot.anyMaster,
   };
 }
 

@@ -9,8 +9,16 @@ import {
   FIRST_PURPLE_LEVEL,
 } from './tuning';
 
+/**
+ * How the orange pegs are drawn from the can-be-orange set: 'weighted' is Teggle's draw toward
+ * the cannon and toward each other (spec 14.1, "Orange pegs"); 'uniform' is the original's, which
+ * the self-play tools use to play the original's levels under the original's rules.
+ */
+export const ORANGE_DRAWS = ['weighted', 'uniform'] as const;
+export type OrangeDraw = (typeof ORANGE_DRAWS)[number];
+
 export const attemptConfigSchema = z.strictObject({
-  /** Orange pegs to clear: 25, or 35, 45 or 55 in challenges (spec 3). */
+  /** Orange pegs to clear: 20, or a challenge's own count (spec 3, 14.2). */
   orangeCount: z.int().min(1).max(10000),
   /** Balls at the start. */
   balls: z.int().min(1).max(10000),
@@ -26,11 +34,17 @@ export const attemptConfigSchema = z.strictObject({
   campaignTry: z.int().min(1).nullable(),
   /** A shot that hits no peg flips a coin for its ball back (off in Duel). */
   coinFlip: z.boolean(),
+  /**
+   * The orange draw; absent means 'weighted'. Optional and last, and left out unless a run asks
+   * for the other draw, so every config and record made before it reads, digests and replays
+   * unchanged (spec 14.2, "Decided in the challenges").
+   */
+  orangeDraw: z.enum(ORANGE_DRAWS).optional(),
 });
 
 export type AttemptConfig = z.output<typeof attemptConfigSchema>;
 
-/** Quick Play defaults: 25 orange, 10 balls, greens and purple, random greens, no power. */
+/** Quick Play defaults: 20 orange, 10 balls, greens and purple, random greens, no power. */
 export const DEFAULT_CONFIG: AttemptConfig = {
   orangeCount: DEFAULT_ORANGE_COUNT,
   balls: DEFAULT_BALLS,

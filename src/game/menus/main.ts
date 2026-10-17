@@ -20,10 +20,13 @@ import type { PowerId } from '../../rules/powers';
 import type { CampaignManifest } from '../../level/campaign';
 import { drawLayer, layers } from '../render/cache';
 import { linear, radial, roundRect, type Ctx, type PathFn } from '../render/paint';
+import { CHALLENGES } from '../../rules/challenges';
+import { devUnlocked } from '../modes/challenge-run';
 import {
   campaignCleared,
   campaignFinished,
   challengeState,
+  passedCount,
   stageOfNumber,
   unlockedMasters,
   unlockedStage,
@@ -249,8 +252,12 @@ export class MainMenuScreen implements Screen {
         app.navigate('#/quickplay');
         break;
       case 'challenges':
-        this.notice = this.challengeText();
-        this.noticeUntil = now + 5000;
+        if (this.challengesOpen()) {
+          app.navigate('#/challenges');
+        } else {
+          this.notice = this.challengeText();
+          this.noticeUntil = now + 5000;
+        }
         break;
       case 'options':
         this.overlay = new OptionsDialog(now);
@@ -261,17 +268,22 @@ export class MainMenuScreen implements Screen {
     }
   }
 
+  /** Some challenge group is open (spec 8), or the DEV ONLY unlock is on. */
+  private challengesOpen(): boolean {
+    return challengeState(progressStore().progress) !== 'locked' || devUnlocked();
+  }
+
   private challengeText(): string {
-    const state = challengeState(progressStore().progress);
-    return state === 'locked'
-      ? 'Challenges open up once you finish Stage Three.'
-      : 'The challenges are not in the game yet. They are coming in a later version.';
+    return this.challengesOpen()
+      ? 'Special goals on boards you know: more orange pegs, score marks, full clears and runs of levels.'
+      : 'Challenges open up once you finish Stage Three.';
   }
 
   private challengeSub(): string {
-    return challengeState(progressStore().progress) === 'locked'
-      ? 'Locked: finish stage 3'
-      : 'Not in the game yet';
+    const p = progressStore().progress;
+    return this.challengesOpen()
+      ? `${passedCount(p)} of ${CHALLENGES.length} passed`
+      : 'Locked: finish stage 3';
   }
 
   /**
@@ -365,7 +377,10 @@ export class MainMenuScreen implements Screen {
           drawGelSlab(ctx, b.box, state, 'Quick Play', { cap: 22 });
           break;
         case 'challenges':
-          drawGelSlab(ctx, b.box, 'disabled', 'Challenges', { cap: 22, sub: this.challengeSub() });
+          drawGelSlab(ctx, b.box, this.challengesOpen() ? state : 'disabled', 'Challenges', {
+            cap: 22,
+            sub: this.challengeSub(),
+          });
           break;
         case 'options':
           drawPillButton(ctx, b.box, 'brown', state, 'Options');

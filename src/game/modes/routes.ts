@@ -1,5 +1,5 @@
-// Routes of the two modes. Every route reads the saved progress, so a reload lands where the
-// player was.
+// Routes of Adventure and Quick Play (the challenges' are in challenges.ts). Every route reads
+// the saved progress, so a reload lands where the player was.
 //
 // Adventure
 //   #/adventure                 the current stage's intro card (or where the campaign stands)
@@ -48,7 +48,8 @@ import {
   type ManifestLevel,
 } from './manifest';
 
-async function withManifest(
+/** Runs `then` with the manifest, or shows why it could not be loaded. */
+export async function withManifest(
   title: string,
   then: (m: CampaignManifest) => Screen | Promise<Screen>,
 ): Promise<Screen> {
@@ -62,7 +63,12 @@ async function withManifest(
   return then(manifest);
 }
 
-async function playLevel(entry: ManifestLevel, host: PlayHost, back: string): Promise<Screen> {
+/** Loads a manifest level and plays it with `host`; a level that cannot be played says why. */
+export async function playLevel(
+  entry: ManifestLevel,
+  host: PlayHost,
+  back: string,
+): Promise<Screen> {
   try {
     const loaded = await loadLevel(entry.level.file, import.meta.env.BASE_URL);
     const first = PlayScreen.firstAttempt(loaded, host);

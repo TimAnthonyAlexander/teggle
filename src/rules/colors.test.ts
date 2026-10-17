@@ -44,6 +44,24 @@ describe('color assignment', () => {
     expect(colors.slice(120).every((c) => c === null)).toBe(true);
   });
 
+  it("draws the original's uniform orange only where the config asks for it", () => {
+    const weighted = attemptConfig();
+    expect('orangeDraw' in weighted).toBe(false);
+    for (let seed = 0; seed < 10; seed++) {
+      const plain = assignColors(grid, weighted, Rng.fromSeed(seed)).colors;
+      const named = assignColors(grid, { ...weighted, orangeDraw: 'weighted' }, Rng.fromSeed(seed));
+      expect(named.colors).toEqual(plain);
+    }
+    // Uniform: the first draws are a plain sample of the flagged pegs.
+    const uniform = assignColors(grid, { ...weighted, orangeDraw: 'uniform' }, Rng.fromSeed(5));
+    const pool = grid.scoringBodies.filter((i) => flaggedIds(grid).has(grid.bodies[i]?.id ?? -1));
+    const expected = Rng.fromSeed(5)
+      .sample(pool, N)
+      .sort((a, b) => a - b);
+    const orange = uniform.colors.flatMap((c, i) => (c === 'orange' ? [i] : []));
+    expect(orange).toEqual(expected);
+  });
+
   it('is reproducible from the seed and differs between seeds', () => {
     const a = assignColors(grid, attemptConfig(), Rng.fromSeed(42)).colors;
     const b = assignColors(grid, attemptConfig(), Rng.fromSeed(42)).colors;

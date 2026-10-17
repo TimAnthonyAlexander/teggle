@@ -1,6 +1,7 @@
 // Color assignment (spec 3 and 14.2). Every attempt draws its colors from its own seeded Rng:
 // the orange pegs from the pegs flagged canBeOrange (weighted toward the cannon and toward each
-// other, see drawOrange), then 2 green and 1 purple uniformly from the remaining flagged pegs,
+// other, see drawOrange; uniformly where the config asks for the original's draw), then 2 green
+// and 1 purple uniformly from the remaining flagged pegs,
 // falling back to unflagged pegs only when the flagged set runs out.
 // Colors are indexed by body index (level elements first, in file order).
 
@@ -128,7 +129,12 @@ export function assignColors(
         `${config.orangeCount} orange pegs are needed`,
     );
   }
-  for (const i of drawOrange(level, pool, config.orangeCount, rng)) colors[i] = 'orange';
+  // The original's uniform draw only where the config asks for it (config.ts, ORANGE_DRAWS).
+  const orange =
+    config.orangeDraw === 'uniform'
+      ? rng.sample(pool, config.orangeCount)
+      : drawOrange(level, pool, config.orangeCount, rng);
+  for (const i of orange) colors[i] = 'orange';
 
   if (config.greens && greens.length === 0) {
     for (const i of drawBlue(level, colors, scoring, GREEN_COUNT, rng)) colors[i] = 'green';

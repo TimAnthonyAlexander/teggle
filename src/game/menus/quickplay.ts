@@ -6,7 +6,8 @@
 // Levels with every peg cleared carry a medal.
 //
 // A click on a cleared level plays it; on a touch screen the first tap shows its scores in the
-// info panel and the second plays it.
+// info panel and the second plays it. The challenge whose level the player picks uses the same
+// screen in its own mode (LevelSelectMode): any level in the game, then the challenge.
 
 import { display, legible } from '../app/display';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
@@ -46,7 +47,7 @@ const CELL_W = 316;
 const CELL_H = 226;
 const COLS = [26, CENTER_X - CELL_W / 2, WORLD_W - 26 - CELL_W] as const;
 const ROWS = [62, 302] as const;
-/** Grid cells for a page's five levels; the bottom middle cell is the info panel. */
+/** Grid cells for a page's five items; the bottom middle cell is the info panel. */
 const SLOTS: readonly (readonly [number, number])[] = [
   [0, 0],
   [1, 0],
@@ -54,9 +55,57 @@ const SLOTS: readonly (readonly [number, number])[] = [
   [0, 1],
   [2, 1],
 ];
-const INFO: Box = { x: COLS[1], y: ROWS[1], w: CELL_W, h: CELL_H };
+/** The info panel: the bottom middle cell of the grid (10.4). */
+export const INFO: Box = { x: COLS[1], y: ROWS[1], w: CELL_W, h: CELL_H };
+/** The title pill over the grid. */
+export const TITLE_PILL: Box = { x: 96, y: 12, w: WORLD_W - 192, h: 34 };
+/** Paging arrows under the info panel, the round menu button bottom left. */
+export const PAGE_LEFT: Box = { x: CENTER_X - 124, y: WORLD_H - 56, w: 115, h: 34 };
+export const PAGE_RIGHT: Box = { x: CENTER_X + 9, y: WORLD_H - 56, w: 115, h: 34 };
+export const MENU_BUTTON: Box = { x: 12, y: WORLD_H - 62, w: 50, h: 50 };
 
-const TITLE: TextStyle = {
+/** What the level select is for: Quick Play, or choosing the level of a challenge. */
+export interface LevelSelectMode {
+  /** The title pill's text on a stage's page. */
+  title(stage: number): string;
+  /** A level can be chosen (else it is stamped LOCKED). */
+  choosable(id: string, p: Progress): boolean;
+  /** Where choosing a level leads. */
+  open(id: string): string;
+  /** Where the menu button and Escape lead. */
+  readonly back: string;
+  /** The info panel's line while no level is picked, once some level can be chosen. */
+  hint(coarse: boolean): string;
+  /** The round random button bottom right. */
+  readonly random: boolean;
+}
+
+/** Quick Play: levels the Adventure has cleared (spec 8). */
+export const QUICK_PLAY: LevelSelectMode = {
+  title: (stage) => `Quick Play: ${stageName(stage)}`,
+  choosable: (id, p) => isCleared(p, id),
+  open: (id) => `#/quickplay/${id}`,
+  back: '#/',
+  hint: (coarse) =>
+    coarse
+      ? 'Tap a level to see its best scores, and tap a cleared level again to play it.'
+      : 'Pick a level to see its best scores. Click a cleared level to play it.',
+  random: true,
+};
+
+/** Cell `slot` (0 to 4) of the grid. */
+export function cellBox(slot: number): Box {
+  const [c, r] = SLOTS[slot] ?? [0, 0];
+  return { x: COLS[c] ?? 0, y: ROWS[r] ?? 0, w: CELL_W, h: CELL_H };
+}
+
+/** The picture area inside a cell, under the title band. */
+export function pictureBox(cell: Box): Box {
+  return { x: cell.x + 12, y: cell.y + 34, w: cell.w - 24, h: cell.h - 46 };
+}
+
+/** A cell's title, above its picture: lime display text (10.4). */
+export const TITLE: TextStyle = {
   cap: 12,
   fill: [
     [0, '#efff9a'],
@@ -66,7 +115,8 @@ const TITLE: TextStyle = {
   align: 'center',
   anchor: 'middle',
 };
-const INFO_NAME: TextStyle = {
+/** The info panel's item name (yellow), subheading (green) and notes. */
+export const INFO_NAME: TextStyle = {
   cap: 14,
   fill: [
     [0, '#fffa9a'],
@@ -76,7 +126,7 @@ const INFO_NAME: TextStyle = {
   align: 'center',
   anchor: 'middle',
 };
-const INFO_SUB: TextStyle = {
+export const INFO_SUB: TextStyle = {
   face: 'caps',
   cap: 9,
   fill: '#8dff4a',
@@ -84,7 +134,7 @@ const INFO_SUB: TextStyle = {
   align: 'center',
   anchor: 'middle',
 };
-const INFO_NOTE: TextStyle = { ...textStyle.body('#d9ecff'), cap: 8.4, align: 'center' };
+export const INFO_NOTE: TextStyle = { ...textStyle.body('#d9ecff'), cap: 8.4, align: 'center' };
 const STAMP: TextStyle = {
   cap: 22,
   fill: [
@@ -109,17 +159,7 @@ type Action =
   | { kind: 'menu' }
   | { kind: 'random' };
 
-function cellBox(slot: number): Box {
-  const [c, r] = SLOTS[slot] ?? [0, 0];
-  return { x: COLS[c] ?? 0, y: ROWS[r] ?? 0, w: CELL_W, h: CELL_H };
-}
-
-/** The picture area inside a cell, under the title band. */
-function pictureBox(cell: Box): Box {
-  return { x: cell.x + 12, y: cell.y + 34, w: cell.w - 24, h: cell.h - 46 };
-}
-
-function paintBackground(ctx: Ctx): void {
+export function paintBackground(ctx: Ctx): void {
   paintPlate(ctx, { x: 0, y: 0, w: WORLD_W, h: WORLD_H });
 }
 
@@ -132,7 +172,11 @@ export class LevelSelectScreen implements Screen {
   private readonly buttons: ButtonSet<Action>;
   private noteLines: string[] | null = null;
 
-  constructor(manifest: CampaignManifest, stage: number) {
+  constructor(
+    manifest: CampaignManifest,
+    stage: number,
+    private readonly mode: LevelSelectMode = QUICK_PLAY,
+  ) {
     this.levels = manifestLevels(manifest);
     this.pages = manifest.stages.map((s) => s.stage);
     const i = this.pages.indexOf(stage);
@@ -143,22 +187,9 @@ export class LevelSelectScreen implements Screen {
         box: cellBox(slot),
         enabled: true,
       })),
-      {
-        action: { kind: 'page', dir: -1 },
-        box: { x: CENTER_X - 124, y: WORLD_H - 56, w: 115, h: 34 },
-        enabled: false,
-      },
-      {
-        action: { kind: 'page', dir: 1 },
-        box: { x: CENTER_X + 9, y: WORLD_H - 56, w: 115, h: 34 },
-        enabled: false,
-      },
-      {
-        action: { kind: 'menu' },
-        box: { x: 12, y: WORLD_H - 62, w: 50, h: 50 },
-        round: true,
-        enabled: true,
-      },
+      { action: { kind: 'page', dir: -1 }, box: PAGE_LEFT, enabled: false },
+      { action: { kind: 'page', dir: 1 }, box: PAGE_RIGHT, enabled: false },
+      { action: { kind: 'menu' }, box: MENU_BUTTON, round: true, enabled: true },
       {
         action: { kind: 'random' },
         box: { x: WORLD_W - 62, y: WORLD_H - 62, w: 50, h: 50 },
@@ -205,7 +236,7 @@ export class LevelSelectScreen implements Screen {
 
   private play(level: ManifestLevel): void {
     audioBus.emit({ type: 'uiClick' });
-    this.app?.navigate(`#/quickplay/${level.level.id}`);
+    this.app?.navigate(this.mode.open(level.level.id));
   }
 
   private act(a: Action, touch: boolean): void {
@@ -214,7 +245,7 @@ export class LevelSelectScreen implements Screen {
       case 'level': {
         const level = this.pageLevels()[a.slot];
         if (level === undefined) return;
-        if (isCleared(p, level.level.id) && (!touch || this.selected === a.slot)) {
+        if (this.mode.choosable(level.level.id, p) && (!touch || this.selected === a.slot)) {
           this.play(level);
           return;
         }
@@ -229,10 +260,10 @@ export class LevelSelectScreen implements Screen {
         return;
       case 'menu':
         audioBus.emit({ type: 'uiClick' });
-        this.app?.navigate('#/');
+        this.app?.navigate(this.mode.back);
         return;
       case 'random': {
-        const cleared = this.levels.filter((l) => isCleared(p, l.level.id));
+        const cleared = this.levels.filter((l) => this.mode.choosable(l.level.id, p));
         const pick = cleared[Math.floor(Math.random() * cleared.length)];
         if (pick !== undefined) this.play(pick);
         return;
@@ -251,7 +282,7 @@ export class LevelSelectScreen implements Screen {
       if (b.action.kind === 'page') {
         b.enabled = this.page + b.action.dir >= 0 && this.page + b.action.dir < this.pages.length;
       } else if (b.action.kind === 'random') {
-        b.enabled = this.levels.some((l) => isCleared(p, l.level.id));
+        b.enabled = this.mode.random && this.levels.some((l) => this.mode.choosable(l.level.id, p));
       } else if (b.action.kind === 'level') {
         b.enabled = levels[b.action.slot] !== undefined;
       }
@@ -265,11 +296,7 @@ export class LevelSelectScreen implements Screen {
     for (const a of this.buttons.handle(input)) this.act(a, touch);
 
     drawLayer(ctx, layers.get('quickplay:plate', k, 0, 0, WORLD_W, WORLD_H, paintBackground));
-    drawTitlePill(
-      ctx,
-      { x: 96, y: 12, w: WORLD_W - 192, h: 34 },
-      `Quick Play: ${stageName(this.stage())}`,
-    );
+    drawTitlePill(ctx, TITLE_PILL, this.mode.title(this.stage()));
 
     // Which level the info panel shows: the one under the mouse, else the one tapped last.
     let shown = this.selected;
@@ -284,7 +311,7 @@ export class LevelSelectScreen implements Screen {
         drawArrowButton(ctx, b.box, a.dir < 0 ? 'left' : 'right', state);
       } else if (a.kind === 'menu') {
         drawRoundMenu(ctx, b.box, state);
-      } else {
+      } else if (this.mode.random) {
         drawRoundButton(
           ctx,
           b.box.x + b.box.w / 2,
@@ -314,7 +341,7 @@ export class LevelSelectScreen implements Screen {
       return;
     }
     const id = level.level.id;
-    const cleared = isCleared(p, id);
+    const cleared = this.mode.choosable(id, p);
     drawText(ctx, level.level.name.toUpperCase(), cell.x + cell.w / 2, cell.y + 18, TITLE, {
       maxWidth: cell.w - 30,
     });
@@ -329,46 +356,21 @@ export class LevelSelectScreen implements Screen {
       ctx.fillStyle = '#0e1638';
       ctx.fillRect(pic.x, pic.y, pic.w, pic.h);
     }
-    if (!cleared) {
-      // Locked: a purple veil with a diagonal stamp (10.4).
-      ctx.fillStyle = 'rgba(60, 10, 80, 0.62)';
-      ctx.fillRect(pic.x, pic.y, pic.w, pic.h);
-      ctx.save();
-      ctx.translate(pic.x + pic.w / 2, pic.y + pic.h / 2);
-      ctx.rotate(-0.32);
-      roundRect(ctx, -86, -21, 172, 42, 8);
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = rgba('#f09ae8', 0.9);
-      ctx.stroke();
-      drawText(ctx, 'LOCKED', 0, 1, STAMP);
-      ctx.restore();
-    }
+    if (!cleared) drawLockedVeil(ctx, pic);
     ctx.restore();
     finishTealWindow(ctx, clip);
     if (cleared && levelRecord(p, id).fullClear) drawMedal(ctx, pic.x + pic.w - 20, pic.y + 20);
-    if (cleared && (state === 'hover' || state === 'down' || selected)) {
-      // The orange-gold ring around the thumbnail (10.4).
-      roundRect(ctx, cell.x - 11, cell.y - 11, cell.w + 22, cell.h + 22, 24);
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = linear(ctx, 0, cell.y - 11, 0, cell.y + cell.h + 11, [
-        [0, '#ffe27a'],
-        [0.5, '#ff9a1a'],
-        [1, '#d86a08'],
-      ]);
-      ctx.stroke();
-    }
+    if (cleared && (state === 'hover' || state === 'down' || selected)) drawSelectRing(ctx, cell);
   }
 
   private drawInfo(ctx: Ctx, level: ManifestLevel | null, p: Progress, slot: number): void {
     drawPanel(ctx, INFO);
     const cx = INFO.x + INFO.w / 2;
     if (level === null) {
-      const anyCleared = this.pageLevels().some((l) => isCleared(p, l.level.id));
+      const anyCleared = this.pageLevels().some((l) => this.mode.choosable(l.level.id, p));
       const text = !anyCleared
         ? 'Levels you clear in the Adventure can be replayed here.'
-        : display.coarse
-          ? 'Tap a level to see its best scores, and tap a cleared level again to play it.'
-          : 'Pick a level to see its best scores. Click a cleared level to play it.';
+        : this.mode.hint(display.coarse);
       this.drawNote(ctx, text, INFO.y + INFO.h / 2 - 10, slot);
       return;
     }
@@ -380,7 +382,7 @@ export class LevelSelectScreen implements Screen {
     const sub = `Stage ${level.stage.stage} · Level ${level.index}${rec.fullClear ? ' · Full clear' : ''}`;
     const subStyle = legible(INFO_SUB);
     drawText(ctx, sub.toUpperCase(), cx, INFO.y + 52, subStyle, { maxWidth: INFO.w - 30 });
-    if (!isCleared(p, id)) {
+    if (!this.mode.choosable(id, p)) {
       drawLock(ctx, cx, INFO.y + 100, 2.2);
       this.drawNote(ctx, 'Clear this level in the Adventure to play it here.', INFO.y + 150, slot);
       return;
@@ -425,6 +427,33 @@ export class LevelSelectScreen implements Screen {
       ly += pitch;
     }
   }
+}
+
+/** Locked: a purple veil over the picture with a diagonal LOCKED stamp (10.4). */
+export function drawLockedVeil(ctx: Ctx, pic: Box): void {
+  ctx.fillStyle = 'rgba(60, 10, 80, 0.62)';
+  ctx.fillRect(pic.x, pic.y, pic.w, pic.h);
+  ctx.save();
+  ctx.translate(pic.x + pic.w / 2, pic.y + pic.h / 2);
+  ctx.rotate(-0.32);
+  roundRect(ctx, -86, -21, 172, 42, 8);
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = rgba('#f09ae8', 0.9);
+  ctx.stroke();
+  drawText(ctx, 'LOCKED', 0, 1, STAMP);
+  ctx.restore();
+}
+
+/** The orange-gold ring around a hovered or picked cell (10.4). */
+export function drawSelectRing(ctx: Ctx, cell: Box): void {
+  roundRect(ctx, cell.x - 11, cell.y - 11, cell.w + 22, cell.h + 22, 24);
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = linear(ctx, 0, cell.y - 11, 0, cell.y + cell.h + 11, [
+    [0, '#ffe27a'],
+    [0.5, '#ff9a1a'],
+    [1, '#d86a08'],
+  ]);
+  ctx.stroke();
 }
 
 /** Full clear medal: Teggle's own small gold medal with a lit peg (guide 15). */

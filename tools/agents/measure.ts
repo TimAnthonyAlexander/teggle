@@ -4,7 +4,7 @@
 import type { AgentSpec } from '../../src/agents/agent';
 import { levelMetrics, type LevelMetrics } from '../../src/agents/metrics';
 import { flaggedIds, type RunResult } from '../../src/agents/run';
-import { attemptConfigSchema, type AttemptConfig } from '../../src/rules/config';
+import { attemptConfigSchema, type AttemptConfig, type OrangeDraw } from '../../src/rules/config';
 import { isPowerId } from '../../src/rules/powers/ids';
 import { compileLevel } from '../../src/sim/compile';
 import type { AgentPool, BatchStats, Task } from './pool';
@@ -15,6 +15,8 @@ export interface Overrides {
   readonly orange?: number;
   /** A power id, 'none' for no power, or 'any' for a master drawn per run. */
   readonly power?: string;
+  /** The orange draw instead of the target's own. */
+  readonly draw?: OrangeDraw;
 }
 
 /** A target's rules with the command line's overrides. */
@@ -43,6 +45,7 @@ export function targetRules(
     power,
     ...(o.balls === undefined ? {} : { balls: o.balls }),
     ...(o.orange === undefined ? {} : { orangeCount: o.orange }),
+    ...(o.draw === undefined ? {} : { orangeDraw: o.draw }),
   });
   const flagged = target.level.elements.filter((e) => 'canBeOrange' in e && e.canBeOrange).length;
   if (config.orangeCount > flagged) {

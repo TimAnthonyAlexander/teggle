@@ -1,14 +1,22 @@
 // Saved progress (spec 8; spec 14.1: no backend, progress lives in the browser). One record under
-// a versioned localStorage key: the campaign position, and per level its tries, wins, best score,
-// full clear mark, top five scores and the score of its campaign clear. The campaign total the HUD
-// shows, the unlocked stages and the masters met all follow from those.
+// a versioned localStorage key: the campaign position, per level its tries, wins, best score,
+// full clear mark, top five scores and the score of its campaign clear, and per challenge its
+// tries, passes and best run. The campaign total the HUD shows, the unlocked stages, the masters
+// met and the open challenge groups all follow from those.
 //
 // The record is untrusted: it is validated with Zod field by field, so a damaged field falls back
-// to its default and a damaged level entry is dropped, never the whole save. Every function here
-// is pure; store.ts does the reading and writing.
+// to its default and a damaged level or challenge entry is dropped, never the whole save. A save
+// written before the challenges existed has no challenge entries and reads as having none; the
+// format version stays 1. Every function here is pure; store.ts does the reading and writing.
 
 import { z } from 'zod';
 import { LEVELS_PER_STAGE, STAGE_COUNT } from '../../level/campaign';
+import {
+  CHALLENGE_GROUPS,
+  CHALLENGES_PER_GROUP,
+  challengeById,
+  GROUP_COUNT,
+} from '../../rules/challenges';
 import { MASTERS } from '../../rules/masters';
 import { POWER_IDS, type PowerId } from '../../rules/powers/ids';
 
@@ -21,6 +29,11 @@ export const TOP_SCORES = 5;
 export const CAMPAIGN_LEVELS = STAGE_COUNT * LEVELS_PER_STAGE;
 /** Challenges start unlocking once this stage is complete (spec 8). */
 export const CHALLENGES_AFTER_STAGE = 3;
+/**
+ * Challenge groups that open one by one, in page order: the first when stage 3 is complete, one
+ * more with each stage after it, up to stage 10; the rest open with the campaign (spec 14.2).
+ */
+export const GROUPS_OPENED_BY_STAGES = 8;
 
 export interface ScoreEntry {
   readonly score: number;
@@ -53,11 +66,26 @@ export interface CampaignPosition {
   readonly pick: PowerId | null;
 }
 
+export interface ChallengeRecord {
+  /** Runs started: a run counts once the first shot of its first level leaves the cannon. */
+  readonly tries: number;
+  /** Runs that passed. One is the medal. */
+  readonly passes: number;
+  /** Most levels won in one run. */
+  readonly bestLevels: number;
+  /** Best total of a run that won every level, passed or not (a cup missed by a little), or null. */
+  readonly best: number | null;
+  /** Local date of the first pass, YYYY-MM-DD, or null. */
+  readonly passedOn: string | null;
+}
+
 export interface Progress {
   readonly version: typeof SAVE_VERSION;
   readonly campaign: CampaignPosition;
   /** Keyed by campaign level id, e.g. "1-3". */
   readonly levels: Readonly<Record<string, LevelRecord>>;
+  /** Keyed by challenge id, e.g. "orange-1.3" (src/rules/challenges.ts). */
+  readonly challenges: Readonly<Record<string, ChallengeRecord>>;
 }
 
 const LEVEL_ID = /^(?:[1-9]|1[01])-[1-5]$/;
@@ -93,6 +121,14 @@ const levelSchema = z.object({
   top: topSchema,
 });
 
+const challengeSchema = z.object({
+  tries: count.catch(0),
+  passes: count.catch(0),
+  bestLevels: z.int().min(0).max(100).catch(0),
+  best: points.nullable().catch(null),
+  passedOn: z.string().regex(DATE).nullable().catch(null),
+});
+
 const EMPTY_POSITION: CampaignPosition = { next: 1, try: 1, pick: null };
 
 const campaignSchema = z
@@ -108,11 +144,31 @@ const campaignSchema = z
   .catch(EMPTY_POSITION);
 
 export function emptyProgress(): Progress {
-  return { version: SAVE_VERSION, campaign: EMPTY_POSITION, levels: {} };
+  return { version: SAVE_VERSION, campaign: EMPTY_POSITION, levels: {}, challenges: {} };
 }
 
 export function emptyLevel(): LevelRecord {
   return { tries: 0, wins: 0, fullClear: false, best: 0, campaignScore: null, top: [] };
+}
+
+export function emptyChallenge(): ChallengeRecord {
+  return { tries: 0, passes: 0, bestLevels: 0, best: null, passedOn: null };
+}
+
+/** The valid entries of an untrusted record's object field, by key. */
+function entries<T>(
+  raw: unknown,
+  keyOk: (key: string) => boolean,
+  schema: z.ZodType<T>,
+): Record<string, T> {
+  const out: Record<string, T> = {};
+  if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return out;
+  for (const [key, value] of Object.entries(raw)) {
+    if (!keyOk(key) || typeof value !== 'object' || value === null) continue;
+    const r = schema.safeParse(value);
+    if (r.success) out[key] = r.data;
+  }
+  return out;
 }
 
 /** Reads a stored record. Anything unreadable gives the defaults for the part it spoils. */
@@ -127,16 +183,13 @@ export function parseProgress(raw: string | null | undefined): Progress {
   if (typeof data !== 'object' || data === null || Array.isArray(data)) return emptyProgress();
   const record = data as Record<string, unknown>;
   if (record.version !== SAVE_VERSION) return emptyProgress();
-  const levels: Record<string, LevelRecord> = {};
-  const rawLevels = record.levels;
-  if (typeof rawLevels === 'object' && rawLevels !== null && !Array.isArray(rawLevels)) {
-    for (const [id, value] of Object.entries(rawLevels)) {
-      if (!LEVEL_ID.test(id) || typeof value !== 'object' || value === null) continue;
-      const r = levelSchema.safeParse(value);
-      if (r.success) levels[id] = r.data;
-    }
-  }
-  return { version: SAVE_VERSION, campaign: campaignSchema.parse(record.campaign), levels };
+  return {
+    version: SAVE_VERSION,
+    campaign: campaignSchema.parse(record.campaign),
+    levels: entries(record.levels, (id) => LEVEL_ID.test(id), levelSchema),
+    // Challenges the game no longer has are dropped.
+    challenges: entries(record.challenges, (id) => challengeById(id) !== null, challengeSchema),
+  };
 }
 
 export function serializeProgress(p: Progress): string {
@@ -220,10 +273,48 @@ export function campaignCleared(p: Progress): number {
 
 export type ChallengeState = 'locked' | 'partly' | 'open';
 
+/**
+ * How many challenge groups are open, in page order (spec 8: they start unlocking after stage 3
+ * and are all open after the campaign; spec 14.2 for the steps between): none before stage 3 is
+ * complete, then one per stage complete from stage 3 to stage 10 (eight), and all 15 once the
+ * campaign is finished.
+ */
+export function openGroups(p: Progress): number {
+  if (campaignFinished(p)) return GROUP_COUNT;
+  const steps = stagesComplete(p) - CHALLENGES_AFTER_STAGE + 1;
+  return Math.max(0, Math.min(GROUPS_OPENED_BY_STAGES, steps));
+}
+
+/**
+ * The stage whose completion opens group `index` (0-based, page order), or null for the groups
+ * that open with the whole campaign.
+ */
+export function groupOpensAfterStage(index: number): number | null {
+  return index < GROUPS_OPENED_BY_STAGES ? CHALLENGES_AFTER_STAGE + index : null;
+}
+
 /** Challenges unlock after stage 3 and fully after the campaign (spec 8). */
 export function challengeState(p: Progress): ChallengeState {
-  if (campaignFinished(p)) return 'open';
-  return stagesComplete(p) >= CHALLENGES_AFTER_STAGE ? 'partly' : 'locked';
+  const open = openGroups(p);
+  return open === 0 ? 'locked' : open >= GROUP_COUNT ? 'open' : 'partly';
+}
+
+export function challengeRecord(p: Progress, id: string): ChallengeRecord {
+  return p.challenges[id] ?? emptyChallenge();
+}
+
+export function isPassed(p: Progress, id: string): boolean {
+  return (p.challenges[id]?.passes ?? 0) > 0;
+}
+
+/** Challenges passed, over all groups, or in one group. */
+export function passedCount(p: Progress, group?: string): number {
+  let n = 0;
+  for (const g of CHALLENGE_GROUPS) {
+    if (group !== undefined && g.id !== group) continue;
+    for (let i = 1; i <= CHALLENGES_PER_GROUP; i++) if (isPassed(p, `${g.id}.${i}`)) n++;
+  }
+  return n;
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -291,6 +382,41 @@ export function recordWin(p: Progress, w: Win): Progress {
       try: 1,
     },
   };
+}
+
+function withChallenge(
+  p: Progress,
+  id: string,
+  f: (r: ChallengeRecord) => ChallengeRecord,
+): Progress {
+  return { ...p, challenges: { ...p.challenges, [id]: f(challengeRecord(p, id)) } };
+}
+
+/** A challenge run's first shot left the cannon: one more try at the challenge. */
+export function recordChallengeStart(p: Progress, id: string): Progress {
+  return withChallenge(p, id, (r) => ({ ...r, tries: r.tries + 1 }));
+}
+
+export interface ChallengeEnd {
+  readonly id: string;
+  readonly passed: boolean;
+  /** Levels won in the run. */
+  readonly levelsWon: number;
+  /** Total of the run's levels when it won every one of them, else null. */
+  readonly total: number | null;
+  readonly date: string;
+}
+
+/** A challenge run is over (passed, failed or given up): its passes, best run and medal date. */
+export function recordChallengeEnd(p: Progress, e: ChallengeEnd): Progress {
+  const total = e.total === null ? null : Math.max(0, Math.round(e.total));
+  return withChallenge(p, e.id, (r) => ({
+    ...r,
+    passes: r.passes + (e.passed ? 1 : 0),
+    bestLevels: Math.max(r.bestLevels, e.levelsWon),
+    best: total === null ? r.best : Math.max(r.best ?? 0, total),
+    passedOn: r.passedOn ?? (e.passed ? e.date : null),
+  }));
 }
 
 /** Remembers the master picked for the Master levels. */

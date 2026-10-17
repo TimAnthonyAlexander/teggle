@@ -16,13 +16,22 @@ import {
   type ButtonState,
   type PillVariant,
 } from '../ui/controls';
+import { drawMedal } from '../ui/medal';
 import { dialogDrop, ease } from '../ui/motion';
 import { drawText, formatNumber, measureText, textStyle, type TextStyle } from '../ui/text';
 import { color } from '../ui/tokens';
 import type { ScoreBreakdown } from './summary';
 
-export type DialogAction = 'retry' | 'resume' | 'restart' | 'quit' | 'continue' | 'options';
-export type DialogKind = 'complete' | 'failed' | 'pause';
+export type DialogAction =
+  | 'retry'
+  | 'resume'
+  | 'restart'
+  | 'quit'
+  | 'continue'
+  | 'options'
+  | 'challengePrimary'
+  | 'challengeSecondary';
+export type DialogKind = 'complete' | 'failed' | 'pause' | 'challenge';
 
 /** What the mode puts in the dialogs: button labels and the total score row. */
 export interface DialogLabels {
@@ -32,6 +41,28 @@ export interface DialogLabels {
   readonly quit: string;
   /** The total score row of the level complete dialog, or null for none. */
   readonly total: number | null;
+  /** The pause dialog's restart button (a challenge restarts the whole run). */
+  readonly restart?: string;
+}
+
+/** A button of the challenge end dialog: its label and the route it opens. */
+export interface ChallengeButton {
+  readonly label: string;
+  readonly hash: string;
+}
+
+/**
+ * The challenge end dialog (a challenge's own, after its run passed or failed): the challenge,
+ * its goal, result rows and one line on why, with a primary and a secondary button.
+ */
+export interface ChallengeEndView {
+  readonly passed: boolean;
+  readonly name: string;
+  readonly goal: string;
+  readonly rows: readonly (readonly [label: string, value: string])[];
+  readonly verdict: string;
+  readonly primary: ChallengeButton;
+  readonly secondary: ChallengeButton;
 }
 
 const TEST_LABELS: DialogLabels = { next: 'Play Again', quit: 'Quit', total: null };
@@ -102,8 +133,11 @@ export class Dialog {
     private readonly tryNumber: number,
     tipIndex: number,
     private readonly labels: DialogLabels = TEST_LABELS,
+    /** The challenge end dialog's content (kind 'challenge'). */
+    readonly challenge: ChallengeEndView | null = null,
   ) {
     this.tip = TIPS[((tipIndex % TIPS.length) + TIPS.length) % TIPS.length] ?? '';
+    const restart = labels.restart ?? 'Restart Level';
     if (kind === 'pause' && touchPitch(42) > 42) {
       // Touch screens: Resume, then the three choices side by side, each target at least
       // 44 CSS px and the rows that far apart (spec 14.2, mobile pass).
@@ -134,7 +168,7 @@ export class Dialog {
           primary: true,
         },
         choice(0, 'Options', 'options'),
-        choice(1, 'Restart Level', 'restart'),
+        choice(1, restart, 'restart'),
         choice(2, labels.quit, 'quit'),
       );
       return;
@@ -158,13 +192,34 @@ export class Dialog {
           primary: true,
         },
         choice(266, 'Options', 'options'),
-        choice(308, 'Restart Level', 'restart'),
+        choice(308, restart, 'restart'),
         choice(350, labels.quit, 'quit'),
       );
       return;
     }
     this.box = layout.resultDialog;
     const b = this.box;
+    if (kind === 'challenge' && challenge !== null) {
+      // The primary pill on the right, the secondary small pill on the left, on one row.
+      const y = b.y + b.h - 52;
+      this.buttons.push(
+        {
+          box: { x: b.x + b.w - 30 - 171, y, w: 171, h: 34 },
+          label: challenge.primary.label,
+          variant: 'orange',
+          action: 'challengePrimary',
+          primary: true,
+        },
+        {
+          box: { x: b.x + 30, y: y + 3.5, w: 150, h: 27 },
+          label: challenge.secondary.label,
+          variant: 'blue',
+          action: 'challengeSecondary',
+          primary: false,
+        },
+      );
+      return;
+    }
     this.buttons.push({
       box: { x: b.x + b.w / 2 - 85, y: b.y + b.h - 52, w: 171, h: 34 },
       label: kind === 'complete' ? labels.next : 'Try Again',
@@ -231,6 +286,7 @@ export class Dialog {
     ctx.save();
     ctx.translate(0, dy);
     if (this.kind === 'pause') this.renderPause(ctx);
+    else if (this.kind === 'challenge') this.renderChallenge(ctx, k, t);
     else this.renderResult(ctx, k, t);
     const hover = this.buttonAt(pointerX, pointerY, now, touch);
     this.buttons.forEach((b, i) => {
@@ -334,12 +390,78 @@ export class Dialog {
   }
 
   private tipLines: string[] | null = null;
+  private goalLines: string[] | null = null;
+  private verdictLines: string[] | null = null;
+
+  /**
+   * The challenge end dialog: the challenge's name (with its medal when passed), the goal, the
+   * result rows and why it passed or failed.
+   */
+  private renderChallenge(ctx: Ctx, k: number, t: number): void {
+    const v = this.challenge;
+    if (v === null) return;
+    const b = this.box;
+    const title = v.passed ? 'Challenge Complete!' : 'Challenge Failed';
+    const panel = layers.get(
+      `dialog:challenge:${v.passed ? 'passed' : 'failed'}`,
+      k,
+      b.x - 4,
+      b.y - 4,
+      b.w + 10,
+      b.h + 10,
+      (c) => {
+        drawPanel(c, b, title);
+      },
+    );
+    drawLayer(ctx, panel);
+    const c = panelContent(b, true);
+    const name = legible(CHALLENGE_NAME);
+    const nameW = Math.min(c.w - 40, measureText(ctx, v.name.toUpperCase(), name));
+    if (v.passed) {
+      // Teggle's own medal (guide 15), popping in after the drop.
+      const pop = ease.outBack(1.6)(Math.min(1, Math.max(0, (t - 300) / 450)));
+      if (pop > 0) drawMedal(ctx, c.x + c.w / 2 - nameW / 2 - 22, c.y + 8, 13 * pop);
+    }
+    drawText(ctx, v.name.toUpperCase(), c.x + c.w / 2, c.y + 8, name, { maxWidth: c.w - 40 });
+    const goal = legible(GOAL_STYLE);
+    const pitch = Math.max(13, goal.cap * 1.6);
+    this.goalLines ??= wrap(ctx, v.goal, c.w - 10, goal).slice(0, 2);
+    let y = c.y + 30;
+    for (const line of this.goalLines) {
+      drawText(ctx, line, c.x + c.w / 2, y, goal);
+      y += pitch;
+    }
+    y = Math.max(y + 8, c.y + 62);
+    for (const [label, value] of v.rows.slice(0, 4)) {
+      drawRow(ctx, c.x, y, c.w, label, value);
+      y += 26;
+    }
+    const verdict = legible({ ...TIP_STYLE, align: 'center' });
+    const vPitch = Math.max(13, verdict.cap * 1.6);
+    this.verdictLines ??= wrap(ctx, v.verdict, c.w - 10, verdict).slice(0, 2);
+    y += 4;
+    for (const line of this.verdictLines) {
+      drawText(ctx, line, c.x + c.w / 2, y, verdict);
+      y += vPitch;
+    }
+  }
 
   /** Orange pegs left when the level was lost; set by the play screen. */
   orangeLeft = 0;
 }
 
 const TIP_STYLE: TextStyle = { ...textStyle.body('#fff6c0'), cap: 7.6 };
+const CHALLENGE_NAME: TextStyle = {
+  cap: 14,
+  fill: [
+    [0, '#fffa9a'],
+    [1, '#f3e525'],
+  ],
+  outline: { color: '#000000', width: 1.6 },
+  align: 'center',
+  anchor: 'middle',
+};
+const GOAL_STYLE: TextStyle = { ...textStyle.body('#d9ecff'), cap: 8, align: 'center' };
 
 /** Splits a sentence into lines no wider than `maxW` in `style`. */
 function wrap(ctx: Ctx, text: string, maxW: number, style: TextStyle): string[] {

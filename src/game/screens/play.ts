@@ -553,6 +553,21 @@ export class PlayScreen implements Screen {
   private openEnd(kind: 'won' | 'lost'): void {
     const breakdown = this.ledger.breakdown(this.attempt);
     this.bestScore = Math.max(this.bestScore, this.attempt.score);
+    // A challenge run that is over has its own end dialog.
+    const view = this.host.challenge?.end(this.attempt, breakdown) ?? null;
+    if (view !== null) {
+      this.dialog = new Dialog(
+        'challenge',
+        this.uiMs,
+        breakdown,
+        this.tries,
+        this.tipIndex,
+        this.dialogLabels(null),
+        view,
+      );
+      audioBus.emit({ type: 'dialogMove' });
+      return;
+    }
     const d = new Dialog(
       kind === 'won' ? 'complete' : 'failed',
       this.uiMs,
@@ -567,7 +582,13 @@ export class PlayScreen implements Screen {
   }
 
   private dialogLabels(total: number | null): DialogLabels {
-    return { next: this.host.next.label, quit: this.host.quit.label, total };
+    const restart = this.host.challenge?.restart.label;
+    return {
+      next: this.host.next.label,
+      quit: this.host.quit.label,
+      total,
+      ...(restart === undefined ? {} : { restart }),
+    };
   }
 
   // -------------------------------------------------------------------------------------------
@@ -696,6 +717,10 @@ export class PlayScreen implements Screen {
         this.closePause();
         break;
       case 'restart':
+        // A challenge starts its whole run over; the other modes play the level again here.
+        if (this.host.challenge !== undefined) this.app?.navigate(this.host.challenge.restart.hash);
+        else this.retry();
+        break;
       case 'retry':
         this.retry();
         break;
@@ -709,6 +734,14 @@ export class PlayScreen implements Screen {
       case 'quit':
         this.app?.navigate(this.host.quit.hash);
         break;
+      case 'challengePrimary':
+      case 'challengeSecondary': {
+        const view = this.dialog?.challenge ?? null;
+        if (view === null) break;
+        const to = action === 'challengePrimary' ? view.primary : view.secondary;
+        this.app?.navigate(to.hash);
+        break;
+      }
     }
   }
 

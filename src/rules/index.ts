@@ -13,8 +13,10 @@ export {
   attemptConfigSchema,
   campaignConfig,
   DEFAULT_CONFIG,
+  ORANGE_DRAWS,
   type AttemptConfig,
   type CampaignAttempt,
+  type OrangeDraw,
 } from './config';
 export type * from './events';
 export {
