@@ -1,0 +1,229 @@
+{
+  "formatVersion": 1,
+  "background": "golden-rooftops-laundry",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "washing-line",
+      "note": "The clothespins along the washing line, from the left edge rising to the right; spaced wide so a ball drops through instead of riding along",
+      "mode": "pegs",
+      "spacing": 44,
+      "keepSpacing": true,
+      "points": [[24, 252], [110, 262], [200, 268], [300, 270], [400, 273], [500, 272], [580, 264], [660, 254], [740, 242], [820, 230], [892, 222]]
+    },
+    {
+      "id": "cloths-left",
+      "note": "Across the middle of the two tall sheets left of the jeans",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[208, 305], [262, 306], [318, 307]]
+    },
+    {
+      "id": "cloths-right",
+      "note": "Across the middle of the sheets right of the jeans",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[442, 310], [500, 309], [580, 301], [652, 291]]
+    },
+    {
+      "id": "hems-left",
+      "note": "The hems of the cloths left of the jeans",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[40, 298], [146, 310], [214, 340], [310, 344]]
+    },
+    {
+      "id": "jeans",
+      "note": "The two legs of the jeans",
+      "mode": "pegs",
+      "spacing": 40,
+      "corners": [1],
+      "points": [[360, 374], [360, 330], [404, 330], [404, 374]]
+    },
+    {
+      "id": "hems-right",
+      "note": "The hems of the cloths right of the jeans, rising with the line",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[456, 345], [521, 344], [584, 337], [644, 327], [705, 304], [757, 296], [811, 290], [880, 280]]
+    },
+    {
+      "id": "cable",
+      "note": "Under the cable across the sky, down to just above the washing line",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[549, 118], [683, 216]]
+    },
+    {
+      "id": "window-big",
+      "note": "The frame of the big window on the left, under its lintel",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 36,
+      "corners": [0, 1, 2, 3],
+      "points": [[60, 136], [126, 168], [108, 226], [36, 200]]
+    },
+    {
+      "id": "wire",
+      "note": "The thin wire across the wall right of the big window",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[170, 210], [296, 222], [440, 234]]
+    },
+    {
+      "id": "window-top",
+      "note": "The sill of the small window at the top left",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[120, 34], [168, 60]]
+    },
+    {
+      "id": "wall-top-left",
+      "note": "The stain on the wall in the top left corner",
+      "mode": "pegs",
+      "points": [[30, 64], [30, 68]]
+    },
+    {
+      "id": "drain",
+      "note": "The drain hole in the wall",
+      "mode": "pegs",
+      "points": [[205, 160], [205, 164]]
+    },
+    {
+      "id": "window-middle",
+      "note": "The left frame and the sill of the upper middle window, under its lintel",
+      "mode": "pegs",
+      "spacing": 38,
+      "corners": [1],
+      "points": [[306, 98], [302, 142], [372, 180]]
+    },
+    {
+      "id": "window-open",
+      "note": "The frame of the open window under the eave",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[500, 196], [500, 234]]
+    },
+    {
+      "id": "window-open-inside",
+      "note": "Inside the open window",
+      "mode": "pegs",
+      "points": [[533, 220], [533, 224]]
+    },
+    {
+      "id": "window-open-right",
+      "note": "The right side of the open window",
+      "mode": "pegs",
+      "points": [[568, 226], [568, 230]]
+    },
+    {
+      "id": "balcony",
+      "note": "The balcony's slab, sloping down to the right",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[226, 372], [360, 412], [470, 440]]
+    },
+    {
+      "id": "railing",
+      "note": "The ironwork of the balcony's railing right of the jeans",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[440, 372], [484, 390]]
+    },
+    {
+      "id": "awning",
+      "note": "The top edge of the striped awning",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[222, 440], [360, 478], [470, 506]]
+    },
+    {
+      "id": "doorway",
+      "note": "The doorway under the awning's left end",
+      "mode": "pegs",
+      "points": [[262, 500], [262, 504]]
+    },
+    {
+      "id": "window-dark",
+      "note": "The frame of the dark window right of the balcony",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 38,
+      "corners": [0, 1, 2, 3],
+      "points": [[530, 380], [578, 390], [582, 452], [532, 446]]
+    },
+    {
+      "id": "sill-right",
+      "note": "Under the sill of the dark window right of the balcony",
+      "mode": "pegs",
+      "points": [[552, 486], [552, 490]]
+    },
+    {
+      "id": "wall-under-balcony",
+      "note": "The wall under the balcony's right corner",
+      "mode": "pegs",
+      "points": [[504, 474], [504, 478]]
+    },
+    {
+      "id": "wall-corner-low",
+      "note": "The wall under the dark window at the building's corner",
+      "mode": "pegs",
+      "points": [[600, 504], [600, 508]]
+    },
+    {
+      "id": "window-corner",
+      "note": "The dark window at the building's corner",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[628, 410], [632, 482]]
+    },
+    {
+      "id": "building-edge",
+      "note": "The building's right edge against the sky",
+      "mode": "pegs",
+      "spacing": 46,
+      "points": [[688, 356], [694, 400]]
+    },
+    {
+      "id": "roof-edge",
+      "note": "The edge of the tiled roof against the sky, bottom right",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[650, 470], [690, 434], [750, 396], [800, 356], [860, 322], [896, 306]]
+    },
+    {
+      "id": "corner-top-right",
+      "note": "The corner of the building at the top right",
+      "mode": "pegs",
+      "points": [[890, 46], [890, 50]]
+    },
+    {
+      "id": "wall-left",
+      "note": "The plain wall under the washing line on the left",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[62, 352], [190, 374]]
+    },
+    {
+      "id": "wall-edge",
+      "note": "The wall along the left edge, under the white cloth",
+      "mode": "pegs",
+      "spacing": 54,
+      "points": [[24, 330], [24, 384]]
+    },
+    {
+      "id": "wall-low",
+      "note": "The wall left of the awning",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[136, 414], [180, 424]]
+    },
+    {
+      "id": "wall-bottom",
+      "note": "The wall low on the left, beside the awning",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[142, 470], [190, 480]]
+    }
+  ]
+}

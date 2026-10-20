@@ -123,6 +123,14 @@
           "file": "campaign/3-3.json",
           "lines": "campaign/3-3.lines.json",
           "background": "golden-rooftops-bell"
+        },
+        {
+          "id": "3-4",
+          "number": 14,
+          "name": "Laundry Day",
+          "file": "campaign/3-4.json",
+          "lines": "campaign/3-4.lines.json",
+          "background": "golden-rooftops-laundry"
         }
       ]
     }
