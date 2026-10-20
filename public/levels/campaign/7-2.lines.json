@@ -1,0 +1,140 @@
+{
+  "formatVersion": 1,
+  "background": "petal-terraces-trellis",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "front-outer-left",
+      "note": "The front arch's outer white rail on the left, from the top down its leg",
+      "mode": "bricks",
+      "points": [
+        [300, 36], [283, 40], [232, 62], [189, 100], [152, 157], [131, 215], [118, 278], [111, 340],
+        [110, 415]
+      ]
+    },
+    {
+      "id": "front-outer-right",
+      "note": "The front arch's outer white rail on the right, from the top down its leg",
+      "mode": "bricks",
+      "points": [
+        [746, 40], [775, 75], [800, 115], [820, 165], [830, 225], [828, 290], [826, 350], [826, 415]
+      ]
+    },
+    {
+      "id": "front-inner-left",
+      "note": "The front arch's inner rail on the left, from beside the cannon down its leg",
+      "mode": "bricks",
+      "points": [
+        [342, 78], [283, 112], [237, 146], [200, 190], [172, 232], [156, 275], [150, 330],
+        [150, 470]
+      ]
+    },
+    {
+      "id": "front-inner-right",
+      "note": "The front arch's inner rail on the right, from beside the cannon down its leg",
+      "mode": "bricks",
+      "points": [
+        [590, 52], [625, 66], [664, 102], [700, 138], [730, 172], [758, 226], [775, 280],
+        [778, 340], [778, 470]
+      ]
+    },
+    {
+      "id": "second-arch-left",
+      "note": "The second arch's thin rail on the left, from under the cannon down its leg",
+      "mode": "bricks",
+      "points": [
+        [372, 124], [351, 131], [316, 153], [289, 180], [267, 212], [248, 253], [240, 308],
+        [240, 435]
+      ]
+    },
+    {
+      "id": "second-arch-right",
+      "note": "The second arch's thin rail on the right, from under the cannon down its leg",
+      "mode": "bricks",
+      "points": [
+        [567, 98], [594, 112], [622, 131], [649, 158], [670, 199], [684, 240], [692, 290],
+        [692, 435]
+      ]
+    },
+    {
+      "id": "third-arch",
+      "note": "The third arch over the path, smaller and farther back",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [
+        [382, 400], [384, 300], [398, 240], [432, 205], [507, 190], [582, 205], [616, 240],
+        [632, 300], [634, 400]
+      ]
+    },
+    {
+      "id": "fourth-arch",
+      "note": "The fourth arch where the path meets the far opening",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[448, 330], [455, 270], [480, 240], [522, 230], [564, 240], [590, 270], [596, 330]]
+    },
+    {
+      "id": "stepping-stones",
+      "note": "Stepping stones down the middle of the path",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[528, 378], [510, 420], [494, 462], [480, 505]]
+    },
+    {
+      "id": "bush-left",
+      "note": "The top of the bushes beside the path on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[278, 450], [320, 432], [362, 440], [404, 470], [430, 505]]
+    },
+    {
+      "id": "bush-left-low",
+      "note": "The bushes' lower edge along the path on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[292, 500], [334, 490], [376, 505]]
+    },
+    {
+      "id": "bush-right",
+      "note": "The top of the bushes beside the path on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[575, 500], [604, 466], [640, 444], [660, 446]]
+    },
+    {
+      "id": "bush-right-low",
+      "note": "The bushes' lower edge on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[630, 505], [672, 492], [714, 478]]
+    },
+    {
+      "id": "far-opening",
+      "note": "The bright opening at the far end of the tunnel",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[494, 300], [536, 300]]
+    },
+    {
+      "id": "legs-left",
+      "note": "The far arches' thin legs between the second and third arch on the left",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[300, 250], [310, 300], [318, 350], [322, 400]]
+    },
+    {
+      "id": "greenery-left",
+      "note": "Greenery between the front arch's and the second arch's left legs",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[195, 320], [195, 452]]
+    },
+    {
+      "id": "greenery-right",
+      "note": "Greenery between the front arch's and the second arch's right legs",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[735, 320], [735, 452]]
+    }
+  ]
+}
