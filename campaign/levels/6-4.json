@@ -1,26 +1,25 @@
 {
   "id": "6-4",
   "name": "The Old Well",
-  "draft": true,
   "concept": {
-    "subject": "An old stone well in the middle of the hollow with a little peaked roof and a winch, silver mist curling up from it into two loose spirals.",
-    "composition": "The well stands in the lower middle, a fifth of the picture wide, its rim at three quarters of the height and its roof reaching half height. Two wisps of mist rise from it and curl outward into spirals centered at 30 and 70 percent of the width at a third of the height, leaving the top center open. Bare trees at the side edges reach their branches inward, small lanterns hanging from them; the moon hangs high on the right.",
-    "layout": "Round pegs only, 148. The well's rim, its peaked roof and the winch are peg outlines; the two mist wisps are peg lines that rise from the well and curl into spirals; the trees' branches are peg lines reaching inward, with a single peg for each lantern. The trunks end above the flippers' swing."
+    "subject": "An old well in a fenced meadow by a farm: a round rim of gray stones under a steep wooden roof on two white posts, its left slope tiled in dark stripes and edged with a white bargeboard, its front gable white, with braces and a winch bar between the posts; bare trees and a brick farmhouse stand behind.",
+    "composition": "The well stands a little left of the middle. Its roof's ridge lies right at the cannon, between 43 and 60 percent of the width; the tiled left slope runs down to the eave at a third of the height, its corner at 28 percent of the width, and the white front gable reaches from just right of the cannon down to its beam at two fifths of the height, from 46 to 74 percent of the width. The posts stand at 44 and 57 percent of the width, the stone rim fills the bottom quarter between 38 and 63 percent. A dark hedge crosses behind the well at two fifths of the height and a wire fence at two thirds; bare trees fill the top left and right, the farmhouse's gable stands at the right edge, and the top left is open sky.",
+    "layout": "Round pegs only, 148, and one solid. The tiled left slope is a bargeboard and three stripes of tiles, peg lines from beside the cannon down to the eave: the bargeboard and the first stripe make a gutter that a shot from the cannon runs down, lighting all eight of its pegs, and the bargeboard's four pegs are never orange. The front gable's face under the cannon stays open; its right edge is a peg line and its beam a solid with a low peak that shelters the braces and the winch bar under it. The posts and braces are short peg lines, the rim three courses of pegs; the hedge, the pale strip above it, the fence and a darker band of grass are rows on both sides of the well, and the treetops and the farmhouse's gable, ridge, windows and base are peg lines."
   },
   "plan": {
-    "archetypes": ["outline", "spiral"],
-    "templates": ["outline"],
+    "archetypes": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 148,
     "bricks": 0,
     "difficulty": {
       "target": 0.25,
-      "note": "Second hardest: the spirals' inner pegs and the well under its roof are hard to reach, with no slide to help."
+      "note": "Second hardest: the gutter down the tiled roof lights eight pegs from one shot, but its bargeboard is never orange and the beam over the gable's open face turns balls away from the braces and the winch bar, so the orange pegs spread over the tile stripes, the gable's edge, the treetops and the rows of hedge and fence."
     }
   },
   "background": {
     "id": "moonlit-hollow-well",
-    "prompt": "An old round stone well stands in the lower middle of a moonlit pumpkin hollow at dusk, about a fifth of the picture wide, its rim at about three quarters of the picture height and its small peaked shingle roof on two posts reaching up to about half the height, with a wooden winch and a rope. From the well, two soft wisps of silver mist rise and curl outward into two loose spirals, one on each side at about one third of the height, centered at about 30 and 70 percent of the width, leaving the top center open. Two bare, twisting trees stand near the left and right edges with their branches reaching inward and small unlit lanterns hanging from them. A huge pale silver moon hangs high on the right. Silver mist lies along the bottom; the lower corners are plain misty ground.",
+    "prompt": "A photo of an old well in a fenced meadow under a pale sky. The well stands a little left of the middle: a steep wooden roof whose ridge lies at the top center, between about 43 and 60 percent of the width; its left slope is tiled in dark stripes, edged with a white bargeboard, and runs down to the eave at about a third of the height, its corner at about 28 percent of the width; its white front gable reaches from the ridge down to a white beam at about two fifths of the height, from about 46 to 74 percent of the width. Two white posts with diagonal braces and a winch bar between them stand at about 44 and 57 percent of the width and carry the roof down to a round rim of gray stones that fills the bottom quarter between about 38 and 63 percent of the width. A dark hedge crosses behind at about two fifths of the height and a wire fence on dark posts at about two thirds; bare trees fill the top left and the top right, and a brick farmhouse's gable stands at the right edge. The lower corners are plain grass, with a small white pipe in the bottom left corner.",
     "picture": {
       "ref": "pexels:35791830",
       "kind": "photo",
@@ -42,6 +41,25 @@
   },
   "recipe": {
     "seed": 604,
-    "targetCount": 148
+    "targetCount": 148,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [432, 214],
+            [556, 203],
+            [682, 214],
+            [682, 223],
+            [432, 223]
+          ]
+        }
+      ]
+    },
+    "edits": [
+      { "at": [333.5, 112.5], "canBeOrange": false },
+      { "at": [309, 140], "canBeOrange": false },
+      { "at": [284.5, 167.5], "canBeOrange": false },
+      { "at": [260, 195], "canBeOrange": false }
+    ]
   }
 }
