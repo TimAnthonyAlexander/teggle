@@ -1,48 +1,101 @@
 {
   "id": "8-2",
   "name": "The Carousel",
-  "draft": true,
   "concept": {
-    "subject": "A carousel seen from the front, with its striped conical canopy, a valance of small round arches, twisted poles and empty bench seats on a round platform, between two ticket booths.",
-    "composition": "The canopy spans from a fifth to four fifths of the width, its peak at three tenths of the height with a pennant on top, its two slopes running down to the valance at two fifths. Eight poles run from the valance to the platform, whose rim curves gently across at four fifths of the height. Two small ticket booths with peaked roofs stand near the side edges at half height; the top center is open sky.",
-    "layout": "29 round pegs and 110 bricks. The canopy's two slopes are long brick slides from the peak; the valance is a row of small brick arches that shed balls between the poles; the platform's rim is a wide, gentle brick arc; the booths' roofs are brick chevrons and their counters brick ledges that lean inward. The eight poles are short peg columns, the only pegs besides the finial on the peak."
+    "subject": "A swing carousel's canopy seen from below and in front: its crest of gold-trimmed arches with painted medallions and red hearts, the red rim studded with bulbs, and the radial panels, chains and swing seats of its underside.",
+    "composition": "The crest fills the upper half. Two big arches meet in a V just right of the top center under a white finial ball, their tops at a fifth of the height, and a smaller arch at each side runs down to the edges at a third. In the teal band under them two oval medallions with painted landscapes sit at a third and two thirds of the width, two more are cut off by the edges, and three red hearts point up between them, the middle one under the V. The red rim curves across the picture as a low dome at half the height. Below it the underside spreads in radial panels, red in the middle and edged with two rows of bulbs, pale yellow and gray-green beside it, hung with chains and swing seats above the scalloped hub at the bottom center.",
+    "layout": "29 round pegs and 110 bricks. Each big arch's gold trim is a solid top over its medallion that runs on as a brick slide down past the side heart's outer side; on the left the solid bends down into the V. The middle heart's top is a solid over its two brick sides. The medallion frames are brick rings open at the bottom with two pegs in each painting, the cut-off medallions are brick caps, the small arches rows of bulb pegs and a bulb peg sits inside the left heart. The rim is two long brick slides falling from a solid crown under the middle heart to the walls. Under it the panel edges are brick ribs, the red panel's bulbs two peg rows, the hub a low brick dome and the far side of the rim a brick row at each side; the chains and hangers are pegs and the swing seats one or two bricks. Gaps a Big Ball could wedge in are kept at 18 px or more."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 29,
     "bricks": 110,
     "features": ["Brick-heavy throughout (spec 8): 110 of 139 objects"],
     "difficulty": {
       "target": 0.25,
-      "note": "Second easiest: the canopy throws balls wide, but the poles under the valance are only reached through its arches."
+      "note": "Second easiest of the stage. A shot through the gap beside the middle heart lands on the rim beside its crown and rides a half of it to the wall, but the solid arch tops, the middle heart's solid top and the left arch's solid hook into the V keep balls off the left medallion, where most orange pegs gather."
     }
   },
   "background": {
     "id": "ribbon-fair-carousel",
-    "prompt": "A carousel at a country fair on a breezy afternoon, seen from the front. Its conical striped canopy in cream and muted brick red spans from about one fifth to four fifths of the picture width, its peak at about three tenths of the picture height with a small pennant on top, its two straight slopes running down to a valance at about two fifths of the height whose lower edge is a row of small round arches. Below the valance, eight twisted pale-gold poles run down to the carousel's round wooden platform, whose rim curves gently across the picture at about four fifths of the height; between the poles stand only empty bench seats, no animals and no riders. Near the left and right edges, two small ticket booths with peaked roofs stand at about half the height. A soft turquoise sky with puffy clouds, open at the top center; the lower corners are straw-covered ground.",
+    "prompt": "The canopy of a painted swing carousel against an overcast sky, seen from below and in front, in the stage's cream, brick red and turquoise. The crest fills the upper half: its upper edge is a gold trim studded with bulbs that forms two big arches, their tops at about 0.38 and 0.67 of the width and a fifth of the height, meeting in a V at about 0.52 of the width and a quarter of the height under a thin pole with a white ball; a smaller arch at each side runs down to the edges at about a third of the height. In the teal band below, two oval medallions with painted landscapes (a lake with trees on the left, a village by a pond on the right) are centered at about 0.35 and 0.68 of the width and 0.37 of the height, two more are cut off by the edges, and three red hearts with gold borders point up between them, the middle one from 0.28 to 0.49 of the height under the V. The bulb-studded red rim curves across as a low dome from about 0.6 of the height at the edges to half the height in the middle. Below it the canopy's underside spreads in radial panels, a red middle panel edged with two rows of bulbs converging toward the hub and pale yellow and gray-green panels beside it, with chains and swing seats hanging down and the scalloped green and red hub at the bottom center from about 0.83 of the height.",
     "picture": {
-      "ref": "pexels:17276871",
+      "ref": "pexels:33835978",
       "kind": "photo",
       "source": "Pexels",
-      "page": "https://www.pexels.com/photo/a-carousel-at-an-amusement-park-17276871/",
-      "image": "https://images.pexels.com/photos/17276871/pexels-photo-17276871.jpeg",
-      "title": "Vintage black and white carousel in an empty amusement park during summer day.",
-      "author": "ayça bilge",
-      "authorUrl": "https://www.pexels.com/@ayca-bilge-599948960",
+      "page": "https://www.pexels.com/photo/colorful-carousel-top-with-vibrant-art-33835978/",
+      "image": "https://images.pexels.com/photos/33835978/pexels-photo-33835978.jpeg",
+      "title": "A brightly colored carousel with artistic scenes under a clear sky.",
+      "author": "Anzor Dukaev",
+      "authorUrl": "https://www.pexels.com/@anzor-dukaev-1624292017",
       "license": "Pexels license",
       "licenseUrl": "https://www.pexels.com/license/",
-      "fetched": "2026-10-15",
-      "sha256": "5065beb15f3410bf78ce3a976818e871bfd2823b7f918bc29987da3a6093cc1b",
-      "size": [5184, 3456],
-      "crop": [207, 207, 4147, 2495],
+      "fetched": "2026-10-20",
+      "sha256": "344041dfd71c86a3ebbf282333b27db16ea7ce55d632b3e0b2be5658abc10d03",
+      "size": [6000, 4000],
+      "crop": [0, 194, 6000, 3611],
       "flop": false,
-      "adjust": { "tint": 0.45 }
+      "adjust": { "saturation": 0.6, "tint": 0.5 }
     }
   },
   "recipe": {
     "seed": 802,
-    "targetCount": 139
+    "targetCount": 139,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [420, 272.5],
+            [472, 268],
+            [524, 272.5],
+            [524, 288.5],
+            [472, 284],
+            [420, 288.5]
+          ]
+        },
+        {
+          "points": [
+            [430, 186],
+            [446, 169],
+            [469, 161],
+            [492, 169],
+            [508, 186],
+            [500, 193],
+            [487, 180],
+            [469, 175],
+            [451, 180],
+            [438, 193]
+          ]
+        },
+        {
+          "points": [
+            [402, 126],
+            [386, 116],
+            [347, 108],
+            [318, 114],
+            [287, 119],
+            [261, 127],
+            [261, 139],
+            [287, 131],
+            [318, 126],
+            [347, 120],
+            [386, 128],
+            [402, 138]
+          ]
+        },
+        {
+          "points": [
+            [572, 115],
+            [609, 108],
+            [642, 114.4],
+            [642, 126.4],
+            [609, 120],
+            [572, 127]
+          ]
+        }
+      ]
+    }
   }
 }

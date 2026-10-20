@@ -1,0 +1,263 @@
+{
+  "formatVersion": 1,
+  "background": "ribbon-fair-carousel",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "crest-left",
+      "note": "The gold trim of the crest's big left arch, from the end of its solid top down to the left heart and along that heart's outer side",
+      "mode": "bricks",
+      "points": [
+        [241, 141], [230, 145], [204, 159], [183, 172], [164, 192], [149, 213], [141, 236],
+        [142, 256]
+      ]
+    },
+    {
+      "id": "crest-right",
+      "note": "The gold trim of the crest's big right arch, from the end of its solid top down to the right heart and along that heart's outer side",
+      "mode": "bricks",
+      "points": [
+        [662, 123.5], [684, 130.5], [712, 142], [738, 155], [766, 174], [785, 194], [800, 218],
+        [805, 236], [806, 250]
+      ]
+    },
+    {
+      "id": "heart-left-inner",
+      "note": "The inner side of the left heart's gold border",
+      "mode": "bricks",
+      "points": [[209, 206], [217, 224], [221, 240], [219, 258]]
+    },
+    {
+      "id": "heart-right-inner",
+      "note": "The inner side of the right heart's gold border",
+      "mode": "bricks",
+      "points": [[740, 206], [731, 224], [726, 242], [727, 258]]
+    },
+    {
+      "id": "heart-middle-left",
+      "note": "The left side of the middle heart's gold border, under its solid top",
+      "mode": "bricks",
+      "points": [[421, 251], [422, 244], [426, 222], [429, 210]]
+    },
+    {
+      "id": "heart-middle-right",
+      "note": "The right side of the middle heart's gold border, under its solid top",
+      "mode": "bricks",
+      "points": [[509, 210], [512, 222], [516, 244], [517, 251]]
+    },
+    {
+      "id": "medallion-left",
+      "note": "The left painted medallion's white frame, open at the bottom",
+      "mode": "bricks",
+      "points": [
+        [298.7, 252], [278.3, 243.3], [263.1, 230], [255, 213.7], [255, 196.3], [263.1, 180],
+        [278.3, 166.7], [298.7, 158], [322, 155], [345.3, 158], [365.7, 166.7], [380.9, 180],
+        [389, 196.3], [389, 213.7], [380.9, 230], [365.7, 243.3], [345.3, 252]
+      ]
+    },
+    {
+      "id": "medallion-right",
+      "note": "The right painted medallion's white frame, open at the bottom",
+      "mode": "bricks",
+      "points": [
+        [598.7, 252], [578.3, 243.3], [563.1, 230], [555, 213.7], [555, 196.3], [563.1, 180],
+        [578.3, 166.7], [598.7, 158], [622, 155], [645.3, 158], [665.7, 166.7], [680.9, 180],
+        [689, 196.3], [689, 213.7], [680.9, 230], [665.7, 243.3], [645.3, 252]
+      ]
+    },
+    {
+      "id": "medallion-wall-left",
+      "note": "The top of the medallion cut off by the left edge",
+      "mode": "bricks",
+      "points": [[24.3, 214.8], [40, 212], [63, 218.2], [79.8, 235], [86, 258], [79.8, 281]]
+    },
+    {
+      "id": "medallion-wall-right",
+      "note": "The top of the medallion cut off by the right edge",
+      "mode": "bricks",
+      "points": [[891, 222.6], [870.3, 224.4], [853.4, 236.3], [844, 262], [847.7, 278.9]]
+    },
+    {
+      "id": "rim-left",
+      "note": "The left half of the canopy's red rim, a low dome sloping from its solid crown under the middle heart down to the left edge",
+      "mode": "bricks",
+      "points": [
+        [21, 337], [65, 327], [117, 317.5], [167, 310], [224, 302.5], [258, 299], [324, 293],
+        [392, 286], [401, 285]
+      ]
+    },
+    {
+      "id": "rim-right",
+      "note": "The right half of the canopy's red rim, sloping from its solid crown down to the right edge",
+      "mode": "bricks",
+      "points": [
+        [543, 285.5], [552, 286], [622, 293], [693, 299.5], [757, 306], [808, 313], [862, 321.5],
+        [894, 328]
+      ]
+    },
+    {
+      "id": "rib-left",
+      "note": "The edge of the pale panel under the canopy, running from the rim down toward the hub",
+      "mode": "bricks",
+      "points": [[178, 352], [330, 446]]
+    },
+    {
+      "id": "rib-right",
+      "note": "The edge of the yellow panel under the canopy, running from the rim down toward the hub",
+      "mode": "bricks",
+      "points": [[755, 349.7], [580, 443]]
+    },
+    {
+      "id": "far-rim-left",
+      "note": "The far side of the canopy's rim, seen under it on the left",
+      "mode": "bricks",
+      "points": [[152, 374], [24, 391]]
+    },
+    {
+      "id": "far-rim-right",
+      "note": "The far side of the canopy's rim, seen under it on the right",
+      "mode": "bricks",
+      "points": [[776, 373], [895, 388.4]]
+    },
+    {
+      "id": "hub",
+      "note": "The top of the scalloped hub at the bottom of the canopy",
+      "mode": "bricks",
+      "points": [[303, 498], [388, 474], [458, 466], [528, 473], [598, 484], [642, 494]]
+    },
+    {
+      "id": "bulbs-crest-left",
+      "note": "Bulbs on the gold trim of the crest's small left arch",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[28, 172], [70, 166], [112, 165]]
+    },
+    {
+      "id": "bulbs-crest-right",
+      "note": "Bulbs on the gold trim of the crest's small right arch",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[812, 163], [850, 160], [888, 169]]
+    },
+    {
+      "id": "bulbs-rib-left",
+      "note": "The row of bulbs along the left edge of the red panel under the canopy",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[334, 334], [412, 430]]
+    },
+    {
+      "id": "bulbs-rib-right",
+      "note": "The row of bulbs along the right edge of the red panel under the canopy",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[537, 323], [497, 430]]
+    },
+    {
+      "id": "chain-left",
+      "note": "The front chain of the low swing seat on the left",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[222, 425], [222, 465]]
+    },
+    {
+      "id": "chain-left-back",
+      "note": "The back chain of the low swing seat on the left",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[272, 458], [272, 496]]
+    },
+    {
+      "id": "seat-low-left",
+      "note": "The low swing seat on the left, hanging from its two chains",
+      "mode": "bricks",
+      "points": [[206, 503], [238, 507]]
+    },
+    {
+      "id": "chain-right",
+      "note": "The chain of the low swing seat on the right",
+      "mode": "pegs",
+      "keepSpacing": true,
+      "points": [[672, 446], [672, 454]]
+    },
+    {
+      "id": "seat-low-right",
+      "note": "The low swing seat on the right, hanging from its chain",
+      "mode": "bricks",
+      "points": [[662, 503], [694, 507]]
+    },
+    {
+      "id": "seat-left",
+      "note": "A long swing seat hanging under the rim on the left",
+      "mode": "bricks",
+      "points": [[240, 342], [304, 354]]
+    },
+    {
+      "id": "seat-right",
+      "note": "A long swing seat hanging under the rim on the right",
+      "mode": "bricks",
+      "points": [[592, 347], [656, 335]]
+    },
+    {
+      "id": "chain-middle",
+      "note": "The chain hanging from the middle of the red panel",
+      "mode": "pegs",
+      "spacing": 50,
+      "keepSpacing": true,
+      "points": [[448, 325], [452, 425]]
+    },
+    {
+      "id": "hanger-left",
+      "note": "A swing seat's hanger under the canopy",
+      "mode": "pegs",
+      "keepSpacing": true,
+      "points": [[175, 402], [175, 410]]
+    },
+    {
+      "id": "seat-upper-right",
+      "note": "A swing seat hanging in the yellow panel on the right",
+      "mode": "bricks",
+      "points": [[576, 390], [608, 384]]
+    },
+    {
+      "id": "bulb-heart-left",
+      "note": "A bulb inside the left heart's gold border",
+      "mode": "pegs",
+      "keepSpacing": true,
+      "points": [[180.5, 232], [180.5, 240]]
+    },
+    {
+      "id": "hanger-right",
+      "note": "A swing seat's hanger under the far side of the rim on the right",
+      "mode": "pegs",
+      "keepSpacing": true,
+      "points": [[795, 412], [795, 420]]
+    },
+    {
+      "id": "seat-outer-left",
+      "note": "A swing seat hanging near the left edge",
+      "mode": "bricks",
+      "points": [[130, 440], [194, 452]]
+    },
+    {
+      "id": "seat-outer-right",
+      "note": "A swing seat hanging near the right edge",
+      "mode": "bricks",
+      "points": [[700, 438], [764, 426]]
+    },
+    {
+      "id": "trees-left",
+      "note": "Trees in the left medallion's painting",
+      "mode": "pegs",
+      "spacing": 45,
+      "points": [[300, 205], [345, 205]]
+    },
+    {
+      "id": "houses-right",
+      "note": "Houses in the right medallion's painting",
+      "mode": "pegs",
+      "spacing": 45,
+      "points": [[600, 205], [645, 205]]
+    }
+  ]
+}
