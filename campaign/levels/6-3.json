@@ -1,11 +1,10 @@
 {
   "id": "6-3",
   "name": "Pumpkin Patch",
-  "draft": true,
   "concept": {
-    "subject": "Rows of round pumpkins on curling vines along the crests of three moonlit hills, with crooked fence posts between them.",
-    "composition": "A wide low hill spans the bottom third with its crest at two thirds of the height; two smaller hills rise on the left and right with their crests at two fifths of the height near the side edges. Five pumpkins sit along the wide hill's crest and three along each side hill's, linked by curling vines; crooked fence posts stand at the side hills' inner ends. The moon hangs high on the left; the top center is open sky.",
-    "layout": "Round pegs only, 141. Each pumpkin is a small ring of seven pegs set on its hill's crest, and the vines between them are peg lines with curls; the hills' crests below the pumpkins are loose peg lines. The fence posts are solid posts, blockers that turn balls back toward the middle."
+    "subject": "Three round pumpkins resting in the long grass of the patch at dusk, two in front and one behind them, each with a crooked stem.",
+    "composition": "The left pumpkin, the smallest, spans from a ninth to two fifths of the width, its top at two fifths of the height and its stem leaning left. The right pumpkin, the biggest, spans from half to nine tenths of the width, its crest at a third of the height and a tall curling stem left of its middle. The back pumpkin shows between and above them, its top at a quarter of the height and its short stem just left of the cannon. Long grass fills the bottom fifth and the lower corners; the misty patch above the pumpkins is open under the cannon.",
+    "layout": "Round pegs only, 141. Each pumpkin is drawn by its outline and its grooves: peg lines along its crest and sides and down its ribs. The right pumpkin's crest, from beside its stem over the top and down its right side, and the back pumpkin's crest running down into the left pumpkin's crest are chains at the 34 px minimum spacing that one shot can light almost whole; the back pumpkin's crest right of its stem drops into the right pumpkin's left side, a hollow that catches shots near straight down. The three stems are solids that shelter the pegs at their feet. Two rows of pegs are the grass along the bottom and six pegs the long grass beside the pumpkins; the sky over the pumpkins stays open."
   },
   "plan": {
     "archetypes": ["outline"],
@@ -15,33 +14,83 @@
     "bricks": 0,
     "difficulty": {
       "target": 0.3,
-      "note": "Second easiest: the pumpkin rings are open targets and the fence posts keep balls in play."
+      "note": "Second easiest: the crests and the hollow between the pumpkins light many pegs per shot, while the stems shelter the back pumpkin's crest and the ribs at their feet, where the orange pegs gather, and the open sky over the pumpkins gives nothing to bounce on."
     }
   },
   "background": {
     "id": "moonlit-hollow-patch",
-    "prompt": "A moonlit pumpkin patch at dusk across three soft rolling hills. A wide low hill spans the bottom third of the picture with its crest at about two thirds of the height; two smaller hills rise on the left and right with their crests at about two fifths of the height near the side edges. Along each hill's crest sit round pumpkins in burgundy, plum and dusty cream, each about a fourteenth of the picture wide, evenly spaced and linked by curling vines and broad leaves: five on the wide hill and three on each side hill. Crooked wooden fence posts stand at the inner ends of the side hills. A huge pale silver moon hangs high on the left; silver mist drifts between the hills. The top center is open sky; the lower corners are plain misty slopes.",
+    "prompt": "A close photo of three round pumpkins resting in long grass, seen from the side at their own height, in dusty rose against the gray-mauve, out-of-focus patch. The left pumpkin, the smallest, spans from about a ninth to two fifths of the width with its top at about two fifths of the height and a crooked stem leaning left at about a quarter of the width. The right pumpkin, the biggest, spans from about half to nine tenths of the width with its crest at about a third of the height and a tall curling stem at about two thirds of the width. The third pumpkin sits behind them between, its top at about a quarter of the height and its short stem just left of the center. Long grass fills the bottom fifth and the lower corners; above the pumpkins the blurred patch is plain, calm at the top center.",
     "picture": {
-      "ref": "pexels:39649371",
+      "ref": "pexels:112353",
       "kind": "photo",
       "source": "Pexels",
-      "page": "https://www.pexels.com/photo/vast-pumpkin-field-in-oland-sweden-39649371/",
-      "image": "https://images.pexels.com/photos/39649371/pexels-photo-39649371.jpeg",
-      "title": "Expansive field of pumpkins in Öland, Sweden. A scenic autumn harvest.",
-      "author": "Olavi Anttila",
-      "authorUrl": "https://www.pexels.com/@olavi-anttila-264846761",
+      "page": "https://www.pexels.com/photo/three-pumpkins-in-grass-112353/",
+      "image": "https://images.pexels.com/photos/112353/pexels-photo-112353.jpeg",
+      "title": "Three orange pumpkins sitting on green grass, perfect for autumn themes.",
+      "author": "Kristina Paukshtite",
+      "authorUrl": "https://www.pexels.com/@kpaukshtite",
       "license": "Pexels license",
       "licenseUrl": "https://www.pexels.com/license/",
-      "fetched": "2026-10-15",
-      "sha256": "490a13e9e0ec6e1581c0d829985eeaf710523e510892fca805a7aa9a97903c23",
-      "size": [5472, 3648],
-      "crop": [0, 177, 5472, 3293],
+      "fetched": "2026-10-20",
+      "sha256": "dc14736fc1a0518404ee153276226e7515bb97c95797f35f18d51f2f61161a25",
+      "size": [5184, 3456],
+      "crop": [0, 0, 5184, 3120],
       "flop": false,
       "adjust": {}
     }
   },
   "recipe": {
     "seed": 603,
-    "targetCount": 141
+    "targetCount": 141,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [562, 142],
+            [576, 129],
+            [597, 140],
+            [601, 168],
+            [602, 195],
+            [616, 210],
+            [634, 222],
+            [642, 232],
+            [618, 242],
+            [594, 248],
+            [566, 250],
+            [575, 230],
+            [580, 203],
+            [580, 175],
+            [573, 155]
+          ]
+        },
+        {
+          "points": [
+            [370, 142],
+            [386, 133],
+            [399, 150],
+            [401, 166],
+            [403, 181],
+            [378, 183],
+            [376, 160]
+          ]
+        },
+        {
+          "points": [
+            [196, 223],
+            [205, 213],
+            [222, 216],
+            [238, 228],
+            [245, 250],
+            [248, 278],
+            [251, 296],
+            [222, 299],
+            [227, 276],
+            [229, 252],
+            [219, 239],
+            [200, 233]
+          ]
+        }
+      ]
+    }
   }
 }
