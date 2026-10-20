@@ -141,6 +141,53 @@
           "background": "golden-rooftops-awnings"
         }
       ]
+    },
+    {
+      "stage": 4,
+      "world": "Lilac Orbit",
+      "master": "spaceBlast",
+      "levels": [
+        {
+          "id": "4-1",
+          "number": 16,
+          "name": "Ringed Giant",
+          "file": "campaign/4-1.json",
+          "lines": "campaign/4-1.lines.json",
+          "background": "lilac-orbit-ringed-planet"
+        },
+        {
+          "id": "4-2",
+          "number": 17,
+          "name": "Spinning Station",
+          "file": "campaign/4-2.json",
+          "lines": "campaign/4-2.lines.json",
+          "background": "lilac-orbit-station"
+        },
+        {
+          "id": "4-3",
+          "number": 18,
+          "name": "Comet Shower",
+          "file": "campaign/4-3.json",
+          "lines": "campaign/4-3.lines.json",
+          "background": "lilac-orbit-comets"
+        },
+        {
+          "id": "4-4",
+          "number": 19,
+          "name": "Moon Phases",
+          "file": "campaign/4-4.json",
+          "lines": "campaign/4-4.lines.json",
+          "background": "lilac-orbit-moon-phases"
+        },
+        {
+          "id": "4-5",
+          "number": 20,
+          "name": "Supernova",
+          "file": "campaign/4-5.json",
+          "lines": "campaign/4-5.lines.json",
+          "background": "lilac-orbit-supernova"
+        }
+      ]
     }
   ]
 }

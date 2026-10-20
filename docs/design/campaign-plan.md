@@ -4,7 +4,7 @@ As of 2026-10-17. The plan for the 50 campaign levels after stage 1: ten worlds,
 
 ## Status
 
-Stages 1 (Cloud Isles) and 2 (Clover Burrows) are built. Stages 3 to 11 are drafts: each level has its concept, its plan, its seed (stage times 100 plus the level), its count and its picture, a found image already processed into `public/backgrounds/`; no lines exist yet. Every level's picture is recorded in `docs/assets.md`.
+Stages 1 (Cloud Isles), 2 (Clover Burrows), 3 (Golden Rooftops) and 4 (Lilac Orbit) are built. Stages 5 to 11 are drafts: each level has its concept, its plan, its seed (stage times 100 plus the level), its count and its picture, a found image already processed into `public/backgrounds/`; no lines exist yet. Every level's picture is recorded in `docs/assets.md`.
 
 A draft (`"draft": true`) is skipped by `npm run campaign:build`, never appears in the manifest and needs no lines file. `tools/campaign/plan.test.ts` checks every source against spec 15's counts, the original's level names and the reference bands; `tools/campaign/backgrounds.test.ts` checks the pictures against their sources and the asset manifest.
 
@@ -196,8 +196,8 @@ Every target lies inside its stage's reference band (`src/agents/bands.json`, th
 | --- | --- | --- | --- |
 | 1 | 18% to 54.5% | built: 45, 23, 33, 43, 33 (40 runs); the original's stage 1 averages 39.3% | 35.4% |
 | 2 | 24% to 33.5% | 32, 31, 30, 29, 27; built: 33, 32, 32, 32, 28 (200 runs) | 29.8%; built 31.4% |
-| 3 | 23.5% to 49.5% | 34, 29, 30, 26, 27 | 29.2% |
-| 4 | 17.5% to 39% | 34, 28, 30, 26, 23 | 28.2% |
+| 3 | 23.5% to 49.5% | 34, 29, 30, 26, 27; built: 40, 30, 30, 32, 29 (200 runs) | 29.2%; built 32.2% |
+| 4 | 17.5% to 39% | 34, 28, 30, 26, 23; built: 33, 29, 31, 22, 24 (200 runs) | 28.2%; built 27.8% |
 | 5 | 24% to 60% | 31, 26, 29, 27, 25 | 27.6% |
 | 6 | 17% to 50.5% | 34, 28, 30, 25, 21 | 27.6% |
 | 7 | 24% to 64% | 30, 27, 28, 26, 25 | 27.2% |
@@ -206,7 +206,7 @@ Every target lies inside its stage's reference band (`src/agents/bands.json`, th
 | 10 | 10.5% to 46% | 25, 18, 21, 15, 13 | 18.4% |
 | 11 | 3.5% to 33.5% | 20, 16, 12, 9, 6 | 12.6% |
 
-The targets are clear rates of the reference agent, so they keep their meaning whatever the rules settle. Since the 20-orange draw (spec 14.1, "Orange pegs") the built stages land in their bands: stage 1 at 23 to 45% per level, stage 2 at 28 to 33% (measured 2026-10-17 with `npm run agents:report -- <stage> --tier noisy`).
+The targets are clear rates of the reference agent, so they keep their meaning whatever the rules settle. Since the 20-orange draw (spec 14.1, "Orange pegs") the built stages land in their bands: stage 1 at 23 to 45% per level, stage 2 at 28 to 33% (measured 2026-10-17), stage 3 at 29 to 40% and stage 4 at 22 to 33% (measured 2026-10-20), all with `npm run agents:report -- <stage> --tier noisy`.
 
 ### Stage 2 measured
 
@@ -224,7 +224,7 @@ A shelter is a strong lever: in trials one more sheltered peg on 2-5 took it fro
 
 ## Moving lines
 
-Six levels have traced lines whose objects move: 3-2 (lanterns traveling around a figure eight), 5-2 (the fish boat sliding), 7-3 (bubbles floating on small circles), 7-4 (wheels turning, ripples wrapping), 9-5 (lantern columns rising and wrapping) and 11-2 (rings gliding around ellipses). The generator's moving lines build them with no added pegs (spec 14.2, "Decided in the moving lines"; the examples `eight`, `fish`, `bubbles` and `mill` show each kind):
+Seven levels have traced lines whose objects move: 3-2 (lanterns traveling around a figure eight), 4-2 (the docking wheel turning about its hub, the ring's deck lights gliding around inside it), 5-2 (the fish boat sliding), 7-3 (bubbles floating on small circles), 7-4 (wheels turning, ripples wrapping), 9-5 (lantern columns rising and wrapping) and 11-2 (rings gliding around ellipses). The generator's moving lines build them with no added pegs (spec 14.2, "Decided in the moving lines"; the examples `eight`, `fish`, `bubbles` and `mill` show each kind):
 
 - a group of lines moves as one with any of spec 9's movements: the fish boat (horizontalCycle), each bubble (circle, neighbors turning opposite ways), each mill wheel (rotate about its hub), a row of ripples as a conveyor (horizontalWrap one brick per period), a column of lanterns as a conveyor (verticalWrap one lantern per period); a group can ride on another, as 11-2's planets would ride on their orbits (followPath along the orbit line);
 - a traveling line runs its objects along itself: 3-2's lanterns around the figure-eight wire, 11-2's ring bricks around their traced ellipses, 7-4's stream and 9-5's columns as an alternative to the conveyors.
