@@ -1,27 +1,32 @@
 {
   "id": "4-2",
   "name": "Spinning Station",
-  "draft": true,
   "concept": {
-    "subject": "A wheel-shaped space station turning slowly among the stars, with six spokes, a round hub and four docking gaps in its rim.",
-    "composition": "The station's wheel fills the middle, centered at about 58 percent of the height and two thirds of the picture height across. Two small satellites with flat solar panels float in the upper left and upper right corners; loose clusters of stars drift along both sides; the top center is open space.",
-    "layout": "105 round pegs and 42 bricks. The station is the rotating template's single wheel: a rim of curved bricks broken into four slots and six spokes of pegs, turning slowly around a static hub peg. The satellites' solar panels are short brick rows with peg bodies, and the star clusters at the sides are loose peg lines."
+    "subject": "A space station drifting through a field of debris: a long cylinder with a big ring around its left end and a dark docking wheel at its right end, its antenna cables reaching up.",
+    "composition": "The big ring stands on the left as a tall ellipse seen at an angle, from two fifths to nine tenths of the height and from an eighth to a third of the width. The cylinder runs from its middle up to the right to the docking wheel, a dark disc at two thirds of the width and half the height, with a drum and a truss beyond it and two antenna cables rising from it toward the top center. The station's shadowed underside and drifting rocks fill the bottom, out-of-focus debris drifts through the space around, and the top center is open space.",
+    "layout": "105 round pegs and 42 bricks. The docking wheel turns: its rim is four arcs of curved bricks with wide slots between them and six spoke pegs inside, around a still hub peg, a rotating group traced where the picture puts the disc. The big ring's hull is four brick arcs with docking gaps between them, and the lights of its inner deck are pegs gliding around inside it, past three still hub pegs. The cylinder's top is a solid that sheds balls toward the ring, with its underside a brick row sheltered under it. The truss, the drum, the boom and a module in the top right corner are short brick pieces; the cables, the underside's edges, the rocks and the drifting debris are pegs."
   },
   "plan": {
     "archetypes": ["rotating", "outline"],
-    "templates": ["outline", "rotating"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 105,
     "bricks": 42,
-    "moving": [{ "what": "the station's rim and spokes", "type": "rotateAroundCircle" }],
+    "moving": [
+      { "what": "the docking wheel's rim and spokes", "type": "rotateAroundCircle" },
+      {
+        "what": "the lights of the big ring's deck, gliding around inside it",
+        "type": "rotateAroundCircle"
+      }
+    ],
     "difficulty": {
       "target": 0.28,
-      "note": "Middle of the stage: the turning rim opens and closes the way to the spokes, so the timing of a shot matters for the first time in the stage."
+      "note": "Middle of the stage: the turning wheel's slots open and close the way to its spokes, so the timing of a shot matters for the first time in the stage, and the solid cylinder top shelters the bricks under it."
     }
   },
   "background": {
     "id": "lilac-orbit-station",
-    "prompt": "A wheel-shaped space station turns slowly in a soft lilac and periwinkle outer space. The station is a large round wheel in the middle of the picture, centered at about 58 percent of the picture height, its outer rim about two thirds of the picture height across, made of smooth pearl-gray hull segments with four wide docking gaps evenly spaced around it. Six thin spokes run from the rim to a small round hub in the center. Two small satellites with flat rectangular solar panels float in the upper left and upper right corners, and loose clusters of small pale silver stars drift along both sides. The top center is open, calm space; the lower corners are plain nebula haze.",
+    "prompt": "A space station drifts in a soft lilac-gray outer space strewn with out-of-focus debris. A big ring stands on the left as a tall ellipse seen at an angle, from about two fifths to nine tenths of the picture height and from about an eighth to a third of the width, lit pale gray on its right and shadowed blue on its left. A long white cylinder runs from the ring's middle up to the right to a large dark docking disc at about two thirds of the width and half the height, with a lit drum and a truss beyond it; two thin antenna cables rise from the disc toward the top center. The station's shadowed blue underside spreads below the cylinder, small dark rocks drift along the bottom, a lit module edges into the top right corner and a solar panel reaches out to the left edge. The top center is open space.",
     "picture": {
       "ref": "wallhaven:6o7r87",
       "kind": "painting",
@@ -38,6 +43,20 @@
   },
   "recipe": {
     "seed": 402,
-    "targetCount": 147
+    "targetCount": 147,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [334.5, 284.2],
+            [398.5, 266.2],
+            [476.5, 248.2],
+            [479.5, 259.8],
+            [401.5, 277.8],
+            [337.5, 295.8]
+          ]
+        }
+      ]
+    }
   }
 }

@@ -1,0 +1,1078 @@
+{
+  "formatVersion": 1,
+  "name": "Spinning Station",
+  "background": "lilac-orbit-station",
+  "board": {
+    "width": 916,
+    "height": 560
+  },
+  "provenance": {
+    "generatorVersion": "1.2.0",
+    "seed": 402,
+    "recipe": {
+      "name": "Spinning Station",
+      "stage": 4,
+      "targetCount": 147,
+      "parts": [
+        {
+          "template": "solids",
+          "params": {
+            "polygons": [
+              {
+                "points": [
+                  [
+                    334.5,
+                    284.2
+                  ],
+                  [
+                    398.5,
+                    266.2
+                  ],
+                  [
+                    476.5,
+                    248.2
+                  ],
+                  [
+                    479.5,
+                    259.8
+                  ],
+                  [
+                    401.5,
+                    277.8
+                  ],
+                  [
+                    337.5,
+                    295.8
+                  ]
+                ]
+              }
+            ],
+            "rods": [],
+            "circles": []
+          }
+        },
+        {
+          "template": "outline",
+          "params": {
+            "paths": [
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    295,
+                    360.4
+                  ],
+                  [
+                    297,
+                    392.1
+                  ],
+                  [
+                    294.3,
+                    422.2
+                  ],
+                  [
+                    287.1,
+                    449.5
+                  ],
+                  [
+                    275.8,
+                    472.4
+                  ],
+                  [
+                    260.9,
+                    490
+                  ],
+                  [
+                    243.1,
+                    501.4
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    221.2,
+                    506.1
+                  ],
+                  [
+                    200.3,
+                    502.9
+                  ],
+                  [
+                    179.5,
+                    492.9
+                  ],
+                  [
+                    159.8,
+                    476.5
+                  ],
+                  [
+                    142.2,
+                    454.5
+                  ],
+                  [
+                    127.5,
+                    428.1
+                  ],
+                  [
+                    116.4,
+                    398.4
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    109,
+                    363.6
+                  ],
+                  [
+                    107,
+                    331.9
+                  ],
+                  [
+                    109.7,
+                    301.8
+                  ],
+                  [
+                    116.9,
+                    274.5
+                  ],
+                  [
+                    128.2,
+                    251.6
+                  ],
+                  [
+                    143.1,
+                    234
+                  ],
+                  [
+                    160.9,
+                    222.6
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    182.8,
+                    217.9
+                  ],
+                  [
+                    203.7,
+                    221.1
+                  ],
+                  [
+                    224.5,
+                    231.1
+                  ],
+                  [
+                    244.2,
+                    247.5
+                  ],
+                  [
+                    261.8,
+                    269.5
+                  ],
+                  [
+                    276.5,
+                    295.9
+                  ],
+                  [
+                    287.6,
+                    325.6
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": true,
+                "points": [
+                  [
+                    256.8,
+                    350.4
+                  ],
+                  [
+                    261.4,
+                    392.4
+                  ],
+                  [
+                    256.9,
+                    429.8
+                  ],
+                  [
+                    244.1,
+                    457
+                  ],
+                  [
+                    224.9,
+                    469.6
+                  ],
+                  [
+                    202.2,
+                    465.9
+                  ],
+                  [
+                    179.4,
+                    446.3
+                  ],
+                  [
+                    160.1,
+                    413.9
+                  ],
+                  [
+                    147.2,
+                    373.6
+                  ],
+                  [
+                    142.6,
+                    331.6
+                  ],
+                  [
+                    147.1,
+                    294.2
+                  ],
+                  [
+                    159.9,
+                    267
+                  ],
+                  [
+                    179.1,
+                    254.4
+                  ],
+                  [
+                    201.8,
+                    258.1
+                  ],
+                  [
+                    224.6,
+                    277.7
+                  ],
+                  [
+                    243.9,
+                    310.1
+                  ]
+                ],
+                "spacing": 40,
+                "keepSpacing": true,
+                "travel": {
+                  "period": 3000
+                }
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    193.7,
+                    320.9
+                  ],
+                  [
+                    202,
+                    360
+                  ],
+                  [
+                    210.3,
+                    399.1
+                  ]
+                ],
+                "spacing": 40,
+                "keepSpacing": true
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    664.3,
+                    300.7
+                  ],
+                  [
+                    674.5,
+                    279.4
+                  ],
+                  [
+                    678,
+                    256
+                  ],
+                  [
+                    674.5,
+                    232.6
+                  ],
+                  [
+                    664.3,
+                    211.3
+                  ]
+                ],
+                "group": "docking-wheel"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    642.7,
+                    189.7
+                  ],
+                  [
+                    621.4,
+                    179.5
+                  ],
+                  [
+                    598,
+                    176
+                  ],
+                  [
+                    574.6,
+                    179.5
+                  ],
+                  [
+                    553.3,
+                    189.7
+                  ]
+                ],
+                "group": "docking-wheel"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    531.7,
+                    211.3
+                  ],
+                  [
+                    521.5,
+                    232.6
+                  ],
+                  [
+                    518,
+                    256
+                  ],
+                  [
+                    521.5,
+                    279.4
+                  ],
+                  [
+                    531.7,
+                    300.7
+                  ]
+                ],
+                "group": "docking-wheel"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    553.3,
+                    322.3
+                  ],
+                  [
+                    574.6,
+                    332.5
+                  ],
+                  [
+                    598,
+                    336
+                  ],
+                  [
+                    621.4,
+                    332.5
+                  ],
+                  [
+                    642.7,
+                    322.3
+                  ]
+                ],
+                "group": "docking-wheel"
+              },
+              {
+                "mode": "pegs",
+                "closed": true,
+                "points": [
+                  [
+                    636,
+                    256
+                  ],
+                  [
+                    617,
+                    223.1
+                  ],
+                  [
+                    579,
+                    223.1
+                  ],
+                  [
+                    560,
+                    256
+                  ],
+                  [
+                    579,
+                    288.9
+                  ],
+                  [
+                    617,
+                    288.9
+                  ]
+                ],
+                "spacing": 38,
+                "keepSpacing": true,
+                "group": "docking-wheel"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    598,
+                    252
+                  ],
+                  [
+                    598,
+                    260
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    350,
+                    343
+                  ],
+                  [
+                    400,
+                    328
+                  ],
+                  [
+                    470,
+                    313
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    676,
+                    160
+                  ],
+                  [
+                    740,
+                    110
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    714,
+                    196
+                  ],
+                  [
+                    726,
+                    214
+                  ],
+                  [
+                    732,
+                    236
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    654,
+                    406
+                  ],
+                  [
+                    706,
+                    470
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    846,
+                    36
+                  ],
+                  [
+                    890,
+                    88
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    346,
+                    396
+                  ],
+                  [
+                    450,
+                    380
+                  ],
+                  [
+                    560,
+                    392
+                  ]
+                ],
+                "spacing": 39.29
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    488,
+                    148
+                  ],
+                  [
+                    512,
+                    182
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    548,
+                    116
+                  ],
+                  [
+                    574,
+                    142
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    24,
+                    384
+                  ],
+                  [
+                    68,
+                    372
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    40,
+                    48
+                  ],
+                  [
+                    100,
+                    46
+                  ],
+                  [
+                    150,
+                    80
+                  ],
+                  [
+                    218,
+                    104
+                  ]
+                ],
+                "spacing": 35.18
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    24,
+                    100
+                  ],
+                  [
+                    110,
+                    140
+                  ]
+                ],
+                "spacing": 80,
+                "keepSpacing": true
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    780,
+                    484
+                  ],
+                  [
+                    780,
+                    492
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    888,
+                    198
+                  ],
+                  [
+                    888,
+                    206
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    262,
+                    166
+                  ],
+                  [
+                    320,
+                    212
+                  ],
+                  [
+                    398,
+                    190
+                  ]
+                ],
+                "spacing": 34.88
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    362,
+                    246
+                  ],
+                  [
+                    404,
+                    228
+                  ]
+                ],
+                "spacing": 42,
+                "keepSpacing": true
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    150,
+                    176
+                  ],
+                  [
+                    246,
+                    204
+                  ]
+                ],
+                "spacing": 80,
+                "keepSpacing": true
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    604,
+                    84
+                  ],
+                  [
+                    604,
+                    92
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    764,
+                    172
+                  ],
+                  [
+                    764,
+                    180
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    380,
+                    502
+                  ],
+                  [
+                    380,
+                    510
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    30,
+                    150
+                  ],
+                  [
+                    62,
+                    210
+                  ],
+                  [
+                    44,
+                    270
+                  ],
+                  [
+                    56,
+                    326
+                  ]
+                ],
+                "spacing": 42.07
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    660,
+                    52
+                  ],
+                  [
+                    720,
+                    40
+                  ],
+                  [
+                    780,
+                    66
+                  ],
+                  [
+                    800,
+                    120
+                  ]
+                ],
+                "spacing": 34.01
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    870,
+                    140
+                  ],
+                  [
+                    830,
+                    200
+                  ],
+                  [
+                    870,
+                    262
+                  ],
+                  [
+                    820,
+                    310
+                  ],
+                  [
+                    860,
+                    368
+                  ]
+                ],
+                "spacing": 38.93
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    776,
+                    250
+                  ],
+                  [
+                    740,
+                    316
+                  ],
+                  [
+                    760,
+                    380
+                  ],
+                  [
+                    790,
+                    440
+                  ]
+                ],
+                "spacing": 38.31
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    360,
+                    440
+                  ],
+                  [
+                    440,
+                    430
+                  ],
+                  [
+                    530,
+                    436
+                  ],
+                  [
+                    610,
+                    424
+                  ]
+                ],
+                "spacing": 34.01
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    300,
+                    506
+                  ],
+                  [
+                    344,
+                    486
+                  ]
+                ],
+                "spacing": 48
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    420,
+                    490
+                  ],
+                  [
+                    500,
+                    500
+                  ],
+                  [
+                    570,
+                    482
+                  ],
+                  [
+                    620,
+                    504
+                  ],
+                  [
+                    740,
+                    506
+                  ]
+                ],
+                "spacing": 34.63
+              }
+            ],
+            "groups": [
+              {
+                "id": "docking-wheel",
+                "note": "The docking wheel turning about its hub",
+                "pivot": [
+                  598,
+                  256
+                ],
+                "movement": {
+                  "type": "rotateAroundCircle",
+                  "period": 2400
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "fill": "none"
+    }
+  },
+  "paths": [
+    {"closed":true,"points":[{"x":0,"y":0},{"x":1.47,"y":7.56},{"x":2.69,"y":15.25},{"x":3.63,"y":22.98},{"x":4.13,"y":28.76},{"x":4.6,"y":40.14},{"x":4.48,"y":48.11},{"x":4.17,"y":54.22},{"x":3.65,"y":60.29},{"x":2.89,"y":66.25},{"x":1.88,"y":72.05},{"x":1.05,"y":75.78},{"x":-0.45,"y":81.29},{"x":-2.29,"y":86.93},{"x":-4.4,"y":92.44},{"x":-5.98,"y":95.96},{"x":-8.62,"y":100.9},{"x":-10.58,"y":103.89},{"x":-12.7,"y":106.6},{"x":-15.43,"y":109.49},{"x":-18.42,"y":112.18},{"x":-21.62,"y":114.57},{"x":-24.97,"y":116.59},{"x":-28.41,"y":118.16},{"x":-31.9,"y":119.2},{"x":-33.68,"y":119.5},{"x":-37.39,"y":119.72},{"x":-41.24,"y":119.45},{"x":-47.09,"y":118.27},{"x":-50.93,"y":117.03},{"x":-54.6,"y":115.5},{"x":-57.65,"y":113.89},{"x":-62.15,"y":110.88},{"x":-66.54,"y":107.27},{"x":-70.78,"y":103.23},{"x":-74.82,"y":98.88},{"x":-79.74,"y":92.98},{"x":-83.13,"y":88.3},{"x":-87.38,"y":81.6},{"x":-90.38,"y":76.31},{"x":-94.11,"y":69.04},{"x":-97.46,"y":61.8},{"x":-100.32,"y":54.79},{"x":-102.94,"y":47.54},{"x":-105.3,"y":40.11},{"x":-107.39,"y":32.6},{"x":-109.6,"y":23.2},{"x":-111.4,"y":13.72},{"x":-112.55,"y":6.02},{"x":-113.42,"y":-1.71},{"x":-113.97,"y":-9.39},{"x":-114.2,"y":-16.94},{"x":-114.08,"y":-24.91},{"x":-113.62,"y":-33.05},{"x":-113.02,"y":-39.1},{"x":-111.85,"y":-46.94},{"x":-110.65,"y":-52.58},{"x":-108.56,"y":-59.97},{"x":-106.64,"y":-65.59},{"x":-104.43,"y":-71.02},{"x":-101.9,"y":-76.1},{"x":-99.02,"y":-80.69},{"x":-96.9,"y":-83.4},{"x":-94.17,"y":-86.29},{"x":-91.18,"y":-88.98},{"x":-86.33,"y":-92.43},{"x":-82.92,"y":-94.24},{"x":-79.45,"y":-95.55},{"x":-77.7,"y":-96},{"x":-74.09,"y":-96.47},{"x":-70.3,"y":-96.44},{"x":-66.41,"y":-95.95},{"x":-62.51,"y":-95.07},{"x":-58.67,"y":-93.83},{"x":-55,"y":-92.3},{"x":-51.95,"y":-90.69},{"x":-48.94,"y":-88.76},{"x":-44.51,"y":-85.33},{"x":-41.63,"y":-82.77},{"x":-37.45,"y":-78.6},{"x":-33.47,"y":-74.2},{"x":-29.86,"y":-69.78},{"x":-27.58,"y":-66.7},{"x":-24.31,"y":-61.81},{"x":-21.2,"y":-56.66},{"x":-18.26,"y":-51.31},{"x":-15.49,"y":-45.84},{"x":-12.14,"y":-38.6},{"x":-7.94,"y":-27.99},{"x":-6.04,"y":-22.5},{"x":-3.75,"y":-15.04},{"x":-1.74,"y":-7.52}]}
+  ],
+  "elements": [
+    {"kind":"polygon","id":1,"x":404.666667,"y":272,"rotation":0,"vertices":[{"x":-70.166667,"y":12.2},{"x":-6.166667,"y":-5.8},{"x":71.833333,"y":-23.8},{"x":74.833333,"y":-12.2},{"x":-3.166667,"y":5.8},{"x":-67.166667,"y":23.8}]},
+    {"kind":"peg","id":2,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000}},
+    {"kind":"peg","id":3,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.077}},
+    {"kind":"peg","id":4,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.154}},
+    {"kind":"peg","id":5,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.230667}},
+    {"kind":"peg","id":6,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.307833}},
+    {"kind":"peg","id":7,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.384667}},
+    {"kind":"peg","id":8,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.461667}},
+    {"kind":"peg","id":9,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.538333}},
+    {"kind":"peg","id":10,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.6155}},
+    {"kind":"peg","id":11,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.692333}},
+    {"kind":"peg","id":12,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.769333}},
+    {"kind":"peg","id":13,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.846}},
+    {"kind":"peg","id":14,"x":256.8,"y":350.4,"movement":{"type":"followPath","path":0,"period":3000,"phase":0.923}},
+    {"kind":"curvedBrick","id":15,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":-0.399228},"rotation":-0.382297,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"curvedBrick","id":16,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":80},"rotation":0,"innerRadius":69.231156,"sector":0.390403},
+    {"kind":"curvedBrick","id":17,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":0.399228},"rotation":0.382297,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"curvedBrick","id":18,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":1.171569},"rotation":1.188499,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"curvedBrick","id":19,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":80,"pathRotation":1.570796},"rotation":1.570796,"innerRadius":69.231156,"sector":0.390403},
+    {"kind":"curvedBrick","id":20,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":1.970024},"rotation":1.953094,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"curvedBrick","id":21,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":2.742365},"rotation":2.759295,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"curvedBrick","id":22,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":80,"pathRotation":-3.141593},"rotation":-3.141593,"innerRadius":69.231156,"sector":0.390403},
+    {"kind":"curvedBrick","id":23,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":-2.742365},"rotation":-2.759295,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"curvedBrick","id":24,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":-1.970024},"rotation":-1.953094,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"curvedBrick","id":25,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":80,"pathRotation":-1.570796},"rotation":-1.570796,"innerRadius":69.231156,"sector":0.390403},
+    {"kind":"curvedBrick","id":26,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":79.702818,"pathRotation":-1.171569},"rotation":-1.188499,"innerRadius":87.324843,"sector":0.317653},
+    {"kind":"peg","id":27,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":38}},
+    {"kind":"peg","id":28,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":37.992126,"pathRotation":1.047146}},
+    {"kind":"peg","id":29,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":37.992126,"pathRotation":2.094447}},
+    {"kind":"peg","id":30,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":38,"pathRotation":-3.141593}},
+    {"kind":"peg","id":31,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":37.992126,"pathRotation":-2.094447}},
+    {"kind":"peg","id":32,"x":598,"y":256,"movement":{"type":"rotateAroundCircle","period":2400,"radius":37.992126,"pathRotation":-1.047146}},
+    {"kind":"brick","id":33,"x":296.001042,"y":375.981167,"rotation":0.064159,"length":31.226582},
+    {"kind":"curvedBrick","id":34,"x":296.160873,"y":408.154802,"rotation":-0.095731,"innerRadius":178.570156,"sector":0.165651},
+    {"kind":"curvedBrick","id":35,"x":290.282878,"y":439.804379,"rotation":-0.286618,"innerRadius":136.319938,"sector":0.213484},
+    {"kind":"curvedBrick","id":36,"x":256.486944,"y":493.360279,"rotation":-0.915307,"innerRadius":67.623771,"sector":0.40245},
+    {"kind":"curvedBrick","id":37,"x":205.702949,"y":504.1788,"rotation":-1.807556,"innerRadius":68.430172,"sector":0.398314},
+    {"kind":"curvedBrick","id":38,"x":176.568258,"y":490.927572,"rotation":-2.17651,"innerRadius":91.088058,"sector":0.309029},
+    {"kind":"curvedBrick","id":39,"x":153.041831,"y":469.017118,"rotation":-2.437231,"innerRadius":135.186249,"sector":0.215152},
+    {"kind":"curvedBrick","id":40,"x":134.827162,"y":442.473946,"rotation":-2.627009,"innerRadius":180.742022,"sector":0.163765},
+    {"kind":"brick","id":41,"x":121.851188,"y":413.030881,"rotation":-2.784944,"length":31.226791},
+    {"kind":"brick","id":42,"x":107.998958,"y":348.018833,"rotation":-3.077434,"length":31.226582},
+    {"kind":"curvedBrick","id":43,"x":107.839127,"y":315.845198,"rotation":3.045862,"innerRadius":178.570156,"sector":0.165651},
+    {"kind":"curvedBrick","id":44,"x":113.717122,"y":284.195621,"rotation":2.854975,"innerRadius":136.319938,"sector":0.213484},
+    {"kind":"curvedBrick","id":45,"x":126.311579,"y":254.615113,"rotation":2.596061,"innerRadius":91.972069,"sector":0.30635},
+    {"kind":"curvedBrick","id":46,"x":147.513056,"y":230.639721,"rotation":2.226286,"innerRadius":67.623771,"sector":0.40245},
+    {"kind":"curvedBrick","id":47,"x":198.297051,"y":219.8212,"rotation":1.334036,"innerRadius":68.430172,"sector":0.398314},
+    {"kind":"curvedBrick","id":48,"x":227.431742,"y":233.072428,"rotation":0.965082,"innerRadius":91.088058,"sector":0.309029},
+    {"kind":"curvedBrick","id":49,"x":250.958169,"y":254.982882,"rotation":0.704362,"innerRadius":135.186249,"sector":0.215152},
+    {"kind":"curvedBrick","id":50,"x":269.172838,"y":281.526054,"rotation":0.514584,"innerRadius":180.742022,"sector":0.163765},
+    {"kind":"brick","id":51,"x":282.148812,"y":310.969119,"rotation":0.356648,"length":31.226791},
+    {"kind":"peg","id":52,"x":193.7,"y":320.9},
+    {"kind":"peg","id":53,"x":202,"y":360},
+    {"kind":"peg","id":54,"x":210.3,"y":399.1},
+    {"kind":"peg","id":55,"x":598,"y":256},
+    {"kind":"brick","id":56,"x":364.416385,"y":338.506853,"rotation":1.872924,"length":30.200697},
+    {"kind":"brick","id":57,"x":394.359353,"y":329.766472,"rotation":1.835871,"length":30.194939},
+    {"kind":"brick","id":58,"x":424.669199,"y":322.425264,"rotation":1.781537,"length":30.199852},
+    {"kind":"brick","id":59,"x":455.207563,"y":316.033968,"rotation":1.773093,"length":30.200739},
+    {"kind":"brick","id":60,"x":691.802994,"y":147.653911,"rotation":2.233999,"length":40.107881},
+    {"kind":"brick","id":61,"x":724.197006,"y":122.346089,"rotation":2.233999,"length":40.107881},
+    {"kind":"curvedBrick","id":62,"x":726.22845,"y":214.538946,"rotation":0.424977,"innerRadius":59.639406,"sector":0.640771},
+    {"kind":"brick","id":63,"x":666.842352,"y":421.805971,"rotation":0.682317,"length":40.731056},
+    {"kind":"brick","id":64,"x":693.157648,"y":454.194029,"rotation":0.682317,"length":40.731056},
+    {"kind":"brick","id":65,"x":856.838514,"y":48.809153,"rotation":0.702257,"length":33.558773},
+    {"kind":"brick","id":66,"x":879.161486,"y":75.190847,"rotation":0.702257,"length":33.558773},
+    {"kind":"peg","id":67,"x":346,"y":396},
+    {"kind":"peg","id":68,"x":381.421438,"y":389.479876},
+    {"kind":"peg","id":69,"x":416.857063,"y":383.040958},
+    {"kind":"peg","id":70,"x":452.714866,"y":379.960268},
+    {"kind":"peg","id":71,"x":488.646834,"y":382.11911},
+    {"kind":"peg","id":72,"x":524.31766,"y":387.103215},
+    {"kind":"peg","id":73,"x":560,"y":392},
+    {"kind":"peg","id":74,"x":488,"y":148},
+    {"kind":"peg","id":75,"x":548,"y":116},
+    {"kind":"peg","id":76,"x":574,"y":142},
+    {"kind":"peg","id":77,"x":24,"y":384},
+    {"kind":"peg","id":78,"x":68,"y":372},
+    {"kind":"peg","id":79,"x":40,"y":48},
+    {"kind":"peg","id":80,"x":78.470407,"y":44.118441},
+    {"kind":"peg","id":81,"x":115.041968,"y":53.670235},
+    {"kind":"peg","id":82,"x":145.491031,"y":77.467889},
+    {"kind":"peg","id":83,"x":181.160072,"y":92.223846},
+    {"kind":"peg","id":84,"x":218,"y":104},
+    {"kind":"peg","id":85,"x":24,"y":100},
+    {"kind":"peg","id":86,"x":110,"y":140},
+    {"kind":"peg","id":87,"x":780,"y":488},
+    {"kind":"peg","id":88,"x":888,"y":202},
+    {"kind":"peg","id":89,"x":262,"y":166},
+    {"kind":"peg","id":90,"x":290.168217,"y":193.265809},
+    {"kind":"peg","id":91,"x":323.479004,"y":212.51458},
+    {"kind":"peg","id":92,"x":361.416869,"y":204.092338},
+    {"kind":"peg","id":93,"x":398,"y":190},
+    {"kind":"peg","id":94,"x":362,"y":246},
+    {"kind":"peg","id":95,"x":404,"y":228},
+    {"kind":"peg","id":96,"x":150,"y":176},
+    {"kind":"peg","id":97,"x":246,"y":204},
+    {"kind":"peg","id":98,"x":604,"y":88},
+    {"kind":"peg","id":99,"x":764,"y":176},
+    {"kind":"peg","id":100,"x":380,"y":506},
+    {"kind":"peg","id":101,"x":30,"y":150},
+    {"kind":"peg","id":102,"x":50.496834,"y":181.820364},
+    {"kind":"peg","id":103,"x":61.847918,"y":217.141479},
+    {"kind":"peg","id":104,"x":48.453999,"y":252.419567},
+    {"kind":"peg","id":105,"x":46.040199,"y":289.478279},
+    {"kind":"peg","id":106,"x":56,"y":326},
+    {"kind":"peg","id":107,"x":660,"y":52},
+    {"kind":"peg","id":108,"x":695.924431,"y":42.224072},
+    {"kind":"peg","id":109,"x":732.753157,"y":42.180794},
+    {"kind":"peg","id":110,"x":767.207106,"y":55.900061},
+    {"kind":"peg","id":111,"x":790.063753,"y":84.127327},
+    {"kind":"peg","id":112,"x":800,"y":120},
+    {"kind":"peg","id":113,"x":870,"y":140},
+    {"kind":"peg","id":114,"x":846.658498,"y":168.024394},
+    {"kind":"peg","id":115,"x":830.01139,"y":199.730808},
+    {"kind":"peg","id":116,"x":849.014322,"y":229.908523},
+    {"kind":"peg","id":117,"x":869.986731,"y":259.1163},
+    {"kind":"peg","id":118,"x":846.749994,"y":284.972375},
+    {"kind":"peg","id":119,"x":820.198223,"y":308.857316},
+    {"kind":"peg","id":120,"x":836.118576,"y":340.435253},
+    {"kind":"peg","id":121,"x":860,"y":368},
+    {"kind":"peg","id":122,"x":776,"y":250},
+    {"kind":"peg","id":123,"x":756.708495,"y":279.328892},
+    {"kind":"peg","id":124,"x":740.931971,"y":310.491654},
+    {"kind":"peg","id":125,"x":744.863588,"y":344.87723},
+    {"kind":"peg","id":126,"x":758.801828,"y":377.106057},
+    {"kind":"peg","id":127,"x":773.671097,"y":408.906259},
+    {"kind":"peg","id":128,"x":790,"y":440},
+    {"kind":"peg","id":129,"x":360,"y":440},
+    {"kind":"peg","id":130,"x":395.590561,"y":434.672799},
+    {"kind":"peg","id":131,"x":431.314533,"y":430.41623},
+    {"kind":"peg","id":132,"x":467.248889,"y":431.197009},
+    {"kind":"peg","id":133,"x":503.029514,"y":435.053208},
+    {"kind":"peg","id":134,"x":538.963494,"y":435.43208},
+    {"kind":"peg","id":135,"x":574.570011,"y":430.304948},
+    {"kind":"peg","id":136,"x":610,"y":424},
+    {"kind":"peg","id":137,"x":300,"y":506},
+    {"kind":"peg","id":138,"x":344,"y":486},
+    {"kind":"peg","id":139,"x":420,"y":490},
+    {"kind":"peg","id":140,"x":456.020235,"y":496.100948},
+    {"kind":"peg","id":141,"x":492.283063,"y":500.206118},
+    {"kind":"peg","id":142,"x":527.834793,"y":492.951429},
+    {"kind":"peg","id":143,"x":562.632314,"y":482.14043},
+    {"kind":"peg","id":144,"x":596.511491,"y":493.372783},
+    {"kind":"peg","id":145,"x":630.467977,"y":505.766862},
+    {"kind":"peg","id":146,"x":666.942669,"y":507.419283},
+    {"kind":"peg","id":147,"x":703.46879,"y":506.51447},
+    {"kind":"peg","id":148,"x":740,"y":506}
+  ]
+}

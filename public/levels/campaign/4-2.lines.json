@@ -1,0 +1,289 @@
+{
+  "formatVersion": 1,
+  "background": "lilac-orbit-station",
+  "board": { "width": 916, "height": 560 },
+  "groups": [
+    {
+      "id": "docking-wheel",
+      "note": "The docking wheel turning about its hub",
+      "pivot": [598, 256],
+      "movement": { "type": "rotateAroundCircle", "period": 2400 }
+    }
+  ],
+  "lines": [
+    {
+      "id": "ring-hull-front",
+      "note": "The big ring's lit hull on its right, between two docking gaps",
+      "mode": "bricks",
+      "points": [
+        [295, 360.4], [297, 392.1], [294.3, 422.2], [287.1, 449.5], [275.8, 472.4], [260.9, 490],
+        [243.1, 501.4]
+      ]
+    },
+    {
+      "id": "ring-hull-bottom",
+      "note": "The big ring's hull at its bottom, between two docking gaps",
+      "mode": "bricks",
+      "points": [
+        [221.2, 506.1], [200.3, 502.9], [179.5, 492.9], [159.8, 476.5], [142.2, 454.5],
+        [127.5, 428.1], [116.4, 398.4]
+      ]
+    },
+    {
+      "id": "ring-hull-back",
+      "note": "The big ring's shadowed hull on its left, between two docking gaps",
+      "mode": "bricks",
+      "points": [
+        [109, 363.6], [107, 331.9], [109.7, 301.8], [116.9, 274.5], [128.2, 251.6], [143.1, 234],
+        [160.9, 222.6]
+      ]
+    },
+    {
+      "id": "ring-hull-top",
+      "note": "The big ring's lit hull at its top, between two docking gaps",
+      "mode": "bricks",
+      "points": [
+        [182.8, 217.9], [203.7, 221.1], [224.5, 231.1], [244.2, 247.5], [261.8, 269.5],
+        [276.5, 295.9], [287.6, 325.6]
+      ]
+    },
+    {
+      "id": "ring-deck",
+      "note": "The ring's inner deck, its lights gliding around inside the hull as the ring turns",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 40,
+      "keepSpacing": true,
+      "travel": { "period": 3000 },
+      "points": [
+        [256.8, 350.4], [261.4, 392.4], [256.9, 429.8], [244.1, 457], [224.9, 469.6],
+        [202.2, 465.9], [179.4, 446.3], [160.1, 413.9], [147.2, 373.6], [142.6, 331.6],
+        [147.1, 294.2], [159.9, 267], [179.1, 254.4], [201.8, 258.1], [224.6, 277.7], [243.9, 310.1]
+      ]
+    },
+    {
+      "id": "ring-hub",
+      "note": "The ring's hub and spokes, still at its middle",
+      "mode": "pegs",
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[193.7, 320.9], [202, 360], [210.3, 399.1]]
+    },
+    {
+      "id": "wheel-rim-right",
+      "note": "A quarter of the docking wheel's rim, on its right",
+      "mode": "bricks",
+      "group": "docking-wheel",
+      "points": [[664.3, 300.7], [674.5, 279.4], [678, 256], [674.5, 232.6], [664.3, 211.3]]
+    },
+    {
+      "id": "wheel-rim-top",
+      "note": "A quarter of the docking wheel's rim, at its top",
+      "mode": "bricks",
+      "group": "docking-wheel",
+      "points": [[642.7, 189.7], [621.4, 179.5], [598, 176], [574.6, 179.5], [553.3, 189.7]]
+    },
+    {
+      "id": "wheel-rim-left",
+      "note": "A quarter of the docking wheel's rim, on its left",
+      "mode": "bricks",
+      "group": "docking-wheel",
+      "points": [[531.7, 211.3], [521.5, 232.6], [518, 256], [521.5, 279.4], [531.7, 300.7]]
+    },
+    {
+      "id": "wheel-rim-bottom",
+      "note": "A quarter of the docking wheel's rim, at its bottom",
+      "mode": "bricks",
+      "group": "docking-wheel",
+      "points": [[553.3, 322.3], [574.6, 332.5], [598, 336], [621.4, 332.5], [642.7, 322.3]]
+    },
+    {
+      "id": "wheel-spokes",
+      "note": "The docking wheel's six spokes around its hub",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 38,
+      "keepSpacing": true,
+      "group": "docking-wheel",
+      "points": [[636, 256], [617, 223.1], [579, 223.1], [560, 256], [579, 288.9], [617, 288.9]]
+    },
+    {
+      "id": "wheel-hub",
+      "note": "The docking wheel's hub, still at its middle",
+      "mode": "pegs",
+      "points": [[598, 252], [598, 260]]
+    },
+    {
+      "id": "cylinder-bottom",
+      "note": "The underside of the station's long cylinder",
+      "mode": "bricks",
+      "points": [[350, 343], [400, 328], [470, 313]]
+    },
+    {
+      "id": "truss",
+      "note": "The truss rising from the docking wheel to the upper right",
+      "mode": "bricks",
+      "points": [[676, 160], [740, 110]]
+    },
+    {
+      "id": "drum",
+      "note": "The lit edge of the drum behind the docking wheel",
+      "mode": "bricks",
+      "points": [[714, 196], [726, 214], [732, 236]]
+    },
+    {
+      "id": "boom",
+      "note": "The boom with its lights under the docking wheel",
+      "mode": "bricks",
+      "points": [[654, 406], [706, 470]]
+    },
+    {
+      "id": "corner-truss",
+      "note": "The lit truss of another module in the top right corner",
+      "mode": "bricks",
+      "points": [[846, 36], [890, 88]]
+    },
+    {
+      "id": "underside",
+      "note": "The edge of the station's shadowed underside",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[346, 396], [450, 380], [560, 392]]
+    },
+    {
+      "id": "cable-left",
+      "note": "The left antenna cable down to the docking wheel",
+      "mode": "pegs",
+      "points": [[488, 148], [512, 182]]
+    },
+    {
+      "id": "cable-right",
+      "note": "The right antenna cable down to the docking wheel",
+      "mode": "pegs",
+      "points": [[548, 116], [574, 142]]
+    },
+    {
+      "id": "solar-panel",
+      "note": "The solar panel left of the big ring",
+      "mode": "pegs",
+      "points": [[24, 384], [68, 372]]
+    },
+    {
+      "id": "debris-top-left",
+      "note": "Drifting debris high on the left",
+      "mode": "pegs",
+      "spacing": 52,
+      "points": [[40, 48], [100, 46], [150, 80], [218, 104]]
+    },
+    {
+      "id": "debris-far-left",
+      "note": "Drifting debris at the left edge",
+      "mode": "pegs",
+      "spacing": 80,
+      "keepSpacing": true,
+      "points": [[24, 100], [110, 140]]
+    },
+    {
+      "id": "debris-far-right",
+      "note": "A piece of debris low on the right",
+      "mode": "pegs",
+      "points": [[780, 484], [780, 492]]
+    },
+    {
+      "id": "debris-right-edge",
+      "note": "A piece of debris at the right edge",
+      "mode": "pegs",
+      "points": [[888, 198], [888, 206]]
+    },
+    {
+      "id": "debris-over-ring",
+      "note": "Drifting debris over the big ring",
+      "mode": "pegs",
+      "spacing": 50,
+      "points": [[262, 166], [320, 212], [398, 190]]
+    },
+    {
+      "id": "debris-cylinder",
+      "note": "Pieces of debris over the cylinder",
+      "mode": "pegs",
+      "spacing": 42,
+      "keepSpacing": true,
+      "points": [[362, 246], [404, 228]]
+    },
+    {
+      "id": "debris-ring-top",
+      "note": "Pieces of debris over the big ring",
+      "mode": "pegs",
+      "spacing": 80,
+      "keepSpacing": true,
+      "points": [[150, 176], [246, 204]]
+    },
+    {
+      "id": "debris-cable",
+      "note": "A piece of debris right of the antenna cables",
+      "mode": "pegs",
+      "points": [[604, 84], [604, 92]]
+    },
+    {
+      "id": "debris-drum",
+      "note": "A piece of debris beyond the drum",
+      "mode": "pegs",
+      "points": [[764, 172], [764, 180]]
+    },
+    {
+      "id": "rock-middle",
+      "note": "A rock drifting under the station",
+      "mode": "pegs",
+      "points": [[380, 502], [380, 510]]
+    },
+    {
+      "id": "debris-left",
+      "note": "Drifting debris left of the big ring",
+      "mode": "pegs",
+      "spacing": 52,
+      "points": [[30, 150], [62, 210], [44, 270], [56, 326]]
+    },
+    {
+      "id": "debris-right-top",
+      "note": "Drifting debris high on the right",
+      "mode": "pegs",
+      "spacing": 52,
+      "points": [[660, 52], [720, 40], [780, 66], [800, 120]]
+    },
+    {
+      "id": "debris-right",
+      "note": "Drifting debris along the right side",
+      "mode": "pegs",
+      "spacing": 52,
+      "points": [[870, 140], [830, 200], [870, 262], [820, 310], [860, 368]]
+    },
+    {
+      "id": "debris-right-low",
+      "note": "Drifting debris right of the docking wheel",
+      "mode": "pegs",
+      "spacing": 52,
+      "points": [[776, 250], [740, 316], [760, 380], [790, 440]]
+    },
+    {
+      "id": "underside-low",
+      "note": "Along the lower edge of the shadowed underside",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[360, 440], [440, 430], [530, 436], [610, 424]]
+    },
+    {
+      "id": "rocks-left",
+      "note": "Rocks drifting under the big ring",
+      "mode": "pegs",
+      "spacing": 48,
+      "points": [[300, 506], [344, 486]]
+    },
+    {
+      "id": "rocks-right",
+      "note": "Rocks drifting under the station on the right",
+      "mode": "pegs",
+      "spacing": 46,
+      "points": [[420, 490], [500, 500], [570, 482], [620, 504], [740, 506]]
+    }
+  ]
+}
