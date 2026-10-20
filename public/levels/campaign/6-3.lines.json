@@ -1,0 +1,175 @@
+{
+  "formatVersion": 1,
+  "background": "moonlit-hollow-patch",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "right-crest",
+      "note": "The right pumpkin's crest from its stem over the top and down its right side",
+      "mode": "pegs",
+      "spacing": 34,
+      "keepSpacing": true,
+      "points": [
+        [648, 224], [670, 212], [695, 206], [723, 208], [751, 217], [774, 234], [792, 257],
+        [804, 282], [810, 310], [812, 340], [808, 370], [799, 398], [786, 426]
+      ]
+    },
+    {
+      "id": "back-crest-left",
+      "note": "The back pumpkin's crest from its stem down to the left, behind the left pumpkin's stem",
+      "mode": "pegs",
+      "spacing": 34,
+      "keepSpacing": true,
+      "points": [[352, 174], [334, 173], [305, 175], [279, 181], [262, 189], [250, 204]]
+    },
+    {
+      "id": "left-crest",
+      "note": "The left pumpkin's crest from its stem down its left side",
+      "mode": "pegs",
+      "spacing": 34,
+      "keepSpacing": true,
+      "points": [
+        [205, 257], [180, 260], [160, 267], [141, 281], [126, 300], [114, 325], [109, 355],
+        [110, 385], [117, 414], [128, 440]
+      ]
+    },
+    {
+      "id": "back-crest-right",
+      "note": "The back pumpkin's crest right of its stem, down to where the right pumpkin hides it",
+      "mode": "pegs",
+      "points": [[420, 179], [440, 181], [463, 189], [487, 204], [501, 221]]
+    },
+    {
+      "id": "right-left-side",
+      "note": "The right pumpkin's top left of its stem and its left side",
+      "mode": "pegs",
+      "points": [
+        [552, 251], [528, 252], [504, 257], [480, 268], [463, 283], [451, 302], [447, 325],
+        [446, 352], [449, 380], [456, 408], [466, 436]
+      ]
+    },
+    {
+      "id": "left-right-side",
+      "note": "The left pumpkin's top right of its stem and its right side",
+      "mode": "pegs",
+      "points": [
+        [265, 259], [291, 264], [325, 276], [354, 293], [377, 316], [391, 340], [397, 366],
+        [397, 394], [392, 420], [384, 440]
+      ]
+    },
+    {
+      "id": "right-rib-1",
+      "note": "The right pumpkin's leftmost visible rib",
+      "mode": "pegs",
+      "points": [[510, 290], [492, 340], [492, 390], [504, 438]]
+    },
+    {
+      "id": "right-rib-2",
+      "note": "The right pumpkin's second rib from the left",
+      "mode": "pegs",
+      "points": [[555, 284], [540, 340], [540, 390], [548, 438]]
+    },
+    {
+      "id": "right-rib-3",
+      "note": "The right pumpkin's rib under its stem",
+      "mode": "pegs",
+      "points": [[598, 300], [596, 340], [596, 390], [600, 438]]
+    },
+    {
+      "id": "right-rib-4",
+      "note": "The right pumpkin's rib right of its stem",
+      "mode": "pegs",
+      "points": [[648, 280], [652, 320], [654, 380], [650, 438]]
+    },
+    {
+      "id": "right-rib-5",
+      "note": "The right pumpkin's second rib from the right",
+      "mode": "pegs",
+      "points": [[690, 244], [705, 300], [708, 360], [700, 434]]
+    },
+    {
+      "id": "right-rib-6",
+      "note": "The right pumpkin's rightmost visible rib",
+      "mode": "pegs",
+      "points": [[738, 252], [758, 310], [762, 360], [752, 420]]
+    },
+    {
+      "id": "left-rib-1",
+      "note": "The left pumpkin's leftmost visible rib",
+      "mode": "pegs",
+      "points": [[172, 300], [152, 350], [150, 390], [160, 434]]
+    },
+    {
+      "id": "left-rib-2",
+      "note": "The left pumpkin's rib left of its stem",
+      "mode": "pegs",
+      "points": [[208, 320], [196, 360], [196, 400], [204, 438]]
+    },
+    {
+      "id": "left-rib-3",
+      "note": "The left pumpkin's rib under its stem",
+      "mode": "pegs",
+      "points": [[242, 330], [242, 380], [246, 438]]
+    },
+    {
+      "id": "left-rib-4",
+      "note": "The left pumpkin's rib right of its stem",
+      "mode": "pegs",
+      "points": [[280, 310], [288, 360], [290, 400], [288, 438]]
+    },
+    {
+      "id": "left-rib-5",
+      "note": "The left pumpkin's rightmost visible rib",
+      "mode": "pegs",
+      "points": [[322, 318], [336, 360], [338, 400], [332, 436]]
+    },
+    {
+      "id": "back-rib-3",
+      "note": "The back pumpkin's rib below its stem",
+      "mode": "pegs",
+      "points": [[380, 236], [392, 270], [404, 302], [418, 334]]
+    },
+    {
+      "id": "back-rib-4",
+      "note": "The back pumpkin's rib right of its stem",
+      "mode": "pegs",
+      "points": [[422, 222], [428, 262], [432, 296]]
+    },
+    {
+      "id": "back-rib-5",
+      "note": "The back pumpkin's rightmost visible rib, above the right pumpkin's shoulder",
+      "mode": "pegs",
+      "points": [[462, 226], [470, 240]]
+    },
+    {
+      "id": "grass-tops-left",
+      "note": "The tips of the long grass beside the left pumpkin",
+      "mode": "pegs",
+      "points": [[26, 344], [70, 350]]
+    },
+    {
+      "id": "grass-tufts-left",
+      "note": "A tuft of the long grass below those tips, beside the left pumpkin",
+      "mode": "pegs",
+      "points": [[38, 388], [74, 392]]
+    },
+    {
+      "id": "grass-tops-right",
+      "note": "The tips of the long grass beside the right pumpkin",
+      "mode": "pegs",
+      "points": [[848, 356], [892, 350]]
+    },
+    {
+      "id": "grass-high",
+      "note": "The grass along the foot of the pumpkins",
+      "mode": "pegs",
+      "points": [[112, 474], [300, 476], [460, 472], [620, 476], [806, 472]]
+    },
+    {
+      "id": "grass-low",
+      "note": "The grass in front, along the bottom of the picture",
+      "mode": "pegs",
+      "points": [[128, 508], [300, 508], [460, 506], [620, 508], [790, 506]]
+    }
+  ]
+}
