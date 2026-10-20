@@ -35,19 +35,31 @@ export interface LoadedLevel {
 }
 
 /** Fetches, validates and compiles `levels/<path>` from the app's public folder. */
-export async function loadLevel(path: string, base: string): Promise<LoadedLevel> {
+export function loadLevel(path: string, base: string): Promise<LoadedLevel> {
+  return fetchLevel(`levels/${path}`, path, base);
+}
+
+/**
+ * Fetches, validates and compiles the level file at `file` under the app's public folder (the
+ * original's levels, under original/); its path is `file`.
+ */
+export function loadPublicLevel(file: string, base: string): Promise<LoadedLevel> {
+  return fetchLevel(file, file, base);
+}
+
+async function fetchLevel(file: string, path: string, base: string): Promise<LoadedLevel> {
   let res: Response;
   try {
-    res = await fetch(`${base}levels/${path}`, { cache: 'no-cache' });
+    res = await fetch(`${base}${file}`, { cache: 'no-cache' });
   } catch {
-    throw new LevelLoadError(`Could not reach levels/${path}.`);
+    throw new LevelLoadError(`Could not reach ${file}.`);
   }
-  if (!res.ok) throw new LevelLoadError(`levels/${path} was not found (HTTP ${res.status}).`);
+  if (!res.ok) throw new LevelLoadError(`${file} was not found (HTTP ${res.status}).`);
   let json: unknown;
   try {
     json = await res.json();
   } catch {
-    throw new LevelLoadError(`levels/${path} is not valid JSON.`);
+    throw new LevelLoadError(`${file} is not valid JSON.`);
   }
   try {
     const level = parseLevel(json);

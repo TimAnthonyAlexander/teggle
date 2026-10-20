@@ -1,11 +1,13 @@
 // The play screen's hosts for Adventure and Quick Play: attempt configs from the rules
-// (campaignConfig for the campaign, the Quick Play defaults otherwise), the score windows the
-// HUD shows, and the progress each attempt writes.
+// (campaignConfig for the campaign, the Quick Play defaults otherwise, the original's own orange
+// rule for its levels), the score windows the HUD shows, and the progress each attempt writes.
 
+import type { OriginalEntry } from '../../level/original';
 import type { AttemptView } from '../../rules/attempt';
 import { attemptConfig, campaignConfig } from '../../rules/config';
 import { masterOfPower } from '../../rules/masters';
 import type { PowerId } from '../../rules/powers';
+import { ORIGINAL_ORANGE_COUNT } from '../../rules/tuning';
 import { randomSeed, type PlayHost } from '../play/host';
 import type { ScoreBreakdown } from '../play/summary';
 import type { ProgressStore } from '../progress/store';
@@ -14,7 +16,10 @@ import {
   isCleared,
   levelRecord,
   localDate,
+  originalRecord,
   recordAttemptStart,
+  recordOriginalStart,
+  recordOriginalWin,
   recordWin,
 } from '../progress/save';
 import type { ManifestLevel } from './manifest';
@@ -104,6 +109,49 @@ export function quickPlayHost(
     },
     attemptEnded: (attempt, result) => {
       recordEnd(store, entry, null, power, attempt, result);
+    },
+    next: { label: 'Continue', hash: back },
+    quit: { label: 'Level Select', hash: back },
+  };
+}
+
+/**
+ * Quick Play's Original section: one of the original game's levels with the chosen master and
+ * the original's own rule of 25 orange pegs drawn uniformly (spec 14.1), otherwise Quick Play's
+ * defaults; its records are kept apart from Teggle's levels.
+ */
+export function originalHost(store: ProgressStore, entry: OriginalEntry, power: PowerId): PlayHost {
+  const id = entry.id;
+  const back = `#/quickplay/original?stage=${entry.stage}`;
+  return {
+    theme: masterOfPower(power).theme,
+    power,
+    left: { line1: 'Level', line2: 'Score' },
+    right: { line1: 'Best', line2: 'Score' },
+    plan: () => ({
+      seed: randomSeed(),
+      config: attemptConfig({
+        power,
+        orangeCount: ORIGINAL_ORANGE_COUNT,
+        orangeDraw: 'uniform',
+      }),
+    }),
+    rightValue: (live, best) => Math.max(live, best, originalRecord(store.progress, id).best),
+    totalAfter: () => null,
+    attemptStarted: () => {
+      store.update((p) => recordOriginalStart(p, id));
+    },
+    attemptEnded: (attempt, result) => {
+      if (attempt.result !== 'won') return;
+      store.update((p) =>
+        recordOriginalWin(p, {
+          levelId: id,
+          score: attempt.score,
+          fullClear: result.fullClear,
+          master: power,
+          date: localDate(new Date()),
+        }),
+      );
     },
     next: { label: 'Continue', hash: back },
     quit: { label: 'Level Select', hash: back },

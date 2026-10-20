@@ -55,5 +55,6 @@ Everything in the deterministic directories must give bit-identical results in V
 - No placeholder content, fake data, lorem ipsum or stub screens presented as finished.
 - Never use the original's trademarks: its name, its publisher's marks, its master names or character designs, or branded phrases. The spec's naming table (section 1) and master names (section 7) are binding. `docs/design/visual-language.md` lists the exclusions.
 - Original game art is never committed or shipped.
+- Exception, at Tim's request on 2026-10-20: the original's 55 campaign levels and their pictures, with their original names, are committed under `public/original/` (`npm run original:import`) and playable from Quick Play's Original section.
 - **Never use a paid service.** No paid image generation (OpenAI, gpt-image, DALL-E or any other), no paid API of any kind, not for a single call. Every subagent prompt repeats this rule.
 - **Art is found, never drawn in code.** Backgrounds and master characters are existing images found on the web (Pexels with the key in `.env.local`, Openverse, Wikimedia Commons, game asset sites, artists' pages). Teggle is private, so licenses do not matter; every image's source URL is still recorded in `docs/assets.md`.

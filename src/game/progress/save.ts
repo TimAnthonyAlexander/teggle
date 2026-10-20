@@ -1,13 +1,15 @@
 // Saved progress (spec 8; spec 14.1: no backend, progress lives in the browser). One record under
 // a versioned localStorage key: the campaign position, per level its tries, wins, best score,
-// full clear mark, top five scores and the score of its campaign clear, and per challenge its
-// tries, passes and best run. The campaign total the HUD shows, the unlocked stages, the masters
-// met and the open challenge groups all follow from those.
+// full clear mark, top five scores and the score of its campaign clear, per challenge its tries,
+// passes and best run, and the same level records for the original game's levels in Quick Play,
+// apart from Teggle's. The campaign total the HUD shows, the unlocked stages, the masters met and
+// the open challenge groups all follow from those.
 //
 // The record is untrusted: it is validated with Zod field by field, so a damaged field falls back
 // to its default and a damaged level or challenge entry is dropped, never the whole save. A save
-// written before the challenges existed has no challenge entries and reads as having none; the
-// format version stays 1. Every function here is pure; store.ts does the reading and writing.
+// written before the challenges or the original's levels existed has no entries for them and
+// reads as having none; the format version stays 1. Every function here is pure; store.ts does
+// the reading and writing.
 
 import { z } from 'zod';
 import { LEVELS_PER_STAGE, STAGE_COUNT } from '../../level/campaign';
@@ -86,6 +88,11 @@ export interface Progress {
   readonly levels: Readonly<Record<string, LevelRecord>>;
   /** Keyed by challenge id, e.g. "orange-1.3" (src/rules/challenges.ts). */
   readonly challenges: Readonly<Record<string, ChallengeRecord>>;
+  /**
+   * The original game's levels in Quick Play (src/level/original.ts), keyed by their id in its
+   * campaign, e.g. "6-1"; kept apart from Teggle's own levels and the campaign.
+   */
+  readonly original: Readonly<Record<string, LevelRecord>>;
 }
 
 const LEVEL_ID = /^(?:[1-9]|1[01])-[1-5]$/;
@@ -144,7 +151,13 @@ const campaignSchema = z
   .catch(EMPTY_POSITION);
 
 export function emptyProgress(): Progress {
-  return { version: SAVE_VERSION, campaign: EMPTY_POSITION, levels: {}, challenges: {} };
+  return {
+    version: SAVE_VERSION,
+    campaign: EMPTY_POSITION,
+    levels: {},
+    challenges: {},
+    original: {},
+  };
 }
 
 export function emptyLevel(): LevelRecord {
@@ -189,6 +202,7 @@ export function parseProgress(raw: string | null | undefined): Progress {
     levels: entries(record.levels, (id) => LEVEL_ID.test(id), levelSchema),
     // Challenges the game no longer has are dropped.
     challenges: entries(record.challenges, (id) => challengeById(id) !== null, challengeSchema),
+    original: entries(record.original, (id) => LEVEL_ID.test(id), levelSchema),
   };
 }
 
@@ -205,6 +219,11 @@ export function levelRecord(p: Progress, id: string): LevelRecord {
 
 export function isCleared(p: Progress, id: string): boolean {
   return (p.levels[id]?.wins ?? 0) > 0;
+}
+
+/** The record of one of the original's levels ("6-1"), kept apart from Teggle's. */
+export function originalRecord(p: Progress, id: string): LevelRecord {
+  return p.original[id] ?? emptyLevel();
 }
 
 /** Campaign stage (1 to 11) of a campaign level number. */
@@ -357,6 +376,17 @@ export interface Win extends AttemptStart {
   readonly date: string;
 }
 
+/** A record after one more win with `score` (whole, not negative). */
+function wonRecord(r: LevelRecord, w: Omit<Win, 'campaignNumber'>, score: number): LevelRecord {
+  return {
+    ...r,
+    wins: r.wins + 1,
+    fullClear: r.fullClear || w.fullClear,
+    best: Math.max(r.best, score),
+    top: sortTop([...r.top, { score, master: w.master, date: w.date }]),
+  };
+}
+
 /**
  * A won attempt: wins, best score, full clear and top scores. A campaign win at the current
  * level keeps its score as the level's campaign score and moves the campaign to the next level
@@ -366,12 +396,8 @@ export function recordWin(p: Progress, w: Win): Progress {
   const score = Math.max(0, Math.round(w.score));
   const campaign = w.campaignNumber !== null && w.campaignNumber === p.campaign.next;
   const next = withLevel(p, w.levelId, (r) => ({
-    ...r,
-    wins: r.wins + 1,
-    fullClear: r.fullClear || w.fullClear,
-    best: Math.max(r.best, score),
+    ...wonRecord(r, w, score),
     campaignScore: campaign && r.campaignScore === null ? score : r.campaignScore,
-    top: sortTop([...r.top, { score, master: w.master, date: w.date }]),
   }));
   if (!campaign) return next;
   return {
@@ -382,6 +408,21 @@ export function recordWin(p: Progress, w: Win): Progress {
       try: 1,
     },
   };
+}
+
+function withOriginal(p: Progress, id: string, f: (r: LevelRecord) => LevelRecord): Progress {
+  return { ...p, original: { ...p.original, [id]: f(originalRecord(p, id)) } };
+}
+
+/** An attempt at one of the original's levels took its first shot: one more try there. */
+export function recordOriginalStart(p: Progress, id: string): Progress {
+  return withOriginal(p, id, (r) => ({ ...r, tries: r.tries + 1 }));
+}
+
+/** A won attempt at one of the original's levels: wins, best score, full clear, top scores. */
+export function recordOriginalWin(p: Progress, w: Omit<Win, 'campaignNumber'>): Progress {
+  const score = Math.max(0, Math.round(w.score));
+  return withOriginal(p, w.levelId, (r) => wonRecord(r, w, score));
 }
 
 function withChallenge(

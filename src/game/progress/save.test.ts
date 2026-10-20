@@ -7,6 +7,7 @@ import {
   challengeRecord,
   challengeState,
   emptyChallenge,
+  emptyLevel,
   emptyProgress,
   groupOpensAfterStage,
   idOfNumber,
@@ -16,11 +17,14 @@ import {
   localDate,
   numberOfId,
   openGroups,
+  originalRecord,
   parseProgress,
   passedCount,
   recordAttemptStart,
   recordChallengeEnd,
   recordChallengeStart,
+  recordOriginalStart,
+  recordOriginalWin,
   recordPick,
   recordWin,
   serializeProgress,
@@ -277,6 +281,67 @@ describe('challenges in the save', () => {
     expect(groupOpensAfterStage(0)).toBe(3);
     expect(groupOpensAfterStage(7)).toBe(10);
     expect(groupOpensAfterStage(8)).toBeNull();
+  });
+});
+
+describe("the original's levels in the save", () => {
+  const originalWin = (score: number) => ({
+    levelId: '6-1',
+    score,
+    fullClear: false,
+    master: 'guide' as const,
+    date: '2026-10-20',
+  });
+
+  it('reads a save from before them as having none', () => {
+    const old = JSON.stringify({
+      version: 1,
+      campaign: { next: 3, try: 1, pick: null },
+      levels: {
+        '1-1': { tries: 1, wins: 1, fullClear: false, best: 9, campaignScore: 9, top: [] },
+      },
+      challenges: {},
+    });
+    const p = parseProgress(old);
+    expect(p.original).toEqual({});
+    expect(originalRecord(p, '6-1')).toEqual(emptyLevel());
+    expect(levelRecord(p, '1-1').wins).toBe(1);
+  });
+
+  it("keeps their tries and wins apart from Teggle's levels and the campaign", () => {
+    let p = through(3);
+    p = recordOriginalStart(p, '1-1');
+    p = recordOriginalWin(p, { ...originalWin(250_000), levelId: '1-1', fullClear: true });
+    p = recordOriginalStart(p, '6-1');
+    p = recordOriginalWin(p, originalWin(90_000.4));
+    p = recordOriginalWin(p, originalWin(120_000));
+    expect(originalRecord(p, '1-1')).toMatchObject({
+      tries: 1,
+      wins: 1,
+      fullClear: true,
+      best: 250_000,
+      campaignScore: null,
+    });
+    expect(originalRecord(p, '6-1').top.map((e) => e.score)).toEqual([120_000, 90_000]);
+    // Teggle's 1-1, the campaign and its total are as the campaign left them.
+    expect(levelRecord(p, '1-1')).toEqual(levelRecord(through(3), '1-1'));
+    expect(p.campaign).toEqual(through(3).campaign);
+    expect(campaignTotal(p)).toBe(campaignTotal(through(3)));
+    expect(parseProgress(serializeProgress(p))).toEqual(p);
+  });
+
+  it('drops damaged entries and ids outside the campaign grid', () => {
+    const raw = JSON.stringify({
+      version: 1,
+      campaign: { next: 1, try: 1, pick: null },
+      levels: {},
+      original: {
+        '6-1': { tries: 2, wins: 1, fullClear: false, best: 500, campaignScore: null, top: [] },
+        '12-1': { tries: 1, wins: 1 },
+        '2-2': 'broken',
+      },
+    });
+    expect(Object.keys(parseProgress(raw).original)).toEqual(['6-1']);
   });
 });
 

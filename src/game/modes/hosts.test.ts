@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { CampaignLevel, CampaignStage } from '../../level/campaign';
+import type { OriginalEntry } from '../../level/original';
 import type { AttemptView } from '../../rules/attempt';
 import type { ScoreBreakdown } from '../play/summary';
-import { emptyProgress, levelRecord, recordWin } from '../progress/save';
+import { emptyProgress, levelRecord, originalRecord, recordWin } from '../progress/save';
 import { ProgressStore } from '../progress/store';
-import { campaignHost, quickPlayHost } from './hosts';
+import { campaignHost, originalHost, quickPlayHost } from './hosts';
 import type { ManifestLevel } from './manifest';
 
 function entry(id: string, number: number): ManifestLevel {
@@ -102,5 +103,45 @@ describe('quickPlayHost', () => {
     expect(levelRecord(store.progress, '1-1').top[0]?.master).toBe('multiball');
     expect(host.rightValue(100, 0)).toBe(7000);
     expect(host.next.hash).toBe('#/quickplay?stage=1');
+  });
+});
+
+describe('originalHost', () => {
+  const original: OriginalEntry = {
+    id: '6-1',
+    number: 26,
+    stage: 6,
+    name: 'Waves',
+    file: 'levels/6-1.json',
+    background: 'waves',
+  };
+
+  it("plays with the original's 25 orange drawn uniformly and records apart", () => {
+    const store = new ProgressStore(null);
+    const host = originalHost(store, original, 'fireball');
+    expect(host.plan(1).config).toMatchObject({
+      orangeCount: 25,
+      orangeDraw: 'uniform',
+      balls: 10,
+      greens: true,
+      purple: true,
+      campaignTry: null,
+      power: 'fireball',
+    });
+    host.attemptStarted(won(0));
+    host.attemptEnded({ result: 'lost', score: 900 } as AttemptView, breakdown);
+    host.attemptStarted(won(0));
+    host.attemptEnded(won(150_000), breakdown);
+    expect(originalRecord(store.progress, '6-1')).toMatchObject({
+      tries: 2,
+      wins: 1,
+      best: 150_000,
+      fullClear: true,
+    });
+    expect(store.progress.levels).toEqual({});
+    expect(store.progress.campaign).toEqual(emptyProgress().campaign);
+    expect(host.rightValue(100, 0)).toBe(150_000);
+    expect(host.next.hash).toBe('#/quickplay/original?stage=6');
+    expect(host.quit.hash).toBe('#/quickplay/original?stage=6');
   });
 });

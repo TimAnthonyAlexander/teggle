@@ -325,13 +325,21 @@ export interface FeverBucketLayout {
 /** Fever bucket tops sit where the original's do: 31 units above the screen bottom (6.2). */
 const FEVER_DIVIDER_TOP = 569;
 
+/** The board area the bottom parts span on screen (layout.boardFrame); Teggle's by default. */
+export interface BoardSpan {
+  readonly x: number;
+  readonly w: number;
+}
+
+const FULL_BOARD: BoardSpan = { x: BOARD_X, w: BOARD_W };
+
 /** The physics layout: the original's x positions and sizes scaled to the board width. */
-export function feverBucketLayout(): FeverBucketLayout {
-  const s = BOARD_W / ORIGINAL_BOARD_WIDTH;
+export function feverBucketLayout(board: BoardSpan = FULL_BOARD): FeverBucketLayout {
+  const s = board.w / ORIGINAL_BOARD_WIDTH;
   return {
-    dividers: FEVER_DIVIDER_X.map((x) => BOARD_X + x * s),
+    dividers: FEVER_DIVIDER_X.map((x) => board.x + x * s),
     dividerRadius: FEVER_DIVIDER_RADIUS * s,
-    holes: FEVER_HOLE_X.map((x) => ({ x: BOARD_X + x * s, w: FEVER_HOLE_WIDTH * s })),
+    holes: FEVER_HOLE_X.map((x) => ({ x: board.x + x * s, w: FEVER_HOLE_WIDTH * s })),
   };
 }
 
@@ -434,8 +442,13 @@ export interface FeverBucketsState {
   readonly rise?: number;
 }
 
-export function drawFeverBuckets(ctx: Ctx, k: number, s: FeverBucketsState): void {
-  const lay = feverBucketLayout();
+export function drawFeverBuckets(
+  ctx: Ctx,
+  k: number,
+  s: FeverBucketsState,
+  board: BoardSpan = FULL_BOARD,
+): void {
+  const lay = feverBucketLayout(board);
   const values = s.fullClear === true ? FEVER_VALUES_FULL_CLEAR : FEVER_VALUES;
   const drop = (1 - Math.max(0, Math.min(1, s.rise ?? 1))) * 40;
   lay.holes.forEach((h, i) => {
@@ -470,8 +483,13 @@ export function drawFeverBuckets(ctx: Ctx, k: number, s: FeverBucketsState): voi
 }
 
 /** Orange-yellow light rising from the Fever bucket the ball landed in. */
-export function drawFeverLandingGlow(ctx: Ctx, index: number, tMs: number): void {
-  const h = feverBucketLayout().holes[index];
+export function drawFeverLandingGlow(
+  ctx: Ctx,
+  index: number,
+  tMs: number,
+  board: BoardSpan = FULL_BOARD,
+): void {
+  const h = feverBucketLayout(board).holes[index];
   if (h === undefined || tMs < 0 || tMs > 1600) return;
   const a = tMs < 200 ? tMs / 200 : 1 - (tMs - 200) / 1400;
   ctx.save();
@@ -532,10 +550,16 @@ function paintFlipper(ctx: Ctx, verts: readonly Vec2[]): void {
  * counterclockwise on screen, as the physics has them: 0 is the outline as given, which is the
  * original's rest pose (its mover rests at 0.003 rad and swings up to 1.04).
  */
-export function drawFlippers(ctx: Ctx, k: number, left: number, right: number): void {
-  const lp = { x: BOARD_X + FLIPPER_LEFT_PIVOT.x, y: BOARD_BOTTOM + FLIPPER_LEFT_PIVOT.y };
+export function drawFlippers(
+  ctx: Ctx,
+  k: number,
+  left: number,
+  right: number,
+  board: BoardSpan = FULL_BOARD,
+): void {
+  const lp = { x: board.x + FLIPPER_LEFT_PIVOT.x, y: BOARD_BOTTOM + FLIPPER_LEFT_PIVOT.y };
   const rp = {
-    x: BOARD_X + BOARD_W - FLIPPER_RIGHT_PIVOT.x,
+    x: board.x + board.w - FLIPPER_RIGHT_PIVOT.x,
     y: BOARD_BOTTOM + FLIPPER_RIGHT_PIVOT.y,
   };
   const { left: ll, right: rl } = flipperLayers(k);

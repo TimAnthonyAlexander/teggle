@@ -8,8 +8,9 @@
 // can-be-orange and quick-disappear flags, solid circles, polygons and rods, teleports, and every
 // movement with its nesting. Images, colors, sounds and logic tags do not; the one logic tag in
 // the campaign (`movetoggle`, the fish in stage 5 level 2 that jumps to the other side when hit)
-// is played as a plain mover. Reading choices, from comparing the data with the layouts it
-// draws:
+// is played as a plain mover. A solid the original does not draw (its picture shows it) is not
+// drawn either; teleports always are, since the images that mark them stay behind. Reading
+// choices, from comparing the data with the layouts it draws:
 //
 // - References (teleport destinations, shared movers, parent movers) name an object's id plus
 //   one, as the fan editor numbers them; the dumps number from 2.
@@ -121,7 +122,13 @@ interface RawEntry {
   readonly id?: number | undefined;
   readonly cls?: number | undefined;
   readonly backref?: number | undefined;
-  readonly bits?: { readonly collideable: boolean; readonly ballstopreset: boolean } | undefined;
+  readonly bits?:
+    | {
+        readonly collideable: boolean;
+        readonly ballstopreset: boolean;
+        readonly visible?: boolean | undefined;
+      }
+    | undefined;
   readonly peg?: { readonly canBeOrange: boolean; readonly crumble: boolean } | undefined;
   readonly mover?: RawMover | undefined;
   readonly x?: number | undefined;
@@ -151,7 +158,13 @@ const entrySchema: z.ZodType<RawEntry> = z.lazy(() =>
     id: z.int().optional(),
     cls: z.int().optional(),
     backref: z.int().optional(),
-    bits: z.looseObject({ collideable: z.boolean(), ballstopreset: z.boolean() }).optional(),
+    bits: z
+      .looseObject({
+        collideable: z.boolean(),
+        ballstopreset: z.boolean(),
+        visible: z.boolean().optional(),
+      })
+      .optional(),
     peg: z.looseObject({ canBeOrange: z.boolean(), crumble: z.boolean() }).optional(),
     mover: moverSchema.optional(),
     x: num,
@@ -369,6 +382,8 @@ class Converter {
     };
     const moverRotation =
       e.mover === undefined ? 0 : (this.resolveMover(e.mover).mover.rotation ?? 0);
+    // Pegs and bricks are always drawn; a solid as the original draws it.
+    const solid: CommonFields = (e.bits?.visible ?? true) ? common : { ...common, visible: false };
     switch (e.cls) {
       case 5:
         if (e.peg !== undefined) {
@@ -383,7 +398,7 @@ class Converter {
             at,
           );
         } else {
-          this.push({ kind: 'circle', ...common, radius: e.radius ?? 10 }, at);
+          this.push({ kind: 'circle', ...solid, radius: e.radius ?? 10 }, at);
         }
         return;
       case 6: {
@@ -416,7 +431,7 @@ class Converter {
             e.straight === true
               ? straightBrickVertices(length, width)
               : curvedBrickVertices(length, width, sector, points);
-          this.polygon(common, at, vertices, rotation);
+          this.polygon(solid, at, vertices, rotation);
         }
         return;
       }
@@ -429,8 +444,8 @@ class Converter {
           first !== undefined && last !== undefined && first.x === last.x && first.y === last.y;
         if (closed) vertices.pop();
         const rotation = e.mover === undefined ? (e.rotation ?? 0) : moverRotation;
-        if (closed) this.polygon(common, at, vertices, rotation);
-        else this.rods(common, at, vertices, rotation, false);
+        if (closed) this.polygon(solid, at, vertices, rotation);
+        else this.rods(solid, at, vertices, rotation, false);
         return;
       }
       case 2: {
@@ -439,7 +454,7 @@ class Converter {
         const y = ((e.y1 ?? 0) + (e.y2 ?? 0)) / 2;
         const a = { x: (e.x1 ?? 0) - x, y: (e.y1 ?? 0) - y };
         const b = { x: (e.x2 ?? 0) - x, y: (e.y2 ?? 0) - y };
-        this.push({ kind: 'rod', ...common, x, y, a, b }, { x, y });
+        this.push({ kind: 'rod', ...solid, x, y, a, b }, { x, y });
         return;
       }
       case 8:
@@ -529,9 +544,11 @@ interface CommonFields {
   readonly movement?: Movement;
   readonly parent?: number;
   readonly ballStopReset: boolean;
+  /** Left out (drawn) unless the original hides the solid. */
+  readonly visible?: false;
 }
 
-function placementFields(at: Placement): Omit<CommonFields, 'id' | 'ballStopReset'> {
+function placementFields(at: Placement): Omit<CommonFields, 'id' | 'ballStopReset' | 'visible'> {
   return {
     x: at.x,
     y: at.y,

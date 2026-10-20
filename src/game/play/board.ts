@@ -9,7 +9,7 @@ import type { LevelElement } from '../../level/schema';
 import type { CompiledLevel } from '../../sim/compile';
 import type { BallView, World } from '../../sim/world';
 import { legibleScale } from '../app/display';
-import { WORLD_H, WORLD_W } from '../layout';
+import { WORLD_H, WORLD_W, boardOrigin } from '../layout';
 import { ballSprite } from '../render/ball';
 import { createCanvas, context2d, drawLayer, releaseCanvas, type Layer } from '../render/cache';
 import { drawFireball } from '../render/ball';
@@ -81,8 +81,9 @@ export class BoardRenderer {
   private prevBucket = 0;
 
   constructor(readonly level: CompiledLevel) {
-    this.offX = WORLD_W / 2 - level.width / 2;
-    this.offY = WORLD_H - level.height;
+    const origin = boardOrigin(level.width, level.height);
+    this.offX = origin.x;
+    this.offY = origin.y;
     const n = level.bodies.length;
     this.scoring = level.scoringBodies;
     this.moving = new Uint8Array(n);

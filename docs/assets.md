@@ -161,6 +161,10 @@ Teggle ships no audio files. Every sound effect and the Fever music are synthesi
 
 The original game's sound files (in the owner's copy, outside the repository) were only measured, for length, pitch, envelope and brightness, so Teggle's sounds have a similar character (visual guide 14). None of their audio is copied, resampled, embedded or shipped. Review renders of every Teggle sound are made with `npm run audio:render` into `reference/teggle-audio/`, which is not committed.
 
+## The original's levels
+
+The one place Teggle ships original game art, at Tim's request on 2026-10-20 (spec 14.1, "The original's levels"): `public/original/` holds the original game's 55 campaign levels for Quick Play's Original section, written by `npm run original:import` from the owner's copy (`reference/peggle-2007/`, outside the repository). Source: the level files `levels/<name>.dat` (as dumped to `reference/peggle-2007/levels-json/`), the display names in `levels/stages.cfg`, and the pictures `levels/<name>.jp2`, all from the game's `main.pak`. `public/original/backgrounds/<name>.webp` is each picture as the game shows it: decoded with OpenJPEG `opj_decompress`, the two 800 x 600 ones (`3d`, `whirlpool`) cropped to the 646 x 543 the frame leaves visible, otherwise unchanged, then encoded by cwebp 1.6.0 at quality 92 (method 6, sharp YUV, no metadata): 2.5 MB for the 55.
+
 ## License notes
 
 - **Overload.** The Typodermic public-domain page lists Overload under the heading "released under the official CC0 1.0 Universal public-domain dedication, with no rights reserved", and the font's JSON-LD record on that page names `https://creativecommons.org/publicdomain/zero/1.0/` as its license. The archive's `License.txt` says: "To the extent possible under law, Raymond Larabie has waived all copyright and related or neighboring rights to the fonts in this archive." Checked on 2026-10-14. CC0 allows modifying and renaming the font, which the Caps derivative does.

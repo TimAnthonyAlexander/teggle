@@ -26,7 +26,7 @@ import type { Input, PointerEventInfo } from '../app/input';
 import { levelBusy } from '../app/offline';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { OptionsDialog } from '../menus/options';
-import { WORLD_H, WORLD_W, layout } from '../layout';
+import { WORLD_H, WORLD_W, boardFrame, layout, machineLayout, type MachineLayout } from '../layout';
 import {
   drawBucket,
   drawCatchGlow,
@@ -97,6 +97,7 @@ interface MutableMachine {
   holdButton: ButtonState;
   timeMs: number;
   portrait: PortraitImage | null;
+  machine: MachineLayout;
 }
 
 export class PlayScreen implements Screen {
@@ -130,6 +131,10 @@ export class PlayScreen implements Screen {
   private readonly theme: Theme;
   private readonly pivotX: number;
   private readonly pivotY: number;
+  /** The board area the Fever buckets and flippers span (layout.boardFrame). */
+  private readonly frame: { readonly x: number; readonly w: number };
+  /** The machine around the board: Teggle's, or a narrower one for a narrower board. */
+  private readonly frameLayout: MachineLayout;
   /** Real time of the show (stops while paused) and of the UI (always runs), ms. */
   private showMs = 0;
   private uiMs = 0;
@@ -173,7 +178,7 @@ export class PlayScreen implements Screen {
   /** Paints what lies under the pegs: the level's picture and the frame's inner shadow. */
   private readonly under = (ctx: Ctx, k: number): void => {
     this.backdrop(ctx, k);
-    drawFrameShadow(ctx, k);
+    drawFrameShadow(ctx, k, this.frameLayout);
   };
 
   constructor(
@@ -185,7 +190,14 @@ export class PlayScreen implements Screen {
     this.level = loaded.compiled;
     this.attempt = first;
     this.board = new BoardRenderer(this.level);
-    this.pres = new Presenter(this.level, audioBus, this.board.offX, this.board.offY);
+    this.frameLayout = machineLayout(this.level.width);
+    this.pres = new Presenter(
+      this.level,
+      audioBus,
+      this.board.offX,
+      this.board.offY,
+      this.frameLayout.inset,
+    );
     this.powers = new PowerShow(
       audioBus,
       host.power,
@@ -197,6 +209,7 @@ export class PlayScreen implements Screen {
     this.theme = themeAt(host.theme);
     this.pivotX = this.board.offX + this.level.width / 2;
     this.pivotY = this.board.offY + CANNON_PIVOT_Y;
+    this.frame = boardFrame(this.level.width);
     const divider = this.level.feverBodies.find(
       (i) => this.level.bodies[i]?.role === 'feverDivider',
     );
@@ -220,6 +233,7 @@ export class PlayScreen implements Screen {
       holdButton: 'normal',
       timeMs: 0,
       portrait: null,
+      machine: this.frameLayout,
     };
     this.startAttempt(first);
   }
@@ -244,7 +258,7 @@ export class PlayScreen implements Screen {
   enter(app: AppServices): void {
     this.app = app;
     if (this.host.power !== null) void masterPortraits.preload(this.host.power);
-    const h = layout.holdButton;
+    const h = this.frameLayout.holdButton;
     app.input.setHoldControl('fastForward', (x, y, kind) =>
       hitCircle(h.x, h.y, roundTarget(h.r, kind === 'touch'), x, y),
     );
@@ -662,7 +676,7 @@ export class PlayScreen implements Screen {
       this.touchId = null;
       return;
     }
-    const m = layout.menuButton;
+    const m = this.frameLayout.menuButton;
     if (hitCircle(m.x, m.y, roundTarget(m.r, touch), p.x, p.y)) {
       audioBus.emit({ type: 'uiClick' });
       this.openPause();
@@ -832,7 +846,7 @@ export class PlayScreen implements Screen {
       // Keep the view inside the world, and inside the playfield opening once the machine has
       // faded, so the camera never shows what lies behind the frame.
       const m = 1 - machineAlpha;
-      const o = layout.opening;
+      const o = this.frameLayout.opening;
       const cx = clampView(
         this.fever.focusX,
         o.x * m,
@@ -896,9 +910,9 @@ export class PlayScreen implements Screen {
       if (pres.fever.active && pres.fever.bucket >= 0) fs.litIndex = pres.fever.bucket;
       else delete fs.litIndex;
       fs.rise = this.feverRise();
-      drawFeverBuckets(ctx, k, fs);
+      drawFeverBuckets(ctx, k, fs, this.frame);
       if (pres.fever.active && pres.fever.bucket >= 0) {
-        drawFeverLandingGlow(ctx, pres.fever.bucket, pres.gameMs - pres.fever.t0);
+        drawFeverLandingGlow(ctx, pres.fever.bucket, pres.gameMs - pres.fever.t0, this.frame);
       }
     } else {
       // The bucket's parts as the show has them: a power drawn by the Lucky Spin wheel shows
@@ -996,7 +1010,7 @@ export class PlayScreen implements Screen {
       ctx.save();
       ctx.globalAlpha *= appear;
     }
-    drawFlippers(ctx, k, left, right);
+    drawFlippers(ctx, k, left, right, this.frame);
     if (appear < 1) ctx.restore();
   }
 
@@ -1054,8 +1068,8 @@ export class PlayScreen implements Screen {
     m.power = this.powers.bannerState(this.attempt);
     if (app !== null) {
       const p = app.input.pointer;
-      const menu = layout.menuButton;
-      const hold = layout.holdButton;
+      const menu = this.frameLayout.menuButton;
+      const hold = this.frameLayout.holdButton;
       // A finger shows no hover: where it lifted is not where it rests.
       const mouse = p.kind !== 'touch';
       const overMenu = mouse && p.inside && hitCircle(menu.x, menu.y, menu.r, p.x, p.y);

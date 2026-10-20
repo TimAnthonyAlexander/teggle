@@ -51,6 +51,8 @@ export default defineConfig(
       'public/',
       'playwright-report/',
       'test-results/',
+      // Local agent state, including whole worktrees of the repo.
+      '.claude/',
     ],
   },
   js.configs.recommended,

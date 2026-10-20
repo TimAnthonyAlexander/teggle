@@ -1,12 +1,14 @@
 // The playfield behind the pegs: the level's background picture (spec 12), loaded by its asset
-// id from public/backgrounds/<id>.webp and drawn into the playfield opening. A level whose
-// picture is missing or fails to load gets a plain, quiet night-blue field instead: no scenery
-// pretending to be its art. The plain field fills the whole world under the picture too, so the
-// Fever zoom never shows an edge while the frame fades.
+// id from public/backgrounds/<id>.webp and drawn into the playfield opening; the original's
+// levels draw theirs (public/original/backgrounds/) where the original put it on the board. A
+// level whose picture is missing or fails to load gets a plain, quiet night-blue field instead:
+// no scenery pretending to be its art. The plain field fills the whole world under the picture
+// too, so the Fever zoom never shows an edge while the frame fades.
 //
 // Both are painted once per resolution into a cached layer (render/cache.ts); the play screen's
 // static layer draws that layer, so a picture costs one image draw per static rebuild.
 
+import { ORIGINAL_PICTURE } from '../../level/original';
 import { WORLD_H, WORLD_W, layout } from '../layout';
 import { drawLayer, layers } from '../render/cache';
 import { linear, radial, type Ctx } from '../render/paint';
@@ -62,20 +64,56 @@ export function backgroundUrl(id: string, base: string): string {
   return `${base}backgrounds/${id}.webp`;
 }
 
+/** URL of one of the original's pictures (public/original/backgrounds/, src/level/original.ts). */
+export function originalPictureUrl(id: string, base: string): string {
+  return `${base}original/backgrounds/${id}.webp`;
+}
+
+/** Loads and decodes a picture; null when it is missing or broken. */
+async function loadImage(url: string): Promise<HTMLImageElement | null> {
+  const image = new Image();
+  image.decoding = 'async';
+  image.src = url;
+  try {
+    await image.decode();
+  } catch {
+    return null;
+  }
+  return image.naturalWidth === 0 || image.naturalHeight === 0 ? null : image;
+}
+
 /**
  * Loads and decodes the picture for a background id. Resolves to the picture's painter, or to
  * the plain field when the id is not a valid asset id or the picture is missing or broken.
  */
 export async function loadBackdrop(id: string, base: string): Promise<BackdropPainter> {
   if (!ASSET_ID.test(id)) return plainBackdrop;
-  const image = new Image();
-  image.decoding = 'async';
-  image.src = backgroundUrl(id, base);
-  try {
-    await image.decode();
-  } catch {
-    return plainBackdrop;
-  }
-  if (image.naturalWidth === 0 || image.naturalHeight === 0) return plainBackdrop;
-  return pictureBackdrop(id, image);
+  const image = await loadImage(backgroundUrl(id, base));
+  return image === null ? plainBackdrop : pictureBackdrop(id, image);
+}
+
+/**
+ * The original's picture of a level whose board's (0, 0) is at `origin` on screen: the plain
+ * field, and the picture where the original draws it on the board (ORIGINAL_PICTURE). The plain
+ * field stands in when the picture is missing or broken.
+ */
+export async function loadOriginalBackdrop(
+  id: string,
+  base: string,
+  origin: { readonly x: number; readonly y: number },
+): Promise<BackdropPainter> {
+  if (!ASSET_ID.test(id)) return plainBackdrop;
+  const image = await loadImage(originalPictureUrl(id, base));
+  if (image === null) return plainBackdrop;
+  const p = ORIGINAL_PICTURE;
+  const key = `play:backdrop:original:${id}:${origin.x.toFixed(2)}`;
+  const paint = (ctx: Ctx): void => {
+    paintPlain(ctx);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(image, origin.x + p.x, origin.y + p.y, p.width, p.height);
+  };
+  return (ctx, k) => {
+    drawLayer(ctx, layers.get(key, k, 0, 0, WORLD_W, WORLD_H, paint));
+  };
 }

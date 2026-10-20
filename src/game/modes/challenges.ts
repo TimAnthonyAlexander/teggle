@@ -28,9 +28,9 @@ import type { Screen } from '../app/screens';
 import { ChallengeListScreen } from '../menus/challenges';
 import { stageName } from '../menus/copy';
 import { MasterPickerScreen } from '../menus/picker';
-import { LevelSelectScreen, type LevelSelectMode } from '../menus/quickplay';
+import { campaignLevels, LevelSelectScreen, type LevelSelectMode } from '../menus/quickplay';
 import { randomSeed } from '../play/host';
-import { isMasterUnlocked, unlockedMasters, type Progress } from '../progress/save';
+import { isMasterUnlocked, levelRecord, unlockedMasters, type Progress } from '../progress/save';
 import { progressStore, type ProgressStore } from '../progress/store';
 import { MessageScreen } from '../screens/message';
 import { challengeHost, listHash } from './challenge-host';
@@ -71,6 +71,7 @@ function pickLevel(m: CampaignManifest, def: ChallengeDef): Screen {
   const mode: LevelSelectMode = {
     title: (stage) => `${def.name}: ${stageName(stage)}`,
     choosable: () => true,
+    record: levelRecord,
     open: (id) => `#/challenges/${def.id}?level=${id}`,
     back: listHash(def),
     hint: (coarse) =>
@@ -79,7 +80,7 @@ function pickLevel(m: CampaignManifest, def: ChallengeDef): Screen {
         : 'Pick the level to take the challenge on. Click it to go on.',
     random: false,
   };
-  return new LevelSelectScreen(m, m.stages[0]?.stage ?? 1, mode);
+  return new LevelSelectScreen(campaignLevels(m), m.stages[0]?.stage ?? 1, mode);
 }
 
 /** Plays the run's current level. */

@@ -86,6 +86,25 @@ describe('convertOriginal', () => {
     });
   });
 
+  it('hides the solids the original does not draw, never pegs or teleports', () => {
+    const unseen = { ...bits, visible: false };
+    const level = convertOriginal('test', [
+      { id: 2, cls: 5, bits: unseen, peg: { canBeOrange: true, crumble: false }, x: 50, y: 50 },
+      { id: 3, cls: 5, bits: unseen, x: 500, y: 300, radius: 30 },
+      { id: 4, cls: 2, bits: unseen, x1: 10, y1: 20, x2: 50, y2: 60 },
+      { id: 5, cls: 2, bits: { ...bits, visible: true }, x1: 10, y1: 90, x2: 50, y2: 90 },
+      { id: 6, cls: 8, bits: unseen, x: 300, y: 300, w: 40, h: 40, dest: { x: 10, y: 10 } },
+    ]);
+    const visible = new Map(level.elements.map((e) => [e.id, e.visible]));
+    expect([...visible]).toEqual([
+      [2, true],
+      [3, false],
+      [4, false],
+      [5, true],
+      [6, true],
+    ]);
+  });
+
   it('turns a moving brick by its angle plus its mover rotation', () => {
     const level = convertOriginal('test', [
       {

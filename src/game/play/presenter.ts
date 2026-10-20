@@ -196,6 +196,8 @@ export class Presenter {
     /** Screen offset of the board (board px to world units). */
     readonly offX: number,
     readonly offY: number,
+    /** How far the frame's sides stand in for a narrower board (layout.frameInset). */
+    readonly inset = 0,
   ) {
     const n = level.bodies.length;
     this.state = new Uint8Array(n);
@@ -378,9 +380,10 @@ export class Presenter {
         if (e.reason === 'bucket') {
           this.addCallout('notice', this.catchX, 528, 'FREE BALL!', 'BUCKET CATCH', 500);
         } else if (e.reason === 'threshold') {
-          this.addCallout('notice', 170, 150, 'FREE BALL!', thresholdNotice(e.threshold), 700);
+          const at = 170 + this.inset;
+          this.addCallout('notice', at, 150, 'FREE BALL!', thresholdNotice(e.threshold), 700);
         } else {
-          this.addCallout('notice', 170, 150, 'FREE BALL!', 'LUCKY SPIN', 700);
+          this.addCallout('notice', 170 + this.inset, 150, 'FREE BALL!', 'LUCKY SPIN', 700);
         }
         break;
       case 'coinFlip':
@@ -473,7 +476,7 @@ export class Presenter {
     }
     slot.active = true;
     slot.kind = kind;
-    slot.x = Math.max(150, Math.min(917, x));
+    slot.x = Math.max(150 + this.inset, Math.min(917 - this.inset, x));
     slot.y = Math.max(80, Math.min(560, yy));
     slot.t0 = this.gameMs;
     slot.line1 = line1;

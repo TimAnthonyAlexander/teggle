@@ -1,10 +1,11 @@
 // Writes dist/sw.js after `vite build`: a service worker that keeps the whole built game (the
 // page, its scripts, fonts, levels, pictures, icons) in one cache, so an installed Teggle plays
-// offline. The cache is named after a hash of every file it holds, so each build that changes
-// anything gets a new cache, and the old one goes once no page uses it any more. A new version
-// installs in the background and waits; the page lets it take over once a reload loses nothing
-// (a menu, a level before its first shot) and then reloads (src/game/app/offline.ts), so a page
-// never mixes files of two builds.
+// offline; the original's levels (original/) stay out and come from the network, as anything
+// outside the cache does. The cache is named after a hash of every file it holds, so each build
+// that changes anything gets a new cache, and the old one goes once no page uses it any more. A
+// new version installs in the background and waits; the page lets it take over once a reload
+// loses nothing (a menu, a level before its first shot) and then reloads
+// (src/game/app/offline.ts), so a page never mixes files of two builds.
 //
 // Only production builds register it (src/main.ts); the Vite dev server never does.
 //
@@ -17,9 +18,18 @@ import path from 'node:path';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DIST = path.resolve(process.argv[2] ?? path.join(ROOT, 'dist'));
 
-/** Files the game never fetches: source maps, the editor's line sources, the worker itself. */
+/**
+ * Files left out of the cache: those the game never fetches (source maps, the editor's line
+ * sources, the worker itself), and the original's levels and pictures (original/), which only
+ * Quick Play's Original section loads, from the network, so they do not grow the first load.
+ */
 function skipped(rel: string): boolean {
-  return rel === 'sw.js' || rel.endsWith('.map') || rel.endsWith('.lines.json');
+  return (
+    rel === 'sw.js' ||
+    rel.endsWith('.map') ||
+    rel.endsWith('.lines.json') ||
+    rel.startsWith('original/')
+  );
 }
 
 async function files(dir: string, base = dir): Promise<string[]> {

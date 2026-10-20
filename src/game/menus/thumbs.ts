@@ -1,19 +1,52 @@
 // Level thumbnails for the menus (visual guide 10.4): the level's picture, or the plain field
 // while it has none, with its pegs and bricks where they stand at the start, all blue (colors
 // are drawn at random per attempt). Rendered at run time from the level file, once per level,
-// size and device scale, into a cache of their own.
+// size and device scale, into a cache of their own. Teggle's levels fill the thumbnail with their
+// playfield opening; the original's show their whole picture, the board around it left dark.
 
+import { ORIGINAL_PICTURE, type OriginalEntry } from '../../level/original';
 import type { LevelElement } from '../../level/schema';
 import type { CompiledLevel } from '../../sim/compile';
-import { WORLD_H, WORLD_W, layout, type Box } from '../layout';
-import { backgroundUrl, paintPlain } from '../play/backdrop';
-import { loadLevel } from '../play/load';
+import { boardOrigin, layout, type Box } from '../layout';
+import { paintPlain } from '../play/backdrop';
+import { loadPublicLevel } from '../play/load';
 import { LayerCache, createCanvas, drawLayer, releaseCanvas, screenScale } from '../render/cache';
 import { circlePath, type Ctx } from '../render/paint';
 import { drawBrick, drawPeg, type BrickShape } from '../render/pegs';
 import type { ManifestLevel } from '../modes/manifest';
 
 type Status = 'loading' | 'ready' | 'failed';
+
+/** What a thumbnail is made from. */
+export interface ThumbSource {
+  /** The thumbnail's key, unique over every level the menus show. */
+  readonly key: string;
+  /** The level file and its picture, under the app's public folder. */
+  readonly file: string;
+  readonly picture: string;
+  /** Where the picture lies: over the playfield opening, or where the original put it. */
+  readonly placement: 'opening' | 'original';
+}
+
+/** A campaign level's thumbnail, keyed by its id. */
+export function campaignThumb(entry: ManifestLevel): ThumbSource {
+  return {
+    key: entry.level.id,
+    file: `levels/${entry.level.file}`,
+    picture: `backgrounds/${entry.level.background}.webp`,
+    placement: 'opening',
+  };
+}
+
+/** One of the original's levels' thumbnail, keyed "original/<id>". */
+export function originalThumb(entry: OriginalEntry): ThumbSource {
+  return {
+    key: `original/${entry.id}`,
+    file: `original/${entry.file}`,
+    picture: `original/backgrounds/${entry.background}.webp`,
+    placement: 'original',
+  };
+}
 
 interface Picture {
   readonly image: CanvasImageSource;
@@ -23,7 +56,7 @@ interface Picture {
 }
 
 interface Entry {
-  readonly level: ManifestLevel;
+  readonly source: ThumbSource;
   status: Status;
   compiled: CompiledLevel | null;
   picture: Picture | null;
@@ -46,10 +79,10 @@ function pictureWidth(k: number): number {
  * full picture (2732 x 1644, 18 MB decoded) would otherwise stay in memory for every level the
  * menus showed, and even the 1,100 px a 4K screen needs is three times a phone's (spec 14.2).
  */
-async function loadPicture(id: string, base: string, w: number): Promise<Picture | null> {
+async function loadPicture(url: string, w: number): Promise<Picture | null> {
   const img = new Image();
   img.decoding = 'async';
-  img.src = backgroundUrl(id, base);
+  img.src = url;
   try {
     await img.decode();
   } catch {
@@ -92,32 +125,47 @@ function brickShape(e: LevelElement, x: number, y: number, rotation: number): Br
   return null;
 }
 
-/** Paints the playfield opening of a level, scaled into a w x h box at the origin. */
+/**
+ * Paints a level's playfield scaled into a w x h box at the origin: the whole box covered by the
+ * opening (Teggle's levels), or the original's whole picture fitted in, dark around it.
+ */
 function paintThumb(
   c: Ctx,
   k: number,
   level: CompiledLevel,
   picture: CanvasImageSource | null,
+  placement: ThumbSource['placement'],
   w: number,
   h: number,
 ): void {
-  const o = layout.opening;
-  const s = Math.max(w / o.w, h / o.h);
+  const origin = boardOrigin(level.width, level.height);
+  const p = ORIGINAL_PICTURE;
+  const cover = placement === 'opening';
+  const view: Box = cover
+    ? layout.opening
+    : { x: origin.x + p.x, y: origin.y + p.y, w: p.width, h: p.height };
+  const s = cover ? Math.max(w / view.w, h / view.h) : Math.min(w / view.w, h / view.h);
   const kk = k * s;
+  const vx = (w - view.w * s) / 2;
+  const vy = (h - view.h * s) / 2;
   c.save();
+  if (!cover) {
+    c.fillStyle = '#0e1638';
+    c.fillRect(0, 0, w, h);
+  }
   c.beginPath();
-  c.rect(0, 0, w, h);
+  c.rect(Math.max(0, vx), Math.max(0, vy), Math.min(w, view.w * s), Math.min(h, view.h * s));
   c.clip();
-  c.translate((w - o.w * s) / 2, (h - o.h * s) / 2);
+  c.translate(vx, vy);
   c.scale(s, s);
-  c.translate(-o.x, -o.y);
+  c.translate(-view.x, -view.y);
   paintPlain(c);
   if (picture !== null) {
     c.imageSmoothingQuality = 'high';
-    c.drawImage(picture, o.x, o.y, o.w, o.h);
+    c.drawImage(picture, view.x, view.y, view.w, view.h);
   }
-  const offX = WORLD_W / 2 - level.width / 2;
-  const offY = WORLD_H - level.height;
+  const offX = origin.x;
+  const offY = origin.y;
   // Solids first (blockers, rods, round bumpers), then shadows, then the pegs and bricks.
   for (const def of level.bodies) {
     const e = def.element;
@@ -189,19 +237,24 @@ export class LevelThumbs {
 
   constructor(private readonly base: string = import.meta.env.BASE_URL) {}
 
+  /** Starts loading a campaign level's thumbnail (requestSource). */
+  request(entry: ManifestLevel, k = screenScale()): void {
+    this.requestSource(campaignThumb(entry), k);
+  }
+
   /**
    * Starts loading a level's file and picture, once while it stays among the levels asked for
    * most recently; the oldest beyond MAX_ENTRIES are let go and load again when asked for.
    */
-  request(entry: ManifestLevel, k = screenScale()): void {
-    const id = entry.level.id;
+  requestSource(source: ThumbSource, k = screenScale()): void {
+    const id = source.key;
     const known = this.entries.get(id);
     if (known !== undefined) {
       this.entries.delete(id);
       this.entries.set(id, known);
       return;
     }
-    const e: Entry = { level: entry, status: 'loading', compiled: null, picture: null };
+    const e: Entry = { source, status: 'loading', compiled: null, picture: null };
     this.entries.set(id, e);
     while (this.entries.size > MAX_ENTRIES) {
       const oldest = this.entries.entries().next();
@@ -212,8 +265,8 @@ export class LevelThumbs {
       old.picture = null;
     }
     void Promise.allSettled([
-      loadLevel(entry.level.file, this.base),
-      loadPicture(entry.level.background, this.base, pictureWidth(k)),
+      loadPublicLevel(source.file, this.base),
+      loadPicture(`${this.base}${source.picture}`, pictureWidth(k)),
     ]).then(([level, picture]) => {
       const pic = picture.status === 'fulfilled' ? picture.value : null;
       // Let go of while loading: nothing will draw from it.
@@ -236,7 +289,7 @@ export class LevelThumbs {
     return this.entries.get(id)?.status ?? 'idle';
   }
 
-  /** Draws the level's thumbnail into `b`; false while it is not ready (or failed). */
+  /** Draws the thumbnail keyed `id` into `b`; false while it is not ready (or failed). */
   draw(ctx: Ctx, k: number, id: string, b: Box): boolean {
     const e = this.entries.get(id);
     if (e === undefined || e.status !== 'ready' || e.compiled === null) return false;
@@ -246,13 +299,14 @@ export class LevelThumbs {
       this.entries.delete(id);
       releasePicture(p);
       e.picture = null;
-      this.request(e.level, k);
+      this.requestSource(e.source, k);
       return false;
     }
     const level = e.compiled;
     const picture = p?.image ?? null;
+    const placement = e.source.placement;
     const layer = this.cache.get(`thumb:${id}:${b.w}x${b.h}`, k, 0, 0, b.w, b.h, (c) => {
-      paintThumb(c, k, level, picture, b.w, b.h);
+      paintThumb(c, k, level, picture, placement, b.w, b.h);
     });
     drawLayer(ctx, layer, b.x, b.y);
     return true;

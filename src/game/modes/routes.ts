@@ -10,18 +10,31 @@
 //   #/quickplay[?stage=]        the level select, one page per stage
 //   #/quickplay/<id>            the master picker for a cleared level (skipped with one master)
 //   #/quickplay/<id>/play?master=  plays it
+// Quick Play's Original section: the original game's levels, every one open (spec 14.1)
+//   #/quickplay/original[?stage=]               its level select, one page per stage
+//   #/quickplay/original/<id>                   the master picker (skipped with one master)
+//   #/quickplay/original/<id>/play?master=      plays it
 
 import { LEVELS_PER_STAGE, type CampaignManifest } from '../../level/campaign';
+import type { OriginalEntry, OriginalManifest } from '../../level/original';
+import { masterOfStage } from '../../rules/masters';
 import { AttemptSetupError } from '../../rules/colors';
 import { isPowerId, type PowerId } from '../../rules/powers';
 import type { Route } from '../app/router';
 import type { Screen } from '../app/screens';
+import { boardOrigin } from '../layout';
 import { StageIntroScreen } from '../menus/intro';
 import { MasterPickerScreen } from '../menus/picker';
-import { LevelSelectScreen } from '../menus/quickplay';
+import {
+  campaignLevels,
+  LevelSelectScreen,
+  ORIGINAL_QUICK_PLAY,
+  originalLevels,
+} from '../menus/quickplay';
 import { StageCompleteScreen } from '../menus/stage-complete';
+import { loadOriginalBackdrop } from '../play/backdrop';
 import type { PlayHost } from '../play/host';
-import { LevelLoadError, loadLevel } from '../play/load';
+import { LevelLoadError, loadLevel, loadPublicLevel } from '../play/load';
 import { backdropFor } from '../play/route';
 import {
   campaignFinished,
@@ -38,7 +51,7 @@ import { progressStore } from '../progress/store';
 import { MessageScreen } from '../screens/message';
 import { PlayScreen } from '../screens/play';
 import { formatNumber } from '../ui/text';
-import { campaignHost, quickPlayHost } from './hosts';
+import { campaignHost, originalHost, quickPlayHost } from './hosts';
 import {
   findByNumber,
   findLevel,
@@ -47,6 +60,7 @@ import {
   manifestLevels,
   type ManifestLevel,
 } from './manifest';
+import { findOriginal, loadOriginalManifest } from './original';
 
 /** Runs `then` with the manifest, or shows why it could not be loaded. */
 export async function withManifest(
@@ -182,10 +196,10 @@ export function adventureRoute(route: Route): Promise<Screen> {
 // ---------------------------------------------------------------------------------------------
 // Quick Play
 
-/** The level's own master, else the last Master level pick, else the newest master met. */
-function defaultMaster(entry: ManifestLevel, p: Progress): PowerId {
+/** The level's stage master, else the last Master level pick, else the newest master met. */
+function defaultMaster(stageMaster: PowerId | null, p: Progress): PowerId {
   const unlocked = unlockedMasters(p);
-  for (const power of [entry.stage.master, p.campaign.pick]) {
+  for (const power of [stageMaster, p.campaign.pick]) {
     if (power !== null && unlocked.includes(power)) return power;
   }
   return unlocked[unlocked.length - 1] ?? 'guide';
@@ -201,17 +215,19 @@ function defaultPage(m: CampaignManifest, p: Progress, asked: string | undefined
 
 export function quickPlayRoute(route: Route): Promise<Screen> {
   const [, id, sub] = route.segments;
+  if (id === 'original') return originalRoute(route);
   return withManifest('Quick Play', (m) => {
     const store = progressStore();
     const p = store.progress;
+    const levels = campaignLevels(m);
     if (id === undefined)
-      return new LevelSelectScreen(m, defaultPage(m, p, route.params.get('stage')));
+      return new LevelSelectScreen(levels, defaultPage(m, p, route.params.get('stage')));
     const entry = findLevel(m, id);
     if (entry === null || !isCleared(p, id)) {
-      return new LevelSelectScreen(m, entry?.stage.stage ?? defaultPage(m, p, undefined));
+      return new LevelSelectScreen(levels, entry?.stage.stage ?? defaultPage(m, p, undefined));
     }
     const back = `#/quickplay?stage=${entry.stage.stage}`;
-    const fallback = defaultMaster(entry, p);
+    const fallback = defaultMaster(entry.stage.master, p);
     if (sub === 'play') {
       const asked = route.params.get('master') ?? '';
       const power = isPowerId(asked) && isMasterUnlocked(p, asked) ? asked : fallback;
@@ -224,6 +240,79 @@ export function quickPlayRoute(route: Route): Promise<Screen> {
       unlocked,
       initial: fallback,
       play: (power) => `#/quickplay/${id}/play?master=${power}`,
+      back,
+    });
+  });
+}
+
+// ---------------------------------------------------------------------------------------------
+// Quick Play's Original section
+
+/** Runs `then` with the original's manifest, or shows why it could not be loaded. */
+async function withOriginal(
+  then: (m: OriginalManifest) => Screen | Promise<Screen>,
+): Promise<Screen> {
+  let manifest: OriginalManifest;
+  try {
+    manifest = await loadOriginalManifest();
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    return new MessageScreen('Original Levels', message, 'Quick Play', '#/quickplay');
+  }
+  return then(manifest);
+}
+
+/**
+ * Loads one of the original's levels and plays it with `host`, its picture where the original
+ * drew it; a level that cannot be played says why.
+ */
+async function playOriginal(entry: OriginalEntry, host: PlayHost, back: string): Promise<Screen> {
+  const base = import.meta.env.BASE_URL;
+  try {
+    const loaded = await loadPublicLevel(`original/${entry.file}`, base);
+    const first = PlayScreen.firstAttempt(loaded, host);
+    const { width, height } = loaded.compiled;
+    const backdrop = await loadOriginalBackdrop(entry.background, base, boardOrigin(width, height));
+    return new PlayScreen(loaded, backdrop, host, first);
+  } catch (err) {
+    if (err instanceof LevelLoadError || err instanceof AttemptSetupError) {
+      return new MessageScreen('Level Not Playable', err.message, 'Back', back);
+    }
+    throw err;
+  }
+}
+
+function originalRoute(route: Route): Promise<Screen> {
+  const [, , id, sub] = route.segments;
+  return withOriginal((m) => {
+    const store = progressStore();
+    const p = store.progress;
+    const levels = originalLevels(m);
+    const entry = id === undefined ? null : findOriginal(m, id);
+    if (entry === null) {
+      const asked = Number(route.params.get('stage'));
+      return new LevelSelectScreen(
+        levels,
+        Number.isInteger(asked) ? asked : 1,
+        ORIGINAL_QUICK_PLAY,
+      );
+    }
+    const back = `#/quickplay/original?stage=${entry.stage}`;
+    const fallback = defaultMaster(masterOfStage(entry.stage)?.power ?? null, p);
+    if (sub === 'play') {
+      const asked = route.params.get('master') ?? '';
+      const power = isPowerId(asked) && isMasterUnlocked(p, asked) ? asked : fallback;
+      return playOriginal(entry, originalHost(store, entry, power), back);
+    }
+    const unlocked = unlockedMasters(p);
+    if (unlocked.length <= 1) {
+      return playOriginal(entry, originalHost(store, entry, fallback), back);
+    }
+    return new MasterPickerScreen({
+      context: `Original Levels: ${entry.id} ${entry.name}`,
+      unlocked,
+      initial: fallback,
+      play: (power) => `#/quickplay/original/${entry.id}/play?master=${power}`,
       back,
     });
   });

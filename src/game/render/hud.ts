@@ -2,7 +2,7 @@
 // teal glass tubes, an amber meter, glossy blue score windows.
 
 import { legible } from '../app/display';
-import { layout } from '../layout';
+import { layout, type Box } from '../layout';
 import { darken, lighten, rgba } from '../ui/color';
 import { drawText, formatNumber, textStyle } from '../ui/text';
 import { color, type } from '../ui/tokens';
@@ -937,14 +937,17 @@ function paintScoreWindow(ctx: Ctx, x: number, y: number, w: number, h: number):
   ctx.stroke();
 }
 
+/** A score window, in its place in Teggle's frame or in `place` (a narrower board's frame). */
 export function drawScoreWindow(
   ctx: Ctx,
   k: number,
   which: 'left' | 'right',
   content: ScoreWindowContent,
+  place?: Box,
 ): void {
-  const b = which === 'left' ? layout.scoreLeft : layout.scoreRight;
-  const layer = layers.get(`hud:score:${which}`, k, b.x - 1, b.y, b.w + 4, b.h + 4, (c) => {
+  const b = place ?? (which === 'left' ? layout.scoreLeft : layout.scoreRight);
+  const key = place === undefined ? `hud:score:${which}` : `hud:score:${which}:${b.x}:${b.w}`;
+  const layer = layers.get(key, k, b.x - 1, b.y, b.w + 4, b.h + 4, (c) => {
     paintScoreWindow(c, b.x, b.y, b.w, b.h);
   });
   drawLayer(ctx, layer);

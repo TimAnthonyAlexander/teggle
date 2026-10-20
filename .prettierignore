@@ -2,5 +2,7 @@ dist/
 coverage/
 reference/
 public/levels/
+public/original/
 package-lock.json
 *.md
+.claude/

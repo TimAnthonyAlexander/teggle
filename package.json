@@ -32,6 +32,7 @@
     "campaign:art": "tsx tools/campaign/art.ts",
     "campaign:grid": "tsx tools/campaign/grid.ts",
     "campaign:shots": "tsx tools/campaign/shots.ts",
+    "original:import": "tsx tools/original/import.ts",
     "agents:report": "tsx tools/agents/report.ts",
     "agents:bands": "tsx tools/agents/bands.ts",
     "agents:calibrate": "tsx tools/agents/calibrate.ts",

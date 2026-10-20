@@ -7,21 +7,31 @@
 //
 // A click on a cleared level plays it; on a touch screen the first tap shows its scores in the
 // info panel and the second plays it. The challenge whose level the player picks uses the same
-// screen in its own mode (LevelSelectMode): any level in the game, then the challenge.
+// screen in its own mode (LevelSelectMode): any level in the game, then the challenge. So does
+// Quick Play's Original section, the original game's 55 levels, every one open, with records of
+// their own; a pill bottom left switches between the two sections.
 
 import { display, legible } from '../app/display';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { audioBus } from '../audio/bus';
 import { CENTER_X, WORLD_H, WORLD_W, type Box } from '../layout';
-import type { CampaignManifest } from '../../level/campaign';
+import { LEVELS_PER_STAGE, type CampaignManifest } from '../../level/campaign';
+import type { OriginalManifest } from '../../level/original';
 import { masterOfPower } from '../../rules/masters';
 import { circlePath, linear, radial, roundRect, type Ctx, type PathFn } from '../render/paint';
-import { isCleared, levelRecord, type Progress } from '../progress/save';
+import {
+  isCleared,
+  levelRecord,
+  originalRecord,
+  type LevelRecord,
+  type Progress,
+} from '../progress/save';
 import { progressStore } from '../progress/store';
 import {
   drawArrowButton,
   drawListRow,
   drawPanel,
+  drawPillButton,
   drawRoundButton,
   type ButtonState,
 } from '../ui/controls';
@@ -38,10 +48,10 @@ import {
 } from './chrome';
 import { stageName } from './copy';
 import { drawRoundMenu } from './intro';
-import { manifestLevels, type ManifestLevel } from '../modes/manifest';
+import { manifestLevels } from '../modes/manifest';
 import { drawLayer, layers } from '../render/cache';
 import { wrapText } from './overlay';
-import { levelThumbs } from './thumbs';
+import { campaignThumb, levelThumbs, originalThumb, type ThumbSource } from './thumbs';
 
 const CELL_W = 316;
 const CELL_H = 226;
@@ -63,13 +73,50 @@ export const TITLE_PILL: Box = { x: 96, y: 12, w: WORLD_W - 192, h: 34 };
 export const PAGE_LEFT: Box = { x: CENTER_X - 124, y: WORLD_H - 56, w: 115, h: 34 };
 export const PAGE_RIGHT: Box = { x: CENTER_X + 9, y: WORLD_H - 56, w: 115, h: 34 };
 export const MENU_BUTTON: Box = { x: 12, y: WORLD_H - 62, w: 50, h: 50 };
+/** The pill that switches to the other section, between the menu button and the arrows. */
+export const OTHER_BUTTON: Box = { x: 74, y: WORLD_H - 56, w: 196, h: 34 };
 
-/** What the level select is for: Quick Play, or choosing the level of a challenge. */
+/** A level as the level select shows it. */
+export interface SelectLevel {
+  /** Its id in the mode's routes and records, e.g. "1-3". */
+  readonly id: string;
+  readonly name: string;
+  readonly stage: number;
+  /** 1-based place within its stage. */
+  readonly index: number;
+  readonly thumb: ThumbSource;
+}
+
+/** The campaign's levels, in campaign order. */
+export function campaignLevels(m: CampaignManifest): SelectLevel[] {
+  return manifestLevels(m).map((l) => ({
+    id: l.level.id,
+    name: l.level.name,
+    stage: l.stage.stage,
+    index: l.index,
+    thumb: campaignThumb(l),
+  }));
+}
+
+/** The original's levels, in its campaign order. */
+export function originalLevels(m: OriginalManifest): SelectLevel[] {
+  return m.levels.map((l) => ({
+    id: l.id,
+    name: l.name,
+    stage: l.stage,
+    index: l.number - (l.stage - 1) * LEVELS_PER_STAGE,
+    thumb: originalThumb(l),
+  }));
+}
+
+/** What the level select is for: Quick Play, its Original section, or a challenge's level. */
 export interface LevelSelectMode {
   /** The title pill's text on a stage's page. */
   title(stage: number): string;
   /** A level can be chosen (else it is stamped LOCKED). */
   choosable(id: string, p: Progress): boolean;
+  /** A level's record: its best scores, tries, wins and full clear. */
+  record(p: Progress, id: string): LevelRecord;
   /** Where choosing a level leads. */
   open(id: string): string;
   /** Where the menu button and Escape lead. */
@@ -78,12 +125,15 @@ export interface LevelSelectMode {
   hint(coarse: boolean): string;
   /** The round random button bottom right. */
   readonly random: boolean;
+  /** The pill bottom left that switches to the other section, if any. */
+  readonly other?: { readonly label: string; readonly hash: string };
 }
 
 /** Quick Play: levels the Adventure has cleared (spec 8). */
 export const QUICK_PLAY: LevelSelectMode = {
   title: (stage) => `Quick Play: ${stageName(stage)}`,
   choosable: (id, p) => isCleared(p, id),
+  record: levelRecord,
   open: (id) => `#/quickplay/${id}`,
   back: '#/',
   hint: (coarse) =>
@@ -91,6 +141,22 @@ export const QUICK_PLAY: LevelSelectMode = {
       ? 'Tap a level to see its best scores, and tap a cleared level again to play it.'
       : 'Pick a level to see its best scores. Click a cleared level to play it.',
   random: true,
+  other: { label: 'Original Levels', hash: '#/quickplay/original' },
+};
+
+/** Quick Play's Original section: the original game's 55 levels, all open (spec 14.1). */
+export const ORIGINAL_QUICK_PLAY: LevelSelectMode = {
+  title: (stage) => `Original Levels: ${stageName(stage)}`,
+  choosable: () => true,
+  record: originalRecord,
+  open: (id) => `#/quickplay/original/${id}`,
+  back: '#/',
+  hint: (coarse) =>
+    coarse
+      ? 'Tap a level to see its best scores, and tap it again to play it.'
+      : 'Pick a level to see its best scores. Click one to play it.',
+  random: true,
+  other: { label: 'Teggle Levels', hash: '#/quickplay' },
 };
 
 /** Cell `slot` (0 to 4) of the grid. */
@@ -157,7 +223,8 @@ type Action =
   | { kind: 'level'; slot: number }
   | { kind: 'page'; dir: -1 | 1 }
   | { kind: 'menu' }
-  | { kind: 'random' };
+  | { kind: 'random' }
+  | { kind: 'other'; hash: string; label: string };
 
 export function paintBackground(ctx: Ctx): void {
   paintPlate(ctx, { x: 0, y: 0, w: WORLD_W, h: WORLD_H });
@@ -165,22 +232,22 @@ export function paintBackground(ctx: Ctx): void {
 
 export class LevelSelectScreen implements Screen {
   private app: AppServices | null = null;
-  private readonly levels: ManifestLevel[];
   private readonly pages: number[];
   private page: number;
   private selected = -1;
   private readonly buttons: ButtonSet<Action>;
   private noteLines: string[] | null = null;
 
+  /** `levels` in play order; one page per stage they come from, starting on `stage`'s. */
   constructor(
-    manifest: CampaignManifest,
+    private readonly levels: readonly SelectLevel[],
     stage: number,
     private readonly mode: LevelSelectMode = QUICK_PLAY,
   ) {
-    this.levels = manifestLevels(manifest);
-    this.pages = manifest.stages.map((s) => s.stage);
+    this.pages = [...new Set(levels.map((l) => l.stage))];
     const i = this.pages.indexOf(stage);
     this.page = i < 0 ? 0 : i;
+    const other = mode.other;
     this.buttons = new ButtonSet<Action>([
       ...SLOTS.map((_, slot): UiButton<Action> => ({
         action: { kind: 'level', slot },
@@ -196,6 +263,15 @@ export class LevelSelectScreen implements Screen {
         round: true,
         enabled: false,
       },
+      ...(other === undefined
+        ? []
+        : [
+            {
+              action: { kind: 'other' as const, hash: other.hash, label: other.label },
+              box: OTHER_BUTTON,
+              enabled: true,
+            },
+          ]),
     ]);
   }
 
@@ -217,13 +293,13 @@ export class LevelSelectScreen implements Screen {
   }
 
   /** The levels on this page, by slot. */
-  private pageLevels(): ManifestLevel[] {
+  private pageLevels(): SelectLevel[] {
     const s = this.stage();
-    return this.levels.filter((l) => l.stage.stage === s);
+    return this.levels.filter((l) => l.stage === s);
   }
 
   private requestPage(): void {
-    for (const l of this.pageLevels()) levelThumbs.request(l);
+    for (const l of this.pageLevels()) levelThumbs.requestSource(l.thumb);
   }
 
   private setPage(page: number): void {
@@ -234,9 +310,9 @@ export class LevelSelectScreen implements Screen {
     this.requestPage();
   }
 
-  private play(level: ManifestLevel): void {
+  private play(level: SelectLevel): void {
     audioBus.emit({ type: 'uiClick' });
-    this.app?.navigate(this.mode.open(level.level.id));
+    this.app?.navigate(this.mode.open(level.id));
   }
 
   private act(a: Action, touch: boolean): void {
@@ -245,7 +321,7 @@ export class LevelSelectScreen implements Screen {
       case 'level': {
         const level = this.pageLevels()[a.slot];
         if (level === undefined) return;
-        if (this.mode.choosable(level.level.id, p) && (!touch || this.selected === a.slot)) {
+        if (this.mode.choosable(level.id, p) && (!touch || this.selected === a.slot)) {
           this.play(level);
           return;
         }
@@ -263,11 +339,15 @@ export class LevelSelectScreen implements Screen {
         this.app?.navigate(this.mode.back);
         return;
       case 'random': {
-        const cleared = this.levels.filter((l) => this.mode.choosable(l.level.id, p));
+        const cleared = this.levels.filter((l) => this.mode.choosable(l.id, p));
         const pick = cleared[Math.floor(Math.random() * cleared.length)];
         if (pick !== undefined) this.play(pick);
         return;
       }
+      case 'other':
+        audioBus.emit({ type: 'uiClick' });
+        this.app?.navigate(a.hash);
+        return;
     }
   }
 
@@ -282,7 +362,7 @@ export class LevelSelectScreen implements Screen {
       if (b.action.kind === 'page') {
         b.enabled = this.page + b.action.dir >= 0 && this.page + b.action.dir < this.pages.length;
       } else if (b.action.kind === 'random') {
-        b.enabled = this.mode.random && this.levels.some((l) => this.mode.choosable(l.level.id, p));
+        b.enabled = this.mode.random && this.levels.some((l) => this.mode.choosable(l.id, p));
       } else if (b.action.kind === 'level') {
         b.enabled = levels[b.action.slot] !== undefined;
       }
@@ -311,6 +391,8 @@ export class LevelSelectScreen implements Screen {
         drawArrowButton(ctx, b.box, a.dir < 0 ? 'left' : 'right', state);
       } else if (a.kind === 'menu') {
         drawRoundMenu(ctx, b.box, state);
+      } else if (a.kind === 'other') {
+        drawPillButton(ctx, b.box, 'blue', state, a.label);
       } else if (this.mode.random) {
         drawRoundButton(
           ctx,
@@ -330,7 +412,7 @@ export class LevelSelectScreen implements Screen {
     ctx: Ctx,
     k: number,
     cell: Box,
-    level: ManifestLevel | undefined,
+    level: SelectLevel | undefined,
     p: Progress,
     state: ButtonState,
     selected: boolean,
@@ -340,9 +422,9 @@ export class LevelSelectScreen implements Screen {
       finishTealWindow(ctx, inner);
       return;
     }
-    const id = level.level.id;
+    const id = level.id;
     const cleared = this.mode.choosable(id, p);
-    drawText(ctx, level.level.name.toUpperCase(), cell.x + cell.w / 2, cell.y + 18, TITLE, {
+    drawText(ctx, level.name.toUpperCase(), cell.x + cell.w / 2, cell.y + 18, TITLE, {
       maxWidth: cell.w - 30,
     });
     const pic = pictureBox(cell);
@@ -352,34 +434,36 @@ export class LevelSelectScreen implements Screen {
     ctx.save();
     clip(ctx);
     ctx.clip();
-    if (!levelThumbs.draw(ctx, k, id, pic)) {
+    if (!levelThumbs.draw(ctx, k, level.thumb.key, pic)) {
       ctx.fillStyle = '#0e1638';
       ctx.fillRect(pic.x, pic.y, pic.w, pic.h);
     }
     if (!cleared) drawLockedVeil(ctx, pic);
     ctx.restore();
     finishTealWindow(ctx, clip);
-    if (cleared && levelRecord(p, id).fullClear) drawMedal(ctx, pic.x + pic.w - 20, pic.y + 20);
+    if (cleared && this.mode.record(p, id).fullClear) {
+      drawMedal(ctx, pic.x + pic.w - 20, pic.y + 20);
+    }
     if (cleared && (state === 'hover' || state === 'down' || selected)) drawSelectRing(ctx, cell);
   }
 
-  private drawInfo(ctx: Ctx, level: ManifestLevel | null, p: Progress, slot: number): void {
+  private drawInfo(ctx: Ctx, level: SelectLevel | null, p: Progress, slot: number): void {
     drawPanel(ctx, INFO);
     const cx = INFO.x + INFO.w / 2;
     if (level === null) {
-      const anyCleared = this.pageLevels().some((l) => this.mode.choosable(l.level.id, p));
+      const anyCleared = this.pageLevels().some((l) => this.mode.choosable(l.id, p));
       const text = !anyCleared
         ? 'Levels you clear in the Adventure can be replayed here.'
         : this.mode.hint(display.coarse);
       this.drawNote(ctx, text, INFO.y + INFO.h / 2 - 10, slot);
       return;
     }
-    const id = level.level.id;
-    const rec = levelRecord(p, id);
-    drawText(ctx, level.level.name.toUpperCase(), cx, INFO.y + 32, INFO_NAME, {
+    const id = level.id;
+    const rec = this.mode.record(p, id);
+    drawText(ctx, level.name.toUpperCase(), cx, INFO.y + 32, INFO_NAME, {
       maxWidth: INFO.w - 40,
     });
-    const sub = `Stage ${level.stage.stage} · Level ${level.index}${rec.fullClear ? ' · Full clear' : ''}`;
+    const sub = `Stage ${level.stage} · Level ${level.index}${rec.fullClear ? ' · Full clear' : ''}`;
     const subStyle = legible(INFO_SUB);
     drawText(ctx, sub.toUpperCase(), cx, INFO.y + 52, subStyle, { maxWidth: INFO.w - 30 });
     if (!this.mode.choosable(id, p)) {
