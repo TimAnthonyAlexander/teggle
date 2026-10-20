@@ -1,49 +1,65 @@
 {
   "id": "5-1",
   "name": "Life Rings",
-  "draft": true,
   "concept": {
-    "subject": "Two wooden piers reaching into a calm cove, with four life rings floating and bobbing on the water between and below them.",
-    "composition": "The piers reach in from the left and right edges at two fifths of the height, each a third of the picture wide, their decks sloping gently down toward their tips and leaving open water between them under the cannon. The water's surface lies at half height; four life rings float in a row at three fifths of the height, at 20, 40, 60 and 80 percent of the width, their lower parts under the water. The lower corners are calm water over sand.",
-    "layout": "81 round pegs and 63 bricks; the stage's moving elements begin here. The life rings are the platforms template's floaters: rings of curved bricks, open at the bottom where the water hides them, each with a peg inside and each floating on its own small circle. The two pier decks are brick slides that lean toward the middle; the pilings under them are peg columns, and the foam lines on the water are peg lines between the rings."
+    "subject": "A harbor mouth seen from above: two breakwaters of piled stone blocks reaching toward each other over turquoise water, with four life rings floating and bobbing in the harbor below them.",
+    "composition": "The left breakwater runs from the left edge at two fifths of the height, rising gently to its rounded tip at two fifths of the width; the right one starts at three fifths of the width, a small beacon on its tip, and runs down to the right edge at half height. The gap between the tips lies under the cannon. Open sea fills the top third; the harbor's calm water fills the lower half, crossed by two small boats and a wake on the right.",
+    "layout": "81 round pegs and 63 bricks; the stage's moving elements begin here. The life rings are the platforms template's floaters at three quarters of the height: rings of curved bricks, open at the bottom, each with a peg inside and each floating on its own small circle. The two breakwaters are brick chains along their crests, the left one rising to its tip and the right one falling to the wall, each with a row of foam pegs on its harbor side; the beacon is one standing brick, and two short peg rows cross the harbor mouth. The open sea outside the breakwaters is a lattice of swell, its top corners left open."
   },
   "plan": {
     "archetypes": ["platforms", "outline"],
     "templates": ["outline", "platforms"],
-    "fill": "none",
+    "fill": "lattice",
     "pegs": 81,
     "bricks": 63,
     "moving": [{ "what": "four life rings, each floating on a small circle", "type": "circle" }],
     "features": ["Moving elements (spec 8): floating life rings"],
     "difficulty": {
       "target": 0.31,
-      "note": "The stage's easiest: the floating rings move slowly and the sloping piers feed the middle."
+      "note": "The stage's easiest: the floating rings move slowly and the sloping breakwaters feed the harbor."
     }
   },
   "background": {
     "id": "lighthouse-cove-life-rings",
-    "prompt": "A calm seaside cove on a sunny day. Two weathered wooden piers on gray-blue pilings reach out from the left and right edges toward the middle at about two fifths of the picture height, each about a third of the picture wide, their decks sloping gently down toward their tips, which stop short of the center and leave a wide gap of open water between them. The cove's clear aqua water fills the lower half of the picture, its calm surface at about half height. Four round life rings in white and pale teal float in a row on the water at about three fifths of the height, evenly spaced at about 20, 40, 60 and 80 percent of the width, each about a tenth of the picture wide, their lower parts below the waterline. Gentle lines of white foam curl along the surface between them. A soft blue sky with a few small clouds fills the top, open at the top center; the lower corners are calm water over pale sand.",
+    "prompt": "An aerial photo of a harbor mouth on turquoise water. Two long breakwaters of piled pale gray stone blocks reach toward each other: the left one from the left edge at about two fifths of the height, rising gently to its rounded tip at about two fifths of the width and a third of the height; the right one from its tip at about three fifths of the width, where a small white beacon stands, down to the right edge at about half the height. The gap between the tips lies at the top center's foot. The open sea above the breakwaters is pale and calm; the harbor below is clear turquoise, with a small boat just right of the center at two thirds of the height, a second boat at four fifths of the width near the bottom trailing a long white wake that curves up toward the harbor mouth, and a tiny boat near the right edge. The lower corners and the bottom strip are plain water.",
     "picture": {
-      "ref": "pexels:30860316",
+      "ref": "pexels:16156389",
       "kind": "photo",
       "source": "Pexels",
-      "page": "https://www.pexels.com/photo/wooden-pier-over-turquoise-waters-under-clear-sky-30860316/",
-      "image": "https://images.pexels.com/photos/30860316/pexels-photo-30860316.jpeg",
-      "title": "A stunning view of a wooden pier extending over clear turquoise waters against a blue sky.",
-      "author": "Abdulhamid Jalab",
-      "authorUrl": "https://www.pexels.com/@abdulhamid-jalab-3612181",
+      "page": "https://www.pexels.com/photo/ships-sailing-to-the-harbor-16156389/",
+      "image": "https://images.pexels.com/photos/16156389/pexels-photo-16156389.jpeg",
+      "title": "A serene aerial view showcasing boats navigating between stone piers on a turquoise sea.",
+      "author": "Pok Rie",
+      "authorUrl": "https://www.pexels.com/@pok-rie-33563",
       "license": "Pexels license",
       "licenseUrl": "https://www.pexels.com/license/",
-      "fetched": "2026-10-15",
-      "sha256": "54b2266a8cc95e48e26af42f330935042c098fcc2275e5d943d079b6d2ae3d75",
-      "size": [4000, 3000],
-      "crop": [0, 600, 2880, 1733],
+      "fetched": "2026-10-20",
+      "sha256": "7d3596d9a8a3d0e80a4a4b1eddff68a4380b30754711d0aa3ecf3d9a40ace002",
+      "size": [3632, 2422],
+      "crop": [0, 118, 3632, 2186],
       "flop": false,
-      "adjust": {}
+      "adjust": { "brightness": 1.08, "floor": 0.22 }
     }
   },
   "recipe": {
     "seed": 501,
-    "targetCount": 144
+    "targetCount": 144,
+    "lines": [
+      "breakwater-left",
+      "breakwater-right",
+      "beacon",
+      "waterline-left",
+      "waterline-right",
+      "mouth",
+      "channel"
+    ],
+    "parts": [
+      {
+        "template": "platforms",
+        "region": "bottom",
+        "params": { "kind": "floaters", "tiers": 1, "travel": 16, "period": 1600 }
+      }
+    ],
+    "fill": { "style": "lattice", "within": "open-sea" }
   }
 }

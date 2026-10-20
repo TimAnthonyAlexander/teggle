@@ -1,0 +1,66 @@
+{
+  "formatVersion": 1,
+  "background": "lighthouse-cove-life-rings",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "breakwater-left",
+      "note": "The left breakwater of piled stone blocks, from the left edge to its rounded tip at the harbor mouth",
+      "mode": "bricks",
+      "points": [
+        [24, 224], [100, 214], [160, 206], [220, 199], [270, 195], [320, 191], [366, 187],
+        [386, 196]
+      ]
+    },
+    {
+      "id": "breakwater-right",
+      "note": "The right breakwater, from its tip at the harbor mouth down to the right edge",
+      "mode": "bricks",
+      "points": [
+        [528, 205], [544, 200], [600, 212], [650, 226], [700, 230], [750, 241], [800, 250],
+        [850, 262], [892, 272]
+      ]
+    },
+    {
+      "id": "beacon",
+      "note": "The small white beacon on the right breakwater's tip",
+      "mode": "bricks",
+      "points": [[574, 140], [574, 176]]
+    },
+    {
+      "id": "waterline-left",
+      "note": "Foam along the harbor side of the left breakwater",
+      "mode": "pegs",
+      "points": [[28, 262], [100, 250], [160, 242], [220, 240], [270, 244], [320, 236], [366, 229]]
+    },
+    {
+      "id": "waterline-right",
+      "note": "Foam along the harbor side of the right breakwater",
+      "mode": "pegs",
+      "points": [[556, 242], [610, 252], [660, 266], [710, 270], [760, 281], [810, 290], [860, 302]]
+    },
+    {
+      "id": "mouth",
+      "note": "The harbor mouth between the two tips",
+      "mode": "pegs",
+      "points": [[404, 236], [458, 246], [512, 236]]
+    },
+    {
+      "id": "channel",
+      "note": "Swell running into the harbor mouth between the two tips",
+      "mode": "pegs",
+      "points": [[418, 184], [458, 190], [498, 184]]
+    },
+    {
+      "id": "open-sea",
+      "note": "The open sea outside the breakwaters: the area the swell fills",
+      "mode": "pegs",
+      "closed": true,
+      "points": [
+        [16, 100], [100, 24], [816, 24], [900, 100], [900, 232], [800, 214], [700, 194],
+        [600, 176], [540, 170], [458, 168], [376, 160], [300, 158], [200, 164], [100, 176],
+        [16, 188]
+      ]
+    }
+  ]
+}
