@@ -1,0 +1,208 @@
+{
+  "formatVersion": 1,
+  "background": "moonlit-hollow-well",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "roof-left-edge",
+      "note": "The white bargeboard along the outer edge of the tiled roof, from beside the cannon down to the left eave; its pegs are never orange",
+      "mode": "pegs",
+      "points": [[358, 85], [260, 195]]
+    },
+    {
+      "id": "tiles-1",
+      "note": "The stripe of tiles next to the bargeboard; the two make a gutter that a shot from the cannon runs down",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[374, 118], [306, 198]]
+    },
+    {
+      "id": "tiles-2",
+      "note": "A stripe of tiles running down the roof to the eave",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[402, 137], [352, 200]]
+    },
+    {
+      "id": "tiles-3",
+      "note": "A stripe of tiles running down the roof to the eave, next to the gable",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[437, 150], [398, 202]]
+    },
+    {
+      "id": "gable-right",
+      "note": "The right edge of the front gable, from beside the cannon down toward its foot",
+      "mode": "pegs",
+      "points": [[568, 63], [654, 182]]
+    },
+    {
+      "id": "brace-left-outer",
+      "note": "The left post's outer brace, under the left eave",
+      "mode": "pegs",
+      "points": [[346, 236], [396, 290]]
+    },
+    {
+      "id": "brace-right-outer",
+      "note": "The right post's outer brace, under the gable's beam",
+      "mode": "pegs",
+      "points": [[588, 248], [544, 286]]
+    },
+    {
+      "id": "brace-right-inner",
+      "note": "The top of the right post's inner brace, under the middle of the gable's beam",
+      "mode": "pegs",
+      "points": [[470, 248], [478, 256]]
+    },
+    {
+      "id": "crossbar",
+      "note": "The winch bar between the two posts",
+      "mode": "pegs",
+      "points": [[430, 296], [500, 296]]
+    },
+    {
+      "id": "post-left",
+      "note": "The left post, from the winch bar down to the rim",
+      "mode": "pegs",
+      "points": [[405, 336], [405, 384]]
+    },
+    {
+      "id": "post-right",
+      "note": "The right post, from the winch bar down to the rim",
+      "mode": "pegs",
+      "points": [[525, 336], [525, 384]]
+    },
+    {
+      "id": "rim-top",
+      "note": "The top of the well's stone rim",
+      "mode": "pegs",
+      "points": [[356, 426], [465, 430], [574, 426]]
+    },
+    {
+      "id": "rim-course",
+      "note": "A course of stones down the rim",
+      "mode": "pegs",
+      "points": [[356, 470], [465, 474], [574, 470]]
+    },
+    {
+      "id": "rim-low",
+      "note": "The lowest course of stones above the grass",
+      "mode": "pegs",
+      "points": [[370, 510], [560, 510]]
+    },
+    {
+      "id": "fence-left",
+      "note": "The top of the wire fence left of the well",
+      "mode": "pegs",
+      "points": [[24, 368], [318, 362]]
+    },
+    {
+      "id": "fence-left-low",
+      "note": "The foot of the wire fence left of the well, clear of the flipper",
+      "mode": "pegs",
+      "points": [[120, 456], [318, 452]]
+    },
+    {
+      "id": "fence-right",
+      "note": "The top of the wire fence right of the well",
+      "mode": "pegs",
+      "points": [[612, 354], [892, 345]]
+    },
+    {
+      "id": "fence-right-low",
+      "note": "The foot of the wire fence right of the well, clear of the flipper",
+      "mode": "pegs",
+      "points": [[612, 448], [800, 444]]
+    },
+    {
+      "id": "fence-post-left",
+      "note": "A fence post left of the well",
+      "mode": "pegs",
+      "points": [[265, 408], [265, 412]]
+    },
+    {
+      "id": "fence-post-right",
+      "note": "A fence post right of the well",
+      "mode": "pegs",
+      "points": [[703, 398], [703, 402]]
+    },
+    {
+      "id": "strip-left",
+      "note": "The pale strip along the top of the hedge left of the well",
+      "mode": "pegs",
+      "points": [[26, 216], [228, 216]]
+    },
+    {
+      "id": "hedge-left",
+      "note": "The foot of the hedge left of the well",
+      "mode": "pegs",
+      "points": [[26, 280], [300, 280]]
+    },
+    {
+      "id": "hedge-right",
+      "note": "The foot of the hedge right of the well",
+      "mode": "pegs",
+      "points": [[630, 286], [890, 286]]
+    },
+    {
+      "id": "trees-left",
+      "note": "The tops of the bare trees left of the roof",
+      "mode": "pegs",
+      "points": [[26, 140], [96, 108], [176, 96], [256, 100], [316, 116]]
+    },
+    {
+      "id": "trees-left-low",
+      "note": "The darker crowns low in the tree line left of the roof",
+      "mode": "pegs",
+      "points": [[30, 176], [240, 168]]
+    },
+    {
+      "id": "trees-right",
+      "note": "The bare branches high over the gable's right edge and the farmhouse",
+      "mode": "pegs",
+      "points": [[640, 52], [720, 40], [800, 46]]
+    },
+    {
+      "id": "branches-right",
+      "note": "The bare tree between the gable and the farmhouse",
+      "mode": "pegs",
+      "points": [[660, 128], [724, 116]]
+    },
+    {
+      "id": "house-gable",
+      "note": "The left edge of the farmhouse's gable",
+      "mode": "pegs",
+      "points": [[790, 92], [748, 172]]
+    },
+    {
+      "id": "house-roof",
+      "note": "The ridge of the farmhouse's roof",
+      "mode": "pegs",
+      "points": [[830, 86], [892, 84]]
+    },
+    {
+      "id": "house-windows",
+      "note": "The farmhouse's two upper windows",
+      "mode": "pegs",
+      "points": [[784, 162], [844, 162]]
+    },
+    {
+      "id": "house-base",
+      "note": "The pale base of the farmhouse wall",
+      "mode": "pegs",
+      "points": [[764, 246], [890, 250]]
+    },
+    {
+      "id": "grass-left",
+      "note": "A darker band of grass below the fence, left of the well",
+      "mode": "pegs",
+      "points": [[124, 506], [330, 506]]
+    },
+    {
+      "id": "grass-right",
+      "note": "A darker band of grass below the fence, right of the well",
+      "mode": "pegs",
+      "points": [[604, 506], [796, 506]]
+    }
+  ]
+}
