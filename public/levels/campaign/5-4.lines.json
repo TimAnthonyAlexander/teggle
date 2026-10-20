@@ -1,0 +1,223 @@
+{
+  "formatVersion": 1,
+  "background": "lighthouse-cove-helm",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "rim-left-upper",
+      "note": "The wheel's outer wooden ring at the upper left, outside the turning ring",
+      "mode": "bricks",
+      "points": [[351.8, 188.5], [324, 211.3], [301, 239], [283.6, 270.5]]
+    },
+    {
+      "id": "rim-left-middle",
+      "note": "The outer wooden ring at the left",
+      "mode": "bricks",
+      "points": [[275.4, 293.6], [268.8, 328.9], [268.9, 364.9], [275.9, 400.1], [289.3, 433.4]]
+    },
+    {
+      "id": "rim-left-lower",
+      "note": "The outer wooden ring at the lower left",
+      "mode": "bricks",
+      "points": [[302.4, 455], [325.7, 482.3], [353.7, 504.8]]
+    },
+    {
+      "id": "rim-right-upper",
+      "note": "The outer wooden ring at the upper right",
+      "mode": "bricks",
+      "points": [[564.2, 188.5], [592, 211.3], [615, 239], [632.4, 270.5]]
+    },
+    {
+      "id": "rim-right-middle",
+      "note": "The outer wooden ring at the right",
+      "mode": "bricks",
+      "points": [[640.6, 293.6], [647.2, 328.9], [647.1, 364.9], [640.1, 400.1], [626.7, 433.4]]
+    },
+    {
+      "id": "rim-right-lower",
+      "note": "The outer wooden ring at the lower right",
+      "mode": "bricks",
+      "points": [[613.6, 455], [590.3, 482.3], [562.3, 504.8]]
+    },
+    {
+      "id": "studs-left-upper",
+      "note": "Brass studs just outside the ring at the upper left, under the spyglass",
+      "mode": "pegs",
+      "points": [[302.4, 184.9], [272.3, 220.7]]
+    },
+    {
+      "id": "studs-left-middle",
+      "note": "Brass studs just outside the ring at the left, between the handles",
+      "mode": "pegs",
+      "points": [[238.9, 299.4], [234, 342.1], [237.4, 384.9]]
+    },
+    {
+      "id": "studs-left-lower",
+      "note": "Brass studs just outside the ring at the lower left",
+      "mode": "pegs",
+      "points": [[260.2, 451.2], [279.1, 480.8], [302.4, 507.1]]
+    },
+    {
+      "id": "studs-right-upper",
+      "note": "Brass studs just outside the ring at the upper right, between the handles",
+      "mode": "pegs",
+      "points": [[595.9, 169.5], [627.1, 199], [652, 234]]
+    },
+    {
+      "id": "studs-right-middle",
+      "note": "Brass studs just outside the ring at the right, between the handles",
+      "mode": "pegs",
+      "points": [[679.8, 314.8], [681.7, 357.7], [675.3, 400.2]]
+    },
+    {
+      "id": "studs-right-lower",
+      "note": "Brass studs just outside the ring at the lower right",
+      "mode": "pegs",
+      "points": [[639.2, 477.7], [613.6, 507.1]]
+    },
+    {
+      "id": "handle-left-upper",
+      "note": "The turned handle sticking out from the rim at the upper left",
+      "mode": "bricks",
+      "points": [[261.7, 260.7], [164.5, 218.4]]
+    },
+    {
+      "id": "handle-left-lower",
+      "note": "The turned handle sticking out from the rim at the lower left",
+      "mode": "bricks",
+      "points": [[256.4, 417.8], [156.5, 453.3]]
+    },
+    {
+      "id": "handle-right-upper",
+      "note": "The turned handle sticking out from the rim at the upper right",
+      "mode": "bricks",
+      "points": [[660.3, 276.3], [760.6, 241.8]]
+    },
+    {
+      "id": "handle-right-lower",
+      "note": "The turned handle sticking out from the rim at the lower right",
+      "mode": "bricks",
+      "points": [[649.3, 441.8], [726.3, 480.3]]
+    },
+    {
+      "id": "handle-top-right",
+      "note": "The turned handle sticking up from the rim at the top right",
+      "mode": "bricks",
+      "points": [[557.6, 145.3], [591.4, 77.3]]
+    },
+    {
+      "id": "spyglass",
+      "note": "The brass spyglass standing behind the wheel at the upper left",
+      "mode": "bricks",
+      "points": [[304, 74], [320, 140]]
+    },
+    {
+      "id": "windscreen-left",
+      "note": "The top edge of the glass windscreen on the left bulwark",
+      "mode": "bricks",
+      "points": [[24, 158], [144, 171], [262, 184]]
+    },
+    {
+      "id": "bracket-left",
+      "note": "The gray bracket holding the windscreen at the left edge",
+      "mode": "bricks",
+      "points": [[36, 188], [24, 252]]
+    },
+    {
+      "id": "bulwark-left",
+      "note": "The top of the white bulwark on the left, under the windscreen",
+      "mode": "bricks",
+      "points": [[60, 252], [140, 255]]
+    },
+    {
+      "id": "rail-left",
+      "note": "The gray rail along the left bulwark",
+      "mode": "bricks",
+      "points": [[24, 290], [205, 296]]
+    },
+    {
+      "id": "plank-left",
+      "note": "A seam in the left bulwark's planking under the rail",
+      "mode": "bricks",
+      "points": [[24, 334], [205, 340]]
+    },
+    {
+      "id": "shadow-left",
+      "note": "The edge of the shadow on the left bulwark",
+      "mode": "bricks",
+      "points": [[30, 392], [148, 408]]
+    },
+    {
+      "id": "windscreen-right",
+      "note": "The top edge of the glass windscreen on the right bulwark",
+      "mode": "bricks",
+      "points": [[688, 213], [790, 204], [892, 196]]
+    },
+    {
+      "id": "bulwark-right",
+      "note": "The top of the white bulwark on the right",
+      "mode": "bricks",
+      "points": [[790, 262], [892, 271]]
+    },
+    {
+      "id": "rail-right",
+      "note": "The gray rail along the right bulwark",
+      "mode": "bricks",
+      "points": [[715, 305], [892, 320]]
+    },
+    {
+      "id": "plank-right",
+      "note": "The rusty seam in the right bulwark's planking under the rail",
+      "mode": "bricks",
+      "points": [[715, 351], [892, 366]]
+    },
+    {
+      "id": "rivets-right",
+      "note": "Rivets along the right bulwark's lower planking",
+      "mode": "pegs",
+      "points": [[722, 400], [804, 398]]
+    },
+    {
+      "id": "shadow-right",
+      "note": "The edge of the long shadow falling across the deck at the lower right",
+      "mode": "bricks",
+      "points": [[764, 505], [810, 440]]
+    },
+    {
+      "id": "cloud",
+      "note": "The top of the cloud behind the spyglass",
+      "mode": "pegs",
+      "points": [[176, 132], [208, 112], [242, 96], [272, 90]]
+    },
+    {
+      "id": "sky-left",
+      "note": "Blue sky at the top left",
+      "mode": "pegs",
+      "points": [[34, 60], [100, 50], [160, 56]]
+    },
+    {
+      "id": "sky-left-low",
+      "note": "Blue sky above the windscreen at the left",
+      "mode": "pegs",
+      "points": [[34, 112], [94, 104], [140, 108]]
+    },
+    {
+      "id": "rigging",
+      "note": "The blocks on the rigging rope coming down at the upper right",
+      "mode": "pegs",
+      "points": [[628, 110], [645, 150], [662, 190]]
+    },
+    {
+      "id": "cloud-right",
+      "note": "The top of the soft cloud in the top right corner",
+      "mode": "pegs",
+      "points": [[760, 96], [810, 80], [860, 76], [892, 84]]
+    },
+    {
+      "id": "cloud-right-low",
+      "note": "The lower edge of the cloud in the top right corner",
+      "mode": "pegs",
+      "points": [[772, 150], [832, 142], [892, 140]]
+    }
+  ]
+}
