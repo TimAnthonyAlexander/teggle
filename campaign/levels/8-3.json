@@ -1,27 +1,26 @@
 {
   "id": "8-3",
   "name": "Ring Toss",
-  "draft": true,
   "concept": {
-    "subject": "A ring toss stall: rows of short wooden posts on stepped shelves, a third of them ringed by thrown hoops, under the stall's striped awning.",
-    "composition": "The awning runs along the top on both sides of the open center at a fifth of the height, hung with light bulbs. Three long shelves step down across the stall at two fifths, three fifths and four fifths of the height, each sloping gently from the sides toward the middle; short posts stand evenly along them, and hoops ring about a third of the posts, some lying flat, some leaning.",
-    "layout": "47 round pegs and 85 bricks. The posts are pegs; each hoop is a ring of curved bricks around its post, open at the bottom so a ball can drop out; the shelves are brick slides stepping down toward the middle; the awning's two halves are brick slopes beside the cannon. The light bulbs along the awning are single pegs."
+    "subject": "A ring toss cart set out in a garden at the fair: a wooden cart under a striped awning, stacked glasses on its counter for targets and a big spoked wheel for a hoop, with a barrel, two lanterns, a house window, an arbor and a bench around it.",
+    "composition": "The awning hangs from the top edge between a third and two thirds of the width, its valance at a fifth of the height, on two thin poles that come down to the counter at three fifths of the height. A small stack of glasses stands on the counter's left, a two-tier rack of glasses on its right and a garden lamp between them; under the counter the cart body runs to the wheel at a little right of the middle. The barrel and two lanterns stand at the lower left, a house wall with a window and a leafy tree fill the upper left, and an arbor with a bench under it fills the right below a strip of pale sky.",
+    "layout": "47 round pegs and 85 bricks. The awning's two ends are solids from its top edge down to the valance, with the poles' tops as short bricks under them and the poles' lower parts below the slides. Two long brick slides start under the valance beside the cannon and curve down and outward past the poles: the left one flattens along the foot of the house wall to the left wall, the right one ends on the bench's back. The counter is two brick rows sloping outward from a gap under the lamp, which is a single brick. The glasses are pegs, two on the left stack and two on each tier of the rack, with a thin solid tray between the tiers over one lower glass. The wheel is two brick arcs open at the top and the bottom around a hub peg, so a ball that drops through the hoop rings the hub. Brick rows trace the barrel's rim and hoops, the lanterns' roofs, the cart body's plank and lower edge, the window's lintel and sill, the house eave, the bench seat and the arbor; pegs mark the window panes, the tree, the house wall, the barrel's staves, the lanterns' glass, the bench's spool, the sky, the trellis vines, a bush, a thin trunk and the grass."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 47,
     "bricks": 85,
     "features": ["Brick-heavy throughout (spec 8): 85 of 132 objects"],
     "difficulty": {
       "target": 0.22,
-      "note": "Middle of the stage: the ringed posts hide inside their hoops, and the shelves pull balls to the middle before they reach the lower rows."
+      "note": "Middle of the stage. Each slide lights ten or eleven bricks from one shot, the easy part; the awning's solid ends turn away the flat shots toward the tree, the house and the sky beside the cannon, so the orange pegs drawn there are reached only by shots passing under the awning or by bounces, and the rack's tray shelters one lower glass."
     }
   },
   "background": {
     "id": "ribbon-fair-ring-toss",
-    "prompt": "A ring toss stall at a country fair, seen from the front. A striped awning in cream and muted brick red runs along the top of the stall on both sides of the open top center, at about one fifth of the picture height, with a string of round unlit light bulbs along its edge. Inside, three long wooden shelves step down across the picture, each sloping gently down from the sides toward the middle, at about two fifths, three fifths and four fifths of the height. Short round wooden posts stand evenly along each shelf, and about a third of them are ringed by thrown wooden hoops in cream and pale teal, each hoop about a fifteenth of the picture wide, some lying flat around a post, some leaning. The stall's back wall is pale weathered wood; the lower corners are plain wooden boards.",
+    "prompt": "A photo of a wooden garden cart under a striped awning on a lawn, seen from the front. The awning, in cream and muted brick red stripes, spans from about a third to seven tenths of the width, from the top edge down to its scalloped valance at about a fifth of the height, with its right end curling down; two thin poles hold it, at about a third and two thirds of the width, down to the cart's counter at about three fifths of the height. On the counter stand a small stack of glasses at about two fifths of the width and a two-tier rack of upturned glasses from about 0.54 to 0.65 of the width, its top at two fifths of the height, with a black garden lamp on a stick between them. Below the counter the cart body runs from about 0.35 to 0.65 of the width, with a large spoked wheel with a pale tire centered at about 0.56 of the width and four fifths of the height, its radius about a fourteenth of the width; two handles stick out to the left. A wooden barrel with two iron hoops stands at the lower left from about a tenth to a quarter of the width, two lanterns with pointed roofs beside it. The upper left shows a pale house wall with a barred window and a leafy tree; the right shows a pale sky in the top corner, vines on a trellis, a metal arbor with an arched top at about a fifth of the height and a wooden bench with cable-spool ends under it. The lower corners are lawn.",
     "picture": {
       "ref": "pexels:15530629",
       "kind": "photo",
@@ -43,6 +42,37 @@
   },
   "recipe": {
     "seed": 803,
-    "targetCount": 132
+    "targetCount": 132,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [294, 42],
+            [346, 33],
+            [352, 74],
+            [352, 114],
+            [296, 118]
+          ]
+        },
+        {
+          "points": [
+            [570, 33],
+            [622, 40],
+            [640, 70],
+            [632, 118],
+            [564, 114],
+            [564, 74]
+          ]
+        },
+        {
+          "points": [
+            [518, 261],
+            [556, 256],
+            [556, 262],
+            [518, 267]
+          ]
+        }
+      ]
+    }
   }
 }

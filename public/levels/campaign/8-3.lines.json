@@ -1,0 +1,283 @@
+{
+  "formatVersion": 1,
+  "background": "ribbon-fair-ring-toss",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "slide-left",
+      "note": "From under the awning's left valance beside the cannon, a curve down past the left pole to the foot of the house wall, then along it to the wall",
+      "mode": "bricks",
+      "points": [
+        [391.6, 142], [363.4, 177.4], [322, 209.2], [273.8, 229.2], [222, 237], [140, 245],
+        [48, 254]
+      ]
+    },
+    {
+      "id": "slide-right",
+      "note": "From under the awning's right valance beside the cannon, a curve down past the right pole and the vines to the bench's back",
+      "mode": "bricks",
+      "points": [[523.8, 145.1], [569, 202], [635.5, 253], [712.9, 285.1], [790, 297], [818, 302]]
+    },
+    {
+      "id": "pole-left",
+      "note": "The top of the awning's left pole, under the valance",
+      "mode": "bricks",
+      "points": [[310, 132], [304, 167]]
+    },
+    {
+      "id": "pole-right",
+      "note": "The top of the awning's right pole, under the valance",
+      "mode": "bricks",
+      "points": [[591, 132], [585, 167]]
+    },
+    {
+      "id": "pole-left-low",
+      "note": "The left pole of the awning, below the slide",
+      "mode": "bricks",
+      "points": [[310, 246], [304, 281]]
+    },
+    {
+      "id": "pole-right-low",
+      "note": "The right pole of the awning, below the slide",
+      "mode": "bricks",
+      "points": [[591, 268], [585, 303]]
+    },
+    {
+      "id": "counter-left",
+      "note": "The cart's counter from under the lamp toward its upper handle, sloping a little toward the handle",
+      "mode": "bricks",
+      "points": [[436, 320], [236, 348.6]]
+    },
+    {
+      "id": "counter-right",
+      "note": "The cart's counter from under the lamp to its right edge, sloping a little toward the edge",
+      "mode": "bricks",
+      "points": [[458, 326], [622, 350]]
+    },
+    {
+      "id": "cart-corner",
+      "note": "The cart body's front left corner post and the leg under it",
+      "mode": "bricks",
+      "points": [[334, 362], [322, 505]]
+    },
+    {
+      "id": "cart-bottom",
+      "note": "The bottom edge of the cart body, left of the wheel",
+      "mode": "bricks",
+      "points": [[358, 456], [420, 448]]
+    },
+    {
+      "id": "wheel-left",
+      "note": "The left half of the cart wheel's rim, a hoop open at the top and the bottom",
+      "mode": "bricks",
+      "points": [[479.9, 495.8], [458.6, 470.4], [452.8, 437.8], [464.2, 406.7], [489.6, 385.4]]
+    },
+    {
+      "id": "wheel-right",
+      "note": "The right half of the cart wheel's rim",
+      "mode": "bricks",
+      "points": [[543.6, 385.4], [569, 406.7], [580.4, 437.8], [574.6, 470.4], [553.3, 495.8]]
+    },
+    {
+      "id": "barrel-rim",
+      "note": "The barrel's top, its rim seen sloping a little toward the wall",
+      "mode": "bricks",
+      "points": [[90, 363], [216, 344]]
+    },
+    {
+      "id": "barrel-hoop",
+      "note": "The barrel's upper iron hoop",
+      "mode": "bricks",
+      "points": [[90, 415], [214, 402]]
+    },
+    {
+      "id": "barrel-hoop-low",
+      "note": "The barrel's lower iron hoop",
+      "mode": "bricks",
+      "points": [[112, 505], [218, 494]]
+    },
+    {
+      "id": "window-lintel",
+      "note": "The top of the house window's frame",
+      "mode": "bricks",
+      "points": [[14, 92], [84, 84]]
+    },
+    {
+      "id": "window-sill",
+      "note": "The house window's sill",
+      "mode": "bricks",
+      "points": [[14, 205], [84, 197]]
+    },
+    {
+      "id": "house-eave",
+      "note": "The eave of the house roof at the top left",
+      "mode": "bricks",
+      "points": [[40, 56], [252, 33]]
+    },
+    {
+      "id": "bench-seat",
+      "note": "The bench's cushioned seat",
+      "mode": "bricks",
+      "points": [[748, 335], [810, 344]]
+    },
+    {
+      "id": "arbor",
+      "note": "The garden arbor's arched top from its left foot, and the top of its right post",
+      "mode": "bricks",
+      "corners": [3],
+      "points": [[742, 170], [752, 132], [790, 113], [842, 140], [842, 275]]
+    },
+    {
+      "id": "arbor-post",
+      "note": "The lower part of the arbor's right post",
+      "mode": "pegs",
+      "spacing": 34,
+      "points": [[842, 346], [842, 380]]
+    },
+    {
+      "id": "lamp",
+      "note": "The garden lamp's head behind the counter",
+      "mode": "bricks",
+      "points": [[456, 256], [450, 290]]
+    },
+    {
+      "id": "window-panes-top",
+      "note": "The upper two panes of the house window",
+      "mode": "pegs",
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[30, 124], [70, 124]]
+    },
+    {
+      "id": "window-panes-low",
+      "note": "The lower two panes of the house window",
+      "mode": "pegs",
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[30, 158], [70, 158]]
+    },
+    {
+      "id": "tree-left",
+      "note": "The leafy tree between the house and the stall",
+      "mode": "pegs",
+      "spacing": 50,
+      "keepSpacing": true,
+      "corners": [1, 2, 3],
+      "points": [[204, 88], [252, 104], [222, 142], [262, 178], [212, 192]]
+    },
+    {
+      "id": "bushes",
+      "note": "The bushes between the house and the barrel, under the slide",
+      "mode": "pegs",
+      "points": [[160, 291], [160, 299]]
+    },
+    {
+      "id": "glasses-left",
+      "note": "The stack of glasses on the left of the counter",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[342, 286], [382, 286]]
+    },
+    {
+      "id": "glasses-top",
+      "note": "The upper tray of upturned glasses on the right of the counter",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[506, 228], [546, 228]]
+    },
+    {
+      "id": "glasses-low",
+      "note": "The lower tray of glasses on the right of the counter",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[500, 292], [540, 292]]
+    },
+    {
+      "id": "house-wall",
+      "note": "The plain house wall right of the window",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[128, 112], [128, 196]]
+    },
+    {
+      "id": "hub",
+      "note": "The wheel's hub",
+      "mode": "pegs",
+      "points": [[516.6, 439.4], [516.6, 447.4]]
+    },
+    {
+      "id": "cart-face",
+      "note": "A plank seam across the cart body's front, left of the wheel",
+      "mode": "bricks",
+      "points": [[364, 394], [428, 400]]
+    },
+    {
+      "id": "grass-middle",
+      "note": "The grass under the cart, between its leg and the wheel",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[375, 497], [415, 497]]
+    },
+    {
+      "id": "grass-wheel",
+      "note": "A tuft of grass right of the wheel",
+      "mode": "pegs",
+      "points": [[628, 466], [628, 474]]
+    },
+    {
+      "id": "barrel-staves",
+      "note": "The barrel's staves under its hoop",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[118, 452], [198, 452]]
+    },
+    {
+      "id": "lantern-roofs",
+      "note": "The two lanterns' roofs, the left one under the right one",
+      "mode": "bricks",
+      "points": [[240, 412], [276, 402]]
+    },
+    {
+      "id": "lantern-glass",
+      "note": "The glass of the two lanterns",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[246, 476], [285, 466]]
+    },
+    {
+      "id": "spool",
+      "note": "The bench's wooden spool end",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[714, 330], [714, 372]]
+    },
+    {
+      "id": "sky-right",
+      "note": "The pale sky and treetops right of the awning",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[670, 56], [720, 70], [800, 62], [880, 76]]
+    },
+    {
+      "id": "trunk-left",
+      "note": "The thin tree trunk at the far left",
+      "mode": "pegs",
+      "spacing": 45,
+      "points": [[36, 300], [38, 390]]
+    },
+    {
+      "id": "trellis-vines",
+      "note": "The vines on the trellis between the right pole and the arbor",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[646, 166], [686, 184], [712, 214]]
+    },
+    {
+      "id": "grass-right",
+      "note": "The grass and shrubs at the lower right",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[880, 300], [880, 380]]
+    }
+  ]
+}
