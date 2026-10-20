@@ -94,6 +94,21 @@
           "background": "clover-burrows-hall"
         }
       ]
+    },
+    {
+      "stage": 3,
+      "world": "Golden Rooftops",
+      "master": "pyramid",
+      "levels": [
+        {
+          "id": "3-1",
+          "number": 11,
+          "name": "Gable Row",
+          "file": "campaign/3-1.json",
+          "lines": "campaign/3-1.lines.json",
+          "background": "golden-rooftops-gables"
+        }
+      ]
     }
   ]
 }

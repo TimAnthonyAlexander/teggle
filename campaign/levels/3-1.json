@@ -1,11 +1,10 @@
 {
   "id": "3-1",
   "name": "Gable Row",
-  "draft": true,
   "concept": {
-    "subject": "A row of tall, narrow town houses with steep triangular gables standing shoulder to shoulder against a golden sky.",
-    "composition": "Five gabled houses fill the lower two thirds. The two tallest stand at a quarter and three quarters of the width with their peaks at a quarter of the height; two shorter ones stand by the side walls and a low, wide one in the middle, both with peaks at two fifths of the height, below the open top center. Square chimneys rise beside the tallest gables, narrow gaps of sky separate the houses, and a low wall runs along the bottom.",
-    "layout": "109 round pegs and 32 bricks. The four outer gables are brick chevrons, two roof slopes of about four bricks each, so balls slide off into the gaps between the houses; the middle gable and the house fronts are pegs: window rims, balcony rails and eaves. The chimneys are solid blocks. Pegs on the houses by the walls stop above the flippers' swing."
+    "subject": "The rooftops of an old town around a clock tower: gables, a mansard roof, a round turret and rows of chimneys under bands of cloud.",
+    "composition": "A clock tower stands just right of the middle, its lantern at about a third of the height and its clock at a little over half. The roofs fill the lower half: a large building with a round turret and skylights on the left, an orange building left of the tower, an orange house with a long stepped gable and a dark mansard roof with dormers right of it, a cream gable at the right edge and low roofs with dormers along the bottom. Bands of cloud cross the sky above.",
+    "layout": "109 round pegs and 32 bricks. The roofs' edges are bricks: the slopes of the small orange gable, the stepped gable and the cream gable, the hip of the dark roof in front of the tower, the eaves, the turret's ring, the parapet and the cornice over the clock, so balls slide off into the gaps between the houses. Pegs mark the dome, the skylights, the windows, the dormers, the chimney pots, the ridge and eaves of the dark roof and the low roofs along the bottom; six rows of pegs follow the lower edges of the cloud bands. The tower's lantern and four chimneys are solids with peaked tops, and the clock is a peg sheltered under the cornice. Pegs on the houses by the walls stop above the flippers' swing."
   },
   "plan": {
     "archetypes": ["outline"],
@@ -15,12 +14,12 @@
     "bricks": 32,
     "difficulty": {
       "target": 0.34,
-      "note": "The stage opener and its easiest level: open gaps between the houses and short roof slides."
+      "note": "The stage opener and its easiest level: open cloud rows above, short roof slides and gaps between the houses below; only the clock sits under a shelter."
     }
   },
   "background": {
     "id": "golden-rooftops-gables",
-    "prompt": "A row of five tall, narrow town houses with steep triangular gables, seen from the front against a calm golden-hour sky, standing shoulder to shoulder across the lower two thirds of the picture. The two tallest stand at about one quarter and three quarters of the width, each about a sixth of the picture wide, their gable peaks at about one quarter of the picture height; two shorter houses stand close to the side edges and a low, wide house stands in the middle, all three with their peaks at about two fifths of the height, so the top center stays open sky. The roofs are muted slate blue, the walls honey and cream stone; each front has two round windows and a small balcony, and narrow gaps of sky separate the houses. A square chimney rises beside each of the two tallest gables. The houses stand on a low stone wall along the bottom; the house fronts near the lower corners are plain stone without windows.",
+    "prompt": "A photo of an old town's rooftops around a clock tower under an overcast sky crossed by bands of cloud. The tower stands just right of the middle, about a ninth of the picture wide: a thin spire at about a quarter of the height over a small lantern, a belfry with arched openings down to about half the height, and a yellow clock stage with a round clock at a little over half the height. The roofs fill the lower half from about 0.52 of the height: on the left a large cream building with a round turret and dome, a skylit roof and rows of windows; left of the tower an orange building with a dark roof; right of the tower an orange house with a long stepped gable and a dark mansard roof with three dormers; at the right edge a cream gable under a chimney; dark low roofs with dormers along the bottom. Chimneys stand all along the skyline. The top center is open sky; the lower corners show house walls.",
     "picture": {
       "ref": "pexels:38510919",
       "kind": "photo",
@@ -42,6 +41,55 @@
   },
   "recipe": {
     "seed": 301,
-    "targetCount": 141
+    "targetCount": 141,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [462, 214],
+            [462, 188],
+            [473, 162],
+            [484, 188],
+            [484, 214]
+          ]
+        },
+        {
+          "points": [
+            [700, 326],
+            [700, 306],
+            [712, 299],
+            [724, 306],
+            [724, 326]
+          ]
+        },
+        {
+          "points": [
+            [784, 328],
+            [784, 308],
+            [800, 300],
+            [816, 308],
+            [816, 328]
+          ]
+        },
+        {
+          "points": [
+            [232, 310],
+            [232, 296],
+            [239, 290],
+            [246, 296],
+            [246, 310]
+          ]
+        },
+        {
+          "points": [
+            [279, 362],
+            [279, 346],
+            [287, 340],
+            [296, 346],
+            [296, 362]
+          ]
+        }
+      ]
+    }
   }
 }
