@@ -1,27 +1,26 @@
 {
   "id": "4-4",
   "name": "Moon Phases",
-  "draft": true,
   "concept": {
-    "subject": "Seven moons in their phases hanging along one wide arc, thin crescents at the ends growing to a full moon at the bottom of the arc.",
-    "composition": "The arc is shaped like a smile: it starts near the side edges at a third of the height and dips to two thirds of the height at the center. Seven moons, each a ninth of the picture wide, sit evenly along it; the crescents on the left are lit on their right side and those on the right on their left side, mirror images. Stars fill the space above the arc; the top center is open space.",
-    "layout": "56 round pegs and 85 bricks. Each crescent's lit edge is a curved brick arc, longer toward the full moon, so the crescents on each side face the middle. The full moon at the bottom of the arc is a peg ring with crater pegs inside, the other moons' craters are single pegs in the dark part of each crescent, and stars are loose pegs above the arc."
+    "subject": "Nine moons in their phases hanging in a high arch over a mountain lake, star trails circling the pole behind them.",
+    "composition": "The arch is shaped like a rainbow: the full moon sits at the top center behind the cannon, and four moons step down each side to three fifths of the height near the edges, growing thinner from gibbous to crescent, those on the left lit on their right and those on the right on their left. Star trails circle a pole above the lake's far shore at the bottom center, mountains slope down from the left to the lake, and the lake fills the bottom fifth.",
+    "layout": "56 round pegs and 85 bricks. The six outer moons are rings of curved bricks open underneath, each with a crater peg inside. The two gibbous moons beside the cannon keep only their lower edges and craters, in pegs, since their lit sides lie in the cannon's clearance, and the full moon is left to the cannon. The outer star trail is a brick arch whose top under the cannon is a solid, sheltering four arcs of star pegs nested under it; the mountain ridge is a brick slide down to the lake, and stars streak in pegs above the arch."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 56,
     "bricks": 85,
     "features": ["Mostly bricks (spec 8): 85 of 141 objects"],
     "difficulty": {
       "target": 0.26,
-      "note": "Second hardest: the crescents' brick arcs face different ways and hide the crater pegs behind them."
+      "note": "Second hardest: the solid top of the star-trail arch turns balls away from the stars under it, and the moon rings hide their craters until a brick is gone."
     }
   },
   "background": {
     "id": "lilac-orbit-moon-phases",
-    "prompt": "A row of seven moons in their phases hangs across a soft lilac and periwinkle outer space along one wide, smooth arc shaped like a smile: it starts high on the left at about one third of the picture height near the side edge, dips to about two thirds of the height at the center and rises again to the same height near the right edge. The moons are evenly spaced along the arc, each about a ninth of the picture wide: thin crescents at both ends, growing fuller toward the middle, and one full round moon at the bottom center. The crescents on the left are lit on their right side and those on the right on their left side, mirror images. The moons are pearl gray and pale cream with soft round craters. Thin scatterings of small silver stars fill the space above the arc; the top center is open, calm space; the lower corners are plain nebula haze.",
+    "prompt": "Nine moons in their phases hang in a high arch across a soft lilac-gray night sky above a mountain lake. The arch is shaped like a rainbow: a full moon at the top center, about a fifth of the picture high, and four moons stepping down each side to about three fifths of the height near the edges, each about a ninth of the picture wide, growing thinner from gibbous to a thin crescent; those on the left are lit on their right and those on the right on their left, mirror images. Pale star trails circle a pole just above the lake's far shore at the bottom center. Dark mountains slope down from the left edge to the shore at about three quarters of the height, and the calm lake fills the bottom fifth. The lower corners are plain.",
     "picture": {
       "ref": "pixabay:7320960",
       "kind": "painting",
@@ -43,6 +42,24 @@
   },
   "recipe": {
     "seed": 404,
-    "targetCount": 141
+    "targetCount": 141,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [388.8, 198.7],
+            [423.1, 191.4],
+            [458, 189],
+            [492.9, 191.4],
+            [527.2, 198.7],
+            [523.9, 210.3],
+            [491.3, 203.3],
+            [458, 201],
+            [424.7, 203.3],
+            [392.1, 210.3]
+          ]
+        }
+      ]
+    }
   }
 }
