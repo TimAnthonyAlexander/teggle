@@ -1,26 +1,25 @@
 {
   "id": "6-1",
   "name": "Curling Vines",
-  "draft": true,
   "concept": {
-    "subject": "Two giant pumpkin vines climbing from the hollow's floor and curling over it in great tendrils, round burgundy pumpkins hanging along them, under a huge silver moon.",
-    "composition": "The vines grow from the floor at a quarter and three quarters of the width, rise and sweep outward to a sixth and five sixths of the width at a third of the height, then curl back inward into loose spiral tips at a quarter of the height, clear of the open top center. Broad leaves grow along them and pumpkins hang on their inner side at about half height. A crooked fence rail slopes toward the middle on each side at three quarters of the height; the moon rises low on the right; the lower corners are misty ground.",
-    "layout": "62 round pegs and 89 bricks. Each vine is a long brick chain with leaves as short brick slides along it, and its curling tip a small brick spiral; the fence rails are brick slides that turn balls back toward the middle. The pumpkins are small peg rings on the vines' inner side, and tendrils between the leaves are short peg curls."
+    "subject": "A full moon through bare trees at twilight: dark trunks on the left, a web of bare branches and curling tendrils over the right half, the silver moon low in the middle of a mauve sky.",
+    "composition": "The main trunk stands at a fifth of the width from the top edge to the bottom, with a fork beside it and a second trunk leaning in from the left edge; a thick branch leaves the main trunk at four tenths of the height and rises to the top edge at the center, behind the cannon. The moon, a sixth of the width across, sits a little left of the center just below half the height, with a thin twig arching over it. On the right a long branch falls from a knot right of the top center to a trunk that curves from the top at four fifths of the width to the right edge at two thirds of the height; an arching branch runs above it, and under it a limb, a hanging twig, a tendril curling down and a branch sagging from the right trunk. Fine twigs rise along the bottom.",
+    "layout": "62 round pegs and 89 bricks. The branches are the vines. The thick branch and the long branch on the right are brick slides that start just outside the cannon's clearance: one shot rides each from end to end, the left one on through a gap where it meets the main trunk into the sky between the left trunks. The trunks, the fork, the arching branches, the sagging branch, the hanging twig and the tendril are brick chains. The moon is a brick ring open underneath with three pegs on its dark seas, sheltered by the twig arching over it, a solid. Pegs follow the twigs: a vine winding down between the left trunks, two rows rising along the bottom, and sprigs among the branches on the right."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 62,
     "bricks": 89,
     "difficulty": {
       "target": 0.34,
-      "note": "The stage opener and its easiest level: the open middle and the fence slides keep balls near the bucket."
+      "note": "The stage opener and its easiest level: two slides from beside the cannon light six and eleven bricks a shot. The solid twig arching over the moon shelters the top of its rim, the nearest bricks under the cannon, where the weighted draw puts two or three orange pegs."
     }
   },
   "background": {
     "id": "moonlit-hollow-vines",
-    "prompt": "A moonlit pumpkin hollow at dusk. Two giant pumpkin vines grow from the hollow's floor at about one quarter and three quarters of the picture width and climb in great smooth arches, mirror images of each other: each vine rises, sweeps outward to about one sixth and five sixths of the width at about one third of the picture height, then curls back inward into a loose spiral tip at about one quarter of the height, leaving the top center open. Broad leaves grow along the vines, and round burgundy and plum pumpkins, each about a twelfth of the picture wide, hang on their inner side at about half the height. A crooked wooden fence rail slopes down toward the middle on each side at about three quarters of the height. A huge pale silver moon rises low on the right behind the vines; silver mist lies along the floor, and the lower corners are plain misty ground.",
+    "prompt": "A photo of a full moon through bare trees at twilight, dark gray silhouettes against a pale mauve sky. The pale silver moon, about a sixth of the picture wide, sits at about 0.46 of the width and 0.57 of the height, with a thin twig arching just over its top. On the left a main trunk rises from the bottom edge to the top edge at about a fifth of the width, a narrow fork beside it at about 0.27; a second trunk leans in from the left edge, and a thick branch leaves the main trunk at about 0.43 of the height and climbs to the top edge at the center. The right half is a web of bare branches: a trunk curves from the top edge at about 0.8 of the width to the right edge at about two thirds of the height, a long branch falls from a knot at about 0.55 of the width and a quarter of the height down to that trunk, an arching branch runs above it at about a third of the height, and under it hang a thin limb, a straight twig, a tendril curling down and a branch sagging from the trunk. Fine twigs rise along the bottom; the lower left corner shows the bases of the trunks, the lower right corner a few thick branch stubs.",
     "picture": {
       "ref": "pexels:35507692",
       "kind": "photo",
@@ -42,6 +41,24 @@
   },
   "recipe": {
     "seed": 601,
-    "targetCount": 151
+    "targetCount": 151,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [378, 206],
+            [400, 197],
+            [430, 178],
+            [460, 166],
+            [488, 172],
+            [486, 180],
+            [460, 174],
+            [432, 186],
+            [402, 205],
+            [378, 214]
+          ]
+        }
+      ]
+    }
   }
 }
