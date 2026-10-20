@@ -1,0 +1,228 @@
+{
+  "formatVersion": 1,
+  "background": "ribbon-fair-prize-wheel",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "rim-front-left",
+      "note": "The Ferris wheel's front rim down the left side, after its solid end beside the cannon; a ball rides the channel between it and the back rim",
+      "mode": "bricks",
+      "points": [
+        [288.8, 65.1], [279.7, 69.4], [250, 85], [207, 112], [171, 148], [129, 200], [111, 226],
+        [98, 252], [85, 288], [78, 323], [72, 366], [71, 398]
+      ]
+    },
+    {
+      "id": "rim-back-left",
+      "note": "The back rim inside the front one on the left, after its solid end beside the cannon; where the picture's rims meet lower down it keeps 40 px from the front rim",
+      "mode": "bricks",
+      "points": [
+        [306.6, 108.5], [297.4, 112.5], [255, 135], [239, 147], [196, 183], [187.5, 193.3],
+        [175.6, 208.3], [163.9, 223.5], [153, 238.3], [144.8, 251.6], [137.6, 266.2], [131, 282.5],
+        [125.7, 298.3], [122.2, 313.9], [118.9, 332.9], [116, 351.7], [113.9, 369.2],
+        [113.2, 386.1], [113.5, 410]
+      ]
+    },
+    {
+      "id": "rim-front-right",
+      "note": "The front rim from beside the cannon down the right side; a ball rides the channel between it and the back rim",
+      "mode": "bricks",
+      "points": [
+        [578, 51], [599, 58], [649, 81], [699, 112], [749, 155], [790, 207], [814, 255], [826, 291],
+        [840, 348], [844, 395], [843, 412]
+      ]
+    },
+    {
+      "id": "rim-back-right",
+      "note": "The back rim inside the front one on the right, after its solid end beside the cannon, 40 px or more from the front rim",
+      "mode": "bricks",
+      "points": [
+        [610.8, 108.9], [619.8, 113.3], [631.4, 119.2], [647.4, 128.3], [662.6, 137.8],
+        [677.1, 148], [691.4, 159.2], [705, 170.8], [717.4, 182.8], [729.2, 195.7], [740.4, 209.4],
+        [750.6, 223.5], [759.3, 237.5], [767.1, 252.7], [774.4, 269.2], [780.3, 284.8],
+        [785.6, 302.5], [790.8, 321.1], [795.4, 339], [798.7, 355.7], [800.4, 371.9],
+        [801.6, 391.8], [801.8, 412]
+      ]
+    },
+    {
+      "id": "spoke-127",
+      "note": "A spoke from the hub out toward the rim, 127 degrees around",
+      "mode": "bricks",
+      "points": [[334.6, 202.3], [300.3, 156.8]]
+    },
+    {
+      "id": "spoke-156",
+      "note": "A spoke from the hub out toward the rim, 156 degrees around",
+      "mode": "bricks",
+      "points": [[310.9, 300.5], [200.4, 251.3]]
+    },
+    {
+      "id": "spoke-170",
+      "note": "A spoke from the hub out toward the rim, 170 degrees around",
+      "mode": "pegs",
+      "spacing": 42,
+      "keepSpacing": true,
+      "points": [[289.6, 336.3], [164.5, 314.3]]
+    },
+    {
+      "id": "spoke-185",
+      "note": "A spoke from the hub out toward the rim, 185 degrees around",
+      "mode": "bricks",
+      "points": [[297.6, 380], [155.2, 392.5]]
+    },
+    {
+      "id": "spoke-200",
+      "note": "A spoke from the hub out toward the rim, 200 degrees around",
+      "mode": "bricks",
+      "points": [[306.7, 421.1], [157.3, 475.4]]
+    },
+    {
+      "id": "spoke-215",
+      "note": "A spoke from the hub out toward the rim, 215 degrees around",
+      "mode": "bricks",
+      "points": [[326.1, 458.3], [258.1, 506]]
+    },
+    {
+      "id": "spoke-36",
+      "note": "A spoke from the hub out toward the rim, 36 degrees around",
+      "mode": "bricks",
+      "points": [[588.3, 271.4], [672.4, 210.2]]
+    },
+    {
+      "id": "spoke-20",
+      "note": "A spoke from the hub out toward the rim, 20 degrees around",
+      "mode": "pegs",
+      "spacing": 42,
+      "keepSpacing": true,
+      "points": [[618.7, 307.5], [658.2, 293.1]]
+    },
+    {
+      "id": "spoke-4",
+      "note": "A spoke from the hub out toward the rim, 4 degrees around",
+      "mode": "bricks",
+      "points": [[618.6, 354.8], [754.3, 345.3]]
+    },
+    {
+      "id": "spoke-349",
+      "note": "A spoke from the hub out toward the rim, 349 degrees around",
+      "mode": "pegs",
+      "spacing": 42,
+      "keepSpacing": true,
+      "points": [[625.9, 398.6], [762.3, 425.2]]
+    },
+    {
+      "id": "spoke-334",
+      "note": "A spoke from the hub out toward the rim, 334 degrees around",
+      "mode": "bricks",
+      "points": [[602.7, 436.6], [744.7, 505.8]]
+    },
+    {
+      "id": "spoke-319",
+      "note": "A spoke from the hub out toward the rim, 319 degrees around",
+      "mode": "bricks",
+      "points": [[579.5, 471.6], [618.8, 505.7]]
+    },
+    {
+      "id": "car-upper-left",
+      "note": "The floor of the car hanging at the upper left, sloping so a ball rolls off",
+      "mode": "bricks",
+      "points": [[226, 217], [290, 228]]
+    },
+    {
+      "id": "car-upper-left-seat",
+      "note": "A seat back of the car at the upper left",
+      "mode": "pegs",
+      "points": [[262, 182], [263.2, 182]]
+    },
+    {
+      "id": "car-upper-right",
+      "note": "The floor of the car hanging at the upper right",
+      "mode": "bricks",
+      "points": [[562, 186], [622, 195]]
+    },
+    {
+      "id": "car-upper-right-seat",
+      "note": "A seat back of the car at the upper right",
+      "mode": "pegs",
+      "points": [[580, 146], [581.2, 146]]
+    },
+    {
+      "id": "car-right",
+      "note": "The floor of the car hanging at the right",
+      "mode": "bricks",
+      "points": [[700, 292], [745, 301]]
+    },
+    {
+      "id": "car-right-seat",
+      "note": "The near seat back of the car at the right",
+      "mode": "pegs",
+      "points": [[712, 252], [713.2, 252]]
+    },
+    {
+      "id": "car-lower-left-hanger",
+      "note": "The rod the lower left car hangs from",
+      "mode": "bricks",
+      "points": [[118, 448], [124, 482]]
+    },
+    {
+      "id": "halo-left",
+      "note": "The hanger ring of the left car where it reaches outside the front rim",
+      "mode": "pegs",
+      "points": [[62, 222], [63.2, 222]]
+    },
+    {
+      "id": "halo-right",
+      "note": "The hanger ring of the right car where it reaches outside the front rim",
+      "mode": "pegs",
+      "points": [[790, 128], [791.2, 128]]
+    },
+    {
+      "id": "rivet-1",
+      "note": "A rivet on the bottom ring under the hub, left of the legs",
+      "mode": "pegs",
+      "points": [[330, 505], [331.2, 505]]
+    },
+    {
+      "id": "rivet-2",
+      "note": "A rivet on the bottom ring under the hub, right of the legs",
+      "mode": "pegs",
+      "points": [[553, 508], [554.2, 508]]
+    },
+    {
+      "id": "rivet-3",
+      "note": "A rivet on the bottom ring at the lower left",
+      "mode": "pegs",
+      "points": [[215, 503], [216.2, 503]]
+    },
+    {
+      "id": "bolt-upper-left",
+      "note": "A bolt where a spoke meets the middle ring, beside the car at the upper left",
+      "mode": "pegs",
+      "points": [[320, 245], [321.2, 245]]
+    },
+    {
+      "id": "bolt-right",
+      "note": "A bolt where the right spokes cross the outer ring",
+      "mode": "pegs",
+      "points": [[745, 385], [746.2, 385]]
+    },
+    {
+      "id": "bolt-left",
+      "note": "A bolt where the left spokes cross the outer ring",
+      "mode": "pegs",
+      "points": [[179, 351], [180.2, 351]]
+    },
+    {
+      "id": "bolt-lower-left",
+      "note": "A bolt low on the left, where the lower spokes cross the outer ring",
+      "mode": "pegs",
+      "points": [[155, 433], [156.2, 433]]
+    },
+    {
+      "id": "car-lower-right-seat",
+      "note": "The near seat back of the car hanging at the lower right",
+      "mode": "pegs",
+      "points": [[783, 474], [784.2, 474]]
+    }
+  ]
+}

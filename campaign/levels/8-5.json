@@ -1,28 +1,27 @@
 {
   "id": "8-5",
   "name": "The Prize Wheel",
-  "draft": true,
   "concept": {
-    "subject": "A giant prize wheel spinning on its booth, framed by an arch of marquee light bulbs, with prize shelves on both sides.",
-    "composition": "The wheel fills the middle, centered at about 58 percent of the height and two thirds of the picture height across, twelve wedge segments around a round hub with a pointer at the top. The marquee arch rises from the side edges to a fifth of the height on both sides of the open top center. Two wooden prize shelves on each side slope down toward the wheel; the lower corners are plain boards.",
-    "layout": "43 round pegs and 101 bricks, the stage's finale. The wheel is the rotating template's single wheel: its rim curved bricks broken into slots, its spokes pegs, turning around a static hub. The booth's arch is a long brick arch on both sides of the cannon, and the prize shelves are brick slides that lean toward the wheel; the marquee bulbs are pegs along the arch."
+    "subject": "The fair's Ferris wheel seen from below against a clear afternoon sky: a double red rim, steel spokes and polygon rings around a turning hub on an A-frame, and cars hanging from the rim.",
+    "composition": "The wheel fills the board. Its hub sits at half the width and about two thirds of the height; the front rim runs from just under the top edge at the center down both sides to about 8 and 92 percent of the width, and the back rim follows it a little inside. Spokes radiate from the hub to the rim joints, crossed by polygon rings. A car hangs under the top center, a little left of it, two more at the upper left and upper right, one on each side at about half height, and two in the lower corners; the A-frame legs run from the hub to the bottom center.",
+    "layout": "43 round pegs and 101 bricks, the stage's finale. The hub section is the rotating template's single wheel on the picture's hub: a ring of curved bricks broken into four slots, a ring of pegs and six spoke pegs turning around a static hub peg, under a solid crown traced on the inner ring's top. The front and back rims are long brick arcs from beside the cannon down to the flippers, at least 40 px apart, so the channel between them is a slide from either side of the cannon. The back rim's ends beside the cannon and the left front rim's end are solid, and the top car is a solid over the crown. Brick and peg spokes run from the turning hub out toward the back rim; the other cars are brick floors with peg seat backs; bolts, rivets, a hanger rod and the cars' hanger rings outside the rim fill out the count."
   },
   "plan": {
     "archetypes": ["rotating", "outline"],
-    "templates": ["outline", "rotating"],
+    "templates": ["solids", "outline", "rotating"],
     "fill": "none",
     "pegs": 43,
     "bricks": 101,
-    "moving": [{ "what": "the wheel's rim and spokes", "type": "rotateAroundCircle" }],
+    "moving": [{ "what": "the hub section's ring and spokes", "type": "rotateAroundCircle" }],
     "features": ["Brick-heavy throughout (spec 8): 101 of 144 objects"],
     "difficulty": {
       "target": 0.16,
-      "note": "The stage's hardest: the shelves feed the spinning rim, whose slots decide whether a ball reaches the spokes."
+      "note": "The stage's hardest. A shot at about 70 degrees to either side rides the channel between the rims and lights eight to ten bricks, but the solid rim ends beside the cannon keep the channel's first bricks out of the orange draw, so many orange pegs gather on the turning hub section, which only shots through the top opening reach, past the solid top car and the crown, and through four slots."
     }
   },
   "background": {
     "id": "ribbon-fair-prize-wheel",
-    "prompt": "A giant prize wheel stands on its booth at a country fair on a breezy afternoon. The wheel fills the middle of the picture, centered at about 58 percent of the picture height, its round rim about two thirds of the picture height across, divided into twelve wedge-shaped segments in alternating cream, pale teal, straw yellow and muted brick red, with a round hub in the center and a small pointer at the top of the rim. A wide arch of round unlit marquee light bulbs frames the booth, rising from the left and right edges to about one fifth of the picture height on both sides of the open top center. On each side of the wheel, two wooden prize shelves slope gently down toward it, holding wrapped prize boxes and ribbons. A soft turquoise sky shows above the arch; the lower corners are plain wooden boards.",
+    "prompt": "A photo of a Ferris wheel at a fair, seen from below against a clear blue sky that lightens toward the lower right. The wheel fills the picture: its round steel hub at half the width and about two thirds of the height, on a pale A-frame whose legs run down to the bottom center. A double rim, red with faded yellow patches, runs from just under the top edge at the center down both sides to about 8 and 92 percent of the width, the back rim a little inside the front one, the two meeting toward the bottom. Twelve pairs of gray spokes run from the hub to the rim joints, crossed by polygon rings. Small gray cars with white seat backs hang under the joints: one under the top center a little left of it, at about a quarter of the height, two at the upper left and upper right at about a third of the height, one on each side at half height, and one in each lower corner. Thin hanger rings circle the rim at the joints.",
     "picture": {
       "ref": "pexels:19679714",
       "kind": "photo",
@@ -37,13 +36,83 @@
       "fetched": "2026-10-15",
       "sha256": "4b2f43618d6150c1ae179349cbefbb82390c1291d0fd8e5ecb07d6ba87ec6121",
       "size": [6000, 4000],
-      "crop": [0, 194, 6000, 3611],
+      "crop": [855, 892, 4573, 2752],
       "flop": false,
       "adjust": {}
     }
   },
   "recipe": {
     "seed": 805,
-    "targetCount": 144
+    "targetCount": 144,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [418, 136],
+            [462, 146],
+            [452, 166],
+            [392, 166],
+            [379, 146]
+          ]
+        },
+        {
+          "points": [
+            [543.5, 217.9],
+            [502.8, 198.9],
+            [458, 188],
+            [413.2, 198.9],
+            [372.5, 217.9],
+            [376, 224],
+            [415.6, 207.6],
+            [458, 202],
+            [500.4, 207.6],
+            [540, 224]
+          ]
+        },
+        {
+          "points": [
+            [333.1, 39.4],
+            [318.9, 43.4],
+            [303.9, 48],
+            [310.6, 66.8],
+            [324.2, 62.7],
+            [338.9, 58.6]
+          ]
+        },
+        {
+          "points": [
+            [348.7, 83.5],
+            [335.7, 87.9],
+            [322.2, 92.2],
+            [328.5, 111.2],
+            [341.8, 106.9],
+            [355.3, 102.5]
+          ]
+        },
+        {
+          "points": [
+            [569.3, 82.6],
+            [582.5, 87],
+            [596.2, 92.1],
+            [588.6, 110.6],
+            [576, 106],
+            [562.7, 101.4]
+          ]
+        }
+      ]
+    },
+    "parts": [
+      {
+        "template": "rotating",
+        "params": {
+          "kind": "wheel",
+          "layout": "single",
+          "radius": 140,
+          "spokes": 6,
+          "slots": 4,
+          "period": 1200
+        }
+      }
+    ]
   }
 }
