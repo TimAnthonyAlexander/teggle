@@ -235,6 +235,147 @@
           "background": "lighthouse-cove-lighthouse"
         }
       ]
+    },
+    {
+      "stage": 6,
+      "world": "Moonlit Hollow",
+      "master": "spookyBall",
+      "levels": [
+        {
+          "id": "6-1",
+          "number": 26,
+          "name": "Curling Vines",
+          "file": "campaign/6-1.json",
+          "lines": "campaign/6-1.lines.json",
+          "background": "moonlit-hollow-vines"
+        },
+        {
+          "id": "6-2",
+          "number": 27,
+          "name": "Moonlit Web",
+          "file": "campaign/6-2.json",
+          "lines": "campaign/6-2.lines.json",
+          "background": "moonlit-hollow-web"
+        },
+        {
+          "id": "6-3",
+          "number": 28,
+          "name": "Pumpkin Patch",
+          "file": "campaign/6-3.json",
+          "lines": "campaign/6-3.lines.json",
+          "background": "moonlit-hollow-patch"
+        },
+        {
+          "id": "6-4",
+          "number": 29,
+          "name": "The Old Well",
+          "file": "campaign/6-4.json",
+          "lines": "campaign/6-4.lines.json",
+          "background": "moonlit-hollow-well"
+        },
+        {
+          "id": "6-5",
+          "number": 30,
+          "name": "The Glasshouse",
+          "file": "campaign/6-5.json",
+          "lines": "campaign/6-5.lines.json",
+          "background": "moonlit-hollow-glasshouse"
+        }
+      ]
+    },
+    {
+      "stage": 7,
+      "world": "Petal Terraces",
+      "master": "flowerPower",
+      "levels": [
+        {
+          "id": "7-1",
+          "number": 31,
+          "name": "Pinwheel Garden",
+          "file": "campaign/7-1.json",
+          "lines": "campaign/7-1.lines.json",
+          "background": "petal-terraces-pinwheels"
+        },
+        {
+          "id": "7-2",
+          "number": 32,
+          "name": "Rose Trellis",
+          "file": "campaign/7-2.json",
+          "lines": "campaign/7-2.lines.json",
+          "background": "petal-terraces-trellis"
+        },
+        {
+          "id": "7-3",
+          "number": 33,
+          "name": "Soap Bubbles",
+          "file": "campaign/7-3.json",
+          "lines": "campaign/7-3.lines.json",
+          "background": "petal-terraces-bubbles"
+        },
+        {
+          "id": "7-4",
+          "number": 34,
+          "name": "The Water Mill",
+          "file": "campaign/7-4.json",
+          "lines": "campaign/7-4.lines.json",
+          "background": "petal-terraces-mill"
+        },
+        {
+          "id": "7-5",
+          "number": 35,
+          "name": "The Pergola",
+          "file": "campaign/7-5.json",
+          "lines": "campaign/7-5.lines.json",
+          "background": "petal-terraces-pergola"
+        }
+      ]
+    },
+    {
+      "stage": 8,
+      "world": "Ribbon Fair",
+      "master": "luckySpin",
+      "levels": [
+        {
+          "id": "8-1",
+          "number": 36,
+          "name": "The Big Top",
+          "file": "campaign/8-1.json",
+          "lines": "campaign/8-1.lines.json",
+          "background": "ribbon-fair-helter-skelter"
+        },
+        {
+          "id": "8-2",
+          "number": 37,
+          "name": "The Carousel",
+          "file": "campaign/8-2.json",
+          "lines": "campaign/8-2.lines.json",
+          "background": "ribbon-fair-carousel"
+        },
+        {
+          "id": "8-3",
+          "number": 38,
+          "name": "Ring Toss",
+          "file": "campaign/8-3.json",
+          "lines": "campaign/8-3.lines.json",
+          "background": "ribbon-fair-ring-toss"
+        },
+        {
+          "id": "8-4",
+          "number": 39,
+          "name": "Prize Rosettes",
+          "file": "campaign/8-4.json",
+          "lines": "campaign/8-4.lines.json",
+          "background": "ribbon-fair-rosettes"
+        },
+        {
+          "id": "8-5",
+          "number": 40,
+          "name": "The Ferris Wheel",
+          "file": "campaign/8-5.json",
+          "lines": "campaign/8-5.lines.json",
+          "background": "ribbon-fair-prize-wheel"
+        }
+      ]
     }
   ]
 }
