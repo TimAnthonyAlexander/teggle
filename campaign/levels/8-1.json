@@ -4,7 +4,7 @@
   "concept": {
     "subject": "A big top at the fair, drawn flat in pale turquoise: a three-peaked circus tent with a scalloped valance and flags on its poles, a Ferris wheel with striped cars on the left, a striped hot-air balloon on the right and a path leading away from the tent's entrance.",
     "composition": "The big top fills the middle third of the height: its center peak sits just under the cannon, the two side peaks at about a third and two thirds of the width, and its outer roof edges fall from the shoulders under the side peaks to the eaves at about a sixth and five sixths of the width. A dark fold crosses the roof under the center peak, its long arm on the left. The wall below has a dark entrance in the middle and a small striped booth beside it. The Ferris wheel stands in the upper left corner on a dark A-frame, the balloon floats in the upper right, the far hills fall from the tent to the side edges and the path widens from the entrance to both lower corners.",
-    "layout": "51 round pegs and 108 bricks. The big top's two outer roof edges are the slides: brick runs from the shoulders under the side peaks, just outside the cannon's clearance, down to the eaves, where a plain shot lands on the top brick and rides all five; the left one carries on onto the Ferris wheel's A-frame. The far hill's crest right of the tent is a third, shallower slide to the right wall, and the path's edges are two long brick slides curving out to the walls. The fold under the cannon is a solid along its long left arm and three bricks on its right arm, and it shelters the roof's left pocket; the valance and the wall's foot are brick rows falling gently outward. The Ferris wheel's rim is a brick arc with three cars hung inside it, the balloon a brick ring open underneath over its stripe, and the flagpoles, the right pennant, two cypresses, the entrance's curtains, the booth's counter and the tent's sides short bricks. Pegs mark the roof's fabric in both pockets, lamps along the wall, the shaded ground above the path's edges, the path's foreground, the booth's roof and a few points of sky."
+    "layout": "51 round pegs and 108 bricks. The big top's two outer roof edges are the slides: brick runs from the shoulders under the side peaks, just outside the cannon's clearance, down to the eaves, where a plain shot lands on the top brick and rides all five. The far hill's crest right of the tent is a third, shallower slide to the right wall, and the path's edges are two long brick slides curving out to the walls. The fold under the cannon is a solid along its long left arm and three bricks on its right arm, and it shelters the roof's left pocket; the valance and the wall's foot are brick rows falling gently outward. The Ferris wheel's rim is a brick arc with three cars hung inside it, the balloon a brick ring open underneath over its stripe, and the flagpoles, the right pennant, two cypresses, the entrance's curtains, the booth's counter and the tent's sides short bricks. Pegs mark the roof's fabric in both pockets, lamps along the wall, the shaded ground above the path's edges and at both side edges, the path's foreground, the booth's roof and the sky right of the balloon, all at least 38 px apart and 18 px clear of the bricks, so that Lucky Spin's Big Ball finds no gap to wedge in."
   },
   "plan": {
     "archetypes": ["outline"],
@@ -47,10 +47,10 @@
       "polygons": [
         {
           "points": [
-            [358, 146],
+            [350, 140],
             [447, 202],
             [441, 212],
-            [352, 156]
+            [344, 150]
           ]
         }
       ]

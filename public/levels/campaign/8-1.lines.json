@@ -31,7 +31,7 @@
       "id": "pennant",
       "note": "The pennant flying from the right flagpole",
       "mode": "bricks",
-      "points": [[623, 45], [658, 52]]
+      "points": [[627, 46], [662, 53]]
     },
     {
       "id": "wheel-rim",
@@ -50,12 +50,6 @@
       "points": [[183, 165], [147, 117], [45, 256]]
     },
     {
-      "id": "frame-foot",
-      "note": "The foot of the A-frame, falling to the right",
-      "mode": "bricks",
-      "points": [[76, 264], [109, 269]]
-    },
-    {
       "id": "tree-left",
       "note": "The cypress at the left edge, behind the Ferris wheel, leaning a little",
       "mode": "bricks",
@@ -63,27 +57,27 @@
     },
     {
       "id": "chevron-right",
-      "note": "The right arm of the dark fold in the roof, running up to the valley under the right peak",
+      "note": "The right arm of the dark fold in the roof, running up the right peak's inner slope",
       "mode": "bricks",
-      "points": [[569, 139], [532, 172], [478, 208]]
+      "points": [[585, 128], [569, 139], [532, 172], [478, 208]]
     },
     {
       "id": "valance-left",
       "note": "The scalloped valance under the roof, left of the entrance, falling gently outward",
       "mode": "bricks",
-      "points": [[390, 240], [189, 259]]
+      "points": [[390, 240], [189, 265]]
     },
     {
       "id": "valance-right",
       "note": "The scalloped valance under the roof, right of the entrance, falling gently outward",
       "mode": "bricks",
-      "points": [[478, 240], [725, 262]]
+      "points": [[478, 240], [725, 265]]
     },
     {
       "id": "curtain-left",
       "note": "The curtain drawn back on the left of the entrance",
       "mode": "bricks",
-      "points": [[412, 266], [381, 318]]
+      "points": [[414, 270], [398, 322]]
     },
     {
       "id": "curtain-right",
@@ -97,13 +91,13 @@
       "mode": "pegs",
       "spacing": 80,
       "keepSpacing": true,
-      "points": [[512, 280], [512, 281]]
+      "points": [[515, 283], [515, 284]]
     },
     {
       "id": "booth-counter",
       "note": "The small booth's striped counter",
       "mode": "bricks",
-      "points": [[525, 314], [531, 345]]
+      "points": [[528, 314], [534, 345]]
     },
     {
       "id": "hem-left",
@@ -127,14 +121,14 @@
       "id": "hem-right",
       "note": "The foot of the big top's wall, right of the booth",
       "mode": "bricks",
-      "points": [[555, 327], [795, 348]]
+      "points": [[566, 328], [805, 349]]
     },
     {
       "id": "path-left",
       "note": "The left edge of the path, from the entrance curving out to the left wall",
       "mode": "bricks",
       "points": [
-        [410, 350], [378, 362], [345, 381], [304, 405], [253, 430], [201, 449], [150, 465],
+        [418, 358], [382, 368], [345, 384], [304, 405], [253, 430], [201, 449], [150, 465],
         [99, 478], [44, 490]
       ]
     },
@@ -157,16 +151,16 @@
       "id": "tree-right",
       "note": "The cypress on the hill right of the big top",
       "mode": "bricks",
-      "points": [[813, 128], [817, 158]]
+      "points": [[826, 118], [829, 148]]
     },
     {
       "id": "balloon",
       "note": "The hot-air balloon's envelope, open underneath over its basket",
       "mode": "bricks",
       "points": [
-        [734, 128], [713.1, 117.8], [698.9, 97.4], [696.7, 72.7], [707.2, 50.1], [727.6, 35.9],
+        [731.6, 127.4], [713.1, 117.8], [698.9, 97.4], [696.7, 72.7], [707.2, 50.1], [727.6, 35.9],
         [744, 33], [760.4, 35.9], [780.8, 50.1], [791.3, 72.7], [789.1, 97.4], [774.9, 117.8],
-        [754, 128]
+        [756.4, 127.4]
       ]
     },
     {
@@ -197,64 +191,97 @@
       "id": "cloud-left",
       "note": "The underside of the cloud between the Ferris wheel and the left flagpole",
       "mode": "pegs",
-      "spacing": 40,
-      "points": [[242, 60], [282, 52]]
+      "spacing": 80,
+      "keepSpacing": true,
+      "points": [[282, 52], [282, 53]]
     },
     {
       "id": "sky-far-right",
       "note": "The sky over the far hill at the right edge",
       "mode": "pegs",
-      "spacing": 40,
-      "points": [[858, 152], [890, 168]]
+      "spacing": 80,
+      "keepSpacing": true,
+      "points": [[870, 150], [870, 151]]
+    },
+    {
+      "id": "sky-top-right",
+      "note": "The sky right of the balloon",
+      "mode": "pegs",
+      "spacing": 39,
+      "keepSpacing": true,
+      "points": [[840, 40], [890, 100]]
     },
     {
       "id": "foreground",
       "note": "The path's foreground along the bottom, between the flippers",
       "mode": "pegs",
-      "spacing": 41,
-      "points": [[160, 503], [720, 503]]
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[160, 506], [700, 506]]
     },
     {
       "id": "roof-left-panel",
       "note": "The roof fabric under the left roof edge",
       "mode": "pegs",
       "spacing": 46,
-      "points": [[375, 205], [330, 186], [285, 206]]
+      "keepSpacing": true,
+      "points": [[370, 201], [330, 186], [285, 206]]
     },
     {
       "id": "roof-right-panel",
       "note": "The roof fabric under the right roof edge",
       "mode": "pegs",
-      "spacing": 50,
-      "points": [[560, 182], [610, 200], [660, 216]]
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[593, 194], [631, 206]]
     },
     {
       "id": "wall-left",
       "note": "Lamps along the big top's wall left of the entrance",
       "mode": "pegs",
-      "spacing": 44,
-      "points": [[172, 298], [340, 298]]
+      "spacing": 80,
+      "keepSpacing": true,
+      "points": [[172, 302], [256, 295]]
     },
     {
       "id": "wall-right",
       "note": "Lamps along the big top's wall right of the booth",
       "mode": "pegs",
       "spacing": 44,
-      "points": [[575, 296], [751, 296]]
+      "keepSpacing": true,
+      "points": [[575, 290], [751, 305]]
     },
     {
       "id": "ground-left",
       "note": "The shaded ground above the path's left edge",
       "mode": "pegs",
-      "spacing": 52,
-      "points": [[300, 368], [240, 384], [180, 398], [120, 410], [60, 422]]
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[250, 385], [100, 423]]
+    },
+    {
+      "id": "ground-far-left",
+      "note": "The shaded ground at the left edge, under the Ferris wheel's frame",
+      "mode": "pegs",
+      "spacing": 42,
+      "keepSpacing": true,
+      "points": [[40, 300], [70, 380]]
     },
     {
       "id": "ground-right",
       "note": "The shaded ground above the path's right edge",
       "mode": "pegs",
-      "spacing": 52,
-      "points": [[580, 370], [640, 388], [700, 404], [760, 418], [820, 432], [880, 444]]
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[590, 372], [830, 432]]
+    },
+    {
+      "id": "ground-far-right",
+      "note": "The hill right of the big top",
+      "mode": "pegs",
+      "spacing": 50,
+      "keepSpacing": true,
+      "points": [[848, 245], [872, 355]]
     },
     {
       "id": "sky-right",
