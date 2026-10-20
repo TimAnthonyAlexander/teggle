@@ -7,10 +7,13 @@
 //
 // Usage: npm run campaign:grid -- <id> [--crop x0,y0,x1,y1] [--step 20] [--lines] [--level]
 //        [--limits] [--picture <file>] [--level-file <file>] [--name <suffix>] [--sketch]
+//        npm run campaign:grid -- original:<id> [--crop x0,y0,x1,y1] [--step 20]
 // --picture draws another file (a raw generation) instead of public/backgrounds/<id>.webp;
 // --level-file draws another level file instead of public/levels/campaign/<id>.json;
 // --sketch renders the lines and solids alone over exactly the picture's frame, into
 // reference/teggle-art/sketches/<id>.png, as a layout guide for painting the picture.
+// original:<id> draws one of the original's levels (public/original/) on its 650 board, its
+// picture where the original draws it and the cannon pivot marked, into original-<id>.png.
 
 import { mkdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -26,6 +29,7 @@ import { flipperSweeps } from '../../src/gen/flippers';
 import { smoothLine } from '../../src/gen/lines';
 import { elementShape, filePose } from '../../src/gen/shapes';
 import { BOARD_X, BOARD_Y, layout } from '../../src/game/layout';
+import { ORIGINAL_PICTURE, parseOriginalManifest } from '../../src/level/original';
 import { parseLevel, type Level } from '../../src/level/schema';
 import {
   BACKGROUNDS_DIR,
@@ -141,9 +145,38 @@ function levelSvg(level: Level, k: number): string {
   return out.join('');
 }
 
+/** One of the original's levels on its 650 x 560 board, over its picture, cannon pivot marked. */
+async function original(id: string): Promise<void> {
+  const dir = path.join(ROOT, 'public', 'original');
+  const manifest = parseOriginalManifest(
+    JSON.parse(await readFile(path.join(dir, 'manifest.json'), 'utf8')),
+  );
+  const entry = manifest.levels.find((l) => l.id === id);
+  if (entry === undefined) throw new Error(`No original level ${id}.`);
+  const picture = await readFile(path.join(dir, 'backgrounds', `${entry.background}.webp`));
+  const level = parseLevel(JSON.parse(await readFile(path.join(dir, entry.file), 'utf8')));
+  const [x0 = -4, y0 = -4, x1 = 654, y1 = 564] = (arg('crop') ?? '-4,-4,654,564')
+    .split(',')
+    .map(Number);
+  const k = Math.min(MAX_W / (x1 - x0), MAX_H / (y1 - y0));
+  const p = ORIGINAL_PICTURE;
+  const parts = [
+    `<rect x="${x0}" y="${y0}" width="${x1 - x0}" height="${y1 - y0}" fill="#333"/>`,
+    `<image href="data:image/webp;base64,${picture.toString('base64')}" x="${p.x}" y="${p.y}" width="${p.width}" height="${p.height}" preserveAspectRatio="none"/>`,
+    levelSvg(level, k),
+    grid(x0, y0, x1, y1, Number(arg('step') ?? 20), k),
+    `<circle cx="325" cy="${CANNON_Y}" r="${6 / k}" fill="#f33" stroke="#000" stroke-width="${1.5 / k}"/>`,
+  ];
+  const width = Math.round((x1 - x0) * k);
+  const height = Math.round((y1 - y0) * k);
+  const suffix = arg('crop') === undefined ? '' : `-crop-${[x0, y0, x1, y1].join('-')}`;
+  await render(parts, x0, y0, x1, y1, width, height, path.join(OUT, `original-${id}${suffix}.png`));
+}
+
 async function main(): Promise<void> {
   const id = process.argv[2];
   if (id === undefined || id.startsWith('--')) throw new Error('Give a level id, e.g. 1-3.');
+  if (id.startsWith('original:')) return original(id.slice('original:'.length));
   // With --picture the level's sources may not exist yet.
   const campaign =
     arg('picture') === undefined ? await loadCampaign() : await loadCampaign().catch(() => null);
