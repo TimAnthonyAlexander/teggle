@@ -107,6 +107,14 @@
           "file": "campaign/3-1.json",
           "lines": "campaign/3-1.lines.json",
           "background": "golden-rooftops-gables"
+        },
+        {
+          "id": "3-2",
+          "number": 12,
+          "name": "Lantern Loop",
+          "file": "campaign/3-2.json",
+          "lines": "campaign/3-2.lines.json",
+          "background": "golden-rooftops-lanterns"
         }
       ]
     }
