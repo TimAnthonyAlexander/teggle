@@ -1,0 +1,161 @@
+{
+  "formatVersion": 1,
+  "background": "lighthouse-cove-fish-boat",
+  "board": { "width": 916, "height": 560 },
+  "groups": [
+    {
+      "id": "boat",
+      "note": "The boat gliding forward and back along its own heading",
+      "movement": { "type": "horizontalCycle", "period": 1600, "phase": 0.25, "radius": 60, "pathRotation": 1 }
+    }
+  ],
+  "lines": [
+    {
+      "id": "hull",
+      "note": "The long narrow hull, its pointed bow at the top right like a fish's head and its blunt stern at the lower left",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 38,
+      "keepSpacing": true,
+      "group": "boat",
+      "corners": [0, 5],
+      "points": [
+        [729, 103], [714, 154], [679, 222], [629, 305], [575, 384], [523, 425], [537, 360],
+        [587, 278], [641, 198], [690, 138]
+      ]
+    },
+    {
+      "id": "shaft",
+      "note": "The long tail shaft trailing from the stern",
+      "mode": "pegs",
+      "group": "boat",
+      "points": [[507, 452], [507, 456]]
+    },
+    {
+      "id": "swell-1",
+      "note": "Swell in the top left corner, far from the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[24, 46], [104, 58], [184, 46], [232, 52]]
+    },
+    {
+      "id": "swell-2",
+      "note": "Swell in the top left corner, under the first",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[24, 108], [104, 96], [184, 108], [212, 104]]
+    },
+    {
+      "id": "swell-5",
+      "note": "Swell in the top left corner, the lowest row",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[24, 158], [104, 170], [184, 158], [250, 164]]
+    },
+    {
+      "id": "swell-3",
+      "note": "Swell in the top right corner, beyond the bow",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[812, 52], [852, 44], [892, 52]]
+    },
+    {
+      "id": "swell-4",
+      "note": "Swell in the top right corner, under the first",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[820, 108], [856, 100], [892, 106]]
+    },
+    {
+      "id": "swell-6",
+      "note": "Swell in the top right corner, the lowest row",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[812, 164], [852, 158], [892, 164]]
+    },
+    {
+      "id": "wave-1-left",
+      "note": "The top row of wave crests, left of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[24, 240], [104, 252], [184, 240], [264, 252], [344, 242]]
+    },
+    {
+      "id": "wave-1-right",
+      "note": "The top row of wave crests, right of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[727, 252], [782, 240], [838, 252], [892, 242]]
+    },
+    {
+      "id": "wave-2-left",
+      "note": "The second row of wave crests, left of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[24, 300], [104, 288], [184, 300], [264, 288], [344, 300], [424, 288], [526, 296]]
+    },
+    {
+      "id": "wave-2-right",
+      "note": "The second row of wave crests, right of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[696, 288], [762, 300], [828, 288], [892, 298]]
+    },
+    {
+      "id": "wave-3-left",
+      "note": "The third row of wave crests, left of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[24, 336], [104, 348], [184, 336], [264, 348], [344, 336], [424, 348], [496, 340]]
+    },
+    {
+      "id": "wave-3-right",
+      "note": "The third row of wave crests, right of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[666, 348], [742, 336], [818, 348], [892, 338]]
+    },
+    {
+      "id": "wave-4-left",
+      "note": "The fourth row of wave crests, left of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[24, 396], [104, 384], [184, 396], [264, 384], [344, 396], [424, 384], [465, 390]]
+    },
+    {
+      "id": "wave-4-right",
+      "note": "The fourth row of wave crests, right of the boat",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[635, 384], [700, 396], [766, 384], [830, 396], [892, 386]]
+    },
+    {
+      "id": "wave-5-left",
+      "note": "The fifth row of wave crests, between the left flipper and the stern",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[112, 446], [190, 434], [268, 446], [346, 434], [440, 444]]
+    },
+    {
+      "id": "wave-5-right",
+      "note": "The fifth row of wave crests, between the stern and the right flipper",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[590, 434], [662, 446], [734, 434], [804, 444]]
+    },
+    {
+      "id": "wave-6-left",
+      "note": "The lowest row of wave crests, left of the tail shaft",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[132, 498], [208, 486], [284, 498], [360, 486], [436, 496]]
+    },
+    {
+      "id": "wave-6-right",
+      "note": "The lowest row of wave crests, right of the tail shaft",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[580, 486], [652, 498], [724, 486], [790, 496]]
+    }
+  ]
+}

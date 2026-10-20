@@ -1,0 +1,109 @@
+{
+  "formatVersion": 1,
+  "background": "lighthouse-cove-net",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "rope-left",
+      "note": "The green net stretched over the top of the left rack, sagging between its front poles",
+      "mode": "pegs",
+      "points": [[214, 228], [260, 240], [305, 242], [350, 236], [378, 226]]
+    },
+    {
+      "id": "rope-right",
+      "note": "The green net stretched over the top of the right rack",
+      "mode": "pegs",
+      "points": [[606, 232], [650, 242], [700, 240], [750, 234], [798, 226]]
+    },
+    {
+      "id": "poles-left",
+      "note": "The tips of the left rack's poles, leaning above the net",
+      "mode": "pegs",
+      "spacing": 80,
+      "points": [[216, 176], [264, 184], [312, 190]]
+    },
+    {
+      "id": "pole-left-tall",
+      "note": "The tip of the tallest pole at the left rack's right end",
+      "mode": "pegs",
+      "points": [[394, 152], [394, 156]]
+    },
+    {
+      "id": "pole-right-tall",
+      "note": "The tips of the tall poles at the right rack's left end",
+      "mode": "pegs",
+      "points": [[592, 156], [592, 160]]
+    },
+    {
+      "id": "poles-right",
+      "note": "The tips of the right rack's poles at its right end",
+      "mode": "pegs",
+      "spacing": 54,
+      "points": [[700, 194], [752, 184], [806, 176]]
+    },
+    {
+      "id": "skirt-left",
+      "note": "The net draped from the left rack's front pole down to the sand",
+      "mode": "pegs",
+      "points": [[200, 284], [160, 320], [112, 356]]
+    },
+    {
+      "id": "skirt-right",
+      "note": "The net draped from the right rack's tall poles down to the sand",
+      "mode": "pegs",
+      "points": [[584, 282], [548, 318], [510, 352]]
+    },
+    {
+      "id": "floats-left",
+      "note": "The left net's lower edge lying on the sand",
+      "mode": "pegs",
+      "spacing": 62,
+      "keepSpacing": true,
+      "points": [[176, 384], [236, 386], [300, 386], [362, 384]]
+    },
+    {
+      "id": "floats-right",
+      "note": "The right net's lower edge lying on the sand",
+      "mode": "pegs",
+      "spacing": 62,
+      "keepSpacing": true,
+      "points": [[548, 392], [610, 396], [680, 398], [750, 396], [812, 390]]
+    },
+    {
+      "id": "stakes",
+      "note": "The row of distant stakes standing in the water on the left",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[24, 266], [60, 267], [96, 268], [132, 269], [166, 270]]
+    },
+    {
+      "id": "beach-left",
+      "note": "The far strip of beach behind the racks, at the left",
+      "mode": "pegs",
+      "points": [[26, 306], [70, 304], [114, 304]]
+    },
+    {
+      "id": "beach-middle",
+      "note": "The far strip of beach between the racks",
+      "mode": "pegs",
+      "points": [[416, 306], [458, 306], [500, 306]]
+    },
+    {
+      "id": "beach-right",
+      "note": "The far strip of beach behind the racks, at the right",
+      "mode": "pegs",
+      "points": [[804, 304], [848, 304], [890, 306]]
+    },
+    {
+      "id": "nets",
+      "note": "The mesh hanging under both racks, and the shallow water below the sand bar where the racks are reflected",
+      "mode": "pegs",
+      "closed": true,
+      "corners": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      "points": [
+        [214, 250], [372, 250], [372, 405], [544, 405], [544, 250], [702, 250], [716, 292],
+        [806, 370], [892, 405], [892, 555], [24, 555], [24, 405], [110, 370], [200, 292]
+      ]
+    }
+  ]
+}

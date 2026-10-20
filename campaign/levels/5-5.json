@@ -1,26 +1,25 @@
 {
   "id": "5-5",
   "name": "Lighthouse Point",
-  "draft": true,
   "concept": {
-    "subject": "A white lighthouse on a rocky point at the end of a curving breakwater, with lantern posts along the breakwater and two sea stacks offshore.",
-    "composition": "The lighthouse stands right of center at three fifths of the width, its lamp room and gallery at two fifths of the height and its tower tapering down to the rocks at the bottom. The breakwater curves from the lower left up toward the lighthouse's base. Two sea stacks rise on the left between a fifth and two fifths of the width to half height, the larger one pierced by an arch. Rows of waves roll along the bottom; the top center is open sky.",
-    "layout": "Round pegs only, 141, and the stage's one asymmetric board. The lighthouse's tower and lamp room are peg outlines with a ring of pegs around the gallery; the breakwater is a long peg line with a lantern peg on every post; the sea stacks and their arch are peg outlines; the wave crests are peg lines above the flippers' swing."
+    "subject": "A white lighthouse on a rocky point, drawn in ink and soft watercolor, looking out over the sea under bands of blue, salmon and beige cloud, with gulls in the sky.",
+    "composition": "The lighthouse stands left of the cannon at a quarter of the width, its pointed roof and lamp room in the top fifth and its tower tapering down to the rocks at three quarters of the height, a small keeper's annex at its foot. The rocky point fills the bottom quarter, its edge running from the tower's foot down to the lower right. The horizon crosses at three fifths of the height right of the tower, a long salmon cloud just above it, a band of blue cloud at a third of the height and beige clouds in the top right corner; the sky under the cannon is open.",
+    "layout": "Round pegs only, 141, and the stage's one asymmetric board. The roof is a peaked solid over the gallery rail, whose middle peg it shelters; the tower's walls are two peg lines. The rocky point's edge and its boulders are peg lines, the horizon, two lines of foam and the sea left of the tower peg rows, and the clouds and gulls pegs. The cloud rows leave the sky under and right of the cannon open, so the nearest pegs are the lighthouse's top, a gull and the far ends of the clouds."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 141,
     "bricks": 0,
     "difficulty": {
       "target": 0.25,
-      "note": "The stage's hardest: the tower walls off the right half's middle and nothing slides balls back toward the bucket."
+      "note": "The stage's hardest: the open sky under the cannon spreads the orange pegs over the lighthouse, the far cloud ends and the long rows of sea and rock, and nothing slides balls back toward the bucket."
     }
   },
   "background": {
     "id": "lighthouse-cove-lighthouse",
-    "prompt": "A white lighthouse with soft gray-blue bands stands on a rocky point in a sunny cove, right of the center at about three fifths of the picture width, its round lamp room and gallery at about two fifths of the picture height and its tapering tower reaching down to the rocks at the bottom. A long, curving stone breakwater runs from the lower left of the picture up toward the lighthouse's base, with small lantern posts along it. On the left, between about one fifth and two fifths of the width, two sea stacks rise from the water to about half the height, the larger one with a round arch through it. Rows of gentle waves with white foam lines roll across the clear aqua water at the bottom. A soft blue sky with a few small clouds; the top center is open sky; the lower corners are calm water.",
+    "prompt": "An ink and watercolor illustration of a white lighthouse on a rocky point by the sea. The lighthouse stands at about a quarter of the width: its finial and pointed mauve roof from about a sixteenth to a fifth of the height, the lamp room and gallery just below, its pale tower tapering down to the rocks at about three quarters of the height, with three narrow windows and a small keeper's annex at its foot on the left. Gray rocks fill the bottom quarter, their edge running from the tower's foot down to the lower right corner. Right of the tower the sea's horizon crosses at about three fifths of the height above a band of blue water; a long salmon cloud lies just above the horizon, a band of pale blue cloud crosses at about a third of the height and soft beige clouds fill the top right corner. A few gulls fly in the pale sky; the top center is open sky, the lower corners rock and water.",
     "picture": {
       "ref": "pixabay:6968648",
       "kind": "painting",
@@ -42,6 +41,17 @@
   },
   "recipe": {
     "seed": 505,
-    "targetCount": 141
+    "targetCount": 141,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [238, 52],
+            [282, 100],
+            [198, 100]
+          ]
+        }
+      ]
+    }
   }
 }
