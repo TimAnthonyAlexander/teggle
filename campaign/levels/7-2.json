@@ -1,26 +1,25 @@
 {
   "id": "7-2",
   "name": "Rose Trellis",
-  "draft": true,
   "concept": {
-    "subject": "A garden path passing under three round-arched rose trellises, one behind the other, climbing roses spilling over their arches.",
-    "composition": "Seen from the front the three arches nest inside each other, all standing on one ground line at four fifths of the height: the front arch spans from a fifth to four fifths of the width with its top at a quarter of the height, below the open top center; the middle arch is two thirds its size, the back arch a third. Roses cluster on the arches' tops and sides; stepping stones lead through them; low stone walls with flowers run along the sides.",
-    "layout": "60 round pegs and 72 bricks. The three trellis arches are concentric brick arches; a ball that drops between two of them rides the lower arch down toward its foot. The rose clusters are peg groups along the arches' crowns and sides, the stepping stones a short peg line under the smallest arch, and the side walls' flowers single pegs above the flippers' swing."
+    "subject": "A garden path under a long white wrought-iron pergola, its arches standing one behind the other and receding toward a bright opening, with greenery and pale blossoms around them.",
+    "composition": "The front arch fills the picture: its broad white rails rise from legs near both edges and meet above the top edge a little right of center, the innermost rail cresting just under the top. Behind it a slender second arch stands with its legs at a quarter and three quarters of the width and its crown at a fifth of the height; the arches beyond shrink toward a bright opening a little right of center at half the height, their crowns crossing in a gray canopy under the top center. A path of round stepping stones runs from the bottom center up to the opening between bushes, and pale blossoms fill the top left corner outside the arch.",
+    "layout": "60 round pegs and 72 bricks. The front arch's outer and inner rails and the second arch are three nested brick arches whose tops end at the cannon's clearance and whose legs stand down into the bushes, with narrow channels between them. Their inner faces are slides from the cannon: a nearly level shot to the left rides the outer rail down the left side, and a shot about 70 degrees to the right rides the inner rail down the right side. A short piece of the canopy, a peaked solid, hangs over the crown of the third arch; the third and fourth arches are peg arcs over the path, and the far opening, the stepping stones, the bushes on both sides, the thin far legs on the left and the greenery between the front and second arches' legs are pegs."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 60,
     "bricks": 72,
     "difficulty": {
       "target": 0.27,
-      "note": "Middle of the stage: the nested arches keep balls rolling, but the roses inside the back arch are shielded by two arches."
+      "note": "Middle of the stage: the two rail slides light a run of bricks from one shot, but about eight of the twenty orange pegs fall on the third and fourth arches under the cannon, and the peaked canopy over the third arch's crown turns the straightest shots away from them."
     }
   },
   "background": {
     "id": "petal-terraces-trellis",
-    "prompt": "A garden path in sunny terraced flower gardens passes under three round-arched rose trellises standing one behind the other, seen from the front so that their arches nest inside each other. The front arch is the largest, spanning from about one fifth to four fifths of the picture width with its top at about one quarter of the picture height, below the open top center; the middle arch is about two thirds of its size and the back arch about a third, all three standing on the same ground line at about four fifths of the height. The arches are slender pale wood, and climbing roses in dusty rose, blush pink and cream spill over their tops and down their sides in clusters. Round stepping stones lead along the path through the arches. Low stone walls with soft peach and butter-yellow flowers run along both sides; the lower corners are low sage hedges.",
+    "prompt": "A photo of a garden path under a long white wrought-iron pergola, seen along the path. The front arch fills the picture: two pairs of broad white rails, joined by scrollwork, rise from legs near the left edge (at about 0.05 and 0.12 of the width) and near the right edge (at about 0.85 and 0.95) and curve over to meet above the top edge a little right of center; the innermost rail crests at about a tenth of the height. Behind it a slender second arch stands with its legs at about a quarter and three quarters of the width and its crown at about a fifth of the height. The arches beyond shrink one behind the other toward a bright opening at about 0.6 of the width and half the height, their crowns crossing in a dense gray canopy under the top center. A path of round gray stepping stones runs from the bottom center, about 0.45 to 0.7 of the width, up to the opening; green bushes line both sides of it, pale blossoms fill the top left corner outside the arch, and the lower corners are dark greenery and the front legs' scrollwork.",
     "picture": {
       "ref": "pexels:31469458",
       "kind": "photo",
@@ -42,6 +41,20 @@
   },
   "recipe": {
     "seed": 702,
-    "targetCount": 132
+    "targetCount": 132,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [454, 161],
+            [507, 148],
+            [560, 161],
+            [560, 169],
+            [507, 157],
+            [454, 169]
+          ]
+        }
+      ]
+    }
   }
 }
