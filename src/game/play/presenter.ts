@@ -58,6 +58,8 @@ const GREEN_NEAR = 40;
 export interface Tally {
   visible: boolean;
   t0: number;
+  /** Game time the tally starts fading out (after its hold), Infinity while it shows. */
+  out: number;
   sum: number;
   count: number;
   popped: number;
@@ -104,7 +106,15 @@ export class Presenter {
   dirtyCount = 0;
 
   readonly callouts: Callout[] = [];
-  readonly tally: Tally = { visible: false, t0: 0, sum: 0, count: 0, popped: 0, style: 0 };
+  readonly tally: Tally = {
+    visible: false,
+    t0: 0,
+    out: Infinity,
+    sum: 0,
+    count: 0,
+    popped: 0,
+    style: 0,
+  };
   readonly particles = new Particles();
 
   // HUD values.
@@ -399,6 +409,7 @@ export class Presenter {
         this.lastScore = e.score;
         this.tally.visible = e.count > 0;
         this.tally.t0 = this.gameMs;
+        this.tally.out = Infinity;
         this.tally.sum = e.sum;
         this.tally.count = e.count;
         this.tally.style = e.styleScore;
@@ -579,6 +590,9 @@ export class Presenter {
       }
       case 'hold':
         if (now < this.settleUntil) return;
+        // The tally never stays up while the next shot is aimed (the winning shot's total goes
+        // into the Fever score instead).
+        if (!this.won && this.tally.out === Infinity) this.tally.out = now;
         if (!this.won && this.tubeHold) {
           this.tubeHold = false;
           this.tubeFrom = this.tubeScore;

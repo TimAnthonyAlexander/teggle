@@ -229,7 +229,9 @@ export class Overlay {
       this.line2 = tallyLine2(t.sum, t.popped);
       this.styleLine = stylePointsLine(t.style);
     }
-    const alpha = Math.min(1, (pres.gameMs - t.t0) / TALLY_FADE_MS);
+    const fadeIn = (pres.gameMs - t.t0) / TALLY_FADE_MS;
+    const fadeOut = 1 - (pres.gameMs - t.out) / TALLY_FADE_MS;
+    const alpha = Math.min(1, fadeIn, fadeOut);
     if (alpha <= 0) return;
     const x = CENTER_X;
     const y = 216;

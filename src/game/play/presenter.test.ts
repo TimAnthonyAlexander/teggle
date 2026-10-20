@@ -58,9 +58,10 @@ describe('presenter', () => {
     expect(h.pres.tally.popped).toBe(hits);
     expect(h.pres.tally.count).toBe(hits);
     expect(h.pres.state.filter((s) => s === GONE)).toHaveLength(hits);
-    // Ready once the tally has held.
+    // Ready once the tally has held, and the tally fades out then: it never stays up for aiming.
     expect(h.now()).toBe((pops[pops.length - 1] ?? 0) + TALLY_HOLD_TICKS);
     expect(h.pres.ready).toBe(true);
+    expect(h.pres.tally.out).toBe(h.pres.gameMs);
   });
 
   it('raises the hit index through a shot for the rising pitch', () => {
