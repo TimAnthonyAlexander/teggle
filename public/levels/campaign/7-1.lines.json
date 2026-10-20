@@ -1,0 +1,311 @@
+{
+  "formatVersion": 1,
+  "background": "petal-terraces-pinwheels",
+  "board": { "width": 916, "height": 560 },
+  "groups": [
+    {
+      "id": "wheel-left",
+      "note": "The left pinwheel, a striped wheel, turning clockwise about its hub",
+      "pivot": [240, 406],
+      "movement": { "type": "rotateAroundCircle", "period": 1600, "reverse": true }
+    },
+    {
+      "id": "flower-right",
+      "note": "The right pinwheel, a flower of six petals, turning counterclockwise about its hub",
+      "pivot": [673, 384],
+      "movement": { "type": "rotateAroundCircle", "period": 1600 }
+    }
+  ],
+  "lines": [
+    {
+      "id": "slide-left",
+      "note": "The edge of the cloud bank sloping from beside the cannon down to the left wall",
+      "mode": "bricks",
+      "points": [[371, 112], [296, 172], [216, 222], [136, 260], [56, 292]]
+    },
+    {
+      "id": "slide-right",
+      "note": "The lower edge of the dark cloud bank, from beside the cannon down to the right wall",
+      "mode": "bricks",
+      "points": [[545, 112], [620, 172], [700, 222], [780, 260], [860, 292], [895, 304]]
+    },
+    {
+      "id": "wheel-rim-1",
+      "note": "The left wheel's striped rim, between two of its white stripes",
+      "mode": "bricks",
+      "group": "wheel-left",
+      "points": [[258.8, 307.8], [274.9, 312.3], [290, 319.4], [303.7, 328.9], [315.7, 340.6]]
+    },
+    {
+      "id": "wheel-rim-2",
+      "note": "The left wheel's striped rim, between two of its white stripes",
+      "mode": "bricks",
+      "group": "wheel-left",
+      "points": [[334.5, 373.2], [338.6, 389.3], [340, 406], [338.6, 422.7], [334.5, 438.8]]
+    },
+    {
+      "id": "wheel-rim-3",
+      "note": "The left wheel's striped rim, between two of its white stripes",
+      "mode": "bricks",
+      "group": "wheel-left",
+      "points": [[315.7, 471.4], [303.7, 483.1], [290, 492.6], [274.9, 499.7], [258.8, 504.2]]
+    },
+    {
+      "id": "wheel-rim-4",
+      "note": "The left wheel's striped rim, between two of its white stripes",
+      "mode": "bricks",
+      "group": "wheel-left",
+      "points": [[221.2, 504.2], [205.1, 499.7], [190, 492.6], [176.3, 483.1], [164.3, 471.4]]
+    },
+    {
+      "id": "wheel-rim-5",
+      "note": "The left wheel's striped rim, between two of its white stripes",
+      "mode": "bricks",
+      "group": "wheel-left",
+      "points": [[145.5, 438.8], [141.4, 422.7], [140, 406], [141.4, 389.3], [145.5, 373.2]]
+    },
+    {
+      "id": "wheel-rim-6",
+      "note": "The left wheel's striped rim, between two of its white stripes",
+      "mode": "bricks",
+      "group": "wheel-left",
+      "points": [[164.3, 340.6], [176.3, 328.9], [190, 319.4], [205.1, 312.3], [221.2, 307.8]]
+    },
+    {
+      "id": "wheel-vanes",
+      "note": "The ring where the left wheel's inner vanes meet its inner rim",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 44,
+      "keepSpacing": true,
+      "group": "wheel-left",
+      "points": [
+        [240, 350], [279.6, 366.4], [296, 406], [279.6, 445.6], [240, 462], [200.4, 445.6],
+        [184, 406], [200.4, 366.4]
+      ]
+    },
+    {
+      "id": "wheel-hub",
+      "note": "The left wheel's hub, still at its middle",
+      "mode": "pegs",
+      "points": [[240, 402], [240, 410]]
+    },
+    {
+      "id": "petal-1",
+      "note": "A petal of the right pinwheel, from the hub out to its round tip",
+      "mode": "bricks",
+      "group": "flower-right",
+      "points": [[673, 349], [666.4, 320.8], [649.2, 295.1]]
+    },
+    {
+      "id": "petal-2",
+      "note": "A petal of the right pinwheel, from the hub out to its round tip",
+      "mode": "bricks",
+      "group": "flower-right",
+      "points": [[642.7, 366.5], [615, 358.2], [584.1, 360.2]]
+    },
+    {
+      "id": "petal-3",
+      "note": "A petal of the right pinwheel, from the hub out to its round tip",
+      "mode": "bricks",
+      "group": "flower-right",
+      "points": [[642.7, 401.5], [621.6, 421.3], [607.9, 449.1]]
+    },
+    {
+      "id": "petal-4",
+      "note": "A petal of the right pinwheel, from the hub out to its round tip",
+      "mode": "bricks",
+      "group": "flower-right",
+      "points": [[673, 419], [679.6, 447.2], [696.8, 472.9]]
+    },
+    {
+      "id": "petal-5",
+      "note": "A petal of the right pinwheel, from the hub out to its round tip",
+      "mode": "bricks",
+      "group": "flower-right",
+      "points": [[703.3, 401.5], [731, 409.8], [761.9, 407.8]]
+    },
+    {
+      "id": "petal-6",
+      "note": "A petal of the right pinwheel, from the hub out to its round tip",
+      "mode": "bricks",
+      "group": "flower-right",
+      "points": [[703.3, 366.5], [724.4, 346.7], [738.1, 318.9]]
+    },
+    {
+      "id": "petal-tip-1",
+      "note": "The round tip of a petal of the right pinwheel",
+      "mode": "pegs",
+      "group": "flower-right",
+      "points": [[642.7, 267], [642.7, 275]]
+    },
+    {
+      "id": "petal-tip-2",
+      "note": "The round tip of a petal of the right pinwheel",
+      "mode": "pegs",
+      "group": "flower-right",
+      "points": [[560, 349.7], [560, 357.7]]
+    },
+    {
+      "id": "petal-tip-3",
+      "note": "The round tip of a petal of the right pinwheel",
+      "mode": "pegs",
+      "group": "flower-right",
+      "points": [[590.3, 462.7], [590.3, 470.7]]
+    },
+    {
+      "id": "petal-tip-4",
+      "note": "The round tip of a petal of the right pinwheel",
+      "mode": "pegs",
+      "group": "flower-right",
+      "points": [[703.3, 493], [703.3, 501]]
+    },
+    {
+      "id": "petal-tip-5",
+      "note": "The round tip of a petal of the right pinwheel",
+      "mode": "pegs",
+      "group": "flower-right",
+      "points": [[786, 410.3], [786, 418.3]]
+    },
+    {
+      "id": "petal-tip-6",
+      "note": "The round tip of a petal of the right pinwheel",
+      "mode": "pegs",
+      "group": "flower-right",
+      "points": [[755.7, 297.3], [755.7, 305.3]]
+    },
+    {
+      "id": "flower-holes",
+      "note": "The open holes between the right pinwheel's petals, around its hub",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 73,
+      "keepSpacing": true,
+      "group": "flower-right",
+      "points": [
+        [631.9, 327.4], [701.5, 320.1], [742.6, 376.7], [714.1, 440.6], [644.5, 447.9],
+        [603.4, 391.3]
+      ]
+    },
+    {
+      "id": "flower-hub",
+      "note": "The right pinwheel's hub, still at its middle",
+      "mode": "pegs",
+      "points": [[673, 380], [673, 388]]
+    },
+    {
+      "id": "cloud-left-top",
+      "note": "The crest of the bright cloud in the top left corner",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[180, 34], [120, 47], [60, 64]]
+    },
+    {
+      "id": "cloud-right-top",
+      "note": "The crest of the dark cloud bank in the top right corner",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[736, 34], [796, 47], [856, 64]]
+    },
+    {
+      "id": "cloud-left-high",
+      "note": "The top of the bright cloud in the upper left",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[262, 40], [190, 76], [112, 106], [30, 126]]
+    },
+    {
+      "id": "cloud-right-high",
+      "note": "The top of the dark cloud bank in the upper right",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[654, 40], [726, 76], [804, 106], [886, 126]]
+    },
+    {
+      "id": "cloud-left-near",
+      "note": "The bright cloud over the left slide, following its edge",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[338, 80], [268, 134], [192, 180], [115, 216], [32, 244]]
+    },
+    {
+      "id": "cloud-right-near",
+      "note": "The dark cloud bank over the right slide, following its edge",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[578, 80], [648, 134], [724, 180], [801, 216], [884, 244]]
+    },
+    {
+      "id": "cloud-left-under",
+      "note": "A gray cloud under the lower end of the left slide, down to the wall",
+      "mode": "pegs",
+      "spacing": 45,
+      "points": [[150, 297], [108, 314], [66, 332], [30, 358]]
+    },
+    {
+      "id": "cloud-right-under",
+      "note": "A bright cloud under the lower end of the right slide, down to the wall",
+      "mode": "pegs",
+      "spacing": 45,
+      "points": [[822, 322], [862, 336], [890, 366], [866, 398]]
+    },
+    {
+      "id": "cloud-band",
+      "note": "The band of bright cloud across the middle, over both pinwheels",
+      "mode": "pegs",
+      "spacing": 46,
+      "points": [
+        [216, 264], [262, 254], [308, 234], [356, 226], [402, 234], [458, 238], [514, 234],
+        [560, 226], [606, 232]
+      ]
+    },
+    {
+      "id": "cloud-under-band-left",
+      "note": "The lower edge of the band of bright cloud, over the striped wheel",
+      "mode": "pegs",
+      "spacing": 46,
+      "points": [[300, 282], [346, 270]]
+    },
+    {
+      "id": "cloud-under-band-right",
+      "note": "The lower edge of the band of bright cloud, over the flower",
+      "mode": "pegs",
+      "points": [[560, 268], [560, 276]]
+    },
+    {
+      "id": "cloud-middle-top",
+      "note": "The top of the bright cloud between the pinwheels",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[392, 300], [425, 280], [458, 273], [491, 280], [524, 300]]
+    },
+    {
+      "id": "cloud-middle-1",
+      "note": "A row of the bright cloud between the pinwheels",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[397, 340], [519, 340]]
+    },
+    {
+      "id": "cloud-middle-2",
+      "note": "A row of the bright cloud between the pinwheels",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[378, 390], [520, 390]]
+    },
+    {
+      "id": "cloud-middle-3",
+      "note": "A row of the bright cloud between the pinwheels",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[376, 440], [528, 440]]
+    },
+    {
+      "id": "cloud-middle-4",
+      "note": "The bright cloud's lowest row, between the pinwheels' sticks",
+      "mode": "pegs",
+      "spacing": 39,
+      "points": [[360, 490], [556, 490]]
+    }
+  ]
+}
