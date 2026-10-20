@@ -1,11 +1,10 @@
 {
   "id": "5-2",
   "name": "The Fish Boat",
-  "draft": true,
   "concept": {
-    "subject": "A little wooden boat built in the shape of a fish, with a round porthole for an eye and a fan-shaped tail rudder, sailing back and forth across the cove.",
-    "composition": "The fish boat floats in the middle of the picture at half height, a third of the picture wide, on a waterline at three fifths of the height. Rows of gentle wave crests fill the water below, evenly spaced to the bottom; two buoys bob near the side edges at the waterline. The sky above is clear and the top center open.",
-    "layout": "Round pegs only, 147. The fish boat is a closed peg outline with a porthole ring, a fin and a fan of tail pegs, about 30 pegs that move together left and right across the middle on one horizontal cycle and keep the band they sweep free. Below it, the wave crests are peg lines that stay above the flippers' swing; the buoys are short peg columns and a few cloud pegs float in the sky beside the cannon."
+    "subject": "A long, narrow wooden boat seen from above on rippled turquoise water, shaped like a fish: a pointed bow for its head, a canopy over its middle and a long tail shaft trailing from its stern.",
+    "composition": "The boat lies diagonally right of the middle, its bow at four fifths of the width near the top and its stern just right of the center at three quarters of the height; the tail shaft trails from the stern down toward the bottom. Rippled open water fills the rest, the top center included.",
+    "layout": "Round pegs only, 147. The boat is a closed peg outline of its hull with one peg on the tail shaft, 21 pegs that glide together forward and back along the boat's own heading on one horizontal cycle turned to that heading, and keep the band they sweep free. The water under the cannon stays open; three short rows of swell fill each top corner, and six rows of wave crests cross the lower three fifths from wall to wall, broken where the boat glides, the lowest two kept clear of the flippers' swing."
   },
   "plan": {
     "archetypes": ["outline", "platforms"],
@@ -13,16 +12,16 @@
     "fill": "none",
     "pegs": 147,
     "bricks": 0,
-    "moving": [{ "what": "the fish boat, about 30 pegs moving as one", "type": "horizontalCycle" }],
-    "features": ["A moving fish shape (spec 8): a fish-shaped boat crossing the cove"],
+    "moving": [{ "what": "the fish boat, 21 pegs moving as one", "type": "horizontalCycle" }],
+    "features": ["A moving fish shape (spec 8): a fish-shaped boat gliding through the cove"],
     "difficulty": {
       "target": 0.26,
-      "note": "Second hardest: the boat's orange pegs come and go, and while it passes it shields the wave rows below it."
+      "note": "Second hardest: the open water under the cannon leaves the nearest pegs in the top corners and on the gliding boat, so the orange pegs spread out instead of gathering in one easy patch."
     }
   },
   "background": {
     "id": "lighthouse-cove-fish-boat",
-    "prompt": "A little wooden boat built in the shape of a fish floats on the calm water of a sunny cove, in the middle of the picture at about half its height, about a third of the picture wide: a rounded fish-shaped hull of pale weathered wood with soft gray-blue stripes, a round porthole window near its front like an eye, a small fin-shaped sail on top and a wide fan-shaped tail rudder at the back. The waterline runs straight across the picture at about three fifths of its height; below it the clear aqua water shows rows of gentle wave crests in soft white lines, evenly spaced down to the bottom. Two round buoys in faded cream and pale teal bob near the left and right edges at the waterline. Above, a soft blue sky with a few small flat clouds; the top center is open sky; the lower corners are calm water.",
+    "prompt": "An aerial photo of one long, narrow wooden boat on rippled turquoise water. The boat lies diagonally right of the middle: its pointed bow, with a muted red tip, at about four fifths of the width and a sixth of the height, its blunt stern just right of the center at about three quarters of the height; a gray canopy covers its middle and a long thin tail shaft trails from the stern down to about half the width near the bottom. Small ripples cover the water everywhere, a little darker toward the lower middle and the top right corner. No shore, no sky; the top center and the lower corners are plain water.",
     "picture": {
       "ref": "pexels:8299829",
       "kind": "photo",
