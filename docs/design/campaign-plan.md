@@ -72,13 +72,13 @@ Gables as brick chevrons; sixteen lanterns gliding around a figure-eight wire; a
 
 | Level | Name | Archetypes | Templates | Pegs / bricks | Moving | Target |
 | --- | --- | --- | --- | --- | --- | --- |
-| 4-1 | Ringed Giant | outline | outline | 54 / 93 | | 34% |
-| 4-2 | Spinning Station | rotating, outline | outline, rotating | 105 / 42 | rotateAroundCircle | 28% |
-| 4-3 | Comet Shower | outline | outline | 62 / 82 | | 30% |
-| 4-4 | Moon Phases | outline | outline | 56 / 85 | | 26% |
-| 4-5 | Supernova | rotating, web, outline | outline, rotating | 34 / 127 | rotateAroundCircle | 23% |
+| 4-1 | Ringed Giant | outline | solids, outline | 54 / 93 | | 34% |
+| 4-2 | Spinning Station | rotating, outline | solids, outline | 105 / 42 | rotateAroundCircle (line movers) | 28% |
+| 4-3 | Comet Shower | outline | solids, outline | 62 / 82 | | 30% |
+| 4-4 | Moon Phases | outline | solids, outline | 56 / 85 | | 26% |
+| 4-5 | Supernova | rotating, web, outline | solids, outline, rotating | 34 / 127 | rotateAroundCircle | 23% |
 
-A planet's ring as a brick bowl; a wheel-shaped station turning; comet tails as slides; seven moons in phases along an arc; a turning shock ring inside static crescents.
+Built on 2026-10-20. A pale planet whose steeply tilted ring is nested brick slides at both tips and, where it crosses the planet, a solid rim over its band and two cloud bands, the planet's limb a brick arc and faint stars single pegs; a station whose docking wheel turns as a group of traced lines over the dark disc where the picture puts it (four rim arcs with wide slots, six spoke pegs), whose big ring is four brick arcs with its deck lights gliding around inside, and whose cylinder top is a solid; a meteor shower of parallel brick tails, the three largest heads brick rings open underneath and the high tail ending in a solid (a new picture: the single comet first found had no shapes for 82 bricks); nine moons in a rainbow arch as brick rings with crater pegs, around nested arcs of star trails under a solid; a nebula whose turning core ring is the rotating template's wheel under a thin solid cap, inside four broken brick rings crossed by five rays of pegs. Traced as first drawn, the five cleared 71%, 40%, 67%, 35% and 53%; each solid is a shelter traced from the picture over objects near the cannon, and it brought its level into the band. Measured clear rates (200 runs each): 33%, 29%, 31%, 22% and 24%, a stage mean of 27.8%, every level inside the band of 17.5% to 39%.
 
 ### Stage 5: Lighthouse Cove
 
