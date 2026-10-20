@@ -1,11 +1,10 @@
 {
   "id": "7-3",
   "name": "Soap Bubbles",
-  "draft": true,
   "concept": {
-    "subject": "Soap bubbles drifting over the flower terraces, floating in slow circles above low stone walls topped with blossoms.",
-    "composition": "Eight round bubbles, each a tenth of the picture wide, float in two loose rows: four in an upper row at a third of the height, at 15, 33, 67 and 85 percent of the width, leaving the top center open; four in a lower row at three fifths of the height, at 24, 42, 58 and 76 percent. Low terrace walls step down from both sides toward the middle at three quarters of the height; hedges fill the lower corners.",
-    "layout": "Bricks only, 127. Each bubble is a ring of curved bricks with a small opening at the bottom, the whole ring floating on its own small circle like the platforms template's floaters but without their center peg; neighboring bubbles circle in opposite directions so the gaps between them open and close. The terrace walls are brick steps that lean toward the middle."
+    "subject": "Soap bubbles drifting through a sunny garden: two clear bubbles with pearly rims and a handful of faint, out-of-focus ones in front of soft sage greenery.",
+    "composition": "One clear bubble high on the left, at about a quarter of the width and a quarter of the height; the larger clear bubble right of the middle, at two thirds of the width and just over half the height. Most faint bubbles gather on the right: a large one right of the top center, one cut off by the top right edge and one at the right edge just under three fifths of the height; three more float low, at a third, three fifths and four fifths of the width. The left half under the clear bubble is open green; the top center is calm.",
+    "layout": "Bricks only, 127. Eight bubbles, each a ring of 12 or 13 curved bricks with a small opening at the bottom, float on small circles of radius 16 over the picture's bubbles, most neighbors circling opposite ways; the two cut off by the right edge are moved in far enough to float. The open left half holds three brick rims that sweep from beside the cannon toward the left wall: the upper and lower slides, steep where a plain shot falls onto them and flatter further out, each ridden whole by one shot, and a short third rim above the left flipper. A fourth rim slopes from between the bubbles on the right to the right wall, where flat shots to the right land. Nothing within 210 px of the cannon can be orange: the sides of the two nearest bubbles that face it and the upper slide's top two bricks."
   },
   "plan": {
     "archetypes": ["platforms", "outline"],
@@ -25,12 +24,12 @@
     ],
     "difficulty": {
       "target": 0.28,
-      "note": "Second easiest: every object is a brick in an open, airy board; the moving gaps make it uneven, not hard."
+      "note": "Second easiest: the two slides light ten or eleven bricks a shot, but nothing within 210 px of the cannon can be orange, so the orange spreads over the slides, the far sides of the near bubbles, the big bubble and the far bubbles that drift as they are aimed at. With orange allowed everywhere the same layout cleared 57% under the stage's power."
     }
   },
   "background": {
     "id": "petal-terraces-bubbles",
-    "prompt": "Soap bubbles drift over sunny terraced flower gardens in late spring. Eight round, clear soap bubbles with thin pearly rims and a faint pastel sheen float in two loose rows across the picture: four in an upper row at about one third of the picture height, at about 15, 33, 67 and 85 percent of the width, each about a tenth of the picture wide, leaving the top center open; and four in a lower row at about three fifths of the height, at about 24, 42, 58 and 76 percent of the width. Below them, low terrace walls of pale stone step down from both sides toward the middle at about three quarters of the height, topped with blossoms in dusty rose, cream and butter yellow. A clear, soft sky; the lower corners are low sage hedges.",
+    "prompt": "A photo of soap bubbles drifting through a sunny garden, the greenery behind them out of focus in soft sage, a little lighter along the top. One clear bubble with a pearly, faintly pink rim hangs high on the left, centered at about a quarter of the width and a quarter of the height and about a seventh of the picture wide; a larger clear bubble, about a fifth of the picture wide, floats right of the middle at about two thirds of the width and just over half the height. Faint, out-of-focus bubbles show as pale discs on the right: a large one right of the top center at two thirds of the width and a quarter of the height, one cut off by the right edge at a fifth of the height, one at the right edge at three fifths of the height, and three low in the picture at about a third, three fifths and four fifths of the width, at about five sixths of the height. Partial bubbles touch the bottom right and bottom left corners. The left half below the clear bubble is open green; the top center is calm.",
     "picture": {
       "ref": "pexels:32141249",
       "kind": "photo",
@@ -52,6 +51,22 @@
   },
   "recipe": {
     "seed": 703,
-    "targetCount": 127
+    "targetCount": 127,
+    "edits": [
+      { "at": [281.69, 72.9], "canBeOrange": false },
+      { "at": [296.28, 89.37], "canBeOrange": false },
+      { "at": [301.93, 110.63], "canBeOrange": false },
+      { "at": [298.06, 131.08], "canBeOrange": false },
+      { "at": [610.44, 189.24], "canBeOrange": false },
+      { "at": [592.14, 173.18], "canBeOrange": false },
+      { "at": [584.41, 151.63], "canBeOrange": false },
+      { "at": [587.14, 128.76], "canBeOrange": false },
+      { "at": [599.84, 109.56], "canBeOrange": false },
+      { "at": [619.84, 98.11], "canBeOrange": false },
+      { "at": [642.81, 96.85], "canBeOrange": false },
+      { "at": [663.84, 105.93], "canBeOrange": false },
+      { "at": [338.7, 152.57], "canBeOrange": false },
+      { "at": [314.9, 177.93], "canBeOrange": false }
+    ]
   }
 }
