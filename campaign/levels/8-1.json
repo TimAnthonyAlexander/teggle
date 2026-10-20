@@ -1,27 +1,26 @@
 {
   "id": "8-1",
   "name": "Helter Skelter",
-  "draft": true,
   "concept": {
-    "subject": "A tall striped helter-skelter tower at the fair, its slide winding down around it in long zigzag runs, with bunting strung from its pointed roof to two booth tents.",
-    "composition": "The tower stands in the middle from a third of the height to the bottom, a seventh of the picture wide, its pointed roof below the open top center. Five sloping slide runs cross in front of it in a zigzag, each reaching out past its sides to a quarter and three quarters of the width, the lowest ending at four fifths of the height. Pennant strings run from the roof's tip down to two small booth tents near the side edges; straw covers the lower corners.",
-    "layout": "51 round pegs and 108 bricks. Each slide run is a long brick slide, the runs alternating left and right down the tower, so a ball that lands on one rides it out and drops to the next; the roof and the two booth tents' roofs are brick chevrons. Pegs follow the pennant strings, the tower's round windows between the runs and the tents' poles."
+    "subject": "A big top at the fair, drawn flat in pale turquoise: a three-peaked circus tent with a scalloped valance and flags on its poles, a Ferris wheel with striped cars on the left, a striped hot-air balloon on the right and a path leading away from the tent's entrance.",
+    "composition": "The big top fills the middle third of the height: its center peak sits just under the cannon, the two side peaks at about a third and two thirds of the width, and its outer roof edges fall from the shoulders under the side peaks to the eaves at about a sixth and five sixths of the width. A dark fold crosses the roof under the center peak, its long arm on the left. The wall below has a dark entrance in the middle and a small striped booth beside it. The Ferris wheel stands in the upper left corner on a dark A-frame, the balloon floats in the upper right, the far hills fall from the tent to the side edges and the path widens from the entrance to both lower corners.",
+    "layout": "51 round pegs and 108 bricks. The big top's two outer roof edges are the slides: brick runs from the shoulders under the side peaks, just outside the cannon's clearance, down to the eaves, where a plain shot lands on the top brick and rides all five; the left one carries on onto the Ferris wheel's A-frame. The far hill's crest right of the tent is a third, shallower slide to the right wall, and the path's edges are two long brick slides curving out to the walls. The fold under the cannon is a solid along its long left arm and three bricks on its right arm, and it shelters the roof's left pocket; the valance and the wall's foot are brick rows falling gently outward. The Ferris wheel's rim is a brick arc with three cars hung inside it, the balloon a brick ring open underneath over its stripe, and the flagpoles, the right pennant, two cypresses, the entrance's curtains, the booth's counter and the tent's sides short bricks. Pegs mark the roof's fabric in both pockets, lamps along the wall, the shaded ground above the path's edges, the path's foreground, the booth's roof and a few points of sky."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 51,
     "bricks": 108,
     "features": ["Brick-heavy throughout (spec 8): 108 of 159 objects"],
     "difficulty": {
       "target": 0.28,
-      "note": "The stage opener and its easiest level: the long runs carry balls across many objects on every drop."
+      "note": "The stage opener and its easiest level: the two roof slides beside the cannon and the hill's crest carry a ball across five bricks at a time, while the fold's solid left arm keeps balls off the most likely orange bricks under the cannon and out of the left roof pocket."
     }
   },
   "background": {
     "id": "ribbon-fair-helter-skelter",
-    "prompt": "A tall helter-skelter tower at a country fair on a breezy afternoon stands in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, striped in cream and muted brick red, with a pointed roof and a small flag on top below the open top center. Its wooden slide winds down around it: seen from the front, five long sloping runs cross in front of the tower in a zigzag, each reaching out past the tower's sides to about one quarter and three quarters of the picture width, the first sloping down to the left, the next to the right and so on, the lowest ending at about four fifths of the height. Strings of small triangular pennants run from the roof's tip down to two small booth tents near the left and right edges. A soft turquoise sky with puffy clouds; the lower corners are straw-covered ground.",
+    "prompt": "A flat illustration in pale turquoise and teal of a big top at a country fair. The tent's three pointed peaks stand at about 0.35, 0.50 and 0.65 of the width, their tips at about a fifth of the height (the middle one a little higher), each with a flagpole and a pennant flying right. Its outer roof edges fall from the shoulders under the side peaks to the eaves at about 0.15 and 0.85 of the width at 0.43 of the height, where a dark scalloped valance runs along the roof's lower edge. A dark fold crosses the roof under the middle peak, its long arm from about 0.40 of the width down to its point at the middle and 0.39 of the height, its short arm rising to 0.56. The pale wall below reaches to about 0.59 of the height and widens to 0.13 and 0.88 of the width at its foot, with a dark entrance between its drawn-back curtains at the middle and a small striped booth at about 0.55 of the width. In the upper left a Ferris wheel with six striped cars turns about a hub at 0.16 of the width and 0.23 of the height, standing on a dark A-frame whose left leg reaches the ground at the left edge; in the upper right a striped hot-air balloon hangs from the top edge to about a fifth of the height between 0.76 and 0.86 of the width. Cypresses stand at the left edge, behind the roof left of the middle peak and on the hill right of the tent. The far hills fall from the tent's shoulders to the side edges at about 0.37 of the height, a light path widens from the entrance to both lower corners between darker ground, and soft clouds lie along the top.",
     "picture": {
       "ref": "pixabay:990280",
       "kind": "painting",
@@ -43,6 +42,18 @@
   },
   "recipe": {
     "seed": 801,
-    "targetCount": 159
+    "targetCount": 159,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [358, 146],
+            [447, 202],
+            [441, 212],
+            [352, 156]
+          ]
+        }
+      ]
+    }
   }
 }
