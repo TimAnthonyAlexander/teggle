@@ -4,7 +4,7 @@
   "concept": {
     "subject": "A wisteria pergola walk on the highest terrace in late spring, seen down its length: pale stone pillars and dark crossbeams receding to the far end, lilac wisteria hanging from every beam over a gravel walk.",
     "composition": "The near crossbeam spans the whole width at about a sixth of the height, on two broad pillars at the side edges. Behind it the frames shrink toward the far end in the middle: the second crossbeam at four tenths of the height on pillars at about 0.29 and 0.71 of the width, then ever smaller pillars. Wisteria hangs in a canopy across the top and in clusters from the beams, its trunks climbing beside the second left pillar and the near right one; the gravel walk runs down the middle of the lower half between gardens.",
-    "layout": "34 round pegs and 110 bricks, the stage's finale. The near crossbeam is two brick rows sloping slightly down to the walls, and two wisteria limbs hanging from it beside the cannon are brick slides that curve down and out to the near pillars, each of which is two joined columns of standing bricks. The second crossbeam's middle is a peaked solid under the cannon and its ends are brick rows over the second pillars; the third crossbeam is two brick rows under the solid with a gap in the middle. The second, third and fourth pillars and the trunks beside the second pair are brick columns leaning slightly outward at the foot, and the walk's edges are brick rows below the pillar bases. The wisteria clusters are short peg strings: in the corners outside the near pillars, under the limbs over the gardens, between the second and third pillars and under the third crossbeam. The two top bricks of each limb cannot be orange."
+    "layout": "34 round pegs and 110 bricks, the stage's finale. The near crossbeam is two brick rows sloping slightly down to the walls, and two wisteria limbs hanging from it beside the cannon are brick slides that curve down and out to the near pillars, each of which is two joined columns of standing bricks. The second crossbeam's middle is a peaked solid under the cannon and its ends are brick rows over the second pillars; the third crossbeam is two brick rows under the solid with a gap in the middle. The second, third and fourth pillars and the trunks beside the second pair are brick columns leaning slightly outward at the foot, and the walk's edges are brick rows below the pillar bases. The wisteria clusters are short peg strings: in the corners outside the near pillars, from each limb's end beside the near pillar, so that a ball leaving the slide rattles down between the string and the pillar, under the limbs over the gardens, between the second and third pillars and under the third crossbeam. The top brick of each limb cannot be orange."
   },
   "plan": {
     "archetypes": ["architecture", "outline"],
@@ -14,7 +14,7 @@
     "bricks": 110,
     "difficulty": {
       "target": 0.25,
-      "note": "The stage's hardest. The solid middle of the second crossbeam shelters the third crossbeam and the wisteria hanging under it, which are reached only from the sides between the pillars. Each limb is a slide that one shot rides from top to bottom, but its two top bricks cannot be orange."
+      "note": "The stage's hardest. The solid middle of the second crossbeam shelters the third crossbeam and the wisteria hanging under it, which are reached only from the sides between the pillars. Each limb is a slide that one shot rides from top to bottom and on down between the near pillar and the wisteria hanging beside it, but its top brick cannot be orange."
     }
   },
   "background": {
@@ -58,9 +58,7 @@
     },
     "edits": [
       { "at": [344.64, 122.07], "canBeOrange": false },
-      { "at": [314.81, 142.37], "canBeOrange": false },
-      { "at": [571.36, 122.07], "canBeOrange": false },
-      { "at": [601.19, 142.37], "canBeOrange": false }
+      { "at": [571.36, 122.07], "canBeOrange": false }
     ]
   }
 }

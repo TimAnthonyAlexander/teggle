@@ -151,17 +151,17 @@
     },
     {
       "id": "wisteria-1-left",
-      "note": "Wisteria hanging from the limb near the left pillar",
+      "note": "Wisteria hanging from the limb's end beside the near left pillar, where the slide drops off",
       "mode": "pegs",
       "spacing": 40,
-      "points": [[150, 250], [150, 370]]
+      "points": [[124, 250], [120, 370]]
     },
     {
       "id": "wisteria-1-right",
-      "note": "Wisteria hanging from the limb near the right pillar",
+      "note": "Wisteria hanging from the limb's end beside the near right pillar, where the slide drops off",
       "mode": "pegs",
       "spacing": 40,
-      "points": [[766, 250], [766, 370]]
+      "points": [[792, 250], [796, 370]]
     },
     {
       "id": "wisteria-2-left",
