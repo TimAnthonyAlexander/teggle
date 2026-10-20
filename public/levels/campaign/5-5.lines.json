@@ -1,0 +1,139 @@
+{
+  "formatVersion": 1,
+  "background": "lighthouse-cove-lighthouse",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "gallery",
+      "note": "The gallery rail around the lamp room, under the eaves of the roof",
+      "mode": "pegs",
+      "points": [[196, 134], [284, 134]]
+    },
+    {
+      "id": "tower-left",
+      "note": "The tower's left wall, tapering out toward its foot",
+      "mode": "pegs",
+      "points": [[204, 172], [186, 378]]
+    },
+    {
+      "id": "tower-right",
+      "note": "The tower's right wall, tapering out toward its foot",
+      "mode": "pegs",
+      "points": [[284, 172], [300, 378]]
+    },
+    {
+      "id": "rocks-top",
+      "note": "The top edge of the rocky point, from the tower's foot down to the lower right",
+      "mode": "pegs",
+      "points": [[110, 424], [220, 422], [320, 424], [430, 432], [560, 442], [660, 462], [740, 490], [800, 510]]
+    },
+    {
+      "id": "rocks-low",
+      "note": "Boulders in the lower part of the rocky point",
+      "mode": "pegs",
+      "points": [[140, 474], [260, 482], [380, 488], [500, 498], [600, 506]]
+    },
+    {
+      "id": "horizon",
+      "note": "The horizon where the sea meets the sky, right of the tower",
+      "mode": "pegs",
+      "points": [[342, 348], [600, 346], [892, 344]]
+    },
+    {
+      "id": "sea-left",
+      "note": "The sea left of the tower",
+      "mode": "pegs",
+      "points": [[24, 352], [130, 352]]
+    },
+    {
+      "id": "sea-left-low",
+      "note": "Ripples on the sea left of the tower, above the rocks",
+      "mode": "pegs",
+      "points": [[40, 388], [140, 388]]
+    },
+    {
+      "id": "foam",
+      "note": "A line of foam on the sea above the rocks",
+      "mode": "pegs",
+      "points": [[440, 388], [620, 390], [800, 394]]
+    },
+    {
+      "id": "foam-low",
+      "note": "Foam breaking along the shore at the lower right",
+      "mode": "pegs",
+      "points": [[640, 428], [720, 440], [800, 452]]
+    },
+    {
+      "id": "cloud-blue-left",
+      "note": "The band of blue cloud left of the tower",
+      "mode": "pegs",
+      "points": [[24, 196], [160, 198]]
+    },
+    {
+      "id": "cloud-blue-left-low",
+      "note": "The lower edge of the blue cloud left of the tower",
+      "mode": "pegs",
+      "points": [[24, 234], [160, 236]]
+    },
+    {
+      "id": "cloud-blue-right",
+      "note": "The band of blue cloud across the right half of the sky",
+      "mode": "pegs",
+      "points": [[604, 204], [750, 200], [892, 204]]
+    },
+    {
+      "id": "cloud-salmon",
+      "note": "The long salmon cloud above the horizon",
+      "mode": "pegs",
+      "points": [[342, 300], [580, 302], [820, 304]]
+    },
+    {
+      "id": "cloud-beige",
+      "note": "The pale beige clouds high in the top right corner",
+      "mode": "pegs",
+      "points": [[640, 120], [760, 108], [892, 98]]
+    },
+    {
+      "id": "cloud-beige-low",
+      "note": "The lower edge of the beige clouds in the top right corner",
+      "mode": "pegs",
+      "points": [[660, 160], [780, 152], [892, 146]]
+    },
+    {
+      "id": "cloud-left",
+      "note": "Wisps of cloud in the top left corner",
+      "mode": "pegs",
+      "points": [[24, 80], [150, 72]]
+    },
+    {
+      "id": "cloud-left-low",
+      "note": "The lower wisps of cloud in the top left corner",
+      "mode": "pegs",
+      "points": [[24, 124], [156, 118]]
+    },
+    {
+      "id": "cloud-pink-left",
+      "note": "The pink cloud low on the left, above the sea",
+      "mode": "pegs",
+      "points": [[24, 312], [150, 314]]
+    },
+    {
+      "id": "bird-1",
+      "note": "A gull beside the lamp room",
+      "mode": "pegs",
+      "points": [[334, 76], [336, 76]]
+    },
+    {
+      "id": "bird-2",
+      "note": "A gull right of the cannon",
+      "mode": "pegs",
+      "points": [[598, 70], [600, 70]]
+    },
+    {
+      "id": "bird-4",
+      "note": "A gull low on the left, beside the tower",
+      "mode": "pegs",
+      "points": [[112, 274], [114, 274]]
+    }
+  ]
+}
