@@ -1,26 +1,25 @@
 {
   "id": "6-5",
   "name": "The Glasshouse",
-  "draft": true,
   "concept": {
-    "subject": "An old glasshouse in the moonlight: a domed hall of slender iron ribs flanked by two lower glass wings, with shelves of pumpkins inside and stone steps down the hollow's banks.",
-    "composition": "The dome stands in the middle from a third of the height to the bottom, a third of the picture wide, on slim pillars. Two lower wings with round-arched roofs step outward on each side, holding shelves of small pumpkins; stone steps descend from both upper corners toward the wings in five or six steps. The moon hangs high on the left; the top center is open sky.",
-    "layout": "88 round pegs and 99 bricks, the stage's finale. The architecture template's temple builds the glasshouse from bricks: the dome on its pillars, the smaller arches of the wings and the stone steps from the upper corners. Pegs are the pumpkins on the wings' shelves, the rivets along the dome's ribs and a ring under the dome."
+    "subject": "An old glasshouse seen from close below: a tall dome of white iron ribs and glass with a railing along its ridge, standing on a drum of tall windows over a curved lower roof, beside the parapet of a long glass wing.",
+    "composition": "The dome fills the middle: its crown sits at about two fifths of the width and a quarter of the height, just left of the top center; its left flank falls steeply to a fifth of the width at a little over half the height, and its long ridge runs under the top center to a railing and a steep apse at three quarters of the width. A cornice rings the dome's foot, falling from its crest at a third of the width to both ends, over a drum of windows and pillars that reaches four fifths of the height. A curved lower roof fills the bottom fifth from the left edge to two thirds of the width; the wing's parapet runs along the right edge at about two thirds of the height above its sloped roof. Open sky fills the upper left and the top center; a cloud bank fills the upper right corner, its edge running from the top right down to four fifths of the width at half height.",
+    "layout": "88 round pegs and 99 bricks, the stage's finale and the most objects in the campaign so far. The glasshouse is traced brick architecture: the crown, a straight slide down the steep lower half of the dome's left flank, the glazing band across the dome, the cornice in two pieces falling to both ends from its crest, seven pillars of the drum leaning out as seen from below, the curved roof's upper band in two halves, the wing's hip, a rafter and the cresting, and one long chain from the railing down the apse that sweeps into the parapet and runs to the right wall. The ridge under the cannon is a solid that sheds balls into the dome through its open ends and shelters the rivets under it. Pegs are the rivets, the drum's windows and the curved roof's lower band; rings of sky around the dome's left flank, one of them bricks, and rows of sky along the cloud bank's edge, which is bricks with a brick band inside it."
   },
   "plan": {
     "archetypes": ["architecture", "outline"],
-    "templates": ["outline", "architecture"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 88,
     "bricks": 99,
     "difficulty": {
       "target": 0.21,
-      "note": "The stage's hardest: 187 objects, the most in the campaign so far, with the dome's ring and the shelves shielded by arches."
+      "note": "The stage's hardest: two slides ride the dome's left flank and its apse into the parapet, but most orange pegs fall on the rivets under the solid ridge, reached only through the ridge's open ends or once the glazing band and the cornice break."
     }
   },
   "background": {
     "id": "moonlit-hollow-glasshouse",
-    "prompt": "An old glasshouse stands in a moonlit pumpkin hollow at dusk. Its central hall is a tall round dome of slender silver-gray iron ribs and pale glass, standing in the middle of the picture from about one third of the picture height down to the bottom and about a third of the picture wide, carried on slim pillars. On each side two lower wings with round-arched glass roofs step outward, with wooden shelves of small burgundy and plum pumpkins inside. From the upper left and upper right corners, stone steps climb down the hollow's banks toward the wings in five or six even steps. A huge pale silver moon hangs high on the left and shines softly on the glass. The top center is open sky; the lower corners are plain stone and mist.",
+    "prompt": "A photo of an old glasshouse under a blue sky, seen from close below. Its tall dome of white iron ribs and pale glass has its crown and finial at about 0.42 of the width and a quarter of the height; the left flank falls steeply to about 0.19 of the width at a little over half the height, and the long ridge runs right, under the top center, to a white railing and a steep apse ending at about 0.77 of the width and two thirds of the height. A cornice rings the dome's foot from about 0.19 of the width at 0.56 of the height, over its crest at a third of the width, down to 0.76 of the width at two thirds of the height, above a drum of tall windows and white pillars that reaches about 0.77 of the height. A curved lower roof of white ribs fills the bottom fifth from the left edge to about two thirds of the width. On the right, the parapet of a long glass wing with its cresting runs from 0.75 of the width to the right edge at about two thirds of the height, above its sloped glass roof. Blue sky fills the upper left and the top center; a white cloud bank fills the upper right corner, its edge running from the top right down to about 0.8 of the width at half the height. A small dark tree stands at the lower left edge.",
     "picture": {
       "ref": "pexels:34672177",
       "kind": "photo",
@@ -35,13 +34,33 @@
       "fetched": "2026-10-15",
       "sha256": "a155b7b25a5faf9c446919fe24faf146dbe277990de7fd1cf185b6b8e4f3cbcb",
       "size": [8980, 5977],
-      "crop": [180, 598, 7184, 4323],
+      "crop": [0, 725, 5619, 3381],
       "flop": false,
       "adjust": {}
     }
   },
   "recipe": {
     "seed": 605,
-    "targetCount": 187
+    "targetCount": 187,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [400, 150],
+            [410, 153],
+            [436, 164],
+            [471, 179],
+            [502, 190],
+            [528, 198],
+            [528, 210],
+            [502, 202],
+            [471, 191],
+            [436, 176],
+            [410, 165],
+            [400, 162]
+          ]
+        }
+      ]
+    }
   }
 }

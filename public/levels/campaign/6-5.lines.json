@@ -1,0 +1,260 @@
+{
+  "formatVersion": 1,
+  "background": "moonlit-hollow-glasshouse",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "dome-crown",
+      "note": "The dome's crown, falling to the top of its left flank",
+      "mode": "bricks",
+      "points": [[372, 151], [340, 158], [316, 167]]
+    },
+    {
+      "id": "dome-left",
+      "note": "The dome's left flank below the crown, a straight slide down its steep side",
+      "mode": "bricks",
+      "points": [[296, 168], [235, 231], [174, 294]]
+    },
+    {
+      "id": "ridge-apse",
+      "note": "The end of the dome's ridge, its railing and its apse, sweeping into the right wing's parapet and along it to the right wall",
+      "mode": "bricks",
+      "points": [
+        [556, 212], [588, 222], [618, 232], [641, 257], [668, 300], [692, 338], [722, 368],
+        [765, 384], [830, 392], [893, 398]
+      ]
+    },
+    {
+      "id": "rivets-crown",
+      "note": "Rivets under the crown and the ridge",
+      "mode": "pegs",
+      "points": [[330, 206], [370, 197], [410, 202], [450, 216], [490, 231], [530, 247], [566, 263]]
+    },
+    {
+      "id": "dome-band",
+      "note": "The dome's horizontal glazing band",
+      "mode": "bricks",
+      "points": [
+        [248, 251], [320, 258], [380, 263], [440, 270], [500, 281], [560, 295], [606, 307],
+        [630, 318]
+      ]
+    },
+    {
+      "id": "cornice-left",
+      "note": "The cornice at the foot of the dome, left of its crest",
+      "mode": "bricks",
+      "points": [[216, 309], [250, 302], [284, 297]]
+    },
+    {
+      "id": "cornice",
+      "note": "The cornice at the foot of the dome, falling from its crest to the right",
+      "mode": "bricks",
+      "points": [
+        [311, 298], [330, 300], [370, 305], [430, 311], [490, 318], [550, 331], [610, 346],
+        [650, 358]
+      ]
+    },
+    {
+      "id": "pillar-1",
+      "note": "A pillar of the drum, leaning out as seen from below",
+      "mode": "bricks",
+      "points": [[194, 332], [206, 439]]
+    },
+    {
+      "id": "pillar-2",
+      "note": "A pillar of the drum, leaning out as seen from below",
+      "mode": "bricks",
+      "points": [[272, 326], [284, 433]]
+    },
+    {
+      "id": "pillar-3",
+      "note": "A pillar of the drum, leaning out as seen from below",
+      "mode": "bricks",
+      "points": [[352, 330], [360, 401]]
+    },
+    {
+      "id": "pillar-4",
+      "note": "A pillar of the drum, leaning out as seen from below",
+      "mode": "bricks",
+      "points": [[438, 338], [430, 409]]
+    },
+    {
+      "id": "pillar-5",
+      "note": "A pillar of the drum, leaning out as seen from below",
+      "mode": "bricks",
+      "points": [[516, 352], [508, 423]]
+    },
+    {
+      "id": "pillar-6",
+      "note": "A pillar of the drum, leaning out as seen from below",
+      "mode": "bricks",
+      "points": [[594, 372], [586, 443]]
+    },
+    {
+      "id": "windows-upper",
+      "note": "The drum's windows between the pillars",
+      "mode": "pegs",
+      "spacing": 78.36,
+      "keepSpacing": true,
+      "points": [[239, 347], [551, 377]]
+    },
+    {
+      "id": "windows-lower",
+      "note": "The drum's windows above the buttresses",
+      "mode": "pegs",
+      "spacing": 78.36,
+      "keepSpacing": true,
+      "points": [[239, 387], [551, 417]]
+    },
+    {
+      "id": "skirt-top-left",
+      "note": "The upper glazing band of the curved roof around the drum, left of its crest",
+      "mode": "bricks",
+      "points": [[128, 482], [200, 469], [265, 460], [316, 454]]
+    },
+    {
+      "id": "skirt-top-right",
+      "note": "The upper glazing band of the curved roof around the drum, right of its crest",
+      "mode": "bricks",
+      "points": [[346, 453], [400, 459], [470, 466], [540, 474], [580, 479]]
+    },
+    {
+      "id": "skirt-low",
+      "note": "The lower glazing band of the curved roof",
+      "mode": "pegs",
+      "points": [[160, 510], [240, 503], [330, 500], [440, 502], [560, 509], [606, 511]]
+    },
+    {
+      "id": "hip",
+      "note": "The hip of the right wing's roof, falling to the left",
+      "mode": "bricks",
+      "points": [[640, 490], [708, 425]]
+    },
+    {
+      "id": "rafter",
+      "note": "A rafter of the right wing's roof beside the hip",
+      "mode": "bricks",
+      "points": [[690, 506], [748, 452]]
+    },
+    {
+      "id": "wing-glazing",
+      "note": "The glazing of the right wing's roof",
+      "mode": "pegs",
+      "spacing": 38,
+      "keepSpacing": true,
+      "points": [[772, 442], [770, 480]]
+    },
+    {
+      "id": "cresting",
+      "note": "The cresting along the top of the parapet",
+      "mode": "bricks",
+      "points": [[798, 356], [902, 344]]
+    },
+    {
+      "id": "pillar-7",
+      "note": "The drum's last pillar behind the right wing",
+      "mode": "bricks",
+      "points": [[632, 382], [624, 453]]
+    },
+    {
+      "id": "sky-left-near",
+      "note": "The sky beside the dome's left flank, following its line",
+      "mode": "pegs",
+      "spacing": 37,
+      "points": [[187, 180], [160, 215], [142, 253], [135, 293], [139, 334], [148, 372]]
+    },
+    {
+      "id": "sky-left-mid",
+      "note": "A ring of sky farther out around the dome",
+      "mode": "bricks",
+      "points": [
+        [200, 118], [171, 140], [143, 170], [121, 202], [105, 237], [97, 274], [95, 312],
+        [101, 349], [110, 385], [122, 420]
+      ]
+    },
+    {
+      "id": "sky-left-far",
+      "note": "The sky farther out still, following the dome's line",
+      "mode": "pegs",
+      "points": [
+        [198, 72], [159, 98], [126, 129], [98, 164], [77, 201], [62, 242], [56, 283], [56, 325],
+        [62, 367], [72, 405]
+      ]
+    },
+    {
+      "id": "sky-left-top",
+      "note": "The outermost ring of sky around the dome",
+      "mode": "pegs",
+      "points": [
+        [153, 53], [114, 85], [80, 121], [53, 161], [32, 204], [24, 249], [22, 295], [24, 340],
+        [30, 385]
+      ]
+    },
+    {
+      "id": "sky-left-high",
+      "note": "The high sky left of the cannon",
+      "mode": "pegs",
+      "points": [[238, 44], [284, 38]]
+    },
+    {
+      "id": "drum-buttress",
+      "note": "The buttress at the drum's left foot",
+      "mode": "pegs",
+      "spacing": 36,
+      "keepSpacing": true,
+      "points": [[166, 408], [150, 440]]
+    },
+    {
+      "id": "cloud-edge",
+      "note": "The lower left edge of the cloud bank on the right",
+      "mode": "bricks",
+      "points": [[866, 96], [848, 138], [820, 178], [790, 218], [760, 256], [736, 290]]
+    },
+    {
+      "id": "cloud-band",
+      "note": "A band inside the cloud bank, along its edge",
+      "mode": "bricks",
+      "points": [[892, 180], [870, 220], [846, 258], [820, 296]]
+    },
+    {
+      "id": "cloud-top",
+      "note": "The small cloud at the top right",
+      "mode": "bricks",
+      "points": [[842, 36], [880, 42]]
+    },
+    {
+      "id": "cloud-corner",
+      "note": "Inside the cloud bank by the right wall",
+      "mode": "pegs",
+      "spacing": 40,
+      "keepSpacing": true,
+      "points": [[893, 88], [893, 128]]
+    },
+    {
+      "id": "cloud-wall",
+      "note": "Inside the cloud bank along the right wall",
+      "mode": "pegs",
+      "spacing": 40.4,
+      "keepSpacing": true,
+      "points": [[892, 250], [880, 288.6]]
+    },
+    {
+      "id": "sky-edge-1",
+      "note": "The blue sky along the cloud bank's edge",
+      "mode": "pegs",
+      "points": [[831, 73], [808, 107], [786, 141], [763, 176], [740, 210], [718, 244]]
+    },
+    {
+      "id": "sky-edge-2",
+      "note": "The blue sky farther from the cloud bank, along its edge",
+      "mode": "pegs",
+      "points": [[801, 42], [779, 76], [756, 110], [734, 144], [711, 178], [688, 213]]
+    },
+    {
+      "id": "sky-edge-3",
+      "note": "The blue sky farther out still, along the cloud bank's edge",
+      "mode": "pegs",
+      "points": [[750, 43], [727, 77], [705, 111], [682, 145], [659, 180]]
+    }
+  ]
+}
