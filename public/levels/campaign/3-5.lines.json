@@ -41,12 +41,42 @@
       "mode": "bricks",
       "points": [[214, 350], [312, 343], [410, 350]]
     },
-    { "id": "stripe-left-1", "note": "A red stripe of the left awning", "mode": "bricks", "points": [[225, 318], [229, 292]] },
-    { "id": "stripe-left-2", "note": "A red stripe of the left awning", "mode": "bricks", "points": [[259, 318], [263, 292]] },
-    { "id": "stripe-left-3", "note": "A red stripe of the left awning", "mode": "bricks", "points": [[293, 318], [297, 292]] },
-    { "id": "stripe-left-4", "note": "A red stripe of the left awning", "mode": "bricks", "points": [[327, 318], [331, 292]] },
-    { "id": "stripe-left-5", "note": "A red stripe of the left awning", "mode": "bricks", "points": [[361, 318], [365, 292]] },
-    { "id": "stripe-left-6", "note": "A red stripe of the left awning", "mode": "bricks", "points": [[395, 318], [399, 292]] },
+    {
+      "id": "stripe-left-1",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[225, 318], [229, 292]]
+    },
+    {
+      "id": "stripe-left-2",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[259, 318], [263, 292]]
+    },
+    {
+      "id": "stripe-left-3",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[293, 318], [297, 292]]
+    },
+    {
+      "id": "stripe-left-4",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[327, 318], [331, 292]]
+    },
+    {
+      "id": "stripe-left-5",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[361, 318], [365, 292]]
+    },
+    {
+      "id": "stripe-left-6",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[395, 318], [399, 292]]
+    },
     {
       "id": "shutter-left",
       "note": "The left window's white shutter, in the awning's shadow",
@@ -66,12 +96,42 @@
       "mode": "bricks",
       "points": [[518, 350], [618, 343], [718, 350]]
     },
-    { "id": "stripe-right-1", "note": "A red stripe of the right awning", "mode": "bricks", "points": [[547, 318], [543, 292]] },
-    { "id": "stripe-right-2", "note": "A red stripe of the right awning", "mode": "bricks", "points": [[581, 318], [577, 292]] },
-    { "id": "stripe-right-3", "note": "A red stripe of the right awning", "mode": "bricks", "points": [[615, 318], [611, 292]] },
-    { "id": "stripe-right-4", "note": "A red stripe of the right awning", "mode": "bricks", "points": [[649, 318], [645, 292]] },
-    { "id": "stripe-right-5", "note": "A red stripe of the right awning", "mode": "bricks", "points": [[683, 318], [679, 292]] },
-    { "id": "stripe-right-6", "note": "A red stripe of the right awning", "mode": "bricks", "points": [[717, 318], [713, 292]] },
+    {
+      "id": "stripe-right-1",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[547, 318], [543, 292]]
+    },
+    {
+      "id": "stripe-right-2",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[581, 318], [577, 292]]
+    },
+    {
+      "id": "stripe-right-3",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[615, 318], [611, 292]]
+    },
+    {
+      "id": "stripe-right-4",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[649, 318], [645, 292]]
+    },
+    {
+      "id": "stripe-right-5",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[683, 318], [679, 292]]
+    },
+    {
+      "id": "stripe-right-6",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[717, 318], [713, 292]]
+    },
     {
       "id": "shutter-right",
       "note": "The right window's white shutter, in the awning's shadow",

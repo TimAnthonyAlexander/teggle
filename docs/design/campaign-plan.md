@@ -62,11 +62,11 @@ Built on 2026-10-17. A planted field whose rows are a staggered lattice crossed 
 | --- | --- | --- | --- | --- | --- | --- |
 | 3-1 | Gable Row | outline | solids, outline | 109 / 32 | | 34% |
 | 3-2 | Lantern Loop | outline, rotating | outline | 93 / 48 | horizontalInfinity (line movers) | 29% |
-| 3-3 | The Bell Tower | outline | outline | 106 / 46 | | 30% |
-| 3-4 | Laundry Day | outline | outline | 141 / 0 | | 26% |
-| 3-5 | Market Awnings | outline | outline | 53 / 94 | | 27% |
+| 3-3 | The Bell Tower | outline | solids, outline | 106 / 46 | | 30% |
+| 3-4 | Laundry Day | outline | solids, outline | 141 / 0 | | 26% |
+| 3-5 | Market Awnings | outline | solids, outline | 53 / 94 | | 27% |
 
-Gables as brick chevrons; sixteen lanterns gliding around a figure-eight wire; a belfry and bridge arches; sagging washing lines of pegs; awnings stacked in a zigzag of slides.
+Built on 2026-10-20. Every level follows its found picture where it differs from the concept: an old town's rooftops around a clock tower, its roof edges short brick slides between the houses, six rows of pegs along the cloud bands and the tower's narrow lantern a solid over the belfry; sixteen small lanterns traveling around a figure eight 530 px wide that crosses itself at a red paper lantern, its left loop the longer (913 and 810 px), between a gray and a yellow paper lantern traced as brick rings; a white bell tower whose spire foot is a solid over the belfry, with a brick arch under it, a church gable and house roofs as brick slides and two antenna masts as rods; laundry on one washing line across a house front, its clothespins 44 px apart so a ball drops through, the window lintels and the eave solid ledges and the cable a rod over the pegs nearest the cannon; a gable whose two slopes are long brick slides from beside the cannon to the walls, a brick band under its peak and two awnings with solid tops over their brick stripes. Measured clear rates (200 runs): 40%, 30%, 30%, 32% and 29%, a stage mean of 32.2%, every level inside the band of 23.5% to 49.5%; the opener is the easiest and the finale the hardest.
 
 ### Stage 4: Lilac Orbit
 
