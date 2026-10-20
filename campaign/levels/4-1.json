@@ -1,27 +1,26 @@
 {
   "id": "4-1",
   "name": "Ringed Giant",
-  "draft": true,
   "concept": {
-    "subject": "A huge pastel planet with a wide tilted ring, two small moons high beside it and faint stars around.",
-    "composition": "The planet's disk sits in the middle from a third to four fifths of the height, a third of the picture wide. Its ring is a wide ellipse from a tenth to nine tenths of the width; the front arc passes in front of the planet's lower half and the back arc hides behind it. Two small moons float at a quarter of the height near a fifth and four fifths of the width; the top center is open space.",
-    "layout": "54 round pegs and 93 bricks. The ring's front arc and its two outer ends are long brick curves, a wide shallow bowl under the planet that rolls balls back toward the middle; its lowest bricks get quick disappear if the stuck check finds a resting spot. The back arc is left out where the planet covers it, so balls fall through there. The planet's cloud bands are peg lines across the disk, the moons are small peg rings, and single pegs mark the brightest stars."
+    "subject": "A huge pale planet wrapped in clouds, its wide ring tilted steeply across it, in a soft lilac space with faint stars.",
+    "composition": "The planet's disk fills the middle, from a fifth to nine tenths of the height and from a quarter to seven tenths of the width, its night side a darker crescent on the left. The ring is a long, narrow ellipse tilted about 28 degrees, its left tip at the top left corner and its right tip at the bottom right corner; its band crosses in front of the planet's upper half and its shadow lies across the lower half as two dark bands. Faint stars and a soft glow fill the space around; the top center is open space.",
+    "layout": "54 round pegs and 93 bricks. At each tip the ring's outer edge, its broad band and its lower edge are nested brick slides; at the right tip the band curves around and back under itself. Where the ring crosses in front of the planet its thin outer rings are a solid rim that sheds balls down to the right: the band's bricks and two cloud bands lie sheltered under it, and pegs for clouds and a brick streak sit on the planet's cap above it. The planet's limb is a brick arc from its night side around its bottom and again on its upper right, the ring's shadows are brick bands, and faint stars are single pegs in the space around."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 54,
     "bricks": 93,
     "features": ["Mostly bricks (spec 8): 93 of 147 objects"],
     "difficulty": {
       "target": 0.34,
-      "note": "The stage opener: the ring's bowl sends balls back to the middle and the planet's bands are open to direct shots."
+      "note": "The stage opener: the ring's rim turns balls away from the bricks it shelters, while its tips, the planet's cap and the stars are open to direct shots."
     }
   },
   "background": {
     "id": "lilac-orbit-ringed-planet",
-    "prompt": "A huge pastel ringed planet floats in a soft lilac and periwinkle outer space. Its round disk sits in the center of the picture, from about one third to four fifths of the picture height and about a third of the picture wide, with soft horizontal cloud bands in pale lavender, cream and dusty teal. A wide, flat ring circles it as a long ellipse tilted only slightly, spanning from about one tenth to nine tenths of the picture width; its front arc passes in front of the lower half of the planet and its back arc is hidden behind the planet. Two small cratered moons in pearl gray float high on the left and right, at about one quarter of the height and about one fifth and four fifths of the width. Small pale silver stars are scattered thinly; the top center is open, calm space; the lower corners are plain nebula haze.",
+    "prompt": "A huge pale planet wrapped in white and blue-gray clouds floats in a soft lilac-gray outer space. Its disk fills the middle of the picture, from about a fifth to nine tenths of the picture height and from about 27 to 70 percent of the width, its night side a darker crescent on the left. A wide ring of white and pale gray bands is tilted steeply about it as a long, narrow ellipse: its left tip touches the top left corner and its right tip the bottom right corner. The ring's broad band crosses in front of the planet's upper half, from about a third of the height on the left to three fifths on the right, and its shadow lies across the planet's lower half as two dark bands. A soft glow surrounds the planet and tiny faint stars are scattered thinly; the top center is open, calm space; the lower corners are plain.",
     "picture": {
       "ref": "wallhaven:7pkm29",
       "kind": "painting",
@@ -38,6 +37,24 @@
   },
   "recipe": {
     "seed": 401,
-    "targetCount": 147
+    "targetCount": 147,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [377, 163],
+            [453, 204],
+            [533, 247],
+            [603, 285],
+            [643, 307],
+            [637, 317],
+            [597, 295],
+            [527, 257],
+            [447, 214],
+            [371, 173]
+          ]
+        }
+      ]
+    }
   }
 }

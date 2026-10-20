@@ -1,43 +1,54 @@
 {
   "id": "4-3",
   "name": "Comet Shower",
-  "draft": true,
   "concept": {
-    "subject": "Four comets streaking down through the lilac sky on long curving tails, two from each upper corner, toward a small moon below.",
-    "composition": "On each side, mirror images: the upper comet flies from the upper corner and ends with its head at half height beside the center, at 40 and 60 percent of the width; the lower comet starts on the side edge at a quarter of the height and curves down to end at three quarters of the height, at 30 and 70 percent. A small moon peeks up at the bottom center; stars fill the gaps; the top center is open space.",
-    "layout": "62 round pegs and 82 bricks. Each tail is a long brick slide that carries balls from the side down toward the middle, two on each side; each comet's head is a small peg ring at its slide's lower end. Star pegs scatter between the tails, and the moon at the bottom center is a short peg arc above the bucket's path."
+    "subject": "A shower of comets streaking down through the lilac sky from the upper right toward the lower left, a few large ones among many small meteors.",
+    "composition": "Straight, parallel streaks cross the whole picture at about 30 degrees, each with its head at its lower left end and its tail trailing up to the right. The longest comes in at the lower left corner; one has its head just left of the middle at two fifths of the height, others low on the left, at the bottom middle and low on the right, and small meteors are scattered between them. The top center is open space.",
+    "layout": "62 round pegs and 82 bricks. Each comet's tail is a brick slide running up to the right, and the three largest comets' heads are brick rings open underneath, so a ball that gets inside falls out. The high comet's tail turns into a solid where it passes right of the cannon, sheltering the sparks under it. Small meteors are short brick dashes; faint meteors and sparks along the tails are pegs in pairs and short rows."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 62,
     "bricks": 82,
     "features": ["Mostly bricks (spec 8): 82 of 144 objects"],
     "difficulty": {
       "target": 0.3,
-      "note": "Second easiest: four slides deliver balls toward the middle, and the comet heads at their ends are easy targets."
+      "note": "Second easiest: the tails deliver balls down to the comets' heads, while the high tail's solid end shelters the sparks right of the cannon."
     }
   },
   "background": {
     "id": "lilac-orbit-comets",
-    "prompt": "Four comets streak through a soft lilac and periwinkle outer space, two from each upper corner, mirror images on the left and right. Each comet has a round pale-gold head about a twentieth of the picture wide and a long, smooth, gently curving tail of pale silver light trailing back up toward its corner. The upper comet on each side flies from its corner in a curve that ends with its head at about half the picture height, just beside the center, at about 40 and 60 percent of the width. The lower comet on each side starts lower on the side edge, at about one quarter of the height, and curves down to end with its head at about three quarters of the height, at about 30 and 70 percent of the width. A small pearl-gray moon peeks up at the bottom center. Thin scatterings of small stars fill the gaps; the top center is open, calm space; the lower corners are plain nebula haze.",
+    "prompt": "A meteor shower in a soft lilac-gray outer space: many straight, thin streaks of pale cyan-white light run parallel down to the lower left at about 30 degrees, each with a bright head at its lower left end and a soft tail trailing up to the right. The longest crosses the lower left corner; one has its head just left of the middle at about two fifths of the picture height; others have their heads low on the left at about seven tenths of the height, at the bottom middle and low on the right at about the same height; short faint meteors are scattered between them. The background is plain and calm, open at the top center.",
     "picture": {
-      "ref": "wallhaven:5755g1",
+      "ref": "wallhaven:0j1zym",
       "kind": "painting",
       "source": "wallhaven",
-      "page": "https://wallhaven.cc/w/5755g1",
-      "image": "https://w.wallhaven.cc/full/57/wallhaven-5755g1.jpg",
-      "fetched": "2026-10-15",
-      "sha256": "4d3589096f23ca73b3bbc298f7c16d98c9f1c4c9e31a0c316729e00d5f77b62c",
-      "size": [3936, 2624],
-      "crop": [0, 127, 3936, 2369],
+      "page": "https://wallhaven.cc/w/0j1zym",
+      "image": "https://w.wallhaven.cc/full/0j/wallhaven-0j1zym.png",
+      "fetched": "2026-10-20",
+      "sha256": "bc37ffd778fe7cfa4581fa04a7abe7858470b6e196d694b05afc3c33fe399dad",
+      "size": [2560, 1600],
+      "crop": [0, 30, 2560, 1540],
       "flop": false,
       "adjust": {}
     }
   },
   "recipe": {
     "seed": 403,
-    "targetCount": 144
+    "targetCount": 144,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [519.1, 127.8],
+            [637.1, 67.8],
+            [642.9, 78.2],
+            [524.9, 138.2]
+          ]
+        }
+      ]
+    }
   }
 }

@@ -1,0 +1,217 @@
+{
+  "formatVersion": 1,
+  "background": "lilac-orbit-moon-phases",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "moon-left-1",
+      "note": "The lower edge of the gibbous moon left of the full moon",
+      "mode": "pegs",
+      "points": [[309.9, 125.7], [326.6, 135.5], [345.9, 137.8], [364.5, 132.4]]
+    },
+    {
+      "id": "moon-left-2",
+      "note": "The half moon on the left, outlined, open underneath",
+      "mode": "bricks",
+      "points": [
+        [219.6, 175.5], [200.9, 161.9], [192.2, 140.4], [196.3, 117.6], [211.7, 100.4], [234, 94],
+        [256.3, 100.4], [271.7, 117.6], [275.8, 140.4], [267.1, 161.9], [248.4, 175.5]
+      ]
+    },
+    {
+      "id": "moon-left-3",
+      "note": "The crescent moon low on the left, outlined, open underneath",
+      "mode": "bricks",
+      "points": [
+        [136.3, 251.6], [118.5, 238.6], [110.2, 218.2], [114, 196.5], [128.8, 180.1], [150, 174],
+        [171.2, 180.1], [186, 196.5], [189.8, 218.2], [181.5, 238.6], [163.7, 251.6]
+      ]
+    },
+    {
+      "id": "moon-left-4",
+      "note": "The thin crescent moon at the left end of the arc, outlined, open underneath",
+      "mode": "bricks",
+      "points": [
+        [82.3, 350.6], [64.5, 337.6], [56.2, 317.2], [60, 295.5], [74.8, 279.1], [96, 273],
+        [117.2, 279.1], [132, 295.5], [135.8, 317.2], [127.5, 337.6], [109.7, 350.6]
+      ]
+    },
+    {
+      "id": "moon-right-1",
+      "note": "The lower edge of the gibbous moon right of the full moon",
+      "mode": "pegs",
+      "points": [[606.1, 125.7], [589.4, 135.5], [570.1, 137.8], [551.5, 132.4]]
+    },
+    {
+      "id": "moon-right-2",
+      "note": "The half moon on the right, outlined, open underneath",
+      "mode": "bricks",
+      "points": [
+        [667.6, 175.5], [648.9, 161.9], [640.2, 140.4], [644.3, 117.6], [659.7, 100.4], [682, 94],
+        [704.3, 100.4], [719.7, 117.6], [723.8, 140.4], [715.1, 161.9], [696.4, 175.5]
+      ]
+    },
+    {
+      "id": "moon-right-3",
+      "note": "The crescent moon low on the right, outlined, open underneath",
+      "mode": "bricks",
+      "points": [
+        [752.3, 251.6], [734.5, 238.6], [726.2, 218.2], [730, 196.5], [744.8, 180.1], [766, 174],
+        [787.2, 180.1], [802, 196.5], [805.8, 218.2], [797.5, 238.6], [779.7, 251.6]
+      ]
+    },
+    {
+      "id": "moon-right-4",
+      "note": "The thin crescent moon at the right end of the arc, outlined, open underneath",
+      "mode": "bricks",
+      "points": [
+        [806.3, 350.6], [788.5, 337.6], [780.2, 317.2], [784, 295.5], [798.8, 279.1], [820, 273],
+        [841.2, 279.1], [856, 295.5], [859.8, 317.2], [851.5, 337.6], [833.7, 350.6]
+      ]
+    },
+    {
+      "id": "trail-outer-left",
+      "note": "A star trail circling the pole above the lake, its left side",
+      "mode": "bricks",
+      "points": [[245.8, 317.5], [269, 284.2], [297.3, 255.1], [330, 231.1], [366.2, 212.8]]
+    },
+    {
+      "id": "trail-outer-right",
+      "note": "A star trail circling the pole above the lake, its right side",
+      "mode": "bricks",
+      "points": [[549.8, 212.8], [586, 231.1], [618.7, 255.1], [647, 284.2], [670.2, 317.5]]
+    },
+    {
+      "id": "trail-middle",
+      "note": "Stars streaking along a trail nearer the pole",
+      "mode": "pegs",
+      "points": [
+        [299.4, 366], [331.2, 319.4], [376.2, 285.3], [429.8, 267.3], [486.2, 267.3],
+        [539.8, 285.3], [584.8, 319.4], [616.6, 366]
+      ]
+    },
+    {
+      "id": "trail-inner",
+      "note": "Stars streaking along the trail nearest the pole",
+      "mode": "pegs",
+      "points": [[383.8, 365.8], [417.8, 343], [458, 335], [498.2, 343], [532.2, 365.8]]
+    },
+    {
+      "id": "ridge",
+      "note": "The mountain ridge sloping down from the left to the lake",
+      "mode": "bricks",
+      "points": [[150, 382], [229, 392], [356, 408], [458, 422]]
+    },
+    {
+      "id": "stars-outer",
+      "note": "Stars streaking just inside the arc of moons",
+      "mode": "pegs",
+      "points": [
+        [194.9, 344.2], [230.2, 277.2], [282.2, 222.1], [347.1, 182.9], [420.1, 162.6],
+        [495.9, 162.6], [568.9, 182.9], [633.8, 222.1], [685.8, 277.2], [721.1, 344.2]
+      ]
+    },
+    {
+      "id": "stars-middle",
+      "note": "Stars streaking between the outer star trails",
+      "mode": "pegs",
+      "points": [
+        [266.2, 354.6], [298.3, 303.6], [343.6, 263.9], [398.4, 238.6], [458, 230], [517.6, 238.6],
+        [572.4, 263.9], [617.7, 303.6], [649.8, 354.6]
+      ]
+    },
+    {
+      "id": "stars-inner",
+      "note": "Stars streaking between the inner star trails",
+      "mode": "pegs",
+      "points": [
+        [339.3, 365.8], [370.5, 330.7], [411.7, 307.9], [458, 300], [504.3, 307.9], [545.5, 330.7],
+        [576.7, 365.8]
+      ]
+    },
+    {
+      "id": "crater-left-1",
+      "note": "A crater on the gibbous moon left of the full moon",
+      "mode": "pegs",
+      "points": [[342, 86], [342, 94]]
+    },
+    {
+      "id": "crater-left-2",
+      "note": "A crater on the half moon on the left",
+      "mode": "pegs",
+      "points": [[234, 132], [234, 140]]
+    },
+    {
+      "id": "crater-left-3",
+      "note": "A crater on the crescent moon low on the left",
+      "mode": "pegs",
+      "points": [[150, 210], [150, 218]]
+    },
+    {
+      "id": "crater-left-4",
+      "note": "A crater on the thin crescent moon on the left",
+      "mode": "pegs",
+      "points": [[96, 309], [96, 317]]
+    },
+    {
+      "id": "crater-right-1",
+      "note": "A crater on the gibbous moon right of the full moon",
+      "mode": "pegs",
+      "points": [[574, 86], [574, 94]]
+    },
+    {
+      "id": "crater-right-2",
+      "note": "A crater on the half moon on the right",
+      "mode": "pegs",
+      "points": [[682, 132], [682, 140]]
+    },
+    {
+      "id": "crater-right-3",
+      "note": "A crater on the crescent moon low on the right",
+      "mode": "pegs",
+      "points": [[766, 210], [766, 218]]
+    },
+    {
+      "id": "crater-right-4",
+      "note": "A crater on the thin crescent moon on the right",
+      "mode": "pegs",
+      "points": [[820, 309], [820, 317]]
+    },
+    {
+      "id": "stars-top-left",
+      "note": "Stars streaking above the arc of moons on the left",
+      "mode": "pegs",
+      "points": [[40, 50], [110, 40], [176, 56]]
+    },
+    {
+      "id": "stars-left",
+      "note": "Stars streaking at the left edge",
+      "mode": "pegs",
+      "points": [[60, 130], [30, 200]]
+    },
+    {
+      "id": "star-top-left",
+      "note": "A star streaking between the moons left of the cannon",
+      "mode": "pegs",
+      "points": [[260, 36], [260, 44]]
+    },
+    {
+      "id": "stars-top-right",
+      "note": "Stars streaking above the arc of moons on the right",
+      "mode": "pegs",
+      "points": [[740, 56], [806, 40], [876, 50]]
+    },
+    {
+      "id": "stars-right",
+      "note": "Stars streaking at the right edge",
+      "mode": "pegs",
+      "points": [[856, 130], [886, 200]]
+    },
+    {
+      "id": "star-top-right",
+      "note": "A star streaking between the moons right of the cannon",
+      "mode": "pegs",
+      "points": [[656, 36], [656, 44]]
+    }
+  ]
+}
