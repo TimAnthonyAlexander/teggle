@@ -1,11 +1,10 @@
 {
   "id": "8-4",
   "name": "Prize Rosettes",
-  "draft": true,
   "concept": {
-    "subject": "Five giant prize rosettes pinned to a wooden prize board, each a ring of pleated ribbon around a round button, with two tails hanging below.",
-    "composition": "The board's top edge runs across at a fifth of the height with the sky above it. The largest rosette hangs in the middle a little below half height, a quarter of the picture wide; two smaller ones hang high at a quarter of the height near a fifth and four fifths of the width; two more hang low at three fifths of the height at 30 and 70 percent. Each rosette's tails splay down and outward.",
-    "layout": "69 round pegs and 85 bricks. Each rosette's pleated ring is a ring of curved bricks broken into short arcs, with its center button a peg ring inside; its two tails are short brick slides splaying down and out. The pins and the board's tacks are single pegs, and a row of tacks along the board's top edge sits beside the cannon."
+    "subject": "Six prize rosettes in two rows of three on a plain cream ground, each a scalloped ring of pleated gold ribbon around a glossy round button edged with a dark ring and a ring of small dots. The top three hang ribbons ending in swallowtail notches; ribbons rise behind the bottom three.",
+    "composition": "The columns stand at a fifth, a half and four fifths of the width, each rosette about a quarter of the picture wide. The top row's centers sit at an eighth of the height, so their tops run off the picture, and their ribbons hang to half the height; the bottom row's centers sit at five sixths, so their bottoms run off the picture, with their ribbons showing above them from three fifths. The top middle rosette sits behind the cannon.",
+    "layout": "69 round pegs and 85 bricks. The top middle rosette is the cannon's, left to the picture apart from the lower edge of its dotted ring in pegs, so five rosettes are traced. Each one's pleats are a ring of curved bricks broken into arcs, with its dotted ring in pegs inside. The top two open their rings toward the cannon: a shot into the mouth rides the inside of the lower pleats like a slide, around the bottom and up the far side, and a gap at the bottom lets a slow ball drop out onto the ribbon below. Their buttons are six pegs around a center peg, and their dotted rings keep only the side away from the mouth. The bottom three hide a center peg under a cap of curved bricks open underneath, inside the dotted ring and three arcs of pleats; the flippers' swing in the lower corners takes the outer sides of the bottom left and right rosettes. Each hanging ribbon's swallowtail notch is a brick arch with a pin under it, and pins line the top of each rising ribbon."
   },
   "plan": {
     "archetypes": ["web", "outline"],
@@ -16,12 +15,12 @@
     "features": ["Brick-heavy throughout (spec 8): 85 of 154 objects"],
     "difficulty": {
       "target": 0.19,
-      "note": "Second hardest: the buttons sit inside broken rings, and the tails throw balls toward the walls."
+      "note": "Second hardest: the buttons sit inside broken rings and the bottom ones under caps open only underneath. Each top rosette's mouth faces the cannon and its lower pleats are a slide, so its button is reached through the mouth."
     }
   },
   "background": {
     "id": "ribbon-fair-rosettes",
-    "prompt": "Five giant prize rosettes are pinned to a wooden prize board at a country fair. The board's top edge runs straight across the picture at about one fifth of its height, with a soft turquoise sky above it, open at the top center. Each rosette is a round ring of pleated ribbon around a flat round center button, with two ribbon tails hanging below it and splaying outward. The largest rosette hangs in the middle of the picture, centered a little below half the height, about a quarter of the picture wide; two smaller ones hang high on the left and right at about one quarter of the height and about one fifth and four fifths of the width; two more hang low on the left and right at about three fifths of the height and about 30 and 70 percent of the width. The ribbons are cream, pale teal, soft straw yellow and muted brick red. The board is pale weathered wood; the lower corners are plain board.",
+    "prompt": "Six prize rosettes in two rows of three on a plain cream ground, drawn flat with soft shading. Each rosette is a scalloped ring of pleated gold ribbon about a quarter of the picture wide around a glossy round button edged with a dark ring and a ring of small light dots; the buttons are muted brick red, teal blue and sage green in the top row and straw yellow, plum and rose red in the bottom row. The columns stand at about a fifth, a half and four fifths of the width. The top row's centers sit at about an eighth of the height, so their tops run off the picture, and each hangs a ribbon in its button's color with two thin gold stripes, ending in a swallowtail notch at about half the height. The bottom row's centers sit at about five sixths of the height, so their bottoms run off the picture, and their ribbons show above them from about three fifths of the height. The top middle rosette sits behind the cannon; the bottom rosettes' pleats reach into the lower corners.",
     "picture": {
       "ref": "pixabay:6904040",
       "kind": "painting",

@@ -1,0 +1,326 @@
+{
+  "formatVersion": 1,
+  "background": "ribbon-fair-rosettes",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "tl-pleats-a",
+      "note": "The top left rosette's pleated ring above its mouth, which opens toward the cannon",
+      "mode": "bricks",
+      "points": [[275.9, 27.4], [281.5, 42.8], [284.9, 58.7]]
+    },
+    {
+      "id": "tl-pleats-b",
+      "note": "The top left rosette's pleats from its mouth down to the bottom, a slide on the inside of the ring: a shot about 21 degrees below level lands on it and rides it around",
+      "mode": "bricks",
+      "points": [[258.6, 150.2], [242, 166.5], [222.4, 179.1], [200.7, 187.6], [177.8, 191.7]]
+    },
+    {
+      "id": "tl-pleats-b2",
+      "note": "The rest of the slide, up the rosette's left side, after a gap at the bottom that lets a slow ball drop out",
+      "mode": "bricks",
+      "points": [[160.2, 191.7], [137.3, 187.6], [115.6, 179.1], [96, 166.5], [79.4, 150.2]]
+    },
+    {
+      "id": "tl-pleats-c",
+      "note": "The top left rosette's pleats on its outer left side",
+      "mode": "bricks",
+      "points": [[59.1, 115], [53.5, 93.8], [52, 71.9], [54.7, 50.2], [61.3, 29.3]]
+    },
+    {
+      "id": "tl-dots",
+      "note": "The dotted ring inside the top left rosette's pleats, on the side away from its mouth",
+      "mode": "pegs",
+      "points": [
+        [155.3, 152.8], [136.9, 147.2], [120.4, 137.3], [106.7, 123.6], [96.8, 107.1],
+        [91.2, 88.7], [90.2, 69.5], [93.9, 50.6], [102, 33.1]
+      ]
+    },
+    {
+      "id": "tl-button",
+      "note": "Six pegs around the edge of the top left rosette's button",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 42,
+      "keepSpacing": true,
+      "points": [
+        [209, 75], [207.6, 85.4], [203.6, 95], [197.3, 103.3], [189, 109.6], [179.4, 113.6],
+        [169, 115], [158.6, 113.6], [149, 109.6], [140.7, 103.3], [134.4, 95], [130.4, 85.4],
+        [129, 75], [130.4, 64.6], [134.4, 55], [140.7, 46.7], [149, 40.4], [158.6, 36.4],
+        [169, 35], [179.4, 36.4], [189, 40.4], [197.3, 46.7], [203.6, 55], [207.6, 64.6]
+      ]
+    },
+    {
+      "id": "tl-center",
+      "note": "The middle of the top left rosette's button",
+      "mode": "pegs",
+      "points": [[168, 75], [170, 75]]
+    },
+    {
+      "id": "tl-tail",
+      "note": "The swallowtail notch of the ribbon under the top left rosette, rounded into an arch",
+      "mode": "bricks",
+      "points": [
+        [107.6, 272.4], [116.3, 257.2], [128.7, 244.8], [143.9, 236.1], [160.8, 231.6],
+        [178.2, 231.6], [195.1, 236.1], [210.3, 244.8], [222.7, 257.2], [231.4, 272.4]
+      ]
+    },
+    {
+      "id": "tl-notch",
+      "note": "A pin under the top left ribbon's notch",
+      "mode": "pegs",
+      "points": [[169, 271], [171, 271]]
+    },
+    {
+      "id": "tm-rim",
+      "note": "The lower edge of the dotted ring of the rosette behind the cannon; the rest of that rosette lies in the cannon's clearance",
+      "mode": "pegs",
+      "points": [
+        [527.3, 129], [514.6, 141.3], [499.4, 150.7], [482.7, 156.7], [465.1, 159], [447.4, 157.5],
+        [430.4, 152.4], [414.8, 143.8]
+      ]
+    },
+    {
+      "id": "tm-tail",
+      "note": "The swallowtail notch of the ribbon under the cannon's rosette, rounded into an arch",
+      "mode": "bricks",
+      "points": [
+        [406.5, 262], [417.2, 249.1], [430.8, 239.3], [446.4, 233.1], [463, 231], [479.6, 233.1],
+        [495.2, 239.3], [508.8, 249.1], [519.5, 262]
+      ]
+    },
+    {
+      "id": "tm-notch",
+      "note": "A pin under the middle ribbon's notch",
+      "mode": "pegs",
+      "points": [[462, 271], [464, 271]]
+    },
+    {
+      "id": "tr-pleats-a",
+      "note": "The top right rosette's pleated ring above its mouth, which opens toward the cannon",
+      "mode": "bricks",
+      "points": [[658.1, 26.4], [652.5, 41.8], [649.1, 57.7]]
+    },
+    {
+      "id": "tr-pleats-b",
+      "note": "The top right rosette's pleats from its mouth down to the bottom, the second slide on the inside of a ring",
+      "mode": "bricks",
+      "points": [[675.4, 149.2], [692, 165.5], [711.6, 178.1], [733.3, 186.6], [756.2, 190.7]]
+    },
+    {
+      "id": "tr-pleats-b2",
+      "note": "The rest of the right slide, up the rosette's right side, after a gap at the bottom that lets a slow ball drop out",
+      "mode": "bricks",
+      "points": [[773.8, 190.7], [796.7, 186.6], [818.4, 178.1], [838, 165.5], [854.6, 149.2]]
+    },
+    {
+      "id": "tr-pleats-c",
+      "note": "The top right rosette's pleats on its outer right side",
+      "mode": "bricks",
+      "points": [[874.9, 114], [880.5, 92.8], [882, 70.9], [879.3, 49.2], [872.7, 28.3]]
+    },
+    {
+      "id": "tr-dots",
+      "note": "The dotted ring inside the top right rosette's pleats, on the side away from its mouth",
+      "mode": "pegs",
+      "points": [
+        [778.7, 151.8], [797.1, 146.2], [813.6, 136.3], [827.3, 122.6], [837.2, 106.1],
+        [842.8, 87.7], [843.8, 68.5], [840.1, 49.6], [832, 32.1]
+      ]
+    },
+    {
+      "id": "tr-button",
+      "note": "Six pegs around the edge of the top right rosette's button",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 42,
+      "keepSpacing": true,
+      "points": [
+        [805, 74], [803.6, 84.4], [799.6, 94], [793.3, 102.3], [785, 108.6], [775.4, 112.6],
+        [765, 114], [754.6, 112.6], [745, 108.6], [736.7, 102.3], [730.4, 94], [726.4, 84.4],
+        [725, 74], [726.4, 63.6], [730.4, 54], [736.7, 45.7], [745, 39.4], [754.6, 35.4],
+        [765, 34], [775.4, 35.4], [785, 39.4], [793.3, 45.7], [799.6, 54], [803.6, 63.6]
+      ]
+    },
+    {
+      "id": "tr-center",
+      "note": "The middle of the top right rosette's button",
+      "mode": "pegs",
+      "points": [[764, 74], [766, 74]]
+    },
+    {
+      "id": "tr-tail",
+      "note": "The swallowtail notch of the ribbon under the top right rosette, rounded into an arch",
+      "mode": "bricks",
+      "points": [
+        [703.6, 271.4], [712.3, 256.2], [724.7, 243.8], [739.9, 235.1], [756.8, 230.6],
+        [774.2, 230.6], [791.1, 235.1], [806.3, 243.8], [818.7, 256.2], [827.4, 271.4]
+      ]
+    },
+    {
+      "id": "tr-notch",
+      "note": "A pin under the top right ribbon's notch",
+      "mode": "pegs",
+      "points": [[765, 270], [767, 270]]
+    },
+    {
+      "id": "bl-pleats-a",
+      "note": "The bottom left rosette's pleats on its upper left, above the flippers' swing",
+      "mode": "bricks",
+      "points": [[73.2, 401.9], [88.1, 384.5], [106.1, 370.3], [126.6, 360], [148.7, 353.8]]
+    },
+    {
+      "id": "bl-pleats-b",
+      "note": "The bottom left rosette's pleats on its upper right",
+      "mode": "bricks",
+      "points": [[189.3, 353.8], [211.4, 360], [231.9, 370.3], [249.9, 384.5], [264.8, 401.9]]
+    },
+    {
+      "id": "bl-pleats-c",
+      "note": "The bottom left rosette's pleats on its right side",
+      "mode": "bricks",
+      "points": [[277.5, 425.2], [283.9, 446.7], [286, 469], [283.9, 491.3], [277.5, 512.8]]
+    },
+    {
+      "id": "bl-dots",
+      "note": "The dotted ring inside the bottom left rosette; the flippers' swing takes its lower left end",
+      "mode": "pegs",
+      "points": [
+        [100.6, 508.5], [92.7, 489.4], [90, 469], [92.7, 448.6], [100.6, 429.5], [113.1, 413.1],
+        [129.5, 400.6], [148.6, 392.7], [169, 390], [189.4, 392.7], [208.5, 400.6], [224.9, 413.1],
+        [237.4, 429.5], [245.3, 448.6], [248, 469], [245.3, 489.4], [237.4, 508.5]
+      ]
+    },
+    {
+      "id": "bl-button",
+      "note": "The edge of the bottom left rosette's button, a cap of curved bricks open underneath",
+      "mode": "bricks",
+      "points": [
+        [134.4, 489], [130.4, 479.4], [129, 469], [130.4, 458.6], [134.4, 449], [140.7, 440.7],
+        [149, 434.4], [158.6, 430.4], [169, 429], [179.4, 430.4], [189, 434.4], [197.3, 440.7],
+        [203.6, 449], [207.6, 458.6], [209, 469], [207.6, 479.4], [203.6, 489]
+      ]
+    },
+    {
+      "id": "bl-center",
+      "note": "The middle of the bottom left rosette's button, under its cap",
+      "mode": "pegs",
+      "points": [[168, 469], [170, 469]]
+    },
+    {
+      "id": "bl-pins",
+      "note": "Pins along the top of the ribbon behind the bottom left rosette",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[112, 318], [226, 318]]
+    },
+    {
+      "id": "bm-pleats-a",
+      "note": "The bottom middle rosette's pleats on its left side",
+      "mode": "bricks",
+      "points": [
+        [354.5, 512.8], [347.6, 488.5], [346.1, 463.3], [350.1, 438.3], [359.3, 414.8],
+        [373.4, 393.8]
+      ]
+    },
+    {
+      "id": "bm-pleats-b",
+      "note": "The top of the bottom middle rosette's pleats, under the cannon",
+      "mode": "bricks",
+      "points": [[413.6, 363], [437.7, 354.8], [463, 352], [488.3, 354.8], [512.4, 363]]
+    },
+    {
+      "id": "bm-pleats-c",
+      "note": "The bottom middle rosette's pleats on its right side",
+      "mode": "bricks",
+      "points": [
+        [552.6, 393.8], [566.7, 414.8], [575.9, 438.3], [579.9, 463.3], [578.4, 488.5],
+        [571.5, 512.8]
+      ]
+    },
+    {
+      "id": "bm-dots",
+      "note": "The dotted ring inside the bottom middle rosette",
+      "mode": "pegs",
+      "points": [
+        [394.6, 508.5], [386.7, 489.4], [384, 469], [386.7, 448.6], [394.6, 429.5], [407.1, 413.1],
+        [423.5, 400.6], [442.6, 392.7], [463, 390], [483.4, 392.7], [502.5, 400.6], [518.9, 413.1],
+        [531.4, 429.5], [539.3, 448.6], [542, 469], [539.3, 489.4], [531.4, 508.5]
+      ]
+    },
+    {
+      "id": "bm-button",
+      "note": "The edge of the bottom middle rosette's button, a cap of curved bricks open underneath",
+      "mode": "bricks",
+      "points": [
+        [428.4, 489], [424.4, 479.4], [423, 469], [424.4, 458.6], [428.4, 449], [434.7, 440.7],
+        [443, 434.4], [452.6, 430.4], [463, 429], [473.4, 430.4], [483, 434.4], [491.3, 440.7],
+        [497.6, 449], [501.6, 458.6], [503, 469], [501.6, 479.4], [497.6, 489]
+      ]
+    },
+    {
+      "id": "bm-center",
+      "note": "The middle of the bottom middle rosette's button, under its cap",
+      "mode": "pegs",
+      "points": [[462, 469], [464, 469]]
+    },
+    {
+      "id": "bm-pins",
+      "note": "Pins along the top of the ribbon behind the bottom middle rosette",
+      "mode": "pegs",
+      "spacing": 34,
+      "points": [[395, 318], [531, 318]]
+    },
+    {
+      "id": "br-pleats-a",
+      "note": "The bottom right rosette's pleats on its left side",
+      "mode": "bricks",
+      "points": [[656.5, 512.8], [650.1, 491.3], [648, 469], [650.1, 446.7], [656.5, 425.2]]
+    },
+    {
+      "id": "br-pleats-b",
+      "note": "The bottom right rosette's pleats on its upper left",
+      "mode": "bricks",
+      "points": [[669.2, 401.9], [684.1, 384.5], [702.1, 370.3], [722.6, 360], [744.7, 353.8]]
+    },
+    {
+      "id": "br-pleats-c",
+      "note": "The bottom right rosette's pleats on its upper right, above the flippers' swing",
+      "mode": "bricks",
+      "points": [[785.3, 353.8], [807.4, 360], [827.9, 370.3], [845.9, 384.5], [860.8, 401.9]]
+    },
+    {
+      "id": "br-dots",
+      "note": "The dotted ring inside the bottom right rosette; the flippers' swing takes its right side",
+      "mode": "pegs",
+      "points": [
+        [696.6, 508.5], [688.7, 489.4], [686, 469], [688.7, 448.6], [696.6, 429.5], [709.1, 413.1],
+        [725.5, 400.6], [744.6, 392.7], [765, 390], [785.4, 392.7], [804.5, 400.6], [820.9, 413.1],
+        [833.4, 429.5], [841.3, 448.6], [844, 469], [841.3, 489.4], [833.4, 508.5]
+      ]
+    },
+    {
+      "id": "br-button",
+      "note": "The edge of the bottom right rosette's button, a cap of curved bricks open underneath; the flippers' swing takes its right end",
+      "mode": "bricks",
+      "points": [
+        [730.4, 489], [726.4, 479.4], [725, 469], [726.4, 458.6], [730.4, 449], [736.7, 440.7],
+        [745, 434.4], [754.6, 430.4], [765, 429], [775.4, 430.4], [785, 434.4], [793.3, 440.7],
+        [799.6, 449], [803.6, 458.6], [805, 469], [803.6, 479.4], [799.6, 489]
+      ]
+    },
+    {
+      "id": "br-center",
+      "note": "The middle of the bottom right rosette's button, under its cap",
+      "mode": "pegs",
+      "points": [[764, 469], [766, 469]]
+    },
+    {
+      "id": "br-pins",
+      "note": "Pins along the top of the ribbon behind the bottom right rosette",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[708, 318], [822, 318]]
+    }
+  ]
+}
