@@ -374,34 +374,36 @@ export function linesPartIndex(src: CampaignLevelSource): number {
 
 /**
  * The manifest of the levels given (in campaign order), checked by the game's own schema.
- * Drafts are left out.
+ * Drafts are left out. The game plays a stage from its first level and the stages from stage 1,
+ * so each stage lists its levels up to its first missing one, and the list of stages ends before
+ * the first stage with none: a level built past a gap stays out until the gap is filled.
  */
 export function composeManifest(
   stages: readonly StageSource[],
   levels: readonly Pick<CampaignLevelSource, 'stage' | 'level'>[],
 ): CampaignManifest {
-  const json = {
-    formatVersion: CAMPAIGN_FORMAT_VERSION,
-    stages: stages
-      .map((s) => ({
-        stage: s.stage,
-        world: s.world,
-        master: s.master,
-        levels: levels
-          .filter((l) => l.stage.stage === s.stage && l.level.draft !== true)
-          .map((l) => {
-            const n = Number(l.level.id.split('-')[1]);
-            return {
-              id: l.level.id,
-              number: (s.stage - 1) * 5 + n,
-              name: l.level.name,
-              file: `campaign/${l.level.id}.json`,
-              lines: `campaign/${l.level.id}.lines.json`,
-              background: l.level.background.id,
-            };
-          }),
-      }))
-      .filter((s) => s.levels.length > 0),
-  };
-  return parseCampaignManifest(json);
+  const listed = [];
+  for (const s of [...stages].sort((a, b) => a.stage - b.stage)) {
+    const built = new Map(
+      levels
+        .filter((l) => l.stage.stage === s.stage && l.level.draft !== true)
+        .map((l) => [Number(l.level.id.split('-')[1]), l.level]),
+    );
+    const run = [];
+    for (let n = 1; ; n++) {
+      const level = built.get(n);
+      if (level === undefined) break;
+      run.push({
+        id: level.id,
+        number: (s.stage - 1) * 5 + n,
+        name: level.name,
+        file: `campaign/${level.id}.json`,
+        lines: `campaign/${level.id}.lines.json`,
+        background: level.background.id,
+      });
+    }
+    if (run.length === 0) break;
+    listed.push({ stage: s.stage, world: s.world, master: s.master, levels: run });
+  }
+  return parseCampaignManifest({ formatVersion: CAMPAIGN_FORMAT_VERSION, stages: listed });
 }

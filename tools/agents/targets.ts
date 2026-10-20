@@ -1,8 +1,8 @@
 // What the self-play tools can measure, named on the command line:
 //
 //   campaign            every level in public/levels/campaign/manifest.json
-//   3                   campaign stage 3
-//   3-2                 campaign level 3-2
+//   3                   campaign stage 3, the levels of it that are built (in the manifest or not)
+//   3-2                 campaign level 3-2, once built
 //   original            the original's 55 campaign levels (reference/, converted at run time)
 //   original:3          the original's stage 3
 //   original:3-2        the original's level 3-2
@@ -58,12 +58,11 @@ export function slotConfig(number: number): { config: AttemptConfig; anyMaster: 
   return { config: { ...config, campaignTry: null }, anyMaster: power === null };
 }
 
-function campaignTargets(filter: (stage: number, id: string) => boolean): Target[] {
+function campaignTargets(): Target[] {
   const manifest = parseCampaignManifest(readJson(MANIFEST));
   const out: Target[] = [];
   for (const s of manifest.stages) {
     for (const l of s.levels) {
-      if (!filter(s.stage, l.id)) continue;
       const level = parseLevel(readJson(join(CAMPAIGN_DIR, l.file)));
       out.push({
         key: l.id,
@@ -117,22 +116,42 @@ function checkStage(stage: number, arg: string): number {
   return stage;
 }
 
+/**
+ * Campaign level `<stage>-<level>` from its built file, or null when it has none. Read from the
+ * file, not the manifest, which leaves out a level built past a gap (composeManifest).
+ */
+function builtTarget(stage: number, level: number): Target | null {
+  const id = `${stage}-${level}`;
+  const file = join(CAMPAIGN_DIR, 'campaign', `${id}.json`);
+  if (!existsSync(file)) return null;
+  const number = numberOf(stage, level);
+  return {
+    key: id,
+    source: 'campaign',
+    stage,
+    number,
+    level: parseLevel(readJson(file)),
+    ...slotConfig(number),
+  };
+}
+
 /** Resolves one command-line target to its levels. */
 export function resolveTarget(arg: string): Target[] {
-  if (arg === 'campaign') return campaignTargets(() => true);
+  if (arg === 'campaign') return campaignTargets();
   let m = STAGE.exec(arg);
   if (m !== null) {
     const stage = checkStage(Number(m[1]), arg);
-    const found = campaignTargets((s) => s === stage);
+    const found = [1, 2, 3, 4, 5]
+      .map((l) => builtTarget(stage, l))
+      .filter((t): t is Target => t !== null);
     if (found.length === 0) throw new TargetError(`the campaign has no stage ${stage} yet`);
     return found;
   }
   m = LEVEL_ID.exec(arg);
   if (m !== null) {
-    checkStage(Number(m[1]), arg);
-    const found = campaignTargets((_s, id) => id === arg);
-    if (found.length === 0) throw new TargetError(`the campaign has no level ${arg} yet`);
-    return found;
+    const found = builtTarget(checkStage(Number(m[1]), arg), Number(m[2]));
+    if (found === null) throw new TargetError(`the campaign has no level ${arg} yet`);
+    return [found];
   }
   if (arg === 'original' || arg.startsWith('original:')) {
     const rest = arg.slice('original:'.length);

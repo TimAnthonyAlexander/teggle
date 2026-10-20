@@ -165,6 +165,27 @@ describe('campaign sources', () => {
       ['1-2', 2, 'campaign/1-2.json', 'test-1-2'],
     ]);
   });
+
+  it('lists a stage up to its first missing level and the stages up to the first empty one', () => {
+    const three = stagesFileSchema.parse({
+      layout: 'Leave the top center open.',
+      stages: [
+        { ...stage, levels: ['1-1', '1-2', '1-3'] },
+        { ...stage, stage: 2, world: 'Clover Burrows', master: 'multiball', levels: ['2-1'] },
+        { ...stage, stage: 3, world: 'Golden Rooftops', master: 'pyramid', levels: ['3-1'] },
+      ],
+    });
+    const at = (n: number, id: string) => ({ stage: { stage: n }, level: level(id, {}) });
+    const ids = (m: ReturnType<typeof composeManifest>) =>
+      m.stages.map((s) => s.levels.map((l) => l.id));
+    // 1-3 waits for 1-2; stage 2 enters once stage 1 has a level.
+    expect(ids(composeManifest(three.stages, [at(1, '1-1'), at(1, '1-3'), at(2, '2-1')]))).toEqual([
+      ['1-1'],
+      ['2-1'],
+    ]);
+    // Stage 3 waits for stage 2.
+    expect(ids(composeManifest(three.stages, [at(1, '1-1'), at(3, '3-1')]))).toEqual([['1-1']]);
+  });
 });
 
 describe('level pictures', () => {
