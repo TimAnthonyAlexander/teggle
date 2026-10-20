@@ -1,56 +1,139 @@
 {
   "id": "7-4",
   "name": "The Water Mill",
-  "draft": true,
   "concept": {
-    "subject": "A little garden water mill: a big overshot wheel fed by a wooden chute, a smaller gear wheel turning beside it, and the mill stream flowing past below them.",
-    "composition": "The big wheel turns left of center, centered at a third of the width and two fifths of the height, two fifths of the picture height across, fed from the upper left by a wooden chute that ends above its top. The small gear wheel turns right of center at two thirds of the width and a third of the height, a quarter of the picture height across, below the slope of the mill house's roof at the upper right. The stream crosses the whole picture at two thirds of the height; flowery banks slope toward the middle below it; the top center is open sky.",
-    "layout": "Bricks only, 141. The two wheels are rings of curved bricks with straight brick paddles or teeth, each turning about its own hub; the stream is two rows of short brick ripples that flow across the board and wrap from one side to the other, the moving ground. The chute and the mill roof are brick slides at the upper sides, and the banks below the stream are brick slides that lean toward the middle above the flippers' swing."
+    "subject": "Bamboo water wheels on a shallow mountain river: two whole wheels turning side by side, two more cut by the edges, a bamboo rail across the river, and a misty peak and a green hill behind them under a cloudy sky.",
+    "composition": "The bigger whole wheel turns right of center, its hub at about 57% of the width and 60% of the height, about half the picture height across; the smaller one turns left of center, its hub at about a quarter of the width and the same height, two fifths of the picture height across. A third wheel is cut by the left edge and a fourth, the largest, by the right edge, with a dark trough across it. A bamboo rail crosses the river at two thirds of the height, long struts prop the wheels, and the shallow water and stones fill the bottom. A misty peak rises right under the cannon at about a quarter of the height, its long ridges falling to either side; a green hill climbs to the upper right; clouds fill the top.",
+    "layout": "Bricks only, 141. The two whole wheels turn about their hubs, the same way, the smaller one faster: each is a rim of four curved brick arcs with slots between them, the big wheel with fourteen paddles outside its rim and the smaller with four spokes inside it, and each sits under a thin solid crown traced on its upper rim, a shelter over the wheel. The ripples on the shallow water are four short brick rows that flow to the right down a 3 degree slope and start over, the moving ground. The peak under the cannon is a small solid summit whose two flanks are brick slides: the left one runs down the long ridge toward the cut wheel at the left edge, the right one down to the valley. The hill's crest, the cut wheels' rims and troughs, the bamboo rails and struts, the village, the stones and five clouds are short brick runs; the clouds are never orange."
   },
   "plan": {
     "archetypes": ["rotating", "platforms", "outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 0,
     "bricks": 141,
     "moving": [
       { "what": "the big water wheel", "type": "rotateAroundCircle" },
-      { "what": "the small gear wheel, turning the other way", "type": "rotateAroundCircle" },
-      { "what": "two rows of stream ripples", "type": "horizontalWrap" }
+      {
+        "what": "the smaller water wheel, turning the same way and faster",
+        "type": "rotateAroundCircle"
+      },
+      { "what": "four rows of ripples on the shallow water", "type": "horizontalWrap" }
     ],
     "features": [
-      "Moving ground and brick wheels (spec 8): the mill stream and two mill wheels",
+      "Moving ground and brick wheels (spec 8): the ripples on the river and two water wheels",
       "Bricks only (spec 8): the second of stage 7's two bricks-only levels"
     ],
     "difficulty": {
       "target": 0.26,
-      "note": "Second hardest: three kinds of motion at once, and the ripples carry balls sideways away from the bucket."
+      "note": "Second hardest: Teggle's draw puts most orange bricks on the two turning wheels, and each wheel's solid crown turns balls away from its top, so they are lit from the sides and from below between the turning rim's slots. The two flank slides from the summit under the cannon are the easy shots; the clouds are never orange, so the high sky does not hand out orange bricks."
     }
   },
   "background": {
     "id": "petal-terraces-mill",
-    "prompt": "A little water mill in a sunny terraced garden in late spring. A big wooden overshot water wheel with flat paddles turns left of the center, centered at about one third of the picture width and two fifths of the picture height, about two fifths of the picture height across; a wooden chute comes in from the upper left and ends just above the wheel's top. Right of the center, a smaller round wooden gear wheel, about a quarter of the picture height across, turns at about two thirds of the width and one third of the height, below the soft gray-blue roof slope of the mill house at the upper right. The mill stream flows straight across the whole picture at about two thirds of the height in a narrow band of clear pale-aqua water with rows of small curved ripples. Below it, grassy banks with dusty rose and cream flowers slope gently toward the middle. The top center is open sky; the lower corners are low sage hedges.",
+    "prompt": "Bamboo water wheels on a shallow mountain river under a cloudy sky. Two whole wheels of thin bamboo spokes with dark bucket paddles on their rims stand side by side: the bigger one right of center, its hub at about 57% of the width and 60% of the height, about half the picture height across, and a smaller one left of center, its hub at about a quarter of the width and the same height, two fifths of the picture height across. A third wheel is cut by the left edge and a fourth, the largest, by the right edge, with a dark trough across it at about half the height. A bamboo rail crosses the whole picture at about two thirds of the height, long bamboo struts prop the wheels, and a pale river with stony banks runs behind and below them; muddy shallow water fills the lower left corner and stones the lower right. A misty blue-gray peak rises at the top center at about a quarter of the height, long ridges fall away to either side, and a green hill with tea terraces climbs to the upper right. The top is gray-blue cloud.",
     "picture": {
-      "ref": "pixabay:3576188",
-      "kind": "painting",
-      "source": "Pixabay",
-      "page": "https://pixabay.com/illustrations/mill-on-the-brook-mill-bach-water-3576188/",
-      "image": "https://cdn.pixabay.com/photo/2018/07/31/23/31/mill-on-the-brook-3576188_1280.jpg",
-      "title": "Free mill on the brook mill bach illustration",
-      "author": "mobasoft24",
-      "authorUrl": "https://pixabay.com/users/mobasoft24-3250123/",
-      "license": "Pixabay Content License",
-      "licenseUrl": "https://pixabay.com/service/license-summary/",
-      "fetched": "2026-10-15",
-      "sha256": "0fa9fe0cc880e63b8b962d598d7e461ba3ff4c1bc8742c519827d33f4de5d640",
-      "size": [1280, 853],
-      "crop": [0, 41, 1280, 770],
+      "ref": "pexels:6130822",
+      "kind": "photo",
+      "source": "Pexels",
+      "page": "https://www.pexels.com/photo/water-mills-on-shallow-river-against-misty-mountains-in-countryside-6130822/",
+      "image": "https://images.pexels.com/photos/6130822/pexels-photo-6130822.jpeg",
+      "title": "Row of water wheels between bamboo fence and green mounts under cloudy sky in foggy weather",
+      "author": "Quang Nguyen Vinh",
+      "authorUrl": "https://www.pexels.com/@quang-nguyen-vinh-222549",
+      "license": "Pexels license",
+      "licenseUrl": "https://www.pexels.com/license/",
+      "fetched": "2026-10-20",
+      "sha256": "6239e2f42f4a0390925eadfe0c97567ce5a4f30774dda86980ca888b6be73af9",
+      "size": [7952, 5304],
+      "crop": [0, 259, 7952, 4785],
       "flop": false,
-      "adjust": { "saturation": 0.65, "paint": 3 }
+      "adjust": {}
     }
   },
   "recipe": {
     "seed": 704,
-    "targetCount": 141
+    "targetCount": 141,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [626.9, 250.5],
+            [606.4, 229.9],
+            [581.8, 214.1],
+            [554.3, 204],
+            [525, 200],
+            [495.7, 204],
+            [468.2, 214.1],
+            [443.6, 229.9],
+            [423.1, 250.5],
+            [427.3, 254],
+            [447.4, 234.8],
+            [471.1, 220.4],
+            [497.4, 211.5],
+            [525, 208.5],
+            [552.6, 211.5],
+            [578.9, 220.4],
+            [602.6, 234.8],
+            [622.7, 254]
+          ]
+        },
+        {
+          "points": [
+            [320.5, 258.4],
+            [304.2, 243],
+            [284.9, 231.3],
+            [263.6, 223.9],
+            [241, 221],
+            [218.4, 223.9],
+            [197.1, 231.3],
+            [177.8, 243],
+            [161.5, 258.4],
+            [164.5, 261.1],
+            [180.5, 246.7],
+            [199.1, 235.9],
+            [219.6, 229.3],
+            [241, 227],
+            [262.4, 229.3],
+            [282.9, 235.9],
+            [301.5, 246.7],
+            [317.5, 261.1]
+          ]
+        },
+        {
+          "points": [
+            [432, 170],
+            [458, 148],
+            [484, 162],
+            [470, 172],
+            [446, 174]
+          ]
+        }
+      ]
+    },
+    "edits": [
+      { "at": [60.25, 96.3], "canBeOrange": false },
+      { "at": [94.58, 82.89], "canBeOrange": false },
+      { "at": [131.22, 78.27], "canBeOrange": false },
+      { "at": [168.15, 78.96], "canBeOrange": false },
+      { "at": [204.65, 84.69], "canBeOrange": false },
+      { "at": [239.42, 97.04], "canBeOrange": false },
+      { "at": [45.43, 48.77], "canBeOrange": false },
+      { "at": [83.96, 45.28], "canBeOrange": false },
+      { "at": [239.42, 42.04], "canBeOrange": false },
+      { "at": [281.04, 41.16], "canBeOrange": false },
+      { "at": [599.63, 122.47], "canBeOrange": false },
+      { "at": [628.74, 104.52], "canBeOrange": false },
+      { "at": [661.65, 95.19], "canBeOrange": false },
+      { "at": [695.72, 91.88], "canBeOrange": false },
+      { "at": [729.75, 95.38], "canBeOrange": false },
+      { "at": [761.55, 108.29], "canBeOrange": false },
+      { "at": [692.73, 52.55], "canBeOrange": false },
+      { "at": [727.36, 42.13], "canBeOrange": false },
+      { "at": [763.33, 39.05], "canBeOrange": false },
+      { "at": [799.35, 42.3], "canBeOrange": false },
+      { "at": [834.71, 49.83], "canBeOrange": false },
+      { "at": [869.24, 60.66], "canBeOrange": false }
+    ]
   }
 }
