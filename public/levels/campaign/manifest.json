@@ -188,6 +188,53 @@
           "background": "lilac-orbit-supernova"
         }
       ]
+    },
+    {
+      "stage": 5,
+      "world": "Lighthouse Cove",
+      "master": "flippers",
+      "levels": [
+        {
+          "id": "5-1",
+          "number": 21,
+          "name": "Life Rings",
+          "file": "campaign/5-1.json",
+          "lines": "campaign/5-1.lines.json",
+          "background": "lighthouse-cove-life-rings"
+        },
+        {
+          "id": "5-2",
+          "number": 22,
+          "name": "The Fish Boat",
+          "file": "campaign/5-2.json",
+          "lines": "campaign/5-2.lines.json",
+          "background": "lighthouse-cove-fish-boat"
+        },
+        {
+          "id": "5-3",
+          "number": 23,
+          "name": "The Drying Net",
+          "file": "campaign/5-3.json",
+          "lines": "campaign/5-3.lines.json",
+          "background": "lighthouse-cove-net"
+        },
+        {
+          "id": "5-4",
+          "number": 24,
+          "name": "The Ship's Wheel",
+          "file": "campaign/5-4.json",
+          "lines": "campaign/5-4.lines.json",
+          "background": "lighthouse-cove-helm"
+        },
+        {
+          "id": "5-5",
+          "number": 25,
+          "name": "Lighthouse Point",
+          "file": "campaign/5-5.json",
+          "lines": "campaign/5-5.lines.json",
+          "background": "lighthouse-cove-lighthouse"
+        }
+      ]
     }
   ]
 }

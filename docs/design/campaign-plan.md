@@ -4,7 +4,7 @@ As of 2026-10-17. The plan for the 50 campaign levels after stage 1: ten worlds,
 
 ## Status
 
-Stages 1 (Cloud Isles), 2 (Clover Burrows), 3 (Golden Rooftops) and 4 (Lilac Orbit) are built. Stages 5 to 11 are drafts: each level has its concept, its plan, its seed (stage times 100 plus the level), its count and its picture, a found image already processed into `public/backgrounds/`; no lines exist yet. Every level's picture is recorded in `docs/assets.md`.
+Stages 1 (Cloud Isles), 2 (Clover Burrows), 3 (Golden Rooftops), 4 (Lilac Orbit) and 5 (Lighthouse Cove) are built. Stages 6 to 11 are drafts: each level has its concept, its plan, its seed (stage times 100 plus the level), its count and its picture, a found image already processed into `public/backgrounds/`; no lines exist yet. Every level's picture is recorded in `docs/assets.md`.
 
 A draft (`"draft": true`) is skipped by `npm run campaign:build`, never appears in the manifest and needs no lines file. `tools/campaign/plan.test.ts` checks every source against spec 15's counts, the original's level names and the reference bands; `tools/campaign/backgrounds.test.ts` checks the pictures against their sources and the asset manifest.
 
@@ -32,7 +32,7 @@ A draft (`"draft": true`) is skipped by `npm run campaign:build`, never appears 
 | 2 | Gopher (Multiball, green) | Clover Burrows | light sand, pale clay, muted sage meadow; picture-book light | built: the gopher's garden above ground; a fork and twin spirals echo the second ball |
 | 3 | Cat (Pyramid, gold) | Golden Rooftops | slate-blue roofs, honey stone, butter-yellow sky; low warm sun | rooftops at golden hour; gables and awnings echo the pyramid's slopes; nothing Egyptian |
 | 4 | Alien (Space Blast, purple) | Lilac Orbit | lilac, periwinkle and lavender space, never black; starlight | the alien's pastel sky; rings and bursts echo the blast radius |
-| 5 | Lobster (Flippers, aqua) | Lighthouse Cove | aqua water, pale sand, gray-blue wood; bright midday | a harbor of piers, buoys and lobster traps, above the water and without sea creatures |
+| 5 | Lobster (Flippers, aqua) | Lighthouse Cove | aqua water, pale sand, gray-blue wood; bright midday | a harbor of breakwaters, boats, nets and a lighthouse, above the water and without sea creatures |
 | 6 | Pumpkin (Spooky Ball, maroon and silver) | Moonlit Hollow | plum and mauve dusk, burgundy pumpkins, silver moon and mist | a pumpkin patch by moonlight; the well and the web are its spooky side |
 | 7 | Sunflower (Flower Power, pink) | Petal Terraces | dusty rose, blush, butter yellow, sage; spring morning | terraced gardens whose pinwheels, bubbles and mill carry stage 7's moving features |
 | 8 | Rabbit (Lucky Spin, red) | Ribbon Fair | cream and muted brick-red stripes, turquoise sky; afternoon | a country fair around a prize wheel; no cards, dice or magic |
@@ -198,7 +198,7 @@ Every target lies inside its stage's reference band (`src/agents/bands.json`, th
 | 2 | 24% to 33.5% | 32, 31, 30, 29, 27; built: 33, 32, 32, 32, 28 (200 runs) | 29.8%; built 31.4% |
 | 3 | 23.5% to 49.5% | 34, 29, 30, 26, 27; built: 40, 30, 30, 32, 29 (200 runs) | 29.2%; built 32.2% |
 | 4 | 17.5% to 39% | 34, 28, 30, 26, 23; built: 33, 29, 31, 22, 24 (200 runs) | 28.2%; built 27.8% |
-| 5 | 24% to 60% | 31, 26, 29, 27, 25 | 27.6% |
+| 5 | 24% to 60% | 31, 26, 29, 27, 25; built: 32, 26, 28, 28, 25 (200 runs) | 27.6%; built 27.8% |
 | 6 | 17% to 50.5% | 34, 28, 30, 25, 21 | 27.6% |
 | 7 | 24% to 64% | 30, 27, 28, 26, 25 | 27.2% |
 | 8 | 13% to 30.5% | 28, 25, 22, 19, 16 | 22.0% |
@@ -206,7 +206,7 @@ Every target lies inside its stage's reference band (`src/agents/bands.json`, th
 | 10 | 10.5% to 46% | 25, 18, 21, 15, 13 | 18.4% |
 | 11 | 3.5% to 33.5% | 20, 16, 12, 9, 6 | 12.6% |
 
-The targets are clear rates of the reference agent, so they keep their meaning whatever the rules settle. Since the 20-orange draw (spec 14.1, "Orange pegs") the built stages land in their bands: stage 1 at 23 to 45% per level, stage 2 at 28 to 33% (measured 2026-10-17), stage 3 at 29 to 40% and stage 4 at 22 to 33% (measured 2026-10-20), all with `npm run agents:report -- <stage> --tier noisy`.
+The targets are clear rates of the reference agent, so they keep their meaning whatever the rules settle. Since the 20-orange draw (spec 14.1, "Orange pegs") the built stages land in their bands: stage 1 at 23 to 45% per level, stage 2 at 28 to 33% (measured 2026-10-17), stage 3 at 29 to 40%, stage 4 at 22 to 33% and stage 5 at 25 to 32% (measured 2026-10-20), all with `npm run agents:report -- <stage> --tier noisy`.
 
 ### Stage 2 measured
 
