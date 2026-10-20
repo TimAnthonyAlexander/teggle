@@ -1,6 +1,6 @@
 # Campaign plan: stages 2 to 11
 
-As of 2026-10-17. The plan for the 50 campaign levels after stage 1: ten worlds, every level's name, concept, archetypes, templates, counts, moving parts and difficulty target, and every picture's brief. The sources are `campaign/stages.json` (worlds and picture looks) and `campaign/levels/<id>.json` (one per level); this page is their overview. Decisions are in spec 14.2, "Decided in the campaign plan" and "Decided in the backgrounds".
+As of 2026-10-20. The plan for the 50 campaign levels after stage 1: ten worlds, every level's name, concept, archetypes, templates, counts, moving parts and difficulty target, and every picture's brief. The sources are `campaign/stages.json` (worlds and picture looks) and `campaign/levels/<id>.json` (one per level); this page is their overview. Decisions are in spec 14.2, "Decided in the campaign plan", "Decided in the backgrounds" and one entry per built stage ("Decided in stages 1 and 2", "Decided in stage 3" and on).
 
 ## Status
 

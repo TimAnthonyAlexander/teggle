@@ -13,6 +13,10 @@ A web rebuild of the 2007 PC pachinko shooter, for personal play. `spec.md` is t
 - `npm run campaign:grid -- 1-3 [--lines --level --crop x0,y0,x1,y1 --sketch]`: a level's picture with a board-coordinate grid, for tracing lines; `--sketch` renders the lines as a layout guide for painting the picture
 - `npm run campaign:art -- search 1-3 "<query>"` / `show <ref>` / `import 1-3 <ref|url>` / `process` / `manifest`: found background pictures: search a source, preview a candidate, crop and process it into `public/backgrounds/` and record it in the level source, re-render after a look change, print the `docs/assets.md` tables
 - `npm run campaign:shots [-- 1-3]`: plays campaign levels in Chromium and captures start, mid-level and Fever screenshots
+- `npm run agents:report -- <stage|id|original:n> --tier noisy --runs 200`: self-play clear rates and metrics per level (the reference agent for difficulty tuning; stages are read from their built level files, so a stage can be measured before earlier stages are built)
+- `npm run original:import`: converts the original's 55 levels and pictures from `reference/` into `public/original/` (needs the owner's copy unpacked locally)
+- `npm run shots:challenges` / `shots:menus` / `shots:mobile`: Playwright screenshots of the challenge flow, the menus, and phones and tablets (each runs its own server)
+- `npm run audio:render [-- name]`: renders synthesized sounds to WAV in `reference/teggle-audio/` with peak and RMS levels
 
 ## Layout
 
@@ -28,7 +32,7 @@ A web rebuild of the 2007 PC pachinko shooter, for personal play. `spec.md` is t
 | `src/editor/` | Hidden background line editor | no |
 | `tools/` | Node CLIs (level generation, campaign pipeline, replay checks) | no |
 | `campaign/` | Campaign sources: stages (world, master, picture style) and per level the concept, background prompt and generator recipe. Lines sit next to the level files in `public/levels/campaign/`. | |
-| `public/` | Static assets the game loads (levels, backgrounds, audio) | |
+| `public/` | Static assets the game loads (levels, backgrounds, audio); `public/original/` holds the original's 55 levels and pictures for Quick Play | |
 | `docs/` | Design guide and research notes | |
 | `reference/` | Screenshots and files of the original game. Gitignored, never committed, never shipped. | |
 

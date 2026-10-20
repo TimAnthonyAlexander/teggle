@@ -546,6 +546,8 @@ Spec section 9 calls bouncy and rolly "multipliers (1.0 = default)". In the game
 - The Fever trigger distance and the value passed for Fever are in stubs (`Board::CheckForFever`, `LogicMgr::DoFeverSlow`). **Not found.**
 - Zoom only runs with 3D acceleration (TB `Board.cpp:1232-1245`). The `zoom` cheat toggles it (TB `Board.cpp:1985-1989`; WIKI Peggle_Deluxe). **[V:code]**
 - Clicking left during slow motion cancels it (SPEEDRUN; patent says "Clicking the left mouse button ends slow motion"). **[V:patent]**
+- A near miss has its own path: slow motion can start without a hit (`Board::CheckForFever`, a stub, so its trigger distance is **Not found**), and if the last orange peg is still unlit when the ramp passes 900 to 920 per mille, `LogicMgr::DoFeverMissed` runs (a stub). The game holds a "sigh" sound instance it fades out (`LogicMgr::KillSighSound`), and the owner's copy has `sounds/sigh.ogg` (1.61 s) and `aah.ogg` (0.68 s). **[V:code]** Teggle's version: spec 14.2, play screen, "Near miss" (added 2026-10-20).
+- Later checks of the physics against the original (the decompiled peg sweep, the stubbed contact pipeline, the wrapped exe, slide and bounce measurements): `docs/research/physics-feel.md`.
 
 ### 4.8 Floating point and determinism
 

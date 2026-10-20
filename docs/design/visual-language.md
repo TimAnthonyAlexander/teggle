@@ -236,7 +236,7 @@ Other colors follow the same structure: orange bevel #f7be60/#fbe9ad, inner #e73
 
 - "3 BALLS LEFT", "2 BALLS LEFT": display font, yellow top #fff80c to orange bottom #ff5500 split at mid-height, black outline 3 px; about 20 px caps when settled, centered at x 400, y ≈ 152, just under the launcher. [M: `sc/3540_3429393065.jpg`]
 - "LAST BALL!" uses the same treatment but huge: text spans x 71..741, letters about 95 px tall (y 117..213). [M: `sc/3540_3541187657.jpg`]
-- Behavior: the warning appears big, shrinks toward its rest position under the launcher and holds there for about 3 s. [M: `video/vivi_1870_300s.mp4` 0 to 4 s at 1 fps]
+- Behavior: the warning appears big, shrinks toward its rest position under the launcher and holds there for about 3 s. [M: `video/vivi_1870_300s.mp4` 0 to 4 s at 1 fps] Teggle keeps this for "3 BALLS LEFT" and "2 BALLS LEFT" but flashes "LAST BALL!" for 200 ms only (spec 14.2, play screen).
 - Vertical gradient in "LAST BALL!": #fcfe03 (top 40%), through #fee300, #fd9c00, to #fc4c00 (bottom 35%). [M]
 
 ## 8. Typography
@@ -302,7 +302,7 @@ Small yellow digits (#eee923, about 9 px) centered on the hit object, slightly a
 - Position: centered at x ≈ 400, line 1 at y 196..208, line 2 at y 216..236 (upper third of the playfield). [M: frame `vf2/g_150` of `vivi_1780_90s.mp4`; `sc/3480_2921694449.jpg` shows the same block at y 188..250]
 - Line 1: "2,390 X PEGS" fades in over about 170 ms after the ball leaves play, then becomes "2,390 X 1 PEG", "2,390 X 2 PEGS"... as each peg disappears, with line 2 showing the running product. [M: frames 100..142 at 48 fps]
 - Line 3 (when earned): "+25,000 STYLE POINTS" in green (#92fc9a), 12 px, at y 244..255. [M: `sc/3480_2921694449.jpg`]
-- The block stays until the next shot starts. [M: video]
+- The block stays until the next shot starts. [M: video] Teggle fades it out over 170 ms once the finished tally has held 25 ticks, so it never stays up while the next shot is aimed (spec 14.2, play screen).
 
 ### 9.3 Style shot callouts
 

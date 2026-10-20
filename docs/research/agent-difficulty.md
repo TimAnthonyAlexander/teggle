@@ -2,6 +2,8 @@
 
 Measured 2026-10-15 with the self-play agents (`src/agents/`; spec 13.5, decisions in spec 14.2). The original's levels come from the owner's copy (`reference/`, gitignored), converted at run time at their own 650 x 560 size by `tools/agents/original.ts`. Nothing of them is stored in the repo except the clear rates below and in `src/agents/bands.json`. Teggle's stage 1 is the campaign as of commit 67969bb.
 
+Later: these numbers led to the 20-orange draw (spec 14.1, "Orange pegs"), which changed Teggle's figures below; the clear rates of the built stages since then are in spec 14.2, one entry per stage, and in `docs/design/campaign-plan.md`, "Difficulty ramp". The bands from the original's campaign (`src/agents/bands.json`) still hold.
+
 ## Method
 
 - **Agents.** Random aims uniformly over the cannon's range. Greedy plays 40 angles per shot on trial copies of the attempt and takes the best by win, orange pegs lit, free balls, score. Noisy greedy adds a normal aim error with standard deviation σ (radians) to the greedy angle. For scale: at σ = 0.03 a shot is about 13 px off its line 450 px from the cannon, a bit more than a peg's radius.
