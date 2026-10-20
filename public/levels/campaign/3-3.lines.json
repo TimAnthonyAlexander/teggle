@@ -1,0 +1,273 @@
+{
+  "formatVersion": 1,
+  "background": "golden-rooftops-bell",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "belfry",
+      "note": "The belfry's two arched openings, under the foot of the spire",
+      "mode": "pegs",
+      "spacing": 36,
+      "keepSpacing": true,
+      "points": [[440, 218], [476, 218]]
+    },
+    {
+      "id": "belfry-cornice",
+      "note": "The cornice under the belfry",
+      "mode": "bricks",
+      "points": [[398, 280], [454, 254], [510, 280]]
+    },
+    {
+      "id": "clock",
+      "note": "The clock face",
+      "mode": "pegs",
+      "points": [[460, 298], [460, 302]]
+    },
+    {
+      "id": "tower",
+      "note": "The window slits down the tower",
+      "mode": "pegs",
+      "spacing": 36,
+      "points": [[456, 346], [456, 490]]
+    },
+    {
+      "id": "gable",
+      "note": "The church's gable, up to the weathervane and down to the tower",
+      "mode": "bricks",
+      "corners": [1],
+      "points": [[210, 407], [330, 354], [384, 378]]
+    },
+    {
+      "id": "weathervane",
+      "note": "The weathervane on the church's gable",
+      "mode": "pegs",
+      "points": [[330, 310], [330, 314]]
+    },
+    {
+      "id": "door-arch",
+      "note": "The pointed arch over the church door",
+      "mode": "bricks",
+      "corners": [1],
+      "points": [[304, 506], [330, 476], [356, 506]]
+    },
+    {
+      "id": "lamp-left",
+      "note": "The left lamp of the lamp post in front of the church",
+      "mode": "pegs",
+      "points": [[266, 466], [266, 470]]
+    },
+    {
+      "id": "lamp-right",
+      "note": "The right lamp of the lamp post in front of the church",
+      "mode": "pegs",
+      "points": [[394, 466], [394, 470]]
+    },
+    {
+      "id": "facade",
+      "note": "Across the church's stone facade under the gable",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[250, 428], [400, 428]]
+    },
+    {
+      "id": "white-roof",
+      "note": "The roof of the white house on the left",
+      "mode": "bricks",
+      "points": [[40, 304], [124, 328]]
+    },
+    {
+      "id": "white-chimney",
+      "note": "The chimney pot on the white house",
+      "mode": "pegs",
+      "points": [[36, 268], [36, 272]]
+    },
+    {
+      "id": "antenna-left",
+      "note": "The top of the antenna behind the white house",
+      "mode": "pegs",
+      "points": [[122, 290], [122, 294]]
+    },
+    {
+      "id": "antenna-middle",
+      "note": "The top of the antenna behind the church",
+      "mode": "pegs",
+      "points": [[257, 292], [257, 296]]
+    },
+    {
+      "id": "white-facade",
+      "note": "The white house's wall beside its upper window",
+      "mode": "pegs",
+      "points": [[100, 384], [100, 388]]
+    },
+    {
+      "id": "white-window",
+      "note": "The upper window of the white house",
+      "mode": "pegs",
+      "points": [[68, 354], [68, 358]]
+    },
+    {
+      "id": "dark-roof",
+      "note": "The dark roofs between the white house and the church",
+      "mode": "bricks",
+      "points": [[130, 357], [190, 370]]
+    },
+    {
+      "id": "dark-chimney",
+      "note": "The chimney on the dark roofs beside the church",
+      "mode": "pegs",
+      "points": [[231, 340], [231, 344]]
+    },
+    {
+      "id": "middle-houses",
+      "note": "The windows of the dark houses between the white house and the church",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[150, 424], [150, 476]]
+    },
+    {
+      "id": "middle-door",
+      "note": "A doorway of the dark houses beside the church",
+      "mode": "pegs",
+      "points": [[190, 448], [190, 452]]
+    },
+    {
+      "id": "umbrella-left",
+      "note": "The tops of the market umbrellas at the bottom left",
+      "mode": "pegs",
+      "points": [[196, 504], [196, 508]]
+    },
+    {
+      "id": "yellow-ridge",
+      "note": "The chimney pots along the yellow house's ridge",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[516, 326], [636, 326]]
+    },
+    {
+      "id": "yellow-eaves",
+      "note": "The eaves of the yellow house, falling slightly to the right",
+      "mode": "bricks",
+      "points": [[506, 366], [594, 371], [662, 376]]
+    },
+    {
+      "id": "yellow-windows-left",
+      "note": "The left column of windows of the yellow house",
+      "mode": "pegs",
+      "spacing": 48,
+      "points": [[538, 410], [538, 458]]
+    },
+    {
+      "id": "yellow-windows-right",
+      "note": "The right column of windows of the yellow house",
+      "mode": "pegs",
+      "spacing": 48,
+      "points": [[626, 410], [626, 458]]
+    },
+    {
+      "id": "umbrella-1",
+      "note": "The first market umbrella at the bottom right",
+      "mode": "bricks",
+      "corners": [1],
+      "points": [[604, 506], [644, 492], [684, 506]]
+    },
+    {
+      "id": "umbrella-2",
+      "note": "The second market umbrella at the bottom right",
+      "mode": "bricks",
+      "corners": [1],
+      "points": [[714, 506], [754, 492], [794, 506]]
+    },
+    {
+      "id": "right-roofs",
+      "note": "The roofs of the cream and the blue house, rising to the right",
+      "mode": "bricks",
+      "points": [[684, 394], [740, 380], [790, 364], [850, 344], [896, 329]]
+    },
+    {
+      "id": "antenna-right",
+      "note": "The top of the antenna on the cream house",
+      "mode": "pegs",
+      "points": [[767, 300], [767, 304]]
+    },
+    {
+      "id": "blue-chimney",
+      "note": "The chimney on the blue house",
+      "mode": "pegs",
+      "points": [[806, 316], [806, 320]]
+    },
+    {
+      "id": "cream-windows",
+      "note": "The windows of the cream house",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[690, 436], [734, 432]]
+    },
+    {
+      "id": "cream-pipe",
+      "note": "The drainpipe at the cream house's right corner",
+      "mode": "pegs",
+      "points": [[778, 440], [778, 444]]
+    },
+    {
+      "id": "blue-windows",
+      "note": "The upper windows of the blue house",
+      "mode": "pegs",
+      "spacing": 54,
+      "points": [[812, 400], [866, 398]]
+    },
+    {
+      "id": "sky-left-1",
+      "note": "The cloud band along the top, on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 64], [110, 54], [200, 58], [290, 72], [330, 84]]
+    },
+    {
+      "id": "sky-left-2",
+      "note": "The lower edge of the light band on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 122], [120, 114], [220, 120], [320, 136], [380, 152]]
+    },
+    {
+      "id": "sky-left-3",
+      "note": "The lower edge of the peach band on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 182], [120, 178], [220, 186], [320, 202], [370, 216]]
+    },
+    {
+      "id": "sky-left-4",
+      "note": "A cloud streak low in the sky on the left",
+      "mode": "bricks",
+      "points": [[54, 222], [150, 236], [240, 252], [326, 270]]
+    },
+    {
+      "id": "sky-right-1",
+      "note": "The cloud band along the top, on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[590, 84], [680, 64], [780, 56], [892, 62]]
+    },
+    {
+      "id": "sky-right-2",
+      "note": "The lower edge of the light band on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[540, 152], [620, 136], [720, 124], [820, 122], [892, 128]]
+    },
+    {
+      "id": "sky-right-3",
+      "note": "The lower edge of the peach band on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[550, 216], [640, 198], [740, 188], [840, 186], [892, 190]]
+    },
+    {
+      "id": "sky-right-4",
+      "note": "A cloud streak low in the sky on the right",
+      "mode": "bricks",
+      "points": [[600, 274], [680, 260], [780, 244], [880, 228]]
+    }
+  ]
+}

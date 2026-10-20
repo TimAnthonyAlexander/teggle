@@ -1,0 +1,208 @@
+{
+  "formatVersion": 1,
+  "background": "golden-rooftops-lanterns",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "lantern-loop",
+      "note": "Sixteen small lanterns gliding around the figure-eight wire, which crosses itself at the red lantern; the left loop is the longer one, so the lanterns pass the crossing apart",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 107.7,
+      "keepSpacing": true,
+      "travel": { "period": 4000 },
+      "points": [
+        [708, 305], [700.2, 230], [677.2, 175.1], [640.6, 155], [593, 175.1], [537.5, 230],
+        [478, 305], [400.4, 380], [328, 434.9], [265.9, 455], [218.2, 434.9], [188.2, 380],
+        [178, 305], [188.2, 230], [218.2, 175.1], [265.9, 155], [328, 175.1], [400.4, 230],
+        [478, 305], [537.5, 380], [593, 434.9], [640.6, 455], [677.2, 434.9], [700.2, 380]
+      ]
+    },
+    {
+      "id": "lantern-gray",
+      "note": "The gray paper lantern on the left",
+      "mode": "bricks",
+      "closed": true,
+      "points": [
+        [136, 312], [129, 338], [110, 357], [84, 364], [58, 357], [39, 338], [32, 312], [39, 286],
+        [58, 267], [84, 260], [110, 267], [129, 286]
+      ]
+    },
+    {
+      "id": "lantern-yellow",
+      "note": "The yellow paper lantern on the right",
+      "mode": "bricks",
+      "closed": true,
+      "points": [
+        [882, 274], [875, 300], [856, 319], [830, 326], [804, 319], [785, 300], [778, 274],
+        [785, 248], [804, 229], [830, 222], [856, 229], [875, 248]
+      ]
+    },
+    {
+      "id": "hook",
+      "note": "The hook the red lantern hangs from, where the wire is knotted",
+      "mode": "pegs",
+      "points": [[476, 250], [476, 254]]
+    },
+    {
+      "id": "tassel",
+      "note": "The bottom opening of the red lantern",
+      "mode": "pegs",
+      "points": [[474, 360], [474, 364]]
+    },
+    {
+      "id": "knot-top",
+      "note": "Over the knot, where the wire's two loops rise apart",
+      "mode": "pegs",
+      "spacing": 48,
+      "keepSpacing": true,
+      "points": [[404, 172], [450, 194], [496, 194], [540, 172]]
+    },
+    {
+      "id": "cloud-under",
+      "note": "The underside of the big cloud below the red lantern",
+      "mode": "bricks",
+      "points": [[378, 472], [440, 450], [500, 448], [570, 468]]
+    },
+    {
+      "id": "cloud-under-pegs",
+      "note": "The big cloud below the red lantern, between the wire's lower loops",
+      "mode": "pegs",
+      "spacing": 70,
+      "points": [[440, 410], [510, 410]]
+    },
+    {
+      "id": "wire-left",
+      "note": "The wire inside the left loop, sagging between the gray and the red lantern",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[222, 263], [300, 258], [372, 255]]
+    },
+    {
+      "id": "cloud-left-inner",
+      "note": "The left edge of the big cloud inside the left loop",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[250, 400], [270, 372], [304, 348], [334, 314], [366, 296]]
+    },
+    {
+      "id": "sky-left-inner",
+      "note": "The patch of blue sky high inside the left loop",
+      "mode": "pegs",
+      "spacing": 54,
+      "points": [[256, 205], [310, 210]]
+    },
+    {
+      "id": "wire-right",
+      "note": "The wire inside the right loop, rising to the yellow lantern",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[572, 248], [660, 238]]
+    },
+    {
+      "id": "cloud-right-inner",
+      "note": "The right edge of the big cloud inside the right loop",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[612, 296], [588, 332], [636, 356]]
+    },
+    {
+      "id": "cloud-left-top",
+      "note": "The top of the big cloud in the upper left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 48], [100, 40], [180, 44], [260, 54], [330, 70]]
+    },
+    {
+      "id": "cloud-left-billow-1",
+      "note": "A billow along the big cloud's underside, over the gray lantern",
+      "mode": "bricks",
+      "points": [[24, 132], [60, 106], [104, 98], [146, 112]]
+    },
+    {
+      "id": "cloud-left-billow-2",
+      "note": "A billow along the big cloud's underside, over the left loop",
+      "mode": "bricks",
+      "points": [[180, 122], [222, 98], [268, 94], [310, 110]]
+    },
+    {
+      "id": "cloud-left-low",
+      "note": "The big cloud's lower edge over the gray lantern",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[30, 210], [80, 212], [134, 210]]
+    },
+    {
+      "id": "cloud-left-mid",
+      "note": "Under the billow over the gray lantern",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[30, 166], [80, 160], [130, 166]]
+    },
+    {
+      "id": "under-gray",
+      "note": "The blue sky right of and below the gray lantern",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[152, 410], [142, 452]]
+    },
+    {
+      "id": "sky-right-inner",
+      "note": "The blue sky high inside the right loop",
+      "mode": "pegs",
+      "points": [[624, 206], [624, 210]]
+    },
+    {
+      "id": "under-right-loop",
+      "note": "The blue sky right of the right loop's foot",
+      "mode": "pegs",
+      "points": [[760, 420], [760, 424]]
+    },
+    {
+      "id": "wisp-right",
+      "note": "The wisp of cloud in the top right corner",
+      "mode": "bricks",
+      "points": [[858, 96], [892, 108]]
+    },
+    {
+      "id": "sky-right-top",
+      "note": "High in the blue sky on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[590, 66], [670, 48], [750, 44], [830, 50], [892, 62]]
+    },
+    {
+      "id": "cloud-right-edge",
+      "note": "The big cloud's right edge, right of the cannon",
+      "mode": "bricks",
+      "points": [[548, 120], [584, 100], [628, 104]]
+    },
+    {
+      "id": "sky-right-low",
+      "note": "The blue sky above the yellow lantern",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[680, 104], [720, 120], [780, 140], [840, 160], [890, 182]]
+    },
+    {
+      "id": "under-yellow",
+      "note": "The blue sky under the yellow lantern",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[784, 370], [840, 376]]
+    },
+    {
+      "id": "cloud-bottom",
+      "note": "The cloud tops along the bottom",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[130, 508], [300, 508], [460, 508], [540, 510]]
+    },
+    {
+      "id": "cloud-bottom-right",
+      "note": "The top of the low cloud at the bottom right",
+      "mode": "bricks",
+      "points": [[600, 512], [650, 494], [710, 488], [770, 500]]
+    }
+  ]
+}

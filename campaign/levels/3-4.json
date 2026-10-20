@@ -1,26 +1,25 @@
 {
   "id": "3-4",
   "name": "Laundry Day",
-  "draft": true,
   "concept": {
-    "subject": "Washing lines strung between the rooftops in long sagging curves, hung with sheets, shirts and towels drying in the evening sun.",
-    "composition": "Four ropes sag across the picture: the highest from the upper corners dipping to a third of the height beside the open top center, the next two from edge to edge dipping to half and three fifths of the height, the lowest across the middle three fifths of the width at three quarters of the height. Square sheets, towels and shirts hang from them in a staggered pattern; chimneys and roof slopes frame the left and right edges.",
-    "layout": "Round pegs only, 141. Each washing line is a peg line along its sagging curve with a peg at every clothespin; the hanging cloths are small closed peg outlines below the lines, staggered so no two hang one above the other. The lowest line stays above the flippers' swing, and the posts where the lines are tied are single pegs."
+    "subject": "Laundry drying on a washing line across the face of an old town house: white sheets, a gray cloth and a pair of jeans hang between its windows, over a balcony and a striped awning, with a cable crossing the sky and a tiled roof in the corner.",
+    "composition": "The house's wall, seen from below, fills the left two thirds; its eave runs from the top a third of the way across down to the right at about two fifths of the height, and blue sky fills the upper right. One washing line crosses the whole picture at a little under half the height, rising to the right. Slanted windows sit above it, a balcony with an iron railing and a striped awning below it; a cable crosses the sky from the top center down to the right, and a dark tiled roof fills the lower right corner.",
+    "layout": "Round pegs only, 141. The clothespins along the washing line are spaced wide, so a ball drops through instead of riding along; a row across the middle of the tall sheets and a row along the hems hang below them, and the jeans are two legs of pegs. The windows are peg frames, the thin wire across the wall a row, the drain hole and a stain single pegs; the balcony's slab, its railing and the awning's edge are rows, and pegs follow the roof's edge and the building's corner against the sky. The window lintels and the eave are solid ledges and the cable is a rod, so the pegs nearest the cannon sit sheltered under them. Nothing reaches into the flippers' swing."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 141,
     "bricks": 0,
     "difficulty": {
       "target": 0.26,
-      "note": "The stage's hardest: long rows of pegs bounce the ball along the lines, and the cloth outlines hide orange pegs behind other pegs."
+      "note": "Late in the stage: the pegs nearest the cannon sit under the lintels, the eave and the cable, and the middle row of the laundry hides behind the clothespins and the hems."
     }
   },
   "background": {
     "id": "golden-rooftops-laundry",
-    "prompt": "Washing lines strung across the rooftops of a hill town at golden hour. Four thin ropes hang in long, smooth sagging curves across the picture: the highest from the upper left and upper right corners, dipping to about one third of the picture height beside the open top center, which stays plain sky; the second from edge to edge, dipping to about half the height; the third to about three fifths of the height; and the lowest across the middle three fifths of the width at about three quarters of the height. Small square sheets, towels and shirts in cream, pale blue and dusty rose hang from the ropes by wooden clothespins, staggered so that no piece hangs directly above another. Muted slate-blue roofs with chimneys rise at the left and right edges where the ropes are tied; the lower corners show only roof slopes.",
+    "prompt": "A photo looking up at the plastered face of an old town house with laundry drying across it. The wall fills the left two thirds; its eave runs from the top edge at about a third of the width down to the right, reaching about 0.73 of the width at 0.43 of the height, and plain blue sky fills the upper right. One washing line crosses the whole picture, from the left edge at about 0.45 of the height rising to about 0.4 at the right edge, hung with white sheets, a gray cloth at about 0.15 of the width and a pair of jeans at about 0.4, down to about three fifths of the height. Slanted windows sit above the line: a big one at the left edge, one at about a third of the width near the top and one with an open shutter beside it. Below the line a balcony with an iron railing spans from about 0.22 to 0.57 of the width at two thirds of the height, a striped green awning slopes down under it to near the bottom, and two dark windows stand right of it. A thin cable crosses the sky from the top center down to the right, and a dark tiled roof fills the lower right corner, its edge rising from about 0.66 of the width at the bottom to the right edge at about half the height.",
     "picture": {
       "ref": "pexels:12406735",
       "kind": "photo",
@@ -42,6 +41,35 @@
   },
   "recipe": {
     "seed": 304,
-    "targetCount": 141
+    "targetCount": 141,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [50, 94],
+            [142, 136],
+            [139, 144],
+            [47, 102]
+          ]
+        },
+        {
+          "points": [
+            [302, 50],
+            [352, 76],
+            [349, 84],
+            [299, 58]
+          ]
+        },
+        {
+          "points": [
+            [520, 140],
+            [634, 218],
+            [629, 226],
+            [515, 148]
+          ]
+        }
+      ],
+      "rods": [{ "a": [556, 87], "b": [724, 208] }]
+    }
   }
 }

@@ -94,6 +94,53 @@
           "background": "clover-burrows-hall"
         }
       ]
+    },
+    {
+      "stage": 3,
+      "world": "Golden Rooftops",
+      "master": "pyramid",
+      "levels": [
+        {
+          "id": "3-1",
+          "number": 11,
+          "name": "Gable Row",
+          "file": "campaign/3-1.json",
+          "lines": "campaign/3-1.lines.json",
+          "background": "golden-rooftops-gables"
+        },
+        {
+          "id": "3-2",
+          "number": 12,
+          "name": "Lantern Loop",
+          "file": "campaign/3-2.json",
+          "lines": "campaign/3-2.lines.json",
+          "background": "golden-rooftops-lanterns"
+        },
+        {
+          "id": "3-3",
+          "number": 13,
+          "name": "The Bell Tower",
+          "file": "campaign/3-3.json",
+          "lines": "campaign/3-3.lines.json",
+          "background": "golden-rooftops-bell"
+        },
+        {
+          "id": "3-4",
+          "number": 14,
+          "name": "Laundry Day",
+          "file": "campaign/3-4.json",
+          "lines": "campaign/3-4.lines.json",
+          "background": "golden-rooftops-laundry"
+        },
+        {
+          "id": "3-5",
+          "number": 15,
+          "name": "Market Awnings",
+          "file": "campaign/3-5.json",
+          "lines": "campaign/3-5.lines.json",
+          "background": "golden-rooftops-awnings"
+        }
+      ]
     }
   ]
 }

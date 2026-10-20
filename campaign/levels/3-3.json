@@ -1,26 +1,25 @@
 {
   "id": "3-3",
   "name": "The Bell Tower",
-  "draft": true,
   "concept": {
-    "subject": "A stone bell tower with an open arched belfry and a great bell, rising between two lower round towers that are linked to it by arched bridges.",
-    "composition": "The bell tower stands in the middle from a third of the height down to the bottom, its pointed roof below the open top center; its round-arched belfry, a fifth of the picture wide, holds the bell at about half height. Two lower round towers with conical roofs stand at a fifth and four fifths of the width with their tips at two fifths of the height; two arched bridges link them to the bell tower at three fifths of the height. Low roofs fill the lower corners.",
-    "layout": "106 round pegs and 46 bricks. The belfry arch and the two bridge arches are brick arches whose tops shed balls; the side towers' conical roofs are brick chevrons. The bell is a peg outline with a peg clapper inside the arch, the tower windows and the bridges' railings are peg rows, and each lantern under the bridges is a single peg."
+    "subject": "A white bell tower with a tall spire over a small town square at dusk: a stone church with a gable on its left, colored houses on its right and a pale peach sky with faint bands of cloud.",
+    "composition": "The tower stands in the middle, about a tenth of the picture wide, its spire rising into the top center; its belfry with two arched openings sits at about a third of the height and its clock at about half. Left of it the church's gable peaks at about three fifths of the height over a stone facade with an arched door; a white house with a chimney and dark roofs fill the left edge. Right of it stand a yellow, a cream and a blue house, their roofs rising toward the right edge. Market umbrellas line the bottom.",
+    "layout": "106 round pegs and 46 bricks. The spire's foot is a solid with a peaked top that shelters the two pegs in the belfry; under them a brick arch is the belfry's cornice, then the clock and a column of pegs down the tower. The church's gable and the door's pointed arch are bricks with a weathervane, two lamps and a row across the facade as pegs. The roofs of the white house, the dark houses, the yellow house and the cream and blue houses are brick slopes, their chimneys, windows and antenna tops pegs; two antenna masts are rods, and two market umbrellas at the bottom right are brick peaks. In the sky three rows of pegs on each side follow the faint cloud bands over a brick streak that slopes down toward the tower."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 106,
     "bricks": 46,
     "difficulty": {
       "target": 0.3,
-      "note": "Second easiest: the arches spread the ball to both halves; the bell inside its arch takes aim."
+      "note": "Middle of the stage: the tower splits the board in two, the spire's foot turns balls away from the belfry, and the sky rows are open."
     }
   },
   "background": {
     "id": "golden-rooftops-bell",
-    "prompt": "A stone bell tower at golden hour rises in the middle of the picture from about one third of the picture height down to the bottom, about a seventh of the picture wide, its pointed slate-blue roof ending well below the open top center. Halfway up, an open round-arched belfry about a fifth of the picture wide holds one great pale bronze bell with a clearly visible round rim. On the left and right, at about one fifth and four fifths of the width, stand two lower round towers with conical slate-blue roofs whose tips are at about two fifths of the height. Two stone bridges with round arches link the side towers to the bell tower at about three fifths of the height, with small lanterns hanging under them. Honey and cream stone walls under a calm sky fading from pale butter yellow to soft blue; the lower corners show only low roofs.",
+    "prompt": "A photo of a small town square at dusk around a white bell tower. The tower stands in the middle, from about 0.44 to 0.55 of the width, down to the bottom; its pointed spire rises to near the top edge, its foot at about a quarter of the height, a belfry with two tall arched openings at a third of the height and a round clock at about half the height. Left of the tower a stone church shows its gable, peaking at about 0.36 of the width and three fifths of the height, over a plain facade with an arched door and a lamp post; at the left edge a white house with a chimney, and dark roofs with antennas between it and the church. Right of the tower stand a yellow house, a cream house and a blue house at the right edge, their roofs at about three fifths of the height rising toward the right. White market umbrellas line the bottom. The sky is a calm pale peach and pink with faint bands of cloud.",
     "picture": {
       "ref": "pexels:33676898",
       "kind": "photo",
@@ -42,6 +41,21 @@
   },
   "recipe": {
     "seed": 303,
-    "targetCount": 152
+    "targetCount": 152,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [420, 188],
+            [453, 150],
+            [486, 188]
+          ]
+        }
+      ],
+      "rods": [
+        { "a": [257, 320], "b": [257, 350] },
+        { "a": [767, 326], "b": [767, 352] }
+      ]
+    }
   }
 }

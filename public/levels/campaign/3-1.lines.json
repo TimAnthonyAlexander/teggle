@@ -1,0 +1,238 @@
+{
+  "formatVersion": 1,
+  "background": "golden-rooftops-gables",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "tower-cornice",
+      "note": "The cornice over the clock tower's clock stage, sloping down from its middle to both sides",
+      "mode": "bricks",
+      "corners": [1],
+      "points": [[420, 300], [474, 289], [528, 300]]
+    },
+    {
+      "id": "tower-base",
+      "note": "The base of the clock stage, left of the chimneys in front of it",
+      "mode": "bricks",
+      "points": [[412, 352], [446, 352]]
+    },
+    {
+      "id": "belfry",
+      "note": "The two columns of the belfry, under the cupola's cornice",
+      "mode": "pegs",
+      "spacing": 44,
+      "keepSpacing": true,
+      "points": [[452, 256], [496, 256]]
+    },
+    {
+      "id": "clock",
+      "note": "The clock face",
+      "mode": "pegs",
+      "points": [[475, 330], [475, 334]]
+    },
+    {
+      "id": "small-gable",
+      "note": "The left slope of the small orange gable in front of the tower",
+      "mode": "bricks",
+      "points": [[374, 408], [343, 492]]
+    },
+    {
+      "id": "orange-roof",
+      "note": "The long left roof edge of the orange stepped gable",
+      "mode": "bricks",
+      "points": [[468, 372], [548, 335]]
+    },
+    {
+      "id": "orange-edge",
+      "note": "The right edge of the orange stepped gable, down to the mansard",
+      "mode": "bricks",
+      "points": [[620, 336], [644, 390]]
+    },
+    {
+      "id": "cream-left",
+      "note": "The left slope of the cream gable",
+      "mode": "bricks",
+      "points": [[833, 347], [779, 425]]
+    },
+    {
+      "id": "cream-right",
+      "note": "The right slope of the cream gable",
+      "mode": "bricks",
+      "points": [[862, 345], [896, 370]]
+    },
+    {
+      "id": "turret-ring",
+      "note": "The ring cornice around the round turret",
+      "mode": "bricks",
+      "points": [[36, 366], [80, 361], [124, 366]]
+    },
+    {
+      "id": "parapet",
+      "note": "The parapet of the large building's roof, between its chimneys",
+      "mode": "bricks",
+      "points": [[150, 304], [214, 304]]
+    },
+    {
+      "id": "left-eaves",
+      "note": "The eaves of the large building on the left, under its skylights",
+      "mode": "bricks",
+      "points": [[140, 374], [250, 377]]
+    },
+    {
+      "id": "orange-eaves",
+      "note": "The eaves of the orange building left of the tower",
+      "mode": "bricks",
+      "points": [[296, 388], [350, 387]]
+    },
+    {
+      "id": "mansard-eaves",
+      "note": "The eaves along the foot of the dark mansard roof",
+      "mode": "bricks",
+      "points": [[676, 396], [764, 397]]
+    },
+    {
+      "id": "hip-right",
+      "note": "The right hip of the dark roof in front of the tower",
+      "mode": "bricks",
+      "points": [[614, 410], [648, 452]]
+    },
+    {
+      "id": "lower-roof-left",
+      "note": "The ridge of the low roof at the bottom left, rising to the right",
+      "mode": "bricks",
+      "points": [[214, 503], [286, 484]]
+    },
+    {
+      "id": "cloud-left-top",
+      "note": "The lower edge of the dark cloud band along the top, on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 52], [120, 44], [230, 48], [322, 60]]
+    },
+    {
+      "id": "cloud-left-high",
+      "note": "The lower edge of the high cloud band on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 116], [110, 108], [200, 112], [290, 122], [352, 134]]
+    },
+    {
+      "id": "cloud-left-low",
+      "note": "The lower edge of the low cloud band on the left",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[24, 196], [120, 206], [220, 220], [320, 232], [396, 238]]
+    },
+    {
+      "id": "cloud-right-top",
+      "note": "The lower edge of the dark cloud band along the top, on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[598, 62], [700, 52], [800, 50], [892, 56]]
+    },
+    {
+      "id": "cloud-right-high",
+      "note": "The lower edge of the high cloud band on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[570, 136], [680, 144], [790, 154], [892, 164]]
+    },
+    {
+      "id": "cloud-right-low",
+      "note": "The lower edge of the low cloud band on the right",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[548, 238], [660, 248], [770, 254], [892, 258]]
+    },
+    {
+      "id": "dome",
+      "note": "The dome over the round turret",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[46, 322], [80, 296], [114, 322]]
+    },
+    {
+      "id": "skylights",
+      "note": "Along the skylights on the large building's roof",
+      "mode": "pegs",
+      "spacing": 38,
+      "points": [[158, 342], [236, 342]]
+    },
+    {
+      "id": "pot-orange",
+      "note": "The chimney pot left of the orange stepped gable",
+      "mode": "pegs",
+      "points": [[566, 304], [566, 308]]
+    },
+    {
+      "id": "pot-cream",
+      "note": "The chimney pots over the cream gable",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[846, 298], [886, 298]]
+    },
+    {
+      "id": "left-windows-high",
+      "note": "The upper row of windows of the large building on the left",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[126, 412], [246, 410]]
+    },
+    {
+      "id": "left-windows-low",
+      "note": "The lower row of windows of the large building on the left",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[126, 462], [246, 458]]
+    },
+    {
+      "id": "orange-windows",
+      "note": "The windows of the orange building left of the tower",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[312, 424], [312, 468]]
+    },
+    {
+      "id": "dormers",
+      "note": "The two left dormers of the mansard roof",
+      "mode": "pegs",
+      "spacing": 53,
+      "keepSpacing": true,
+      "points": [[678, 362], [731, 362]]
+    },
+    {
+      "id": "orange-windows-right",
+      "note": "The two windows of the orange house under the mansard",
+      "mode": "pegs",
+      "spacing": 42,
+      "points": [[680, 434], [722, 434]]
+    },
+    {
+      "id": "hip-ridge",
+      "note": "The ridge of the dark roof in front of the tower",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[440, 412], [590, 410]]
+    },
+    {
+      "id": "hip-eaves",
+      "note": "The eaves of the dark roof in front of the tower",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[392, 450], [600, 450]]
+    },
+    {
+      "id": "lower-ridge",
+      "note": "The ridges of the low roofs along the bottom",
+      "mode": "pegs",
+      "spacing": 41,
+      "points": [[384, 486], [470, 484], [640, 484], [770, 486]]
+    },
+    {
+      "id": "cream-house",
+      "note": "The window high on the cream house's gable wall",
+      "mode": "pegs",
+      "points": [[856, 392], [856, 396]]
+    }
+  ]
+}

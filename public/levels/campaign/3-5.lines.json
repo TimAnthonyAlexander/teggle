@@ -1,0 +1,225 @@
+{
+  "formatVersion": 1,
+  "background": "golden-rooftops-awnings",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "roof-left",
+      "note": "The left slope of the gable's roof, from beside the cannon down to the left edge",
+      "mode": "bricks",
+      "points": [[370, 113], [24, 379]]
+    },
+    {
+      "id": "roof-right",
+      "note": "The right slope of the gable's roof, from beside the cannon down to the right edge",
+      "mode": "bricks",
+      "points": [[548, 109], [892, 380]]
+    },
+    {
+      "id": "sky-left",
+      "note": "The sky over the left slope, following the roof's line",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[296, 114], [30, 318]]
+    },
+    {
+      "id": "sky-right",
+      "note": "The sky over the right slope, following the roof's line",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[624, 112], [886, 319]]
+    },
+    {
+      "id": "string-course",
+      "note": "A band across the gable's wall above the awnings, rising gently to the middle",
+      "mode": "bricks",
+      "points": [[288, 218], [462, 196], [630, 216]]
+    },
+    {
+      "id": "awning-left-valance",
+      "note": "The scalloped valance of the left awning",
+      "mode": "bricks",
+      "points": [[214, 350], [312, 343], [410, 350]]
+    },
+    {
+      "id": "stripe-left-1",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[225, 318], [229, 292]]
+    },
+    {
+      "id": "stripe-left-2",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[259, 318], [263, 292]]
+    },
+    {
+      "id": "stripe-left-3",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[293, 318], [297, 292]]
+    },
+    {
+      "id": "stripe-left-4",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[327, 318], [331, 292]]
+    },
+    {
+      "id": "stripe-left-5",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[361, 318], [365, 292]]
+    },
+    {
+      "id": "stripe-left-6",
+      "note": "A red stripe of the left awning",
+      "mode": "bricks",
+      "points": [[395, 318], [399, 292]]
+    },
+    {
+      "id": "shutter-left",
+      "note": "The left window's white shutter, in the awning's shadow",
+      "mode": "pegs",
+      "spacing": 37,
+      "points": [[240, 386], [388, 386]]
+    },
+    {
+      "id": "window-left-sill",
+      "note": "The sill under the left window's shutter, falling slightly to the left",
+      "mode": "bricks",
+      "points": [[222, 426], [402, 420]]
+    },
+    {
+      "id": "awning-right-valance",
+      "note": "The scalloped valance of the right awning",
+      "mode": "bricks",
+      "points": [[518, 350], [618, 343], [718, 350]]
+    },
+    {
+      "id": "stripe-right-1",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[547, 318], [543, 292]]
+    },
+    {
+      "id": "stripe-right-2",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[581, 318], [577, 292]]
+    },
+    {
+      "id": "stripe-right-3",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[615, 318], [611, 292]]
+    },
+    {
+      "id": "stripe-right-4",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[649, 318], [645, 292]]
+    },
+    {
+      "id": "stripe-right-5",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[683, 318], [679, 292]]
+    },
+    {
+      "id": "stripe-right-6",
+      "note": "A red stripe of the right awning",
+      "mode": "bricks",
+      "points": [[717, 318], [713, 292]]
+    },
+    {
+      "id": "shutter-right",
+      "note": "The right window's white shutter, in the awning's shadow",
+      "mode": "pegs",
+      "spacing": 37,
+      "points": [[544, 386], [692, 386]]
+    },
+    {
+      "id": "window-right-sill",
+      "note": "The sill under the right window's shutter, falling slightly to the right",
+      "mode": "bricks",
+      "points": [[527, 420], [708, 426]]
+    },
+    {
+      "id": "tiles-left",
+      "note": "The tiled eave along the bottom left, falling slightly to the middle",
+      "mode": "bricks",
+      "points": [[112, 494], [306, 506]]
+    },
+    {
+      "id": "tiles-middle",
+      "note": "The raised tiled eave in the middle",
+      "mode": "bricks",
+      "points": [[320, 488], [426, 478], [533, 488]]
+    },
+    {
+      "id": "tiles-right",
+      "note": "The tiled eave along the bottom right, falling slightly to the middle",
+      "mode": "bricks",
+      "points": [[546, 506], [800, 494]]
+    },
+    {
+      "id": "shadow-left",
+      "note": "The edge of the left awning's shadow on the wall",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[462, 296], [494, 340], [500, 392]]
+    },
+    {
+      "id": "wall-low-left",
+      "note": "The wall between the left window and the tiles",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[124, 460], [300, 462]]
+    },
+    {
+      "id": "wall-left",
+      "note": "The wall left of the left window",
+      "mode": "pegs",
+      "points": [[178, 410], [178, 414]]
+    },
+    {
+      "id": "wall-right",
+      "note": "The wall right of the right window",
+      "mode": "pegs",
+      "points": [[762, 416], [762, 420]]
+    },
+    {
+      "id": "wall-middle",
+      "note": "The wall between the two windows",
+      "mode": "pegs",
+      "points": [[463, 406], [463, 410]]
+    },
+    {
+      "id": "wall-low-middle",
+      "note": "The wall between the windows, over the raised tiles",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[440, 440], [486, 440]]
+    },
+    {
+      "id": "wall-low-right",
+      "note": "The wall between the right window and the tiles",
+      "mode": "pegs",
+      "spacing": 44,
+      "points": [[548, 462], [790, 460]]
+    },
+    {
+      "id": "soffit-left",
+      "note": "The shadow under the left slope of the roof, low inside the gable",
+      "mode": "bricks",
+      "points": [[170, 311], [70, 388]]
+    },
+    {
+      "id": "soffit-right",
+      "note": "The shadow under the right slope of the roof, low inside the gable",
+      "mode": "bricks",
+      "points": [[750, 312], [850, 391]]
+    }
+  ]
+}
