@@ -1,0 +1,184 @@
+{
+  "formatVersion": 1,
+  "background": "moonlit-hollow-web",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "hub",
+      "note": "The hub, the bright knot of silk at the middle of the web",
+      "mode": "pegs",
+      "points": [[452, 267], [452, 271]]
+    },
+    {
+      "id": "turn-1",
+      "note": "The innermost turn around the hub, a drop of dew on every other spoke",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 50,
+      "keepSpacing": true,
+      "points": [[502, 269], [477, 225.7], [427, 225.7], [402, 269], [427, 312.3], [477, 312.3]]
+    },
+    {
+      "id": "turn-2",
+      "note": "The second turn, a drop where it crosses each of the twelve spokes",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 48.7,
+      "keepSpacing": true,
+      "corners": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
+      "points": [
+        [546, 269], [537.8, 246], [533.4, 222], [514.8, 206.2], [499, 187.6], [475, 183.2],
+        [452, 175], [429, 183.2], [405, 187.6], [389.2, 206.2], [370.6, 222], [366.2, 246],
+        [358, 269], [366.2, 292], [370.6, 316], [389.2, 331.8], [405, 350.4], [429, 354.8],
+        [452, 363], [475, 354.8], [499, 350.4], [514.8, 331.8], [533.4, 316], [537.8, 292]
+      ]
+    },
+    {
+      "id": "turn-3",
+      "note": "The third turn, strung straight from spoke to spoke and sagging a little toward the hub, a drop at each spoke and one between",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 35.7,
+      "keepSpacing": true,
+      "corners": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
+      "points": [
+        [590, 269], [577.3, 235.4], [571.5, 200], [543.7, 177.3], [521, 149.5], [485.6, 143.7],
+        [452, 131], [418.4, 143.7], [383, 149.5], [360.3, 177.3], [332.5, 200], [326.7, 235.4],
+        [314, 269], [326.7, 302.6], [332.5, 338], [360.3, 360.7], [383, 388.5], [418.4, 394.3],
+        [452, 407], [485.6, 394.3], [521, 388.5], [543.7, 360.7], [571.5, 338], [577.3, 302.6]
+      ]
+    },
+    {
+      "id": "turn-4",
+      "note": "The fourth turn, strung like the third",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 46.1,
+      "keepSpacing": true,
+      "corners": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22],
+      "points": [
+        [630, 269], [613.6, 225.7], [606.2, 180], [570.3, 150.7], [541, 114.8], [495.3, 107.4],
+        [452, 91], [408.7, 107.4], [363, 114.8], [333.7, 150.7], [297.8, 180], [290.4, 225.7],
+        [274, 269], [290.4, 312.3], [297.8, 358], [333.7, 387.3], [363, 423.2], [408.7, 430.6],
+        [452, 447], [495.3, 430.6], [541, 423.2], [570.3, 387.3], [606.2, 358], [613.6, 312.3]
+      ]
+    },
+    {
+      "id": "turn-5",
+      "note": "The second outermost turn, thick with dew; with the outer turn it forms a channel that a shot from beside the cannon rattles down",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 34.8,
+      "keepSpacing": true,
+      "points": [
+        [668, 269], [660.6, 213.1], [639.1, 161], [604.7, 116.3], [560, 81.9], [507.9, 60.4],
+        [452, 53], [396.1, 60.4], [344, 81.9], [299.3, 116.3], [264.9, 161], [243.4, 213.1],
+        [236, 269], [243.4, 324.9], [264.9, 377], [299.3, 421.7], [344, 456.1], [396.1, 477.6],
+        [452, 485], [507.9, 477.6], [560, 456.1], [604.7, 421.7], [639.1, 377], [660.6, 324.9]
+      ]
+    },
+    {
+      "id": "turn-6",
+      "note": "The outermost turn, where the picture's spiral ends, thick with dew like the turn inside it",
+      "mode": "pegs",
+      "closed": true,
+      "spacing": 34.4,
+      "keepSpacing": true,
+      "points": [
+        [718, 269], [682.4, 136], [585, 38.6], [452, 3], [319, 38.6], [221.6, 136], [186, 269],
+        [221.6, 402], [319, 499.4], [452, 535], [585, 499.4], [682.4, 402]
+      ]
+    },
+    {
+      "id": "frame-right",
+      "note": "The frame thread at the upper right, from the top edge down to the right wall",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[724, 36], [751, 74], [784, 112], [847, 179], [892, 230]]
+    },
+    {
+      "id": "spoke-right-high",
+      "note": "A spoke running on past the outer turn to the frame at the upper right",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[716, 130], [750, 121]]
+    },
+    {
+      "id": "thread-right",
+      "note": "A thread from the web's right edge to where the frame meets the right wall",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[734, 232], [870, 236]]
+    },
+    {
+      "id": "frame-right-corner",
+      "note": "The frame thread from the frame's right corner up to the right wall",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[797, 354], [829, 300], [886, 250]]
+    },
+    {
+      "id": "frame-right-low",
+      "note": "The frame's lower right side, from its right corner down",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[797, 354], [791, 421], [802, 482]]
+    },
+    {
+      "id": "spoke-right",
+      "note": "A spoke running on past the outer turn to the frame's right corner",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[745, 352], [797, 354]]
+    },
+    {
+      "id": "spoke-right-low",
+      "note": "A spoke running on past the outer turn to the lower right side of the frame",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[716, 410], [790, 421]]
+    },
+    {
+      "id": "spoke-right-bottom",
+      "note": "A spoke running on past the outer turn to the frame's bottom corner",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[657, 478], [750, 493]]
+    },
+    {
+      "id": "frame-left",
+      "note": "The frame thread at the upper left, from the top edge down to the frame's left corner",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[235, 40], [193, 112], [155, 179], [112, 233], [69, 306]]
+    },
+    {
+      "id": "thread-left",
+      "note": "A thread from the web's left edge toward the left wall",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[36, 272], [166, 268]]
+    },
+    {
+      "id": "frame-left-low",
+      "note": "The frame's lower left side, from its left corner down",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[69, 306], [120, 347], [139, 403], [125, 482]]
+    },
+    {
+      "id": "spoke-left-low",
+      "note": "A spoke running on past the outer turn to the lower left side of the frame",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[139, 403], [200, 392]]
+    },
+    {
+      "id": "thread-left-low",
+      "note": "A thread across the lower left between the frame and the outer turn",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[160, 488], [250, 478]]
+    }
+  ]
+}
