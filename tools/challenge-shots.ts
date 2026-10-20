@@ -1,11 +1,14 @@
 // Captures the challenges at 1600 x 900 into reference/teggle-shots/challenges/ (gitignored): the
-// challenge list with the first group open, a group that is still locked, groups opened by the
-// DEV ONLY unlock, a challenge in play, a passed and a failed challenge end dialog, and the stage
-// intro card's 15 squares.
+// challenge list, a briefing card for an open, a locked and a multi-level challenge, the goal
+// card as a challenge level starts, the goal tracker mid-level for a more-orange and a
+// full-clear challenge, the TARGET REACHED callout, a passed and a failed end dialog, and the
+// stage intro card's challenge squares.
 //
 // Runs its own Vite dev server on port 47915 (never the shared one on 47823), without file
-// watching, and stops it at the end. Challenges are played for real: the DEV handle window.__teggle picks the best aim found on
-// a trial copy of the attempt, or a weak one, and fires. The save is set through localStorage.
+// watching, and stops it at the end. Challenges are played for real: the DEV handle
+// window.__teggle picks the best aim found on a trial copy of the attempt, or a weak one, and
+// fires. The save is set through localStorage: the Adventure beaten up to 2-2, so the first
+// challenges are open and the later ones locked.
 //
 // Usage: npm run shots:challenges [-- name-filter ...]   (filters match step names)
 
@@ -24,6 +27,8 @@ const WORLD_H = 600;
 const CENTER_X = WORLD_W / 2;
 /** The result dialogs' box (src/game/layout.ts, resultDialog). */
 const DIALOG = { x: 187 + (WORLD_W - 800) / 2, y: 147, w: 425, h: 305 } as const;
+/** Campaign number of the next level in the shots' save: 1-1 to 2-2 are beaten. */
+const BEATEN_THROUGH = 8;
 
 // ---------------------------------------------------------------------------------------------
 // Saves
@@ -37,7 +42,7 @@ interface ChallengeSave {
 }
 
 /**
- * A save with campaign levels 1-1 up to (not including) number `next` cleared on try 1, and the
+ * A save with campaign levels 1-1 up to (not including) number `next` beaten on try 1, and the
  * given challenge records.
  */
 function save(next: number, challenges: Record<string, ChallengeSave> = {}): string {
@@ -71,6 +76,12 @@ const passed = (best: number | null = null): ChallengeSave => ({
   passedOn: '2026-10-16',
 });
 
+/** The shots' save: the Adventure through 2-2, one challenge passed and one tried. */
+const SAVE = save(BEATEN_THROUGH, {
+  'orange-1.1': passed(431_200),
+  'totals.4': { tries: 3, passes: 0, bestLevels: 2, best: null, passedOn: null },
+});
+
 // ---------------------------------------------------------------------------------------------
 // Page helpers
 
@@ -92,11 +103,6 @@ async function click(page: Page, x: number, y: number): Promise<void> {
   await page.mouse.click(p.x, p.y);
 }
 
-async function hover(page: Page, x: number, y: number): Promise<void> {
-  const p = toCss(page, x, y);
-  await page.mouse.move(p.x, p.y);
-}
-
 /** Loads the app fresh at `hash` with `saved` in storage. */
 async function open(page: Page, hash: string, saved: string, settleMs = 1200): Promise<void> {
   await page.goto(`${BASE}/?s=${Date.now()}`);
@@ -113,14 +119,6 @@ async function open(page: Page, hash: string, saved: string, settleMs = 1200): P
   await page.waitForTimeout(settleMs);
 }
 
-/** Moves to another route in the same page session (the DEV unlock lasts for the session). */
-async function go(page: Page, hash: string, settleMs = 1200): Promise<void> {
-  await page.evaluate((h) => {
-    window.location.hash = h;
-  }, hash);
-  await page.waitForTimeout(settleMs);
-}
-
 type Snap = Record<string, unknown>;
 
 async function snapshot(page: Page): Promise<Snap | null> {
@@ -130,6 +128,7 @@ async function snapshot(page: Page): Promise<Snap | null> {
   });
 }
 
+/** Waits for the play screen's DEV handle and its goal card. */
 async function waitPlay(page: Page): Promise<void> {
   await page.waitForFunction(
     () => (window as unknown as { __teggle?: unknown }).__teggle !== undefined,
@@ -139,17 +138,33 @@ async function waitPlay(page: Page): Promise<void> {
   await page.waitForTimeout(800);
 }
 
-/** Waits until a shot may leave, or a dialog opens. */
-async function waitReady(page: Page, timeoutMs = 120_000): Promise<Snap> {
+/** Puts the goal card away with a click on the board, and checks the click fired nothing. */
+async function dismissCard(page: Page): Promise<void> {
+  const before = await snapshot(page);
+  if (before?.goalCard !== true) throw new Error('The challenge level started without its card.');
+  await click(page, CENTER_X, 420);
+  await page.waitForTimeout(500);
+  const after = await snapshot(page);
+  if (after?.goalCard !== false) throw new Error('The goal card did not go away on a click.');
+  if (after.shotsTaken !== 0) throw new Error('The click that put the goal card away fired.');
+}
+
+/** Waits until a shot may leave, or a dialog opens; `watch` sees every snapshot meanwhile. */
+async function waitReady(
+  page: Page,
+  watch?: (s: Snap) => Promise<void>,
+  timeoutMs = 120_000,
+): Promise<Snap> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
     const s = await snapshot(page);
     if (s !== null) {
+      await watch?.(s);
       if (s.dialog !== null) return s;
       if (s.phase === 'aim' && s.ready === true && s.holding !== true) return s;
     }
     if (Date.now() > deadline) throw new Error(`Timed out waiting to aim: ${JSON.stringify(s)}`);
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(watch === undefined ? 300 : 60);
   }
 }
 
@@ -168,14 +183,30 @@ async function fire(page: Page, mode: 'best' | 'weak'): Promise<void> {
 }
 
 /** Plays shots until a dialog opens; returns its kind. */
-async function playOut(page: Page, mode: 'best' | 'weak', onShot?: (n: number) => Promise<void>) {
+async function playOut(
+  page: Page,
+  mode: 'best' | 'weak',
+  onShot?: (n: number) => Promise<void>,
+  watch?: (s: Snap) => Promise<void>,
+): Promise<string> {
   for (let n = 0; n < 60; n++) {
-    const s = await waitReady(page);
+    const s = await waitReady(page, watch);
     if (typeof s.dialog === 'string') return s.dialog;
     await fire(page, mode);
     await onShot?.(n);
   }
   throw new Error('The level did not end in 60 shots.');
+}
+
+/** Plays `shots` shots and waits until the next may leave. */
+async function playShots(page: Page, shots: number): Promise<void> {
+  for (let n = 0; n < shots; n++) {
+    const s = await waitReady(page);
+    if (s.dialog !== null) return;
+    await fire(page, 'best');
+  }
+  await waitReady(page);
+  await page.waitForTimeout(600);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -195,98 +226,144 @@ function cell(slot: number): { x: number; y: number } {
   return { x: (cols[at[0] ?? 0] ?? 0) + 158, y: (rows[at[1] ?? 0] ?? 0) + 113 };
 }
 
+async function openCell(page: Page, slot: number): Promise<void> {
+  const c = cell(slot);
+  await click(page, c.x, c.y);
+  await page.waitForTimeout(900);
+}
+
+async function closeCard(page: Page): Promise<void> {
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(400);
+}
+
 type Step = (page: Page) => Promise<void>;
 
 const STEPS: readonly [string, Step][] = [
   [
     'list',
     async (page) => {
-      // Stage 3 complete: the first group is open; its other levels are not built yet.
-      await open(page, '#/challenges', save(16, { 'orange-1.1': passed() }));
-      await shot(page, 'list-first-group');
-      const second = cell(1);
-      await hover(page, second.x, second.y);
-      await page.waitForTimeout(400);
-      await shot(page, 'list-level-not-built');
-      // The next group is still locked by the campaign.
-      await click(page, CENTER_X + 9 + 57, WORLD_H - 56 + 17);
-      await page.waitForTimeout(600);
-      await shot(page, 'list-locked-group');
-      await hover(page, cell(0).x, cell(0).y);
-      await page.waitForTimeout(400);
-      await shot(page, 'list-locked-challenge');
-    },
-  ],
-  [
-    'dev',
-    async (page) => {
-      // A cup passed, every full clear of the first group (its square gets the medal), a run
-      // tried three times.
-      const records: Record<string, ChallengeSave> = {
-        'cup-1.1': passed(318_400),
-        'runs.1': { tries: 3, passes: 0, bestLevels: 1, best: null, passedOn: null },
-      };
-      for (let i = 1; i <= 5; i++) records[`clear-1.${i}`] = passed();
-      await open(page, '#/challenges?group=insane&unlock=all', save(3, records));
-      await hover(page, cell(2).x, cell(2).y);
-      await page.waitForTimeout(400);
-      await shot(page, 'list-insane-dev');
-      await go(page, '#/challenges?group=runs');
-      await hover(page, cell(0).x, cell(0).y);
-      await page.waitForTimeout(400);
-      await shot(page, 'list-runs-dev');
-      await go(page, '#/challenges?group=duel-2');
-      await shot(page, 'list-duel-dev');
-      // The intro card's squares with the session's open groups and the passes.
-      await go(page, '#/adventure', 7000);
-      await shot(page, 'intro-squares-dev');
+      await open(page, '#/challenges', SAVE);
+      // The first group: 1-3 and 2-2 beaten, 3-1, 4-3 and 5-1 still locked.
+      await shot(page, 'list');
+      await openCell(page, 0);
+      await shot(page, 'card-open');
+      await closeCard(page);
+      await openCell(page, 2);
+      await shot(page, 'card-locked');
+      await closeCard(page);
+      await open(page, '#/challenges?group=totals', SAVE);
+      await shot(page, 'list-totals');
+      await openCell(page, 1);
+      await shot(page, 'card-run');
+      await closeCard(page);
+      await open(page, '#/challenges?group=runs', SAVE);
+      await openCell(page, 4);
+      await shot(page, 'card-random-locked');
+      await open(page, '#/challenges?group=insane', SAVE);
+      await shot(page, 'list-gauntlet');
     },
   ],
   [
     'intro',
     async (page) => {
-      // The shipped rule before stage 3 is complete: every square locked.
-      await open(page, '#/adventure', save(3), 7000);
+      await open(page, '#/adventure', SAVE, 7000);
+      await shot(page, 'intro-squares');
+      await open(page, '#/adventure', save(1), 7000);
       await shot(page, 'intro-squares-locked');
+    },
+  ],
+  [
+    'orange',
+    async (page) => {
+      await open(page, '#/challenges/orange-1.1/play?master=guide', SAVE);
+      await waitPlay(page);
+      await shot(page, 'goal-card');
+      await dismissCard(page);
+      await playShots(page, 3);
+      await shot(page, 'tracker-orange');
+    },
+  ],
+  [
+    'clear',
+    async (page) => {
+      await open(page, '#/challenges/clear-1.2/play?master=guide', SAVE);
+      await waitPlay(page);
+      await dismissCard(page);
+      await playShots(page, 2);
+      await shot(page, 'tracker-clear');
+    },
+  ],
+  [
+    'run',
+    async (page) => {
+      await open(page, '#/challenges/totals.4/play?master=guide', SAVE);
+      await waitPlay(page);
+      await shot(page, 'goal-card-run');
+      await dismissCard(page);
+      await playShots(page, 1);
+      await shot(page, 'tracker-run');
+    },
+  ],
+  [
+    'target',
+    async (page) => {
+      // A cup played with the best aim until its score passes the target before the win.
+      const found = { seen: false };
+      const watch = async (s: Snap): Promise<void> => {
+        const callouts = Array.isArray(s.callouts) ? (s.callouts as string[]) : [];
+        if (!found.seen && callouts.includes('notice:TARGET REACHED')) {
+          found.seen = true;
+          await page.waitForTimeout(250);
+          await shot(page, 'target-reached');
+        }
+      };
+      for (let attempt = 0; attempt < 8 && !found.seen; attempt++) {
+        await open(page, '#/challenges/cup-1.1/play?master=guide', SAVE);
+        await waitPlay(page);
+        await dismissCard(page);
+        await playOut(page, 'best', undefined, watch);
+      }
+      if (!found.seen) throw new Error('No cup run passed its target before the win in 8 runs.');
     },
   ],
   [
     'passed',
     async (page) => {
-      await open(page, '#/challenges?unlock=all', save(3));
-      await go(page, '#/challenges/orange-1.1/play?master=guide');
-      await waitPlay(page);
-      await shot(page, 'running-start');
       let kind = '';
-      for (let attempt = 0; attempt < 4 && kind !== 'passed'; attempt++) {
-        const end = await playOut(page, 'best', async (n) => {
-          if (attempt === 0 && n === 3) {
-            await page.waitForTimeout(900);
-            await shot(page, 'running-shot');
-          }
-        });
+      for (let attempt = 0; attempt < 6 && kind !== 'passed'; attempt++) {
+        if (attempt === 0) await open(page, '#/challenges/orange-1.1/play?master=guide', SAVE);
+        await waitPlay(page);
+        await dismissCard(page);
+        const end = await playOut(page, 'best');
         await page.waitForTimeout(3600);
         const s = await snapshot(page);
         kind = end === 'challenge' && s?.result === 'won' ? 'passed' : 'failed';
         if (kind === 'passed') await shot(page, 'end-passed');
         else {
-          // The failed dialog's Try Again: a new run.
+          // The failed dialog's Try Again: a new run, behind a new goal card.
           await click(page, DIALOG.x + DIALOG.w - 30 - 85.5, DIALOG.y + DIALOG.h - 52 + 17);
-          await waitPlay(page);
+          await page.waitForTimeout(1200);
         }
       }
-      if (kind !== 'passed') throw new Error('Orange Grove was not passed in 4 runs.');
+      if (kind !== 'passed') throw new Error('The orange challenge was not passed in 6 runs.');
     },
   ],
   [
     'failed',
     async (page) => {
-      await open(page, '#/challenges?unlock=all', save(3));
-      await go(page, '#/challenges/insane.2/play?master=guide');
+      await open(page, '#/challenges/insane.2/play?master=guide', SAVE);
       await waitPlay(page);
+      await dismissCard(page);
       const end = await playOut(page, 'weak');
       await page.waitForTimeout(3600);
       await shot(page, end === 'challenge' ? 'end-failed' : `end-${end}`);
+      // Try Again starts a new run behind its goal card.
+      await click(page, DIALOG.x + DIALOG.w - 30 - 85.5, DIALOG.y + DIALOG.h - 52 + 17);
+      await page.waitForTimeout(1500);
+      const s = await snapshot(page);
+      if (s?.goalCard !== true) throw new Error('Try Again did not show the goal card.');
+      await shot(page, 'goal-card-retry');
     },
   ],
 ];

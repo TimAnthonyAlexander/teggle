@@ -468,6 +468,11 @@ export class Presenter {
     this.audio.emit({ type: 'freeBall', reason, stage });
   }
 
+  /** A notice callout from the play screen (a challenge's TARGET REACHED), in world units. */
+  notice(x: number, y: number, line1: string, line2: string, hold: number): void {
+    this.addCallout('notice', x, y, line1, line2, hold);
+  }
+
   private addCallout(
     kind: CalloutKind,
     x: number,

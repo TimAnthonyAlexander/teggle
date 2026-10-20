@@ -1,14 +1,15 @@
-// The base game's 75 challenges in 15 groups of 5 (spec 8; research 6), as validated data, and
-// the rules of a challenge run. The groups, their order, the levels each challenge names and its
-// kind of goal follow the original's own challenge file (the owner's copy, `levels/trophy.cfg`);
-// a level is named by its campaign slot, so Teggle's level in that slot is used. Names and
-// descriptions are Teggle's own (visual guide 15), and the numbers are fitted to Teggle's
-// 20-orange levels (spec 14.2, "Decided in the challenges").
+// The base game's 75 challenges in 15 groups of 5 (spec 8; research 6), as validated data, the
+// rules of a challenge run, and which challenges are shown and open. The groups, their order, the
+// levels each challenge names and its kind of goal follow the original's own challenge file (the
+// owner's copy, `levels/trophy.cfg`); a level is named by its campaign slot, so Teggle's level in
+// that slot is used. The numbers are fitted to Teggle's 20-orange levels (spec 14.2, "Decided in
+// the challenges"). The words the player reads are Teggle's own and live with the menus
+// (src/game/menus/challenge-copy.ts), built from these definitions.
 //
 // A challenge is the original's model: levels to win in a row, optionally with more orange pegs,
 // fewer balls (carried from level to level where they span several), a total score to beat or
 // every peg to clear. Losing any level fails it. Duel and the three-level duels are post-MVP:
-// listed, never playable.
+// defined, never shown.
 
 import { z } from 'zod';
 import type { Rng } from '../core/rng';
@@ -92,9 +93,7 @@ const GROUP_ID = /^[a-z]+(?:-[a-z0-9]+)*$/;
 
 const groupSchema = z.strictObject({
   id: z.string().regex(GROUP_ID),
-  name: z.string().min(1).max(24),
-  description: z.string().min(1).max(160),
-  /** Post-MVP (Duel): listed, never playable. */
+  /** Post-MVP (Duel): never shown or played. */
   duel: z.boolean(),
 });
 export type ChallengeGroup = z.output<typeof groupSchema>;
@@ -105,7 +104,6 @@ const challengeSchema = z.strictObject({
   group: z.string().regex(GROUP_ID),
   /** 1 to 5 within the group. */
   index: z.int().min(1).max(5),
-  name: z.string().min(1).max(24),
   /** The levels to win in a row. */
   levels: z.array(levelRefSchema).min(1).max(10),
   /** Orange pegs per level, or null for the usual count. */
@@ -132,7 +130,6 @@ const challengeSetSchema = z
     if (set.groups.length !== GROUP_COUNT) issue(`${set.groups.length} groups, not ${GROUP_COUNT}`);
     const groupIds = new Set(set.groups.map((g) => g.id));
     if (groupIds.size !== set.groups.length) issue('two groups share an id');
-    const names = new Set<string>();
     for (const g of set.groups) {
       const list = set.challenges.filter((c) => c.group === g.id);
       if (list.length !== CHALLENGES_PER_GROUP)
@@ -145,8 +142,6 @@ const challengeSetSchema = z
     }
     for (const c of set.challenges) {
       if (!groupIds.has(c.group)) issue(`${c.id} names the unknown group ${c.group}`);
-      if (names.has(c.name)) issue(`the name "${c.name}" is used twice`);
-      names.add(c.name);
       const slots = c.levels.filter((l) => SLOT.test(l));
       if (new Set(slots).size !== slots.length) issue(`${c.id} names a level twice`);
       if (c.levels.includes('pick') && c.levels.length !== 1) issue(`${c.id}: a pick stands alone`);
@@ -163,7 +158,6 @@ const challengeSetSchema = z
 // The challenges (spec 8; research 6; the original's trophy.cfg for levels and kinds)
 
 interface Draft {
-  readonly name: string;
   readonly levels: readonly LevelRef[];
   readonly orange?: number;
   readonly balls?: number;
@@ -174,18 +168,15 @@ interface Draft {
 
 function group(
   id: string,
-  name: string,
-  description: string,
   drafts: readonly Draft[],
   duel = false,
 ): { group: ChallengeGroup; challenges: ChallengeDef[] } {
   return {
-    group: { id, name, description, duel },
+    group: { id, duel },
     challenges: drafts.map((d, i) => ({
       id: `${id}.${i + 1}`,
       group: id,
       index: i + 1,
-      name: d.name,
       levels: [...d.levels],
       orange: d.orange ?? null,
       balls: d.balls ?? null,
@@ -196,23 +187,14 @@ function group(
   };
 }
 
-function oneEach(
-  names: readonly string[],
-  levels: readonly string[],
-  extra: Omit<Draft, 'name' | 'levels'>,
-): Draft[] {
-  return names.map((name, i) => ({ name, levels: [levels[i] ?? ''], ...extra }));
+/** One challenge per level, each with the same goal. */
+function oneEach(levels: readonly string[], extra: Omit<Draft, 'levels'>): Draft[] {
+  return levels.map((level) => ({ levels: [level], ...extra }));
 }
 
-function duels(
-  names: readonly string[],
-  levels: readonly string[],
-  opponents: readonly PowerId[],
-  ai: DuelAi,
-): Draft[] {
-  return names.map((name, i) => ({
-    name,
-    levels: [levels[i] ?? ''],
+function duels(levels: readonly string[], opponents: readonly PowerId[], ai: DuelAi): Draft[] {
+  return levels.map((level, i) => ({
+    levels: [level],
     duel: { opponents: [opponents[i] ?? 'guide'], ai: [ai] },
   }));
 }
@@ -230,150 +212,40 @@ const HARD_FIVE: readonly PowerId[] = [
 ];
 
 const RAW = [
-  group(
-    'orange-1',
-    'Orange Crowd',
-    'These levels have more orange pegs than usual. Clear every one of them to win.',
-    oneEach(
-      ['Orange Grove', 'Peel Away', 'Zest', 'Marmalade', 'Juice Bar'],
-      ['1-3', '2-2', '3-1', '4-3', '5-1'],
-      { orange: ORANGE_LOW },
-    ),
-  ),
-  group(
-    'orange-2',
-    'Orange Swarm',
-    'Even more orange pegs, and every one of them has to go.',
-    oneEach(
-      ['Tangerine Rain', 'Apricot Hill', 'Amber Field', 'Copper Kettle', 'Ember Trail'],
-      ['2-1', '3-4', '4-1', '5-2', '6-2'],
-      { orange: ORANGE_MID },
-    ),
-  ),
-  group(
-    'orange-3',
-    'Orange Flood',
-    'The most orange pegs of all. Clear them before your balls run out.',
-    oneEach(
-      ['Orange Tide', 'Sunset Sea', 'High Water', 'Flood Plain', 'The Deluge'],
-      ['3-5', '4-2', '5-5', '6-1', '7-1'],
-      { orange: ORANGE_HIGH },
-    ),
-  ),
-  group(
-    'cup-1',
-    'Bronze Cup',
-    'Win the level and finish with a score above the mark.',
-    oneEach(
-      ['Bronze Age', 'Bronze Bell', 'Bronze Coin', 'Bronze Lantern', 'Bronze Anchor'],
-      ['1-5', '2-3', '3-3', '4-3', '5-4'],
-      { score: CUP_LOW },
-    ),
-  ),
-  group(
-    'cup-2',
-    'Silver Cup',
-    'A higher mark this time. Every shot counts toward it.',
-    oneEach(
-      ['Silver Spoon', 'Silver Lining', 'Silver Screen', 'Silver Arrow', 'Silver Fox'],
-      ['1-2', '3-2', '4-1', '5-5', '8-1'],
-      { score: CUP_MID },
-    ),
-  ),
-  group(
-    'cup-3',
-    'Gold Cup',
-    'The highest marks for a single level. Play every shot for points.',
-    oneEach(
-      ['Gold Rush', 'Gold Leaf', 'Gold Mine', 'Gold Medal', 'Gold Standard'],
-      ['2-1', '4-2', '5-1', '6-5', '9-1'],
-      { score: CUP_HIGH },
-    ),
-  ),
-  group(
-    'clear-1',
-    'Clean Sweep',
-    'Win with every peg and brick gone, the blue ones too.',
-    oneEach(
-      ['Clean Slate', 'Sweep Up', 'Spring Cleaning', 'Bare Board', 'Fresh Start'],
-      ['1-1', '1-2', '1-3', '1-4', '1-5'],
-      { fullClear: true },
-    ),
-  ),
-  group(
-    'clear-2',
-    'Spotless',
-    'Harder boards to clear completely. Leave nothing behind.',
-    oneEach(
-      ['Squeaky Clean', 'Wiped Out', 'Empty Board', 'Polished', 'Whistle Clean'],
-      ['2-2', '3-1', '5-1', '6-2', '7-2'],
-      { fullClear: true },
-    ),
-  ),
+  group('orange-1', oneEach(['1-3', '2-2', '3-1', '4-3', '5-1'], { orange: ORANGE_LOW })),
+  group('orange-2', oneEach(['2-1', '3-4', '4-1', '5-2', '6-2'], { orange: ORANGE_MID })),
+  group('orange-3', oneEach(['3-5', '4-2', '5-5', '6-1', '7-1'], { orange: ORANGE_HIGH })),
+  group('cup-1', oneEach(['1-5', '2-3', '3-3', '4-3', '5-4'], { score: CUP_LOW })),
+  group('cup-2', oneEach(['1-2', '3-2', '4-1', '5-5', '8-1'], { score: CUP_MID })),
+  group('cup-3', oneEach(['2-1', '4-2', '5-1', '6-5', '9-1'], { score: CUP_HIGH })),
+  group('clear-1', oneEach(['1-1', '1-2', '1-3', '1-4', '1-5'], { fullClear: true })),
+  group('clear-2', oneEach(['2-2', '3-1', '5-1', '6-2', '7-2'], { fullClear: true })),
   group(
     'duel-1',
-    'Duels',
-    'Take turns with a master on one board and finish ahead. The masters play at Normal.',
     duels(
-      ['Unicorn Duel', 'Gopher Duel', 'Cat Duel', 'Alien Duel', 'Lobster Duel'],
       ['1-4', '2-1', '3-2', '4-3', '5-2'],
       ['guide', 'multiball', 'pyramid', 'spaceBlast', 'flippers'],
       'normal',
     ),
     true,
   ),
-  group(
-    'duel-2',
-    'Hard Duels',
-    'Duels against the later masters, who play at Hard.',
-    duels(
-      ['Pumpkin Duel', 'Sunflower Duel', 'Rabbit Duel', 'Wyvern Duel', 'Owl Duel'],
-      ['6-4', '7-1', '8-3', '9-1', '10-4'],
-      HARD_FIVE,
-      'hard',
-    ),
-    true,
-  ),
-  group(
-    'duel-3',
-    'Master Duels',
-    'The same five masters at their best, on new boards.',
-    duels(
-      [
-        'Pumpkin Showdown',
-        'Sunflower Showdown',
-        'Rabbit Showdown',
-        'Wyvern Showdown',
-        'Owl Showdown',
-      ],
-      ['6-1', '7-4', '8-3', '9-2', '10-1'],
-      HARD_FIVE,
-      'master',
-    ),
-    true,
-  ),
+  group('duel-2', duels(['6-4', '7-1', '8-3', '9-1', '10-4'], HARD_FIVE, 'hard'), true),
+  group('duel-3', duels(['6-1', '7-4', '8-3', '9-2', '10-1'], HARD_FIVE, 'master'), true),
   group(
     'runs',
-    'Winning Streak',
-    'Win random levels back to back. Lose one and the streak is over.',
-    ['Two in a Row', 'Three in a Row', 'Four in a Row', 'Five in a Row', 'Six in a Row'].map(
-      (name, i): Draft => ({ name, levels: new Array<LevelRef>(i + 2).fill('random') }),
-    ),
+    [2, 3, 4, 5, 6].map((n): Draft => ({ levels: new Array<LevelRef>(n).fill('random') })),
   ),
   group(
     'tri-duel',
-    'Duel Series',
-    'Finish three random levels with a higher total than three random masters.',
     (
       [
-        ['Three Rounds', ['normal', 'normal', 'normal']],
-        ['Tougher Rounds', ['hard', 'normal', 'hard']],
-        ['Rough Rounds', ['master', 'normal', 'hard']],
-        ['Fierce Rounds', ['hard', 'master', 'hard']],
-        ['Final Rounds', ['master', 'master', 'master']],
+        ['normal', 'normal', 'normal'],
+        ['hard', 'normal', 'hard'],
+        ['master', 'normal', 'hard'],
+        ['hard', 'master', 'hard'],
+        ['master', 'master', 'master'],
       ] as const
-    ).map(([name, ai]): Draft => ({
-      name,
+    ).map((ai): Draft => ({
       levels: ['random', 'random', 'random'],
       duel: { opponents: ['random', 'random', 'random'], ai: [...ai] },
     })),
@@ -381,24 +253,22 @@ const RAW = [
   ),
   group(
     'totals',
-    'Grand Totals',
-    'Win three levels in a row and finish with a combined score above the mark.',
     (
       [
-        ['Triple Play', ['2-2', '3-1', '4-3'], TOTAL_1],
-        ['Grand Tour', ['5-1', '7-1', '9-1'], TOTAL_2],
-        ['Long Haul', ['2-3', '5-5', '6-1'], TOTAL_3],
-        ['Home Stretch', ['1-1', '1-3', '1-2'], TOTAL_4],
-        ['Seven Figures', ['1-5', '2-1', '3-5'], TOTAL_5],
+        [['2-2', '3-1', '4-3'], TOTAL_1],
+        [['5-1', '7-1', '9-1'], TOTAL_2],
+        [['2-3', '5-5', '6-1'], TOTAL_3],
+        [['1-1', '1-3', '1-2'], TOTAL_4],
+        [['1-5', '2-1', '3-5'], TOTAL_5],
       ] as const
-    ).map(([name, levels, score]): Draft => ({ name, levels, score })),
+    ).map(([levels, score]): Draft => ({ levels, score })),
   ),
-  group('insane', 'The Gauntlet', 'The hardest challenges in the game.', [
-    { name: 'Two to Go', levels: ['1-1'], balls: TWO_BALLS },
-    { name: 'One and Done', levels: ['1-4'], balls: ONE_BALL },
-    { name: 'Ten for Three', levels: ['1-1', '1-2', '1-4'], balls: TRIAL_BALLS },
-    { name: 'Your Best Board', levels: ['pick'], score: PICK_SCORE },
-    { name: 'Ten in a Row', levels: new Array<LevelRef>(10).fill('random') },
+  group('insane', [
+    { levels: ['1-1'], balls: TWO_BALLS },
+    { levels: ['1-4'], balls: ONE_BALL },
+    { levels: ['1-1', '1-2', '1-4'], balls: TRIAL_BALLS },
+    { levels: ['pick'], score: PICK_SCORE },
+    { levels: new Array<LevelRef>(10).fill('random') },
   ]),
 ];
 
@@ -441,8 +311,9 @@ export function isPick(c: ChallengeDef): boolean {
 
 /**
  * The levels of one run in order: named slots as named, the pick as picked, and random levels
- * drawn from `pool` (the random pool's levels in the game) without repeats and without the
- * challenge's named levels. Throws when the pool is too small or the pick is missing.
+ * drawn from `pool` (drawPool: the random pool's levels in the game the player has beaten)
+ * without repeats and without the challenge's named levels. Throws when the pool is too small or
+ * the pick is missing.
  */
 export function resolveLevels(
   c: ChallengeDef,
@@ -548,9 +419,9 @@ export function levelConfig(c: ChallengeDef, balls: number, power: string | null
 }
 
 // ---------------------------------------------------------------------------------------------
-// What can be played
+// What is shown and what is open (spec 14.2, "Decided in the challenges")
 
-/** Why a challenge cannot be played with the levels in the game. */
+/** Why a challenge cannot be played with the levels in the game: it is not shown at all. */
 export type Unplayable =
   /** Duel is post-MVP (spec 8). */
   | { readonly kind: 'duel' }
@@ -559,9 +430,26 @@ export type Unplayable =
   /** The random pool's levels in the game are fewer than a run draws. */
   | { readonly kind: 'pool'; readonly needed: number; readonly available: number };
 
+/** Campaign number of a slot: 1-1 is 1, 2-1 is 6, 11-5 is 55. */
+export function slotNumber(slot: string): number {
+  const [stage, level] = slot.split('-').map(Number);
+  return ((stage ?? 1) - 1) * 5 + (level ?? 1);
+}
+
+/** Slots in campaign order. */
+export function inCampaignOrder(slots: Iterable<string>): string[] {
+  return [...slots].sort((a, b) => slotNumber(a) - slotNumber(b));
+}
+
 /** The random pool's levels that are in the game (`built`), in campaign order. */
 export function randomPool(built: ReadonlySet<string>): string[] {
   return RANDOM_POOL.filter((id) => built.has(id));
+}
+
+/** The levels a run of `c` may draw at random: the pool's levels in `levels`, minus its named. */
+function randomCandidates(c: ChallengeDef, levels: ReadonlySet<string>): string[] {
+  const named = new Set(namedSlots(c));
+  return randomPool(levels).filter((id) => !named.has(id));
 }
 
 /** Why `c` cannot be played when the game holds the levels `built`, or null when it can. */
@@ -571,12 +459,49 @@ export function unplayable(c: ChallengeDef, built: ReadonlySet<string>): Unplaya
   if (missing.length > 0) return { kind: 'levels', missing };
   const needed = randomCount(c);
   if (needed > 0) {
-    const named = new Set(namedSlots(c));
-    const available = randomPool(built).filter((id) => !named.has(id)).length;
+    const available = randomCandidates(c, built).length;
     if (available < needed) return { kind: 'pool', needed, available };
   }
   if (isPick(c) && built.size === 0) return { kind: 'levels', missing: [] };
   return null;
+}
+
+/** Not shown: a duel, or a challenge whose levels are not all in the game (`built`). */
+export function isHidden(c: ChallengeDef, built: ReadonlySet<string>): boolean {
+  return unplayable(c, built) !== null;
+}
+
+/**
+ * The Adventure levels still to beat before `c` opens, in campaign order; empty once it is open.
+ * `beaten` holds the levels beaten in the Adventure. Every level the challenge names must be
+ * beaten. A run of random levels needs as many beaten levels it can draw (random pool levels in
+ * the game, not named by it) as it draws; until then the list holds the next ones in campaign
+ * order. The pick needs one beaten level: the first in the game until then.
+ */
+export function levelsToOpen(
+  c: ChallengeDef,
+  built: ReadonlySet<string>,
+  beaten: ReadonlySet<string>,
+): string[] {
+  const out = namedSlots(c).filter((id) => !beaten.has(id));
+  const needed = randomCount(c);
+  if (needed > 0) {
+    const candidates = randomCandidates(c, built);
+    const have = candidates.filter((id) => beaten.has(id)).length;
+    if (have < needed) {
+      out.push(...candidates.filter((id) => !beaten.has(id)).slice(0, needed - have));
+    }
+  }
+  if (isPick(c) && ![...built].some((id) => beaten.has(id))) {
+    const first = inCampaignOrder(built)[0];
+    if (first !== undefined) out.push(first);
+  }
+  return inCampaignOrder(out);
+}
+
+/** The levels a run's random levels are drawn from: beaten random pool levels in the game. */
+export function drawPool(built: ReadonlySet<string>, beaten: ReadonlySet<string>): string[] {
+  return randomPool(built).filter((id) => beaten.has(id));
 }
 
 /** The run after its current level ended with `o`. */

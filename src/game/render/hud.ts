@@ -868,7 +868,8 @@ export function drawFeverMeter(ctx: Ctx, k: number, s: FeverMeterState): void {
 export interface ScoreWindowContent {
   readonly line1: string;
   readonly line2: string;
-  readonly value: number;
+  /** A score, or text such as "14 / 26" (a challenge's goal tracker). */
+  readonly value: number | string;
 }
 
 function paintScoreWindow(ctx: Ctx, x: number, y: number, w: number, h: number): void {
@@ -960,7 +961,7 @@ export function drawScoreWindow(
   });
   drawText(
     ctx,
-    formatNumber(content.value),
+    typeof content.value === 'number' ? formatNumber(content.value) : content.value,
     b.x + b.w - 17,
     b.y + b.h / 2 + 0.5,
     textStyle.score(),

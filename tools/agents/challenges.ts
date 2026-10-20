@@ -374,7 +374,7 @@ async function main(): Promise<void> {
         : null;
     return [
       c.id,
-      c.name,
+      c.levels.join(' '),
       goal(c, teggleNumbers(c)),
       cell('teggle', c),
       goal(c, originalNumbers(c)),
@@ -386,7 +386,7 @@ async function main(): Promise<void> {
     table(
       [
         'Challenge',
-        'Name',
+        'Levels',
         'Teggle goal',
         'Teggle pass',
         'Original goal',

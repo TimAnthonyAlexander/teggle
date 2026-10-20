@@ -107,6 +107,14 @@ const ARCH_TEXT: TextStyle = {
 // ---------------------------------------------------------------------------------------------
 // Callouts and the tally
 
+/** A challenge's score goal passed in a level still to be won (spec 14.2). */
+export const TARGET_NOTICE = {
+  line1: 'TARGET REACHED',
+  /** The run's last level, or its only one. */
+  lastLevel: 'NOW BEAT THE LEVEL',
+  moreLevels: 'NOW BEAT EVERY LEVEL',
+} as const;
+
 export class Overlay {
   readonly sprites = new TextSprites();
   private tallyPopped = -1;
@@ -150,9 +158,12 @@ export class Overlay {
       }
     }
     this.sprites.get(k, 'notice', NOTICE, 'FREE BALL!');
+    this.sprites.get(k, 'notice', NOTICE, TARGET_NOTICE.line1);
     for (const line of [
       'BUCKET CATCH',
       'LUCKY SPIN',
+      TARGET_NOTICE.lastLevel,
+      TARGET_NOTICE.moreLevels,
       ...FREE_BALL_THRESHOLDS.map(thresholdNotice),
     ]) {
       this.sprites.get(k, 'noticeSub', NOTICE_SUB, line);

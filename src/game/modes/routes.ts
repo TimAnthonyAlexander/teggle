@@ -51,6 +51,7 @@ import { progressStore } from '../progress/store';
 import { MessageScreen } from '../screens/message';
 import { PlayScreen } from '../screens/play';
 import { formatNumber } from '../ui/text';
+import { builtSlots, challengeSummary, levelNamer, shownGroups } from './challenge-run';
 import { campaignHost, originalHost, quickPlayHost } from './hosts';
 import {
   findByNumber,
@@ -124,12 +125,16 @@ function intro(m: CampaignManifest, p: Progress): Screen {
   if (campaignFinished(p) || entry === null) return campaignEnd(m, p);
   const stage = entry.stage.stage;
   const all = manifestLevels(m);
+  const built = builtSlots(m);
+  const opener = challengeSummary(p, built).firstToOpen.at(-1);
   return new StageIntroScreen({
     stage,
     world: entry.stage.world,
     levels: all.length,
     cleared: all.filter((l) => levelRecord(p, l.level.id).campaignScore !== null).length,
     progress: p,
+    challengeGroups: shownGroups(p, built),
+    challengesOpenWith: opener === undefined ? null : levelNamer(m)(opener),
     next: entry.stage.master === null ? '#/adventure/pick' : '#/adventure/play',
   });
 }

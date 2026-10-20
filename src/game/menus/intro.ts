@@ -1,18 +1,18 @@
 // The stage intro card (visual guide 10.5): a full-screen indigo panel with the stage in the
 // title pill, the power's tagline and the master line, the master's portrait in a teal bevel
 // beside a dark speech panel whose text types out, the progress rows (a thumbnail per master,
-// a square per challenge group: locked, or open with a pip per challenge that turns gold when it
-// is passed and the medal once all five are) and the orange Continue pill in a brass housing.
+// a square per challenge group shown: locked while none of its challenges is open, else lit with
+// a pip per challenge that turns gold when it is passed and the medal once all are) and the
+// orange Continue pill in a brass housing.
 
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
 import { masterPortraits } from '../art/masters';
 import { audioBus } from '../audio/bus';
 import { CENTER_X, WORLD_H, WORLD_W, type Box } from '../layout';
 import { STAGE_COUNT } from '../../level/campaign';
-import { CHALLENGE_GROUPS, CHALLENGES, challengesOf } from '../../rules/challenges';
 import { MASTERS, masterOfStage } from '../../rules/masters';
 import type { PowerId } from '../../rules/powers';
-import { groupOpen } from '../modes/challenge-run';
+import type { GroupStatus } from '../modes/challenge-run';
 import {
   brass,
   circlePath,
@@ -22,7 +22,7 @@ import {
   type Ctx,
   type PathFn,
 } from '../render/paint';
-import { isPassed, passedCount, unlockedStage, type Progress } from '../progress/save';
+import { isPassed, unlockedStage, type Progress } from '../progress/save';
 import { drawPanel, drawPillButton, drawRoundButton, type ButtonState } from '../ui/controls';
 import { darken, mix } from '../ui/color';
 import { drawMedal } from '../ui/medal';
@@ -101,6 +101,10 @@ export interface IntroData {
   readonly levels: number;
   readonly cleared: number;
   readonly progress: Progress;
+  /** The challenge groups shown, with their challenges' state (modes/challenge-run.ts). */
+  readonly challengeGroups: readonly GroupStatus[];
+  /** While no challenge is open: the level to beat in the Adventure to open the first ones. */
+  readonly challengesOpenWith: string | null;
   /** Where Continue leads. */
   readonly next: string;
 }
@@ -272,34 +276,38 @@ export class StageIntroScreen implements Screen {
       drawMasterTile(ctx, k, power, x0 + (s - 1) * (TILE + TILE_GAP), y, TILE, state);
     }
     const p = d.progress;
-    const anyOpen = CHALLENGE_GROUPS.some((_, g) => groupOpen(p, g));
+    const groups = d.challengeGroups;
+    const all = groups.flatMap((g) => g.challenges);
+    const anyOpen = all.some((s) => s.playable);
+    const openWith = d.challengesOpenWith;
     drawParts(
       ctx,
-      anyOpen
+      anyOpen || openWith === null
         ? [
             ['CHALLENGES: ', '#ffffff'],
-            [`${passedCount(p)} OF ${CHALLENGES.length}`, '#8dff4a'],
+            [`${all.filter((s) => isPassed(p, s.def.id)).length} OF ${all.length}`, '#8dff4a'],
             [' PASSED', '#ffffff'],
           ]
         : [
             ['CHALLENGES: ', '#ffffff'],
-            ['LOCKED UNTIL STAGE 3 IS COMPLETE', '#ffb340'],
+            [`BEAT ${openWith.toUpperCase()} TO OPEN THEM`, '#ffb340'],
           ],
       CENTER_X,
       450,
       ROW_LABEL,
     );
-    const n = CHALLENGE_GROUPS.length;
+    const n = groups.length;
+    if (n === 0) return;
     const sqW = n * SQUARE + (n - 1) * SQUARE_GAP;
     const sx0 = CENTER_X - sqW / 2;
     const sy = 464;
     this.drawWell(ctx, { x: sx0 - 10, y: sy - 7, w: sqW + 20, h: SQUARE + 14 });
-    CHALLENGE_GROUPS.forEach((group, g) => {
+    groups.forEach((group, g) => {
       const x = sx0 + g * (SQUARE + SQUARE_GAP);
-      if (group.duel || !groupOpen(p, g)) drawLockedSquare(ctx, x, sy, SQUARE, g);
+      if (!group.challenges.some((s) => s.playable)) drawLockedSquare(ctx, x, sy, SQUARE, g, n);
       else {
-        const passed = challengesOf(group.id).map((c) => isPassed(p, c.id));
-        drawOpenSquare(ctx, x, sy, SQUARE, g, passed);
+        const passed = group.challenges.map((s) => isPassed(p, s.def.id));
+        drawOpenSquare(ctx, x, sy, SQUARE, g, n, passed);
       }
     });
   }
@@ -324,8 +332,8 @@ export class StageIntroScreen implements Screen {
 /** Hues of the challenge squares along the row, after the original's group colors (10.5). */
 const SQUARE_HUES = ['#2a4fb8', '#1f8a9a', '#5a8a1c', '#a89a18', '#b8641a', '#a8282a', '#9a2a8a'];
 
-function squareHue(group: number): string {
-  const n = CHALLENGE_GROUPS.length;
+/** The hue of square `group` of `n` along the row. */
+function squareHue(group: number, n: number): string {
   const i = Math.min(SQUARE_HUES.length - 1, Math.floor((group * SQUARE_HUES.length) / n));
   return SQUARE_HUES[i] ?? '#2a4fb8';
 }
@@ -342,7 +350,7 @@ function squareFrame(ctx: Ctx, x: number, y: number, s: number): void {
 
 /**
  * An open group's square: its hue lit, a pip per challenge along the bottom (gold once passed),
- * and the medal when all five are passed.
+ * and the medal when all are passed.
  */
 function drawOpenSquare(
   ctx: Ctx,
@@ -350,9 +358,10 @@ function drawOpenSquare(
   y: number,
   s: number,
   group: number,
+  n: number,
   passed: readonly boolean[],
 ): void {
-  const hue = squareHue(group);
+  const hue = squareHue(group, n);
   squareFrame(ctx, x, y, s);
   roundRect(ctx, x + 4, y + 4, s - 8, s - 8, 5);
   ctx.fillStyle = linear(ctx, 0, y, 0, y + s, [
@@ -390,9 +399,16 @@ function drawOpenSquare(
   });
 }
 
-/** A group that is not open (or not in the game): its hue dimmed, with a lock. */
-function drawLockedSquare(ctx: Ctx, x: number, y: number, s: number, group: number): void {
-  const base = mix(squareHue(group), '#1a1840', 0.55);
+/** A group with no challenge open yet: its hue dimmed, with a lock. */
+function drawLockedSquare(
+  ctx: Ctx,
+  x: number,
+  y: number,
+  s: number,
+  group: number,
+  n: number,
+): void {
+  const base = mix(squareHue(group, n), '#1a1840', 0.55);
   squareFrame(ctx, x, y, s);
   roundRect(ctx, x + 4, y + 4, s - 8, s - 8, 5);
   ctx.fillStyle = linear(ctx, 0, y, 0, y + s, [

@@ -1,8 +1,9 @@
 // Routes of the challenges (spec 8). Every route reads the saved progress; the run in play lives
 // in memory (challenge-run.ts), so a reload lands on the list.
 //
-//   #/challenges[?group=<group id>]           the challenge list on a group's page
-//                                             (DEV ONLY: &unlock=all opens every group)
+//   #/challenges[?group=<group id>][&open=<id>]  the challenge list on a group's page, with a
+//                                             challenge's briefing card open
+//                                             (DEV ONLY: &unlock=all counts every level as beaten)
 //   #/challenges/<id>[?level=<slot>]           starts a challenge: the pick challenge's level
 //                                             first, then the master picker (skipped with one)
 //   #/challenges/<id>/level                   the level select of the challenge the player
@@ -14,9 +15,9 @@ import { Rng } from '../../core/rng';
 import type { CampaignManifest } from '../../level/campaign';
 import {
   challengeById,
+  drawPool,
   isPick,
   namedSlots,
-  randomPool,
   resolveLevels,
   startRun,
   type ChallengeDef,
@@ -25,6 +26,7 @@ import { masterOfStage } from '../../rules/masters';
 import { isPowerId, type PowerId } from '../../rules/powers';
 import type { Route } from '../app/router';
 import type { Screen } from '../app/screens';
+import { cardTitle } from '../menus/challenge-copy';
 import { ChallengeListScreen } from '../menus/challenges';
 import { stageName } from '../menus/copy';
 import { MasterPickerScreen } from '../menus/picker';
@@ -33,10 +35,11 @@ import { randomSeed } from '../play/host';
 import { isMasterUnlocked, levelRecord, unlockedMasters, type Progress } from '../progress/save';
 import { progressStore, type ProgressStore } from '../progress/store';
 import { MessageScreen } from '../screens/message';
-import { challengeHost, listHash } from './challenge-host';
+import { cardHash, challengeHost, listHash } from './challenge-host';
 import {
   activeRun,
   applyDevUnlock,
+  beatenSlots,
   builtSlots,
   challengeStatus,
   levelNamer,
@@ -66,18 +69,19 @@ function defaultMaster(def: ChallengeDef, pick: string | null, p: Progress): Pow
   return unlocked[unlocked.length - 1] ?? 'guide';
 }
 
-/** The level select for the challenge whose level the player picks: any level in the game. */
+/** The level select for the challenge whose level the player picks: levels beaten so far. */
 function pickLevel(m: CampaignManifest, def: ChallengeDef): Screen {
+  const built = builtSlots(m);
   const mode: LevelSelectMode = {
-    title: (stage) => `${def.name}: ${stageName(stage)}`,
-    choosable: () => true,
+    title: (stage) => `Choose a Level: ${stageName(stage)}`,
+    choosable: (id, p) => beatenSlots(p, built).has(id),
     record: levelRecord,
     open: (id) => `#/challenges/${def.id}?level=${id}`,
-    back: listHash(def),
+    back: cardHash(def),
     hint: (coarse) =>
       coarse
-        ? 'Tap a level to see its best scores, and tap it again to take the challenge on it.'
-        : 'Pick the level to take the challenge on. Click it to go on.',
+        ? 'Tap a level you have beaten to see its best scores, and tap it again to take the challenge on it.'
+        : 'Pick a level you have beaten to see its best scores. Click it to take the challenge on it.',
     random: false,
   };
   return new LevelSelectScreen(campaignLevels(m), m.stages[0]?.stage ?? 1, mode);
@@ -102,7 +106,7 @@ function playRunLevel(
   return playLevel(entry, challengeHost(store, active, levelNamer(m)), listHash(active.def));
 }
 
-/** A new run: its levels drawn (random ones from the built random pool), from the first level. */
+/** A new run: its levels drawn (random ones from the beaten levels it may draw), from the first. */
 function beginRun(
   m: CampaignManifest,
   store: ProgressStore,
@@ -110,7 +114,8 @@ function beginRun(
   power: PowerId,
   pick: string | null,
 ): Promise<Screen> | Screen {
-  const pool = randomPool(builtSlots(m));
+  const built = builtSlots(m);
+  const pool = drawPool(built, beatenSlots(store.progress, built));
   const levels = resolveLevels(def, pool, Rng.fromSeed(randomSeed()), pick);
   const active: ActiveRun = {
     def,
@@ -139,15 +144,23 @@ export function challengesRoute(route: Route): Promise<Screen> {
     // Any other challenge route gives up a run still in play (its try already counted).
     setActiveRun(store, null);
     const p = store.progress;
-    if (id === undefined) return new ChallengeListScreen(m, route.params.get('group') ?? null);
+    if (id === undefined) {
+      return new ChallengeListScreen(
+        m,
+        route.params.get('group') ?? null,
+        route.params.get('open') ?? null,
+      );
+    }
     const def = challengeById(id);
     if (def === null) return new ChallengeListScreen(m, null);
     const built = builtSlots(m);
-    if (!challengeStatus(p, built, def).playable) {
+    const beaten = beatenSlots(p, built);
+    // A challenge that is hidden or locked shows its card on the list instead.
+    if (!challengeStatus(built, beaten, def).playable) {
       return new ChallengeListScreen(m, def.group, def.id);
     }
     const asked = route.params.get('level');
-    const pick = isPick(def) && asked !== undefined && built.has(asked) ? asked : null;
+    const pick = isPick(def) && asked !== undefined && beaten.has(asked) ? asked : null;
     if (isPick(def) && (pick === null || sub === 'level')) return pickLevel(m, def);
     const fallback = defaultMaster(def, pick, p);
     if (sub === 'play') {
@@ -157,12 +170,13 @@ export function challengesRoute(route: Route): Promise<Screen> {
     }
     const unlocked = unlockedMasters(p);
     if (unlocked.length <= 1) return beginRun(m, store, def, fallback, pick);
+    const name = levelNamer(m);
     return new MasterPickerScreen({
-      context: `Challenge: ${def.name}`,
+      context: `Challenge: ${cardTitle(def, name, pick)}`,
       unlocked,
       initial: fallback,
       play: (power) => playHash(def, power, pick),
-      back: isPick(def) ? `#/challenges/${def.id}/level` : listHash(def),
+      back: isPick(def) ? `#/challenges/${def.id}/level` : cardHash(def),
     });
   });
 }

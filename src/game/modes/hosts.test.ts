@@ -22,6 +22,7 @@ function entry(id: string, number: number): ManifestLevel {
 }
 
 const breakdown = { fullClear: true } as ScoreBreakdown;
+const board = { orangeLeft: 20, orangeCount: 20, pegsLeft: 90 };
 
 function won(score: number): AttemptView {
   return { result: 'won', score } as AttemptView;
@@ -61,7 +62,7 @@ describe('campaignHost', () => {
     );
     const host = campaignHost(store, entry('1-2', 2), 'guide');
     expect(host.left).toEqual({ line1: 'Stage', line2: '1-2' });
-    expect(host.rightValue(500, 0)).toBe(1500);
+    expect(host.rightValue(500, 0, board)).toBe(1500);
     host.attemptEnded(won(4000), breakdown);
     expect(store.progress.campaign).toMatchObject({ next: 3, try: 1 });
     expect(levelRecord(store.progress, '1-2')).toMatchObject({
@@ -101,7 +102,7 @@ describe('quickPlayHost', () => {
     expect(store.progress.campaign).toEqual({ next: 4, try: 1, pick: null });
     expect(levelRecord(store.progress, '1-1')).toMatchObject({ tries: 1, wins: 1, best: 7000 });
     expect(levelRecord(store.progress, '1-1').top[0]?.master).toBe('multiball');
-    expect(host.rightValue(100, 0)).toBe(7000);
+    expect(host.rightValue(100, 0, board)).toBe(7000);
     expect(host.next.hash).toBe('#/quickplay?stage=1');
   });
 });
@@ -140,7 +141,7 @@ describe('originalHost', () => {
     });
     expect(store.progress.levels).toEqual({});
     expect(store.progress.campaign).toEqual(emptyProgress().campaign);
-    expect(host.rightValue(100, 0)).toBe(150_000);
+    expect(host.rightValue(100, 0, board)).toBe(150_000);
     expect(host.next.hash).toBe('#/quickplay/original?stage=6');
     expect(host.quit.hash).toBe('#/quickplay/original?stage=6');
   });

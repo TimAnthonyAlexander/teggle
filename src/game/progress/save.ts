@@ -3,7 +3,7 @@
 // full clear mark, top five scores and the score of its campaign clear, per challenge its tries,
 // passes and best run, and the same level records for the original game's levels in Quick Play,
 // apart from Teggle's. The campaign total the HUD shows, the unlocked stages, the masters met and
-// the open challenge groups all follow from those.
+// the levels beaten in the Adventure (which open the challenges) all follow from those.
 //
 // The record is untrusted: it is validated with Zod field by field, so a damaged field falls back
 // to its default and a damaged level or challenge entry is dropped, never the whole save. A save
@@ -13,12 +13,7 @@
 
 import { z } from 'zod';
 import { LEVELS_PER_STAGE, STAGE_COUNT } from '../../level/campaign';
-import {
-  CHALLENGE_GROUPS,
-  CHALLENGES_PER_GROUP,
-  challengeById,
-  GROUP_COUNT,
-} from '../../rules/challenges';
+import { CHALLENGE_GROUPS, CHALLENGES_PER_GROUP, challengeById } from '../../rules/challenges';
 import { MASTERS } from '../../rules/masters';
 import { POWER_IDS, type PowerId } from '../../rules/powers/ids';
 
@@ -29,13 +24,6 @@ export const SAVE_KEY = `teggle.save.v${SAVE_VERSION}`;
 export const TOP_SCORES = 5;
 /** Campaign levels in play order (spec 8: 11 stages of 5). */
 export const CAMPAIGN_LEVELS = STAGE_COUNT * LEVELS_PER_STAGE;
-/** Challenges start unlocking once this stage is complete (spec 8). */
-export const CHALLENGES_AFTER_STAGE = 3;
-/**
- * Challenge groups that open one by one, in page order: the first when stage 3 is complete, one
- * more with each stage after it, up to stage 10; the rest open with the campaign (spec 14.2).
- */
-export const GROUPS_OPENED_BY_STAGES = 8;
 
 export interface ScoreEntry {
   readonly score: number;
@@ -290,32 +278,14 @@ export function campaignCleared(p: Progress): number {
   return Math.min(CAMPAIGN_LEVELS, p.campaign.next - 1);
 }
 
-export type ChallengeState = 'locked' | 'partly' | 'open';
-
 /**
- * How many challenge groups are open, in page order (spec 8: they start unlocking after stage 3
- * and are all open after the campaign; spec 14.2 for the steps between): none before stage 3 is
- * complete, then one per stage complete from stage 3 to stage 10 (eight), and all 15 once the
- * campaign is finished.
+ * Level `id` ("1-3") is beaten in the Adventure: the campaign has moved past it, or it holds the
+ * score of its campaign clear. Challenges open from these (spec 14.2).
  */
-export function openGroups(p: Progress): number {
-  if (campaignFinished(p)) return GROUP_COUNT;
-  const steps = stagesComplete(p) - CHALLENGES_AFTER_STAGE + 1;
-  return Math.max(0, Math.min(GROUPS_OPENED_BY_STAGES, steps));
-}
-
-/**
- * The stage whose completion opens group `index` (0-based, page order), or null for the groups
- * that open with the whole campaign.
- */
-export function groupOpensAfterStage(index: number): number | null {
-  return index < GROUPS_OPENED_BY_STAGES ? CHALLENGES_AFTER_STAGE + index : null;
-}
-
-/** Challenges unlock after stage 3 and fully after the campaign (spec 8). */
-export function challengeState(p: Progress): ChallengeState {
-  const open = openGroups(p);
-  return open === 0 ? 'locked' : open >= GROUP_COUNT ? 'open' : 'partly';
+export function beatenInAdventure(p: Progress, id: string): boolean {
+  const n = numberOfId(id);
+  if (n === null) return false;
+  return n < p.campaign.next || (p.levels[id]?.campaignScore ?? null) !== null;
 }
 
 export function challengeRecord(p: Progress, id: string): ChallengeRecord {

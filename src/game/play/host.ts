@@ -20,6 +20,15 @@ export interface WindowLabels {
   readonly line2: string;
 }
 
+/** What a score window can read from the board in play (a challenge's goal tracker). */
+export interface BoardCounts {
+  readonly orangeLeft: number;
+  /** Orange pegs the level started with. */
+  readonly orangeCount: number;
+  /** Pegs and bricks not hit yet. */
+  readonly pegsLeft: number;
+}
+
 export interface PlayHost {
   /** Frame theme (visual guide 13). */
   readonly theme: number;
@@ -29,8 +38,11 @@ export interface PlayHost {
   readonly right: WindowLabels;
   /** Plans the attempt that starts now; `screenTry` is 1 for the first attempt on the screen. */
   plan(screenTry: number): AttemptPlan;
-  /** The right window's value, from the live level score and the screen's best score. */
-  rightValue(live: number, screenBest: number): number;
+  /**
+   * The right window's value, from the live level score, the screen's best score and the board:
+   * a number, or text such as "14 / 26".
+   */
+  rightValue(live: number, screenBest: number, board: BoardCounts): number | string;
   /** The level complete dialog's total score row for this level score, or null for no row. */
   totalAfter(levelScore: number): number | null;
   /** The attempt's first shot left the cannon. */
@@ -51,11 +63,33 @@ export interface ChallengeHooks {
   readonly restart: { readonly label: string; readonly hash: string };
   /** A level after the run's first: the run lives in memory, so a reload would end it. */
   readonly laterLevel: boolean;
+  /** The goal card shown as the level starts; one click, tap or key puts it away. */
+  readonly briefing: GoalBriefing;
+  /**
+   * The score the run must beat (strictly), counting `base` from the levels before this one, for
+   * the TARGET REACHED callout; null without a score goal.
+   */
+  readonly target: {
+    readonly score: number;
+    readonly base: number;
+    /** This is the run's last level (or its only one). */
+    readonly lastLevel: boolean;
+  } | null;
   /**
    * The challenge end dialog once the attempt is over, or null when the run goes on to its next
    * level (the level complete dialog then shows, its button leading to `next`).
    */
   end(attempt: AttemptView, result: ScoreBreakdown): ChallengeEndView | null;
+}
+
+/** The goal card's words. */
+export interface GoalBriefing {
+  /** The goal in capitals ("CLEAR 26 ORANGE PEGS"), for the card's title. */
+  readonly band: string;
+  /** The goal as a sentence. */
+  readonly goal: string;
+  /** "Level 2 of 3: Kite Tails" in a run of several levels, else null. */
+  readonly run: string | null;
 }
 
 export function randomSeed(): number {

@@ -8,12 +8,17 @@ import {
   CHALLENGES,
   challengeById,
   challengesOf,
+  drawPool,
+  inCampaignOrder,
+  isHidden,
   levelConfig,
+  levelsToOpen,
   namedSlots,
   RANDOM_POOL,
   randomCount,
   randomPool,
   resolveLevels,
+  slotNumber,
   startRun,
   unplayable,
   type ChallengeDef,
@@ -37,7 +42,6 @@ describe('the challenge set', () => {
     expect(CHALLENGES).toHaveLength(75);
     for (const g of CHALLENGE_GROUPS) expect(challengesOf(g.id)).toHaveLength(5);
     expect(new Set(CHALLENGES.map((c) => c.id)).size).toBe(75);
-    expect(new Set(CHALLENGES.map((c) => c.name)).size).toBe(75);
   });
 
   it("names the original's levels by slot, group by group", () => {
@@ -236,5 +240,89 @@ describe('what can be played', () => {
     expect(unplayable(def('orange-1.2'), more)).toBeNull();
     expect(unplayable(def('runs.5'), more)).toBeNull();
     expect(unplayable(def('insane.5'), more)).toEqual({ kind: 'pool', needed: 10, available: 8 });
+  });
+});
+
+/** The slots of stages 1 to `n`. */
+function stages(n: number): Set<string> {
+  const out = new Set<string>();
+  for (let s = 1; s <= n; s++) for (let l = 1; l <= 5; l++) out.add(`${s}-${l}`);
+  return out;
+}
+
+/** The first `n` campaign levels, as beaten in the Adventure. */
+function through(n: number): Set<string> {
+  return new Set(inCampaignOrder(stages(11)).slice(0, n));
+}
+
+describe('what is shown', () => {
+  it('hides duels and challenges whose levels are not in the game', () => {
+    const built = stages(5);
+    for (const c of CHALLENGES.filter((x) => x.duel !== null)) {
+      expect(isHidden(c, stages(11))).toBe(true);
+    }
+    const shown = CHALLENGES.filter((c) => !isHidden(c, built)).map((c) => c.id);
+    // With stages 1 to 5 built: 45 of the 75 have all their levels.
+    expect(shown).toHaveLength(45);
+    expect(shown).toContain('orange-2.4');
+    expect(shown).not.toContain('orange-2.5');
+    expect(shown).not.toContain('totals.2');
+    expect(shown).toContain('insane.5');
+    // A random run the pool in the game cannot fill is hidden too.
+    expect(isHidden(def('runs.3'), stages(1))).toBe(true);
+    expect(isHidden(def('runs.2'), stages(1))).toBe(false);
+    expect(isHidden(def('insane.4'), new Set())).toBe(true);
+  });
+
+  it('orders slots as the campaign does', () => {
+    expect(slotNumber('1-1')).toBe(1);
+    expect(slotNumber('2-1')).toBe(6);
+    expect(slotNumber('11-5')).toBe(55);
+    expect(inCampaignOrder(['10-1', '2-3', '1-5', '2-1'])).toEqual(['1-5', '2-1', '2-3', '10-1']);
+  });
+});
+
+describe('what opens a challenge (spec 14.2)', () => {
+  const built = stages(5);
+
+  it('opens once every level it names is beaten in the Adventure', () => {
+    expect(levelsToOpen(def('orange-1.1'), built, through(2))).toEqual(['1-3']);
+    expect(levelsToOpen(def('orange-1.1'), built, through(3))).toEqual([]);
+    expect(levelsToOpen(def('totals.1'), built, through(6))).toEqual(['2-2', '3-1', '4-3']);
+    expect(levelsToOpen(def('totals.1'), built, through(12))).toEqual(['4-3']);
+    // Named levels come in campaign order, whatever order the challenge plays them in.
+    expect(levelsToOpen(def('totals.4'), built, new Set())).toEqual(['1-1', '1-2', '1-3']);
+    expect(levelsToOpen(def('insane.3'), built, through(4))).toEqual([]);
+  });
+
+  it('opens a random run once enough levels it can draw are beaten', () => {
+    // The pool leaves out 1-1 and 1-4: after 1-1 to 1-3, two pool levels are beaten.
+    expect(levelsToOpen(def('runs.1'), built, through(3))).toEqual([]);
+    expect(levelsToOpen(def('runs.2'), built, through(3))).toEqual(['1-5']);
+    expect(levelsToOpen(def('runs.2'), built, through(4))).toEqual(['1-5']);
+    expect(levelsToOpen(def('runs.2'), built, through(5))).toEqual([]);
+    expect(levelsToOpen(def('runs.5'), built, through(3))).toEqual(['1-5', '2-1', '2-2', '2-3']);
+    expect(levelsToOpen(def('insane.5'), built, new Set()).at(-1)).toBe('3-2');
+    expect(levelsToOpen(def('insane.5'), built, new Set())).toHaveLength(10);
+  });
+
+  it('opens the pick with one beaten level', () => {
+    expect(levelsToOpen(def('insane.4'), built, new Set())).toEqual(['1-1']);
+    expect(levelsToOpen(def('insane.4'), built, through(1))).toEqual([]);
+  });
+
+  it('draws random levels only from beaten pool levels', () => {
+    expect(drawPool(built, through(6))).toEqual(['1-2', '1-3', '1-5', '2-1']);
+    const c = def('runs.2');
+    for (let seed = 1; seed <= 20; seed++) {
+      const levels = resolveLevels(c, drawPool(built, through(6)), Rng.fromSeed(seed));
+      for (const id of levels) expect(['1-2', '1-3', '1-5', '2-1']).toContain(id);
+    }
+  });
+
+  it('opens every shown challenge once the levels in the game are beaten', () => {
+    for (const c of CHALLENGES.filter((x) => !isHidden(x, built))) {
+      expect(levelsToOpen(c, built, built)).toEqual([]);
+    }
   });
 });

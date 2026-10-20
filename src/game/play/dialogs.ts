@@ -52,12 +52,13 @@ export interface ChallengeButton {
 }
 
 /**
- * The challenge end dialog (a challenge's own, after its run passed or failed): the challenge,
- * its goal, result rows and one line on why, with a primary and a secondary button.
+ * The challenge end dialog (a challenge's own, after its run passed or failed): the challenge's
+ * title (its level), its goal, result rows and why, with a primary and a secondary button.
  */
 export interface ChallengeEndView {
   readonly passed: boolean;
-  readonly name: string;
+  /** "THE SKY TREE · 1-3", "THREE LEVELS", ... */
+  readonly title: string;
   readonly goal: string;
   readonly rows: readonly (readonly [label: string, value: string])[];
   readonly verdict: string;
@@ -394,14 +395,14 @@ export class Dialog {
   private verdictLines: string[] | null = null;
 
   /**
-   * The challenge end dialog: the challenge's name (with its medal when passed), the goal, the
+   * The challenge end dialog: the challenge's title (with its medal when passed), the goal, the
    * result rows and why it passed or failed.
    */
   private renderChallenge(ctx: Ctx, k: number, t: number): void {
     const v = this.challenge;
     if (v === null) return;
-    const b = this.box;
     const title = v.passed ? 'Challenge Complete!' : 'Challenge Failed';
+    const b = this.box;
     const panel = layers.get(
       `dialog:challenge:${v.passed ? 'passed' : 'failed'}`,
       k,
@@ -416,13 +417,14 @@ export class Dialog {
     drawLayer(ctx, panel);
     const c = panelContent(b, true);
     const name = legible(CHALLENGE_NAME);
-    const nameW = Math.min(c.w - 40, measureText(ctx, v.name.toUpperCase(), name));
+    const nameW = Math.min(c.w - 40, measureText(ctx, v.title, name));
     if (v.passed) {
       // Teggle's own medal (guide 15), popping in after the drop.
       const pop = ease.outBack(1.6)(Math.min(1, Math.max(0, (t - 300) / 450)));
-      if (pop > 0) drawMedal(ctx, c.x + c.w / 2 - nameW / 2 - 22, c.y + 8, 13 * pop);
+      // No ribbons: they would hang over the goal line below.
+      if (pop > 0) drawMedal(ctx, c.x + c.w / 2 - nameW / 2 - 22, c.y + 8, 13 * pop, false);
     }
-    drawText(ctx, v.name.toUpperCase(), c.x + c.w / 2, c.y + 8, name, { maxWidth: c.w - 40 });
+    drawText(ctx, v.title, c.x + c.w / 2, c.y + 8, name, { maxWidth: c.w - 40 });
     const goal = legible(GOAL_STYLE);
     const pitch = Math.max(13, goal.cap * 1.6);
     this.goalLines ??= wrap(ctx, v.goal, c.w - 10, goal).slice(0, 2);

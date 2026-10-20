@@ -7,7 +7,8 @@
 // fine-tune; holding the right button or the green button runs the game 8x between shots. On
 // touch, the cannon points at the finger while it is down and follows it as it moves, a quick
 // tap fires there, and a tap on the cannon fires without re-aiming; a pen press fires where it
-// lands as a tap does. Escape or the menu button pauses. While the Flippers stand
+// lands as a tap does. A challenge level waits behind its goal card until the first click, tap or
+// key, which does nothing else. Escape or the menu button pauses. While the Flippers stand
 // (spec 7), holding the left button, Space, Shift, Z or X, or a finger anywhere on the board
 // raises them; during a shot a touch only works the flippers.
 
@@ -21,7 +22,7 @@ import { CANNON_PIVOT_Y } from '../../sim/tuning';
 import { masterPortraits, type PortraitImage } from '../art/masters';
 import { audioBus } from '../audio/bus';
 import { hoverCue, setGamePaused } from '../audio/cues';
-import { minTarget } from '../app/display';
+import { display, minTarget } from '../app/display';
 import type { Input, PointerEventInfo } from '../app/input';
 import { levelBusy } from '../app/offline';
 import type { AppServices, FrameInfo, Screen } from '../app/screens';
@@ -46,9 +47,10 @@ import { autoFlipper, installDebug, FrameStats, type AimGoal } from '../play/deb
 import { Dialog, type DialogAction, type DialogLabels } from '../play/dialogs';
 import { MasterFace } from '../play/face';
 import { FeverShow } from '../play/fever';
+import { GoalCard } from '../play/goal-card';
 import type { PlayHost } from '../play/host';
 import type { LoadedLevel } from '../play/load';
-import { Overlay } from '../play/overlay';
+import { Overlay, TARGET_NOTICE } from '../play/overlay';
 import { PowerShow, type BannerState } from '../play/powers';
 import { CATCH_MS, GONE, Presenter } from '../play/presenter';
 import { ScoreLedger } from '../play/summary';
@@ -71,6 +73,8 @@ const LAUNCHER_TAP_RADIUS = 58;
 const MACHINE_FADE_ZOOM = 0.14;
 const GUIDE_MAX_TICKS = 80;
 const GUIDE_DOT_STEP = 5;
+/** A challenge's score goal reached mid-level: the callout's hold before its fade, ms. */
+const TARGET_HOLD_MS = 500;
 
 interface MutableMachine {
   theme: Theme;
@@ -89,7 +93,7 @@ interface MutableMachine {
     timeMs: number;
   };
   scoreLeft: { line1: string; line2: string; value: number };
-  scoreRight: { line1: string; line2: string; value: number };
+  scoreRight: { line1: string; line2: string; value: number | string };
   power: BannerState;
   cannonAngle: number;
   cannonLoaded: boolean;
@@ -122,6 +126,12 @@ export class PlayScreen implements Screen {
   private dialog: Dialog | null = null;
   /** The options dialog, opened from the pause dialog. */
   private options: OptionsDialog | null = null;
+  /** A challenge's goal card: up as its level starts, until one click, tap or key. */
+  private goalCard: GoalCard | null = null;
+  /** The challenge's TARGET REACHED callout has shown in this attempt (or was due before it). */
+  private targetShown = false;
+  /** The board as the goal tracker reads it, refreshed every frame. */
+  private readonly boardCounts = { orangeLeft: 0, orangeCount: 0, pegsLeft: 0 };
   private readonly face = new MasterFace();
   /** The attempt's first shot was reported to the host; its end was. */
   private attemptCounted = false;
@@ -356,6 +366,11 @@ export class PlayScreen implements Screen {
     this.tapFire = false;
     this.fullClearShown = false;
     this.guideCount = 0;
+    // A challenge level starts behind its goal card (spec 14.2).
+    const challenge = this.host.challenge;
+    this.goalCard = challenge === undefined ? null : new GoalCard(challenge.briefing, this.uiMs);
+    const target = challenge?.target ?? null;
+    this.targetShown = target === null || target.base > target.score;
     this.board.capture(attempt.world);
     this.updateGuide();
     if (this.app !== null) this.app.clock.timeScale = 1;
@@ -373,6 +388,7 @@ export class PlayScreen implements Screen {
       this.attempt.phase === 'aim' &&
       this.pres.ready &&
       this.dialog === null &&
+      this.goalCard === null &&
       !this.fever.active &&
       !this.powers.holding &&
       this.attempt.ballsLeft > 0
@@ -465,6 +481,17 @@ export class PlayScreen implements Screen {
     this.pres.feverHit(e.x, e.y);
   }
 
+  /** Pegs and bricks not hit yet: on the board and not lit. */
+  private pegsLeft(): number {
+    const bodies = this.attempt.world.bodies;
+    let n = 0;
+    for (const i of this.level.scoringBodies) {
+      const b = bodies[i];
+      if (b !== undefined && b.active && !b.lit) n++;
+    }
+    return n;
+  }
+
   /** Every peg and brick is lit or gone. */
   private boardCleared(): boolean {
     const bodies = this.attempt.world.bodies;
@@ -480,7 +507,10 @@ export class PlayScreen implements Screen {
 
   step(): void {
     const app = this.app;
-    if (app === null || this.dialog?.kind === 'pause' || this.frozen) return;
+    // The level waits while paused and behind a challenge's goal card.
+    if (app === null || this.dialog?.kind === 'pause' || this.goalCard !== null || this.frozen) {
+      return;
+    }
     if (this.dialog === null) {
       const axis = app.input.arrowAxis;
       if (axis !== 0) this.aim.nudge(axis * ARROW_STEP * this.aimFineness());
@@ -559,8 +589,28 @@ export class PlayScreen implements Screen {
     }
     this.pres.tick(attempt);
     this.powers.tick(attempt);
+    this.checkTarget();
     if (this.pres.endRequest !== null && this.dialog === null) this.openEnd(this.pres.endRequest);
     this.updateGuide();
+  }
+
+  /**
+   * A challenge's score goal: once the score window counts past the target in a level still to
+   * be won, a short TARGET REACHED callout (spec 14.2). The winning shot's Fever and the end
+   * dialog cover the rest.
+   */
+  private checkTarget(): void {
+    const target = this.host.challenge?.target ?? null;
+    if (this.targetShown || target === null || this.attempt.result !== null) return;
+    if (target.base + this.pres.shownScore <= target.score) return;
+    this.targetShown = true;
+    this.pres.notice(
+      WORLD_W - 170 - this.frameLayout.inset,
+      150,
+      TARGET_NOTICE.line1,
+      target.lastLevel ? TARGET_NOTICE.lastLevel : TARGET_NOTICE.moreLevels,
+      TARGET_HOLD_MS,
+    );
   }
 
   /** Fine aim step factor: finer with the Guide's long guide. */
@@ -633,6 +683,19 @@ export class PlayScreen implements Screen {
     if (this.options !== null) {
       // The options dialog over the pause dialog takes every input until it closes.
       if (!this.options.update(input, now)) this.options = null;
+      return;
+    }
+    if (this.goalCard !== null && this.dialog === null) {
+      // The goal card goes with the first key or press, which does nothing else; the release
+      // that follows a press finds no aiming finger and fires nothing either.
+      const keys = input.consumeKeys();
+      let dismiss = keys.length > 0;
+      for (const { press } of input.consumePointer()) dismiss ||= press;
+      input.consumeWheel();
+      if (dismiss) {
+        audioBus.emit({ type: 'uiClick' });
+        this.goalCard = null;
+      }
       return;
     }
     for (const code of input.consumeKeys()) {
@@ -877,6 +940,7 @@ export class PlayScreen implements Screen {
     this.powers.drawOver(ctx, k, this.overlay.sprites);
     this.overlay.drawFeverFinish(ctx, k, pres);
     this.overlay.drawFeverTitle(ctx, k, this.fever, this.showMs);
+    this.goalCard?.render(ctx, this.uiMs, app.input.pointer.kind === 'touch' || display.coarse);
     if (this.dialog !== null) {
       const p = app.input.pointer;
       const over = this.options === null && this.dialog.hovering(p.x, p.y, this.uiMs);
@@ -1064,7 +1128,11 @@ export class PlayScreen implements Screen {
     m.fever.sinceHitMs = pres.gameMs - pres.meterMs;
     m.fever.timeMs = this.uiMs;
     m.scoreLeft.value = pres.shownScore;
-    m.scoreRight.value = this.host.rightValue(pres.shownScore, this.bestScore);
+    const board = this.boardCounts;
+    board.orangeLeft = this.attempt.orangeLeft;
+    board.orangeCount = this.attempt.config.orangeCount;
+    board.pegsLeft = this.pegsLeft();
+    m.scoreRight.value = this.host.rightValue(pres.shownScore, this.bestScore, board);
     const power = this.host.power;
     m.portrait = power === null ? null : masterPortraits.best(power, this.face.at(this.showMs));
     m.cannonAngle =
@@ -1112,6 +1180,7 @@ export class PlayScreen implements Screen {
       speed: this.fever.speed,
       zoom: this.fever.zoom(this.showMs),
       dialog: this.dialog?.kind ?? null,
+      goalCard: this.goalCard !== null,
       aim: this.aim.angle,
       pegsGone: gone,
       callouts: this.pres.callouts.filter((c) => c.active).map((c) => `${c.kind}:${c.line1}`),

@@ -2,21 +2,19 @@ import { describe, expect, it } from 'vitest';
 import {
   CAMPAIGN_LEVELS,
   SAVE_KEY,
+  beatenInAdventure,
   campaignFinished,
   campaignTotal,
   challengeRecord,
-  challengeState,
   emptyChallenge,
   emptyLevel,
   emptyProgress,
-  groupOpensAfterStage,
   idOfNumber,
   isCleared,
   isPassed,
   levelRecord,
   localDate,
   numberOfId,
-  openGroups,
   originalRecord,
   parseProgress,
   passedCount,
@@ -127,7 +125,7 @@ describe('campaign progress', () => {
     expect(p.campaign).toEqual({ next: 1, try: 1, pick: null });
     expect(unlockedStage(p)).toBe(1);
     expect(unlockedMasters(p)).toEqual(['guide']);
-    expect(challengeState(p)).toBe('locked');
+    expect(beatenInAdventure(p, '1-1')).toBe(false);
   });
 
   it('counts a try when the first shot leaves, at the current level only', () => {
@@ -178,22 +176,39 @@ describe('campaign progress', () => {
     expect(levelRecord(p, '2-2').wins).toBe(7);
   });
 
-  it('unlocks stages, masters and challenges as stages complete', () => {
+  it('unlocks stages and masters as stages complete', () => {
     const afterStage1 = through(6);
     expect(unlockedStage(afterStage1)).toBe(2);
     expect(stagesComplete(afterStage1)).toBe(1);
     expect(unlockedMasters(afterStage1)).toEqual(['guide', 'multiball']);
     expect(stageTotal(afterStage1, 1)).toBe(15000);
-    expect(challengeState(through(15))).toBe('locked');
-    expect(challengeState(through(16))).toBe('partly');
     const master = through(51);
     expect(unlockedStage(master)).toBe(11);
     expect(unlockedMasters(master)).toHaveLength(10);
     const done = through(CAMPAIGN_LEVELS + 1);
     expect(campaignFinished(done)).toBe(true);
     expect(done.campaign.next).toBe(CAMPAIGN_LEVELS + 1);
-    expect(challengeState(done)).toBe('open');
     expect(campaignTotal(done)).toBe((1000 * CAMPAIGN_LEVELS * (CAMPAIGN_LEVELS + 1)) / 2);
+  });
+
+  it('knows the levels beaten in the Adventure, which open the challenges', () => {
+    const p = through(4);
+    expect(['1-1', '1-2', '1-3'].every((id) => beatenInAdventure(p, id))).toBe(true);
+    expect(beatenInAdventure(p, '1-4')).toBe(false);
+    expect(beatenInAdventure(p, 'x')).toBe(false);
+    // A Quick Play win is not an Adventure win; a campaign clear on record is.
+    expect(beatenInAdventure(recordWin(p, win('2-2', 900, { campaignNumber: null })), '2-2')).toBe(
+      false,
+    );
+    const recorded = parseProgress(
+      JSON.stringify({
+        version: 1,
+        campaign: { next: 1, try: 1, pick: null },
+        levels: { '1-3': { ...emptyLevel(), wins: 1, best: 9, campaignScore: 9 } },
+      }),
+    );
+    expect(beatenInAdventure(recorded, '1-3')).toBe(true);
+    expect(beatenInAdventure(through(CAMPAIGN_LEVELS + 1), '11-5')).toBe(true);
   });
 
   it('formats local dates', () => {
@@ -269,18 +284,6 @@ describe('challenges in the save', () => {
     expect(Object.keys(p.challenges).sort()).toEqual(['cup-2.3', 'orange-1.1']);
     expect(p.challenges['cup-2.3']).toEqual(emptyChallenge());
     expect(isPassed(p, 'orange-1.1')).toBe(true);
-  });
-
-  it('opens one group per stage from stage 3, and all of them after the campaign', () => {
-    expect(openGroups(through(15))).toBe(0);
-    expect(openGroups(through(16))).toBe(1);
-    expect(openGroups(through(21))).toBe(2);
-    expect(openGroups(through(51))).toBe(8);
-    expect(openGroups(through(55))).toBe(8);
-    expect(openGroups(through(CAMPAIGN_LEVELS + 1))).toBe(15);
-    expect(groupOpensAfterStage(0)).toBe(3);
-    expect(groupOpensAfterStage(7)).toBe(10);
-    expect(groupOpensAfterStage(8)).toBeNull();
   });
 });
 

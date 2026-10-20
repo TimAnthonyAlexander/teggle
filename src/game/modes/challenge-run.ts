@@ -1,22 +1,24 @@
-// The challenge run in play, and what the challenge screens share: which challenges are open
-// and playable with the levels the manifest holds, how a level is named, and the DEV ONLY
-// unlock. A run lives in memory only: a reload ends it, its try already counted.
+// The challenge run in play, and what the challenge screens share: which challenges are shown
+// (their levels are in the game) and open (the player has beaten those levels in the Adventure),
+// how a level is named, and the DEV ONLY unlock. A run lives in memory only: a reload ends it,
+// its try already counted.
 
 import { LEVELS_PER_STAGE, type CampaignManifest } from '../../level/campaign';
 import {
   CHALLENGE_GROUPS,
   challengesOf,
-  unplayable,
+  isHidden,
+  levelsToOpen,
   type ChallengeDef,
+  type ChallengeGroup,
   type ChallengeRun,
-  type Unplayable,
 } from '../../rules/challenges';
 import type { PowerId } from '../../rules/powers';
 import type { Route } from '../app/router';
 import {
-  groupOpensAfterStage,
+  beatenInAdventure,
+  isPassed,
   localDate,
-  openGroups,
   recordChallengeEnd,
   type Progress,
 } from '../progress/save';
@@ -29,9 +31,9 @@ import { manifestLevels } from './manifest';
 let devAll = false;
 
 /**
- * DEV ONLY: `#/challenges?unlock=all` on the dev server opens every challenge group for the rest
- * of the session, without writing the save; production builds ignore it. Challenges whose levels
- * are not in the game stay locked: they cannot be played either way.
+ * DEV ONLY: `#/challenges?unlock=all` on the dev server counts every level in the game as beaten
+ * for the challenges, for the rest of the session, without writing the save; production builds
+ * ignore it. Challenges whose levels are not in the game stay hidden.
  */
 export function applyDevUnlock(route: Route): void {
   if (import.meta.env.DEV && route.params.get('unlock') === 'all') devAll = true;
@@ -42,63 +44,98 @@ export function devUnlocked(): boolean {
 }
 
 // ---------------------------------------------------------------------------------------------
-// What is open and playable
+// What is shown and open (spec 14.2)
 
 /** The campaign slots the manifest holds. */
 export function builtSlots(m: CampaignManifest): Set<string> {
   return new Set(manifestLevels(m).map((l) => l.level.id));
 }
 
-/** Group `index` (0-based, page order) is open for the save (spec 8, 14.2). */
-export function groupOpen(p: Progress, index: number): boolean {
-  return devUnlocked() || index < openGroups(p);
+/** The levels in the game the player has beaten in the Adventure (all of them with the DEV unlock). */
+export function beatenSlots(p: Progress, built: ReadonlySet<string>): Set<string> {
+  if (devUnlocked()) return new Set(built);
+  return new Set([...built].filter((id) => beatenInAdventure(p, id)));
 }
 
 export interface ChallengeStatus {
   readonly def: ChallengeDef;
-  /** Its group is open. */
-  readonly open: boolean;
-  /** The stage that opens its group, or null for the groups that open with the campaign. */
-  readonly opensAfter: number | null;
-  /** Why it cannot be played with the levels in the game, or null. */
-  readonly unplayable: Unplayable | null;
-  /** Open and playable. */
+  /** Not shown: a duel, or its levels are not all in the game. */
+  readonly hidden: boolean;
+  /** Adventure levels still to beat before it opens, in campaign order; empty once open. */
+  readonly toOpen: readonly string[];
+  /** Shown and open. */
   readonly playable: boolean;
 }
 
 export function challengeStatus(
-  p: Progress,
   built: ReadonlySet<string>,
+  beaten: ReadonlySet<string>,
   def: ChallengeDef,
 ): ChallengeStatus {
-  const index = CHALLENGE_GROUPS.findIndex((g) => g.id === def.group);
-  const open = groupOpen(p, index);
-  const why = unplayable(def, built);
+  const hidden = isHidden(def, built);
+  const toOpen = hidden ? [] : levelsToOpen(def, built, beaten);
+  return { def, hidden, toOpen, playable: !hidden && toOpen.length === 0 };
+}
+
+/** A group's shown challenges with their state, in order. */
+export interface GroupStatus {
+  readonly group: ChallengeGroup;
+  readonly challenges: readonly ChallengeStatus[];
+}
+
+/** The groups with something to show, in page order, each with its shown challenges. */
+export function shownGroups(p: Progress, built: ReadonlySet<string>): GroupStatus[] {
+  const beaten = beatenSlots(p, built);
+  const out: GroupStatus[] = [];
+  for (const group of CHALLENGE_GROUPS) {
+    const challenges = challengesOf(group.id)
+      .map((c) => challengeStatus(built, beaten, c))
+      .filter((s) => !s.hidden);
+    if (challenges.length > 0) out.push({ group, challenges });
+  }
+  return out;
+}
+
+/** Where the challenges stand, for the main menu and the stage intro card. */
+export interface ChallengeSummary {
+  /** Challenges shown. */
+  readonly shown: number;
+  /** Shown and open. */
+  readonly open: number;
+  /** Shown and passed. */
+  readonly passed: number;
+  /** While none is open: the levels to beat in the Adventure to open the first ones. */
+  readonly firstToOpen: readonly string[];
+}
+
+export function challengeSummary(p: Progress, built: ReadonlySet<string>): ChallengeSummary {
+  const all = shownGroups(p, built).flatMap((g) => g.challenges);
+  const open = all.filter((s) => s.playable).length;
+  let first: readonly string[] = [];
+  if (open === 0) {
+    // The challenge that opens soonest: its last level to beat comes first in the campaign.
+    let best = Infinity;
+    for (const s of all) {
+      const last = s.toOpen.at(-1);
+      const n = last === undefined ? Infinity : numberOfSlot(last);
+      if (n < best) {
+        best = n;
+        first = s.toOpen;
+      }
+    }
+  }
   return {
-    def,
+    shown: all.length,
     open,
-    opensAfter: groupOpensAfterStage(index),
-    unplayable: why,
-    playable: open && why === null,
+    passed: all.filter((s) => isPassed(p, s.def.id)).length,
+    firstToOpen: first,
   };
 }
 
-/** The five challenges of a group with their state. */
-export function groupStatus(
-  p: Progress,
-  built: ReadonlySet<string>,
-  groupId: string,
-): ChallengeStatus[] {
-  return challengesOf(groupId).map((c) => challengeStatus(p, built, c));
-}
-
-/** "1-3 The Sky Tree" for a level in the manifest, "level 4-3" for one that is not. */
+/** A level's name ("The Sky Tree") for one in the manifest, "Level 4-3" for one that is not. */
 export function levelNamer(m: CampaignManifest): (slot: string) => string {
   const names = new Map(manifestLevels(m).map((l) => [l.level.id, l.level.name]));
-  return (slot) => {
-    const name = names.get(slot);
-    return name === undefined ? `level ${slot}` : `${slot} ${name}`;
-  };
+  return (slot) => names.get(slot) ?? `Level ${slot}`;
 }
 
 /** The campaign stage of a slot ("4-3" is stage 4). */

@@ -20,13 +20,15 @@ import type { PowerId } from '../../rules/powers';
 import type { CampaignManifest } from '../../level/campaign';
 import { drawLayer, layers } from '../render/cache';
 import { linear, radial, roundRect, type Ctx, type PathFn } from '../render/paint';
-import { CHALLENGES } from '../../rules/challenges';
-import { devUnlocked } from '../modes/challenge-run';
+import {
+  builtSlots,
+  challengeSummary,
+  levelNamer,
+  type ChallengeSummary,
+} from '../modes/challenge-run';
 import {
   campaignCleared,
   campaignFinished,
-  challengeState,
-  passedCount,
   stageOfNumber,
   unlockedMasters,
   unlockedStage,
@@ -268,22 +270,47 @@ export class MainMenuScreen implements Screen {
     }
   }
 
-  /** Some challenge group is open (spec 8), or the DEV ONLY unlock is on. */
+  private summaryFor: Progress | null = null;
+  private summaryCache: ChallengeSummary | null = null;
+
+  /** Where the challenges stand, once the manifest is loaded (spec 14.2). */
+  private summary(): ChallengeSummary | null {
+    const m = this.manifest;
+    if (m === null) return null;
+    const p = progressStore().progress;
+    if (p !== this.summaryFor || this.summaryCache === null) {
+      this.summaryFor = p;
+      this.summaryCache = challengeSummary(p, builtSlots(m));
+    }
+    return this.summaryCache;
+  }
+
+  /** Some challenge is open: the player has beaten its levels in the Adventure (or DEV unlock). */
   private challengesOpen(): boolean {
-    return challengeState(progressStore().progress) !== 'locked' || devUnlocked();
+    return (this.summary()?.open ?? 0) > 0;
+  }
+
+  /** The level to beat in the Adventure to open the first challenges, while none is open. */
+  private challengeOpener(): string | null {
+    return this.summary()?.firstToOpen.at(-1) ?? null;
   }
 
   private challengeText(): string {
-    return this.challengesOpen()
-      ? 'Special goals on boards you know: more orange pegs, score marks, full clears and runs of levels.'
-      : 'Challenges open up once you finish Stage Three.';
+    if (this.challengesOpen()) {
+      return "Extra goals on levels you've beaten: more orange pegs, score targets, clean boards and winning streaks.";
+    }
+    const slot = this.challengeOpener();
+    const m = this.manifest;
+    return slot === null || m === null
+      ? 'Challenges open as you beat levels in the Adventure.'
+      : `Challenges open as you beat levels in the Adventure. Beat ${levelNamer(m)(slot)} to open the first ones.`;
   }
 
   private challengeSub(): string {
-    const p = progressStore().progress;
-    return this.challengesOpen()
-      ? `${passedCount(p)} of ${CHALLENGES.length} passed`
-      : 'Locked: finish stage 3';
+    const s = this.summary();
+    if (s !== null && s.open > 0) return `${s.passed} of ${s.shown} passed`;
+    const slot = this.challengeOpener();
+    return slot === null ? 'Locked' : `Locked: beat level ${slot}`;
   }
 
   /**
