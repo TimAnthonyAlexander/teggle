@@ -1,0 +1,209 @@
+{
+  "formatVersion": 1,
+  "background": "petal-terraces-pergola",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "beam-left",
+      "note": "The near crossbeam left of the cannon, sloping slightly down to the wall",
+      "mode": "bricks",
+      "points": [[250, 85], [16, 105]]
+    },
+    {
+      "id": "beam-right",
+      "note": "The near crossbeam right of the cannon, sloping slightly down to the wall",
+      "mode": "bricks",
+      "points": [[666, 85], [900, 105]]
+    },
+    {
+      "id": "limb-left",
+      "note": "A wisteria limb from the near beam beside the cannon down to the near left pillar",
+      "mode": "bricks",
+      "points": [[359, 112], [326, 135], [276, 166], [216, 190], [131, 212]]
+    },
+    {
+      "id": "limb-right",
+      "note": "A wisteria limb from the near beam beside the cannon down to the near right pillar",
+      "mode": "bricks",
+      "points": [[557, 112], [590, 135], [640, 166], [700, 190], [785, 212]]
+    },
+    {
+      "id": "pillar-near-left-a",
+      "note": "The near left pillar, its outer half, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[76, 128], [50.8, 390]]
+    },
+    {
+      "id": "pillar-near-left-b",
+      "note": "The near left pillar, its inner half, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[96.9, 130], [71.7, 392]]
+    },
+    {
+      "id": "pillar-near-right-a",
+      "note": "The near right pillar, its inner half, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[819.1, 130], [844.3, 392]]
+    },
+    {
+      "id": "pillar-near-right-b",
+      "note": "The near right pillar, its outer half, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[840, 128], [865.2, 390]]
+    },
+    {
+      "id": "crossbeam-2-left",
+      "note": "The left end of the second crossbeam, over the second left pillar (its middle is a solid)",
+      "mode": "bricks",
+      "points": [[300, 221], [228, 228]]
+    },
+    {
+      "id": "crossbeam-2-right",
+      "note": "The right end of the second crossbeam, over the second right pillar (its middle is a solid)",
+      "mode": "bricks",
+      "points": [[616, 221], [688, 228]]
+    },
+    {
+      "id": "trunk-left",
+      "note": "The wisteria trunk climbing beside the second left pillar, leaning like it",
+      "mode": "bricks",
+      "points": [[236, 268], [219, 440]]
+    },
+    {
+      "id": "trunk-right",
+      "note": "The wisteria trunk climbing beside the second right pillar, leaning like it",
+      "mode": "bricks",
+      "points": [[680, 268], [697, 440]]
+    },
+    {
+      "id": "pillar-2-left",
+      "note": "The second pillar on the left, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[271, 250], [252.7, 440]]
+    },
+    {
+      "id": "pillar-2-right",
+      "note": "The second pillar on the right, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[645, 250], [663.3, 440]]
+    },
+    {
+      "id": "pillar-3-left",
+      "note": "The third pillar on the left, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[337, 278], [324.8, 405]]
+    },
+    {
+      "id": "pillar-3-right",
+      "note": "The third pillar on the right, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[579, 278], [591.2, 405]]
+    },
+    {
+      "id": "pillar-4-left",
+      "note": "The fourth pillar on the left, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[370, 302], [361.3, 392]]
+    },
+    {
+      "id": "pillar-4-right",
+      "note": "The fourth pillar on the right, leaning 5.5 degrees out at the foot",
+      "mode": "bricks",
+      "points": [[546, 302], [554.7, 392]]
+    },
+    {
+      "id": "crossbeam-3-left",
+      "note": "The left half of the third crossbeam, over the walk, sloping down to the third pillar",
+      "mode": "bricks",
+      "points": [[448, 253], [362, 264]]
+    },
+    {
+      "id": "crossbeam-3-right",
+      "note": "The right half of the third crossbeam, over the walk, sloping down to the third pillar",
+      "mode": "bricks",
+      "points": [[468, 253], [554, 264]]
+    },
+    {
+      "id": "walk-left",
+      "note": "The left edge of the walk below the pillar bases",
+      "mode": "bricks",
+      "points": [[432, 430], [218, 506]]
+    },
+    {
+      "id": "walk-right",
+      "note": "The right edge of the walk below the pillar bases",
+      "mode": "bricks",
+      "points": [[484, 430], [698, 506]]
+    },
+    {
+      "id": "wisteria-corner-left",
+      "note": "Wisteria hanging from the near beam outside the near left pillar",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[27, 150], [27, 270]]
+    },
+    {
+      "id": "wisteria-corner-right",
+      "note": "Wisteria hanging from the near beam outside the near right pillar",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[889, 150], [889, 270]]
+    },
+    {
+      "id": "wisteria-1-left",
+      "note": "Wisteria hanging from the limb near the left pillar",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[150, 250], [150, 370]]
+    },
+    {
+      "id": "wisteria-1-right",
+      "note": "Wisteria hanging from the limb near the right pillar",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[766, 250], [766, 370]]
+    },
+    {
+      "id": "wisteria-2-left",
+      "note": "Wisteria hanging from the limb over the garden",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[192, 240], [192, 320]]
+    },
+    {
+      "id": "wisteria-2-right",
+      "note": "Wisteria hanging from the limb over the garden",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[724, 240], [724, 320]]
+    },
+    {
+      "id": "wisteria-3-left",
+      "note": "Wisteria hanging under the second crossbeam, between the second and third pillars",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[304, 262], [296.3, 342]]
+    },
+    {
+      "id": "wisteria-3-right",
+      "note": "Wisteria hanging under the second crossbeam, between the second and third pillars",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[612, 262], [619.7, 342]]
+    },
+    {
+      "id": "wisteria-4",
+      "note": "Wisteria hanging under the third crossbeam",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[418, 298], [498, 298]]
+    },
+    {
+      "id": "wisteria-5",
+      "note": "Wisteria hanging lower under the third crossbeam",
+      "mode": "pegs",
+      "spacing": 40,
+      "points": [[418, 340], [498, 340]]
+    }
+  ]
+}
