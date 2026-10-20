@@ -1,0 +1,371 @@
+{
+  "formatVersion": 1,
+  "background": "petal-terraces-mill",
+  "board": { "width": 916, "height": 560 },
+  "groups": [
+    {
+      "id": "big-wheel",
+      "note": "The big water wheel turning about its hub",
+      "pivot": [525, 336],
+      "movement": { "type": "rotateAroundCircle", "period": 2400 }
+    },
+    {
+      "id": "small-wheel",
+      "note": "The smaller water wheel turning about its hub",
+      "pivot": [241, 330],
+      "movement": { "type": "rotateAroundCircle", "period": 2000 }
+    },
+    {
+      "id": "ripples",
+      "note": "Moves one brick and its seam down the slope per period, then starts over",
+      "movement": { "type": "horizontalWrap", "period": 720, "radius": 36, "pathRotation": -0.052360000000000004 }
+    }
+  ],
+  "lines": [
+    {
+      "id": "big-wheel-rim-right",
+      "note": "A quarter of the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[575.6, 364.3], [581.1, 350.6], [583, 336], [581.1, 321.4], [575.6, 307.7]]
+    },
+    {
+      "id": "big-wheel-rim-top",
+      "note": "A quarter of the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[553.3, 285.4], [539.6, 279.9], [525, 278], [510.4, 279.9], [496.7, 285.4]]
+    },
+    {
+      "id": "big-wheel-rim-left",
+      "note": "A quarter of the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[474.4, 307.7], [468.9, 321.4], [467, 336], [468.9, 350.6], [474.4, 364.3]]
+    },
+    {
+      "id": "big-wheel-rim-bottom",
+      "note": "A quarter of the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[496.7, 386.6], [510.4, 392.1], [525, 394], [539.6, 392.1], [553.3, 386.6]]
+    },
+    {
+      "id": "big-wheel-paddle-1",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[603.2, 315], [632.2, 307.3]]
+    },
+    {
+      "id": "big-wheel-paddle-2",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[586.4, 283.2], [609.1, 263.6]]
+    },
+    {
+      "id": "big-wheel-paddle-3",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[557.4, 261.8], [569.4, 234.3]]
+    },
+    {
+      "id": "big-wheel-paddle-4",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[522, 255.1], [520.8, 225.1]]
+    },
+    {
+      "id": "big-wheel-paddle-5",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[487.2, 264.4], [473.1, 237.9]]
+    },
+    {
+      "id": "big-wheel-paddle-6",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[459.8, 287.9], [435.7, 270.1]]
+    },
+    {
+      "id": "big-wheel-paddle-7",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[445.4, 320.9], [415.9, 315.4]]
+    },
+    {
+      "id": "big-wheel-paddle-8",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[446.8, 357], [417.8, 364.7]]
+    },
+    {
+      "id": "big-wheel-paddle-9",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[463.6, 388.8], [440.9, 408.4]]
+    },
+    {
+      "id": "big-wheel-paddle-10",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[492.6, 410.2], [480.6, 437.7]]
+    },
+    {
+      "id": "big-wheel-paddle-11",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[528, 416.9], [529.2, 446.9]]
+    },
+    {
+      "id": "big-wheel-paddle-12",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[562.8, 407.6], [576.9, 434.1]]
+    },
+    {
+      "id": "big-wheel-paddle-13",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[590.2, 384.1], [614.3, 401.9]]
+    },
+    {
+      "id": "big-wheel-paddle-14",
+      "note": "A bucket on the big water wheel's rim",
+      "mode": "bricks",
+      "group": "big-wheel",
+      "points": [[604.6, 351.1], [634.1, 356.6]]
+    },
+    {
+      "id": "small-wheel-rim-right",
+      "note": "A quarter of the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[316.3, 314.1], [308.7, 293.3], [295.4, 275.6], [277.7, 262.3], [256.9, 254.7]]
+    },
+    {
+      "id": "small-wheel-rim-top",
+      "note": "A quarter of the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[225.1, 254.7], [204.3, 262.3], [186.6, 275.6], [173.3, 293.3], [165.7, 314.1]]
+    },
+    {
+      "id": "small-wheel-rim-left",
+      "note": "A quarter of the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[165.7, 345.9], [173.3, 366.7], [186.6, 384.4], [204.3, 397.7], [225.1, 405.3]]
+    },
+    {
+      "id": "small-wheel-rim-bottom",
+      "note": "A quarter of the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[256.9, 405.3], [277.7, 397.7], [295.4, 384.4], [308.7, 366.7], [316.3, 345.9]]
+    },
+    {
+      "id": "small-wheel-paddle-1",
+      "note": "A bucket on the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[263, 330], [294, 330]]
+    },
+    {
+      "id": "small-wheel-paddle-2",
+      "note": "A bucket on the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[241, 308], [241, 277]]
+    },
+    {
+      "id": "small-wheel-paddle-3",
+      "note": "A bucket on the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[219, 330], [188, 330]]
+    },
+    {
+      "id": "small-wheel-paddle-4",
+      "note": "A bucket on the smaller water wheel's rim",
+      "mode": "bricks",
+      "group": "small-wheel",
+      "points": [[241, 352], [241, 383]]
+    },
+    {
+      "id": "ripples-near",
+      "note": "Ripples on the shallow water at the front left, flowing to the right",
+      "mode": "bricks",
+      "group": "ripples",
+      "points": [[122, 462], [300.8, 471.4]]
+    },
+    {
+      "id": "ripples-far",
+      "note": "Ripples on the shallow water further right, flowing to the right",
+      "mode": "bricks",
+      "group": "ripples",
+      "points": [[318, 484], [496.8, 493.4]]
+    },
+    {
+      "id": "ripples-low",
+      "note": "Ripples close to the bank at the front left, flowing to the right",
+      "mode": "bricks",
+      "group": "ripples",
+      "points": [[122, 496], [300.8, 505.4]]
+    },
+    {
+      "id": "peak",
+      "note": "The peak's left flank, down to the long ridge on the left",
+      "mode": "bricks",
+      "points": [[168, 204], [240, 195], [310, 190], [384, 184], [412, 178]]
+    },
+    {
+      "id": "peak-right",
+      "note": "The peak's right flank, down to the valley",
+      "mode": "bricks",
+      "points": [[506, 160], [540, 168], [580, 182], [616, 198]]
+    },
+    {
+      "id": "hill",
+      "note": "The crest of the green hill on the right, falling toward the valley",
+      "mode": "bricks",
+      "points": [[652, 190], [720, 172], [780, 150], [840, 127], [896, 116]]
+    },
+    {
+      "id": "left-wheel",
+      "note": "The crown of the water wheel cut by the left edge, its buckets on top",
+      "mode": "bricks",
+      "points": [[26, 270], [44, 247], [70, 234], [100, 232], [127, 247]]
+    },
+    {
+      "id": "right-wheel",
+      "note": "The rim of the big water wheel cut by the right edge, from its top down its left side",
+      "mode": "bricks",
+      "points": [
+        [888.9, 160.7], [859.1, 165.8], [830.5, 175.7], [803.9, 190.1], [780, 208.6],
+        [759.5, 230.8], [742.8, 256], [730.5, 283.6], [722.8, 312.9]
+      ]
+    },
+    {
+      "id": "trough",
+      "note": "The dark trough on the right wheel, leaning down toward the middle",
+      "mode": "bricks",
+      "points": [[790, 284], [886, 277]]
+    },
+    {
+      "id": "rail-left",
+      "note": "The bamboo rail left of the smaller wheel",
+      "mode": "bricks",
+      "points": [[24, 341], [126, 348]]
+    },
+    {
+      "id": "rail-right",
+      "note": "The bamboo rail right of the big wheel, through the right wheel",
+      "mode": "bricks",
+      "points": [[698, 346], [896, 358]]
+    },
+    {
+      "id": "strut-right",
+      "note": "The long bamboo strut propping the right wheel",
+      "mode": "bricks",
+      "points": [[668, 488], [794, 424]]
+    },
+    {
+      "id": "strut-middle",
+      "note": "The bamboo strut between the two whole wheels",
+      "mode": "bricks",
+      "points": [[318, 438], [380, 404]]
+    },
+    {
+      "id": "ripples-river",
+      "note": "Ripples on the river inside the right wheel, flowing to the right",
+      "mode": "bricks",
+      "group": "ripples",
+      "points": [[700, 384], [770.9, 387.7]]
+    },
+    {
+      "id": "cloud-left",
+      "note": "The cloud bank over the far mountains on the left (never orange)",
+      "mode": "bricks",
+      "points": [[44, 104], [90, 84], [150, 78], [210, 86], [256, 104]]
+    },
+    {
+      "id": "cloud-corner",
+      "note": "A small cloud in the top left corner (never orange)",
+      "mode": "bricks",
+      "points": [[28, 56], [62, 44], [102, 48]]
+    },
+    {
+      "id": "cloud-wisp",
+      "note": "A wisp of cloud high on the left (never orange)",
+      "mode": "bricks",
+      "points": [[220, 48], [260, 38], [300, 46]]
+    },
+    {
+      "id": "cloud-dark",
+      "note": "The dark rain cloud over the hill (never orange)",
+      "mode": "bricks",
+      "points": [[586, 132], [630, 104], [690, 92], [740, 98], [776, 116]]
+    },
+    {
+      "id": "cloud-high",
+      "note": "A cloud high over the hill (never orange)",
+      "mode": "bricks",
+      "points": [[676, 58], [740, 40], [810, 44], [886, 66]]
+    },
+    {
+      "id": "far-ridge",
+      "note": "The far mountains on the left, falling toward the peak",
+      "mode": "bricks",
+      "points": [[24, 140], [100, 146], [160, 152], [215, 160]]
+    },
+    {
+      "id": "foothill",
+      "note": "A green foothill between the two whole wheels",
+      "mode": "bricks",
+      "points": [[338, 238], [396, 220]]
+    },
+    {
+      "id": "terrace",
+      "note": "A tea terrace on the hillside inside the right wheel",
+      "mode": "bricks",
+      "points": [[812, 238], [884, 228]]
+    },
+    {
+      "id": "stones",
+      "note": "Boulders in the riverbed under the big wheel",
+      "mode": "bricks",
+      "points": [[570, 497], [630, 479]]
+    },
+    {
+      "id": "village",
+      "note": "The white houses of the village on the far bank",
+      "mode": "bricks",
+      "points": [[664, 281], [694, 277]]
+    },
+    {
+      "id": "pebbles",
+      "note": "Pebbles on the near bank under the right strut",
+      "mode": "bricks",
+      "points": [[700, 510], [790, 502]]
+    },
+    {
+      "id": "left-trough",
+      "note": "The trough across the left wheel",
+      "mode": "bricks",
+      "points": [[42, 299], [136, 290]]
+    }
+  ]
+}
