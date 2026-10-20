@@ -25,7 +25,10 @@
       "id": "rocks-top",
       "note": "The top edge of the rocky point, from the tower's foot down to the lower right",
       "mode": "pegs",
-      "points": [[110, 424], [220, 422], [320, 424], [430, 432], [560, 442], [660, 462], [740, 490], [800, 510]]
+      "points": [
+        [110, 424], [220, 422], [320, 424], [430, 432], [560, 442], [660, 462], [740, 490],
+        [800, 510]
+      ]
     },
     {
       "id": "rocks-low",

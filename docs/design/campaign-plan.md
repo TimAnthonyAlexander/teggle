@@ -84,13 +84,13 @@ A planet's ring as a brick bowl; a wheel-shaped station turning; comet tails as 
 
 | Level | Name | Archetypes | Templates | Pegs / bricks | Moving | Target |
 | --- | --- | --- | --- | --- | --- | --- |
-| 5-1 | Life Rings | platforms, outline | outline, platforms | 81 / 63 | circle | 31% |
+| 5-1 | Life Rings | platforms, outline | outline, platforms, fill (lattice) | 81 / 63 | circle | 31% |
 | 5-2 | The Fish Boat | outline, platforms | outline | 147 / 0 | horizontalCycle (line movers) | 26% |
 | 5-3 | The Drying Net | outline | outline, fill (lattice) | 141 / 0 | | 29% |
-| 5-4 | The Ship's Wheel | rotating, outline | outline, rotating | 72 / 96 | rotateAroundCircle | 27% |
-| 5-5 | Lighthouse Point | outline | outline | 141 / 0 | | 25% |
+| 5-4 | The Ship's Wheel | rotating, outline | solids, outline, rotating | 72 / 96 | rotateAroundCircle | 27% |
+| 5-5 | Lighthouse Point | outline | solids, outline | 141 / 0 | | 25% |
 
-Life rings floating between two sloping piers; a fish-shaped boat crossing the cove; a net whose mesh is a lattice fill; a turning ship's wheel between two anchors; the stage's one asymmetric board, a lighthouse on its point.
+Built on 2026-10-20. A harbor mouth seen from above, its two stone breakwaters brick chains over rows of foam pegs, the four life rings floating in the harbor below them and the open sea outside a lattice of swell; a long, narrow boat whose hull, a closed peg line, glides forward and back along its own heading through rows of wave crests, the water under the cannon left open; two racks of drying nets on a sand bar, their mesh and its reflection in the shallows one lattice fill; a ship's wheel whose inner ring turns under a solid crown, inside three brick arcs on each side, between the bulwarks' brick rows; a lighthouse on a rocky point, its peaked roof a solid over the gallery, above rows of sea, rock and cloud that leave the sky under the cannon open. 5-1 got a new picture, since the planned one showed a single pier with swimmers and a signed beach bar; 5-3 and 5-4 were cropped closer, 5-4 so that the wheel's hub sits where the rotating template turns its wheel. Measured clear rates (200 runs): 32, 26, 28, 28 and 25%, a stage mean of 27.8%.
 
 ### Stage 6: Moonlit Hollow
 

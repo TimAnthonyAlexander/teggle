@@ -2,6 +2,13 @@
   "formatVersion": 1,
   "background": "lighthouse-cove-fish-boat",
   "board": { "width": 916, "height": 560 },
+  "groups": [
+    {
+      "id": "boat",
+      "note": "The boat gliding forward and back along its own heading",
+      "movement": { "type": "horizontalCycle", "period": 1600, "phase": 0.25, "radius": 60, "pathRotation": 1 }
+    }
+  ],
   "lines": [
     {
       "id": "hull",
@@ -149,13 +156,6 @@
       "mode": "pegs",
       "spacing": 38,
       "points": [[580, 486], [652, 498], [724, 486], [790, 496]]
-    }
-  ],
-  "groups": [
-    {
-      "id": "boat",
-      "note": "The boat gliding forward and back along its own heading",
-      "movement": { "type": "horizontalCycle", "period": 1600, "radius": 60, "pathRotation": 1, "phase": 0.25 }
     }
   ]
 }

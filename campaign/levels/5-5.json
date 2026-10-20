@@ -8,7 +8,7 @@
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 141,
     "bricks": 0,
