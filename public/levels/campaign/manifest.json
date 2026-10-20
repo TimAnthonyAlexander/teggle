@@ -131,6 +131,14 @@
           "file": "campaign/3-4.json",
           "lines": "campaign/3-4.lines.json",
           "background": "golden-rooftops-laundry"
+        },
+        {
+          "id": "3-5",
+          "number": 15,
+          "name": "Market Awnings",
+          "file": "campaign/3-5.json",
+          "lines": "campaign/3-5.lines.json",
+          "background": "golden-rooftops-awnings"
         }
       ]
     }

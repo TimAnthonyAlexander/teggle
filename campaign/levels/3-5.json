@@ -1,26 +1,25 @@
 {
   "id": "3-5",
   "name": "Market Awnings",
-  "draft": true,
   "concept": {
-    "subject": "A tall market house whose stacked balconies are shaded by striped awnings slanting alternately in and out, with flower pots and lanterns along the rails.",
-    "composition": "The facade fills the middle three fifths of the width from a quarter of the height to the bottom, its flat roof below the open top center. On each side four awnings stack in a zigzag: toward the middle, outward, toward the middle, outward; the two sides are mirror images. Narrow stair towers stand at the far left and right edges and end above the lower corners.",
-    "layout": "53 round pegs and 94 bricks. Every awning is a straight brick slide of four to six bricks, mirrored on the two sides and stacked so a ball zigzags from awning to awning down the facade; the stair towers' roofs are short brick slopes. The balcony rails under the awnings are short peg rows, and the flower pots and lanterns are single pegs."
+    "subject": "A house's gable at golden hour: a steep triangular roof against a clear sky, two red and white striped awnings over white shutters, and tiled eaves along the bottom.",
+    "composition": "The gable fills the picture: its roof rises from both sides at about seven tenths of the height to a peak at the top center, so the upper corners are clear sky. Two striped awnings, each about a fifth of the picture wide, hang side by side at a little under half the height over white shutters, each casting its shadow onto the wall to its right; a vent sits on the right slope, and tiled eaves run along the bottom, raised in the middle.",
+    "layout": "53 round pegs and 94 bricks. The roof's two slopes are long brick slides from beside the cannon to the walls, a row of pegs follows each slope in the sky above it, and a shorter brick line follows the shadow under each slope low inside the gable. A brick band crosses the wall under the peak. The awnings' tops are solid ledges over their red stripes, which stand as short bricks above the scalloped brick valances; the shutters are peg rows, the sills and the three tiled eaves brick rows, and pegs mark the edge of the left awning's shadow and the wall between and below the windows."
   },
   "plan": {
     "archetypes": ["outline"],
-    "templates": ["outline"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 53,
     "bricks": 94,
     "difficulty": {
       "target": 0.27,
-      "note": "Brick-heavy finale: the zigzag slides carry balls far, but the rails under the awnings stay shielded until the ball finds the gaps."
+      "note": "Brick-heavy finale: the slopes carry most balls down the outside of the gable, and the band and the awnings' solid tops keep balls off the stripes and shutters, which are reached only through the gaps beside the band."
     }
   },
   "background": {
     "id": "golden-rooftops-awnings",
-    "prompt": "A tall market house at golden hour seen from the front, its facade filling the middle three fifths of the picture width from about one quarter of the picture height down to the bottom, with open sky above its flat roof at the top center. On each side of the facade, four striped awnings in cream and muted dusty-rose stripes shade four stacked balconies: the top awning slants down toward the middle, the next one outward, the third toward the middle again and the lowest outward, so that they form a zigzag down each side, the left and right sides mirror images of each other. Each awning is about a seventh of the picture wide. Small potted plants and paper lanterns stand along the balcony rails under the awnings. Honey and cream stone walls with slate-blue shutters; two narrow stair towers stand at the far left and right edges; the lower corners are plain stone.",
+    "prompt": "A photo of a house's gable at golden hour against a clear blue sky. The roof's two slopes, edged with an olive fascia, rise from the left and right edges at about seven tenths of the height to a peak at the top center, leaving the upper corners as plain sky. On the yellow wall two red and white striped awnings hang side by side, from about 0.23 to 0.45 and from 0.56 to 0.79 of the width, their tops at about 0.46 of the height and their scalloped valances at about 0.62, over white shutters, each casting a dark shadow onto the wall to its right. A small vent sits on the right slope at about 0.78 of the width. Tiled eaves run along the bottom at about nine tenths of the height, raised in the middle; the lower corners show the ends of the eaves and the wall.",
     "picture": {
       "ref": "pexels:26436574",
       "kind": "photo",
@@ -42,6 +41,26 @@
   },
   "recipe": {
     "seed": 305,
-    "targetCount": 147
+    "targetCount": 147,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [214, 266],
+            [412, 252],
+            [412, 262],
+            [214, 276]
+          ]
+        },
+        {
+          "points": [
+            [516, 252],
+            [700, 264],
+            [700, 274],
+            [516, 262]
+          ]
+        }
+      ]
+    }
   }
 }
