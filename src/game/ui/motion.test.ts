@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { dialogDrop, ease, pegValueFrame, popIn, POP_TOTAL_MS, warningIn } from './motion';
+import {
+  dialogDrop,
+  ease,
+  LAST_BALL_WARNING,
+  pegValueFrame,
+  popIn,
+  POP_TOTAL_MS,
+  warningIn,
+} from './motion';
 
 describe('popIn', () => {
   it('peaks at 1.85x at 80 ms and settles to 1x by 250 ms', () => {
@@ -26,6 +34,12 @@ describe('warningIn', () => {
     expect(warningIn(450, 3).scale).toBeCloseTo(1, 6);
     expect(warningIn(2000, 3).alpha).toBe(1);
     expect(warningIn(450 + 3000 + 400, 3).done).toBe(true);
+  });
+
+  it('shows LAST BALL! for 200 ms at most', () => {
+    expect(warningIn(60, 1.5, LAST_BALL_WARNING)).toEqual({ scale: 1, alpha: 1, done: false });
+    expect(warningIn(199, 1.5, LAST_BALL_WARNING).done).toBe(false);
+    expect(warningIn(200, 1.5, LAST_BALL_WARNING).done).toBe(true);
   });
 });
 

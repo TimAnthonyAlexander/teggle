@@ -60,17 +60,36 @@ export interface WarningFrame {
   readonly done: boolean;
 }
 
+export interface WarningTiming {
+  readonly shrinkMs: number;
+  readonly holdMs: number;
+  readonly fadeMs: number;
+}
+
+/** "3 BALLS LEFT" and "2 BALLS LEFT": shrink, hold about 3 s, fade. */
+export const BALLS_WARNING: WarningTiming = { shrinkMs: 450, holdMs: 3000, fadeMs: 400 };
+
+/** "LAST BALL!": a 200 ms flash in all (Tim, 2026-10-20). */
+export const LAST_BALL_WARNING: WarningTiming = { shrinkMs: 60, holdMs: 80, fadeMs: 60 };
+
 /**
- * Low-ball warning (7.5): appears big, shrinks to its rest size under the launcher and holds
- * for about 3 s. `startScale` is the size ratio of the entrance to the settled text.
+ * Low-ball warning (7.5): appears big, shrinks to its rest size under the launcher, holds and
+ * fades. `startScale` is the size ratio of the entrance to the settled text.
  */
-export function warningIn(tMs: number, startScale: number, holdMs = 3000): WarningFrame {
-  const shrinkMs = 450;
-  const fadeMs = 400;
+export function warningIn(
+  tMs: number,
+  startScale: number,
+  timing: WarningTiming = BALLS_WARNING,
+): WarningFrame {
+  const { shrinkMs, holdMs, fadeMs } = timing;
   if (tMs < 0) return { scale: startScale, alpha: 0, done: false };
   if (tMs < shrinkMs) {
     const t = ease.outCubic(tMs / shrinkMs);
-    return { scale: lerp(startScale, 1, t), alpha: clamp01(tMs / 90), done: false };
+    return {
+      scale: lerp(startScale, 1, t),
+      alpha: clamp01(tMs / Math.min(90, shrinkMs)),
+      done: false,
+    };
   }
   if (tMs < shrinkMs + holdMs) return { scale: 1, alpha: 1, done: false };
   const f = (tMs - shrinkMs - holdMs) / fadeMs;

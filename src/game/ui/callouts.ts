@@ -3,7 +3,7 @@
 
 import { layout } from '../layout';
 import type { Ctx } from '../render/paint';
-import { pegValueFrame, popIn, warningIn } from './motion';
+import { LAST_BALL_WARNING, pegValueFrame, popIn, warningIn } from './motion';
 import { drawText, formatNumber, textStyle } from './text';
 import { type } from './tokens';
 
@@ -115,7 +115,7 @@ export function drawBallsWarning(ctx: Ctx, balls: number, tMs: number): boolean 
   const last = balls === 1;
   const text = last ? 'LAST BALL!' : `${balls} BALLS LEFT`;
   const cap = last ? type.warningHuge : type.warning;
-  const f = warningIn(tMs, last ? 1.5 : 3.2);
+  const f = last ? warningIn(tMs, 1.5, LAST_BALL_WARNING) : warningIn(tMs, 3.2);
   if (f.done) return false;
   const { x, y } = layout.warning;
   drawText(ctx, text, x, last ? 165 : y, textStyle.warning(cap), {
