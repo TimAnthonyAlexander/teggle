@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "name": "Helter Skelter",
+  "name": "The Big Top",
   "background": "ribbon-fair-helter-skelter",
   "board": {
     "width": 916,
@@ -10,7 +10,7 @@
     "generatorVersion": "1.2.0",
     "seed": 801,
     "recipe": {
-      "name": "Helter Skelter",
+      "name": "The Big Top",
       "stage": 8,
       "targetCount": 159,
       "parts": [

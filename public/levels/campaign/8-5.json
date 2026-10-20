@@ -1,6 +1,6 @@
 {
   "formatVersion": 1,
-  "name": "The Prize Wheel",
+  "name": "The Ferris Wheel",
   "background": "ribbon-fair-prize-wheel",
   "board": {
     "width": 916,
@@ -10,7 +10,7 @@
     "generatorVersion": "1.2.0",
     "seed": 805,
     "recipe": {
-      "name": "The Prize Wheel",
+      "name": "The Ferris Wheel",
       "stage": 8,
       "targetCount": 144,
       "parts": [
