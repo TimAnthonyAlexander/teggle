@@ -1,0 +1,196 @@
+{
+  "formatVersion": 1,
+  "background": "moonlit-hollow-vines",
+  "board": { "width": 916, "height": 560 },
+  "lines": [
+    {
+      "id": "slide-left",
+      "note": "The thick branch that leaves the trunk toward the cannon, a slide from beside the cannon down to the trunk",
+      "mode": "bricks",
+      "points": [[388, 122], [220, 248]]
+    },
+    {
+      "id": "slide-right",
+      "note": "The branch from the knot right of the cannon down into the long lower limb, a slide toward the right trunk",
+      "mode": "bricks",
+      "points": [
+        [500, 140], [530, 168], [560, 192], [600, 218], [650, 243], [700, 262], [750, 280],
+        [800, 294], [850, 306]
+      ]
+    },
+    {
+      "id": "moon-rim",
+      "note": "The rim of the full moon, open underneath",
+      "mode": "bricks",
+      "points": [
+        [391.3, 396.9], [353.8, 369.7], [336.5, 326.8], [344.5, 281.2], [375.5, 246.8], [420, 234],
+        [464.5, 246.8], [495.5, 281.2], [503.5, 326.8], [486.2, 369.7], [448.7, 396.9]
+      ]
+    },
+    {
+      "id": "trunk",
+      "note": "The main trunk on the left, from the top edge down to where the thick branch joins it",
+      "mode": "bricks",
+      "points": [[178, 34], [178, 120], [182, 206]]
+    },
+    {
+      "id": "trunk-foot",
+      "note": "The main trunk below the thick branch, down to the bottom",
+      "mode": "bricks",
+      "points": [[192, 272], [198, 350], [200, 430], [196, 505]]
+    },
+    {
+      "id": "fork",
+      "note": "The fork of the main trunk above the slide",
+      "mode": "bricks",
+      "points": [[240, 34], [245, 100], [258, 168]]
+    },
+    {
+      "id": "left-trunk",
+      "note": "The leaning trunk at the left edge",
+      "mode": "bricks",
+      "points": [[86, 34], [70, 80], [54, 130], [38, 190], [28, 250], [26, 310], [26, 390]]
+    },
+    {
+      "id": "low-limb",
+      "note": "The limb leaving the main trunk toward the lower left corner",
+      "mode": "bricks",
+      "points": [[166, 416], [116, 456]]
+    },
+    {
+      "id": "right-trunk",
+      "note": "The curving trunk on the right, from the top down to the right edge",
+      "mode": "bricks",
+      "points": [
+        [732, 36], [756, 64], [788, 100], [812, 138], [828, 180], [846, 222], [868, 260],
+        [882, 296], [888, 328]
+      ]
+    },
+    {
+      "id": "right-fork",
+      "note": "The fork of the right trunk toward the upper right corner",
+      "mode": "bricks",
+      "points": [[848, 128], [894, 106]]
+    },
+    {
+      "id": "sagging-branch",
+      "note": "The branch sagging from the right trunk toward the middle",
+      "mode": "bricks",
+      "points": [[884, 366], [862, 382], [836, 394], [806, 401], [776, 405], [752, 408]]
+    },
+    {
+      "id": "middle-branch",
+      "note": "The arching branch above the slide on the right, toward the right trunk",
+      "mode": "bricks",
+      "points": [[606, 156], [628, 151], [652, 148], [690, 154], [730, 166], [772, 186]]
+    },
+    {
+      "id": "tendril",
+      "note": "The long tendril curling down from the long branch toward the bottom",
+      "mode": "bricks",
+      "points": [[746, 326], [718, 331], [686, 350], [664, 376], [656, 404], [650, 446]]
+    },
+    {
+      "id": "hanging-twig",
+      "note": "The twig hanging straight down right of the moon",
+      "mode": "bricks",
+      "points": [[610, 312], [604, 340], [609, 372], [602, 408]]
+    },
+    {
+      "id": "upper-arch",
+      "note": "The arching branch along the top right",
+      "mode": "bricks",
+      "points": [[580, 70], [616, 63], [652, 58], [690, 52]]
+    },
+    {
+      "id": "moon-face",
+      "note": "The dark seas on the moon, inside its rim",
+      "mode": "pegs",
+      "points": [[392, 296], [420, 318], [448, 340]]
+    },
+    {
+      "id": "left-vine",
+      "note": "Twigs winding down the sky between the two left trunks",
+      "mode": "pegs",
+      "points": [
+        [122, 40], [132, 88], [122, 136], [98, 176], [80, 220], [82, 266], [100, 306], [124, 346],
+        [134, 392]
+      ]
+    },
+    {
+      "id": "knot-twigs",
+      "note": "Twigs rising from the knot right of the cannon",
+      "mode": "pegs",
+      "points": [[562, 100], [572, 134]]
+    },
+    {
+      "id": "top-twigs",
+      "note": "Twigs in the sky between the fork and the cannon",
+      "mode": "pegs",
+      "points": [[280, 40], [306, 76], [330, 100]]
+    },
+    {
+      "id": "lower-limb",
+      "note": "The thin limb right of the moon, under the right slide",
+      "mode": "pegs",
+      "points": [[524, 258], [554, 270], [588, 278], [624, 282]]
+    },
+    {
+      "id": "moon-twigs",
+      "note": "Twigs reaching toward the moon from the right",
+      "mode": "pegs",
+      "points": [[538, 330], [550, 372]]
+    },
+    {
+      "id": "under-moon",
+      "note": "Twigs under the moon",
+      "mode": "pegs",
+      "points": [[262, 432], [320, 440], [380, 434], [440, 440], [500, 434], [560, 440]]
+    },
+    {
+      "id": "bottom-twigs",
+      "note": "The twigs rising along the bottom",
+      "mode": "pegs",
+      "points": [
+        [236, 482], [262, 486], [330, 478], [400, 484], [470, 476], [540, 484], [610, 478],
+        [680, 484], [750, 478]
+      ]
+    },
+    {
+      "id": "right-twigs",
+      "note": "Twigs hanging under the sagging branch",
+      "mode": "pegs",
+      "points": [[700, 420], [740, 434], [780, 446]]
+    },
+    {
+      "id": "upper-right-twigs",
+      "note": "Twigs between the top arch and the middle branch",
+      "mode": "pegs",
+      "points": [[604, 104], [644, 110], [684, 102], [720, 96]]
+    },
+    {
+      "id": "corner-twigs",
+      "note": "Twigs in the upper right corner beside the right trunk",
+      "mode": "pegs",
+      "points": [[796, 36], [826, 44], [858, 62], [890, 78]]
+    },
+    {
+      "id": "low-left-twigs",
+      "note": "Twigs over the low limb, at the end of the left vine",
+      "mode": "pegs",
+      "points": [[66, 404], [100, 412]]
+    },
+    {
+      "id": "trunk-twigs",
+      "note": "Twigs in the fork of the right trunk and the lower limb",
+      "mode": "pegs",
+      "points": [[816, 336], [852, 350]]
+    },
+    {
+      "id": "pocket-twigs",
+      "note": "Twigs between the middle branch and the right trunk",
+      "mode": "pegs",
+      "points": [[784, 222], [806, 256]]
+    }
+  ]
+}
