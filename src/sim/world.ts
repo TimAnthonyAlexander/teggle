@@ -445,6 +445,33 @@ export class World {
     return this.litOrder.map((s) => s.def.id);
   }
 
+  /**
+   * Free distance from the point (x, y) to the outline of element `id`: from a circle's edge, or
+   * from the nearest edge of a polygon or rod, 0 inside a closed polygon. A query for the
+   * presentation (the Fever near miss); the simulation never reads it.
+   */
+  distanceToElement(id: number, x: number, y: number): number {
+    const s = this.stateOf(id);
+    const def = s.def;
+    if (def.shape === 'circle') {
+      const dx = x - s.x;
+      const dy = y - s.y;
+      return Math.max(0, Math.sqrt(dx * dx + dy * dy) - def.radius);
+    }
+    // Derived from the pose alone, so refreshing it early gives the values a step would.
+    if (s.geometryStale) this.updateGeometry(s);
+    if (def.shape === 'polygon' && insidePolygon(s.edges, { x, y })) return 0;
+    let best = Infinity;
+    for (const e of s.edges) {
+      const along = (x - e.ax) * e.ux + (y - e.ay) * e.uy;
+      const k = along < 0 ? 0 : along > e.len ? e.len : along;
+      const qx = e.ax + e.ux * k - x;
+      const qy = e.ay + e.uy * k - y;
+      best = Math.min(best, qx * qx + qy * qy);
+    }
+    return Math.sqrt(best);
+  }
+
   // ---------------------------------------------------------------------------------------
   // Control API
 
@@ -1535,8 +1562,11 @@ function hold(s: BodyState): void {
   s.angularVelocity = 0;
 }
 
-/** Even-odd crossing test of the ball's center against a closed outline (research 2.7). */
-function insidePolygon(edges: readonly Edge[], b: Ball): boolean {
+/** Even-odd crossing test of a point (a ball's center) against a closed outline (research 2.7). */
+function insidePolygon(
+  edges: readonly Edge[],
+  b: { readonly x: number; readonly y: number },
+): boolean {
   const x = b.x;
   const y = b.y;
   let inside = false;

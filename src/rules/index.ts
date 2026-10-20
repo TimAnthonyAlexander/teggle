@@ -6,6 +6,7 @@ export {
   type AttemptPhase,
   type AttemptResult,
   type AttemptView,
+  type LastOrangeLook,
 } from './attempt';
 export { assignColors, AttemptSetupError, movePurple, type ColorAssignment } from './colors';
 export {

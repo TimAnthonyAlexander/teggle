@@ -52,7 +52,7 @@ import { Overlay } from '../play/overlay';
 import { PowerShow, type BannerState } from '../play/powers';
 import { CATCH_MS, GONE, Presenter } from '../play/presenter';
 import { ScoreLedger } from '../play/summary';
-import { slowMotionDue, SLOW_MOTION_LEAD_TICKS } from '../play/timing';
+import { lastOrangeClose, SLOW_MOTION_LEAD_TICKS } from '../play/timing';
 import { SPARK, WHITE } from '../play/particles';
 import type { CompiledLevel } from '../../sim/compile';
 import type { BallView } from '../../sim/world';
@@ -520,10 +520,15 @@ export class PlayScreen implements Screen {
       this.consumeRules();
     }
 
-    // Slow motion as the ball closes in on the last orange peg (spec 6).
-    if (!holding && attempt.phase === 'shot' && !this.fever.active && attempt.orangeLeft === 1) {
-      if (slowMotionDue(attempt.ticksToLastOrange(SLOW_MOTION_LEAD_TICKS))) {
-        this.fever.approach(this.showMs);
+    // Slow motion as the ball closes in on the last orange peg or will pass it very close (spec
+    // 6); once it is on, a ball that is no longer headed for the peg or close to it has missed.
+    if (!holding && attempt.phase === 'shot' && attempt.orangeLeft === 1) {
+      if (!this.fever.active) {
+        const look = attempt.lastOrangeLook(SLOW_MOTION_LEAD_TICKS);
+        if (lastOrangeClose(look.hitIn, look.gap)) this.fever.approach(this.showMs);
+      } else if (this.fever.closingIn) {
+        const look = attempt.lastOrangeLook(SLOW_MOTION_LEAD_TICKS);
+        if (!lastOrangeClose(look.hitIn, look.gap)) this.fever.miss(this.showMs);
       }
     }
     if (attempt.fever && !this.fullClearShown && world.ballsInPlay > 0 && this.boardCleared()) {

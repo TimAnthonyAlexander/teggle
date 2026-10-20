@@ -62,6 +62,7 @@ export type SoundId =
   | 'click'
   | 'hover'
   | 'roll'
+  | 'sigh'
   | 'cymbal'
   | 'gong'
   | 'feverBoom'
@@ -574,6 +575,40 @@ const roll: Recipe = (ctx, out, t) => {
     k++;
   }
   return end;
+};
+
+/**
+ * Fever missed: a small crowd's "awww". Low and high voices buzz through one bank of vowel
+ * formants, lift a semitone and a half, then sink about five as the vowel darkens from "aw"
+ * toward "oo", over a breathy bed.
+ */
+const sigh: Recipe = (ctx, out, t) => {
+  const r = mulberry32(nextSeed());
+  const f1 = filterNode(ctx, 'bandpass', 660, 4, out);
+  const f2 = filterNode(ctx, 'bandpass', 1060, 6, gainNode(ctx, out, 0.5));
+  const f3 = filterNode(ctx, 'bandpass', 2500, 8, gainNode(ctx, out, 0.12));
+  glide(f1.frequency, t + 0.2, 660, 460, 1);
+  glide(f2.frequency, t + 0.2, 1060, 780, 1);
+  const mix = gainNode(ctx, f1, 1);
+  mix.connect(f2);
+  mix.connect(f3);
+  let end = t;
+  for (const m of [47, 50, 52, 55, 57, 59, 62, 64, 66]) {
+    const at = t + r() * 0.09;
+    const f = hz(m) * (1 + (r() - 0.5) * 0.03);
+    const g = gainNode(ctx, panNode(ctx, (r() * 2 - 1) * 0.7, mix));
+    const stop = adsr(g.gain, at, 0.95 + r() * 0.25, 0.3, 0.12, 0.4, 0.75, 0.2);
+    const o = oscNode(ctx, 'sawtooth', f, at, stop, g, (r() - 0.5) * 20);
+    o.frequency.setValueAtTime(f, at);
+    o.frequency.exponentialRampToValueAtTime(f * 1.09, at + 0.18);
+    o.frequency.exponentialRampToValueAtTime(f * 0.75, at + 1.25);
+    lfo(ctx, 'sine', 4.5 + r() * 1.5, f * 0.012, at, stop, o.frequency);
+    end = Math.max(end, stop);
+  }
+  const breath = gainNode(ctx, out);
+  const breathEnd = adsr(breath.gain, t, 1.1, 0.05, 0.15, 0.5, 0.6, 0.25);
+  noiseNode(ctx, t, breathEnd, filterNode(ctx, 'bandpass', 1400, 0.7, breath));
+  return Math.max(end, breathEnd);
 };
 
 const crash: Recipe = (ctx, out, t) =>
@@ -1319,6 +1354,14 @@ export const SOUNDS: Readonly<Record<SoundId, SoundDef>> = {
     voices: 1,
     prerender: { seconds: 3.4, channels: 1 },
     play: roll,
+  },
+  sigh: {
+    level: 0.6,
+    wet: 0.35,
+    long: true,
+    voices: 1,
+    prerender: { seconds: 2, channels: 2 },
+    play: sigh,
   },
   // The Fever hit stacks the cymbal, the gong and the boom: each sits 3 dB under the big-moment
   // target so the three together stay near the limiter's threshold.

@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   feverZoom,
+  lastOrangeClose,
   lowBallWarning,
+  NEAR_MISS_GAP,
   popGapTicks,
   popOffsets,
   rampSpeed,
@@ -83,6 +85,11 @@ describe('slow motion window', () => {
     expect(slowMotionDue(0)).toBe(true);
     expect(slowMotionDue(SLOW_MOTION_LEAD_TICKS)).toBe(true);
     expect(slowMotionDue(SLOW_MOTION_LEAD_TICKS + 1)).toBe(false);
+    // A near miss calls for it too, a wider pass does not.
+    expect(lastOrangeClose(-1, NEAR_MISS_GAP)).toBe(true);
+    expect(lastOrangeClose(-1, NEAR_MISS_GAP + 0.01)).toBe(false);
+    expect(lastOrangeClose(SLOW_MOTION_LEAD_TICKS, Infinity)).toBe(true);
+    expect(lastOrangeClose(SLOW_MOTION_LEAD_TICKS + 1, Infinity)).toBe(false);
   });
 
   it('ramps back from 0.25x at 20 per mille per tick', () => {

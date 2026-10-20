@@ -7,6 +7,7 @@
 import type { AudioBus } from '../audio/bus';
 import {
   feverZoom,
+  MISS_SIGH_SPEED,
   rampSpeed,
   SLOW_MOTION_HOLD_MS,
   SLOW_MOTION_SCALE,
@@ -26,6 +27,9 @@ export class FeverShow {
   /** Clock speed for the simulation (1 normal, 0.25 slow). */
   speed = 1;
   private ramping = false;
+  /** Slow motion ended without the hit; the sigh comes as it ramps back. */
+  private missed = false;
+  private sighed = false;
   private readonly zoomTimes: { start: number; hit: number | null; end: number | null } = {
     start: 0,
     hit: null,
@@ -55,6 +59,8 @@ export class FeverShow {
     this.active = false;
     this.speed = 1;
     this.ramping = false;
+    this.missed = false;
+    this.sighed = false;
     this.zooming = false;
     this.zoomTimes.start = 0;
     this.zoomTimes.hit = null;
@@ -70,11 +76,13 @@ export class FeverShow {
     return this.zoomTimes;
   }
 
-  /** The ball will light the last orange peg soon: slow down and zoom in. */
+  /** The ball will light the last orange peg soon, or pass it very close: slow down, zoom in. */
   approach(now: number): void {
     if (this.active) return;
     this.active = true;
     this.zooming = true;
+    this.missed = false;
+    this.sighed = false;
     this.speed = SLOW_MOTION_SCALE;
     this.zoomTimes.start = now;
     this.zoomTimes.hit = null;
@@ -124,6 +132,22 @@ export class FeverShow {
     return this.active && this.zoomTimes.end === null;
   }
 
+  /** Slow motion is on and waiting for the hit. */
+  get closingIn(): boolean {
+    return this.active && this.zoomTimes.hit === null && this.zoomTimes.end === null;
+  }
+
+  /**
+   * The ball went past the last orange peg: zoom back out and ramp back to normal speed, with a
+   * sigh on the way (research 4.7, "Fever missed").
+   */
+  miss(now: number): void {
+    if (!this.closingIn) return;
+    this.zoomTimes.end = now;
+    this.ramping = true;
+    this.missed = true;
+  }
+
   /** Per frame, in real time: ends the hold and fires title whooshes. */
   frame(now: number, ballInPlay: boolean): void {
     const z = this.zoomTimes;
@@ -133,6 +157,7 @@ export class FeverShow {
       if (expired || (!ballInPlay && z.hit !== null)) {
         z.end = now;
         this.ramping = true;
+        this.missed = z.hit === null;
         if (this.title !== null && this.titleOut === Infinity) this.titleOut = now;
       }
     }
@@ -149,10 +174,14 @@ export class FeverShow {
     }
   }
 
-  /** Per tick: ramps the speed back to normal after the hold. */
+  /** Per tick: ramps the speed back to normal after the hold; a miss sighs on the way. */
   tick(): void {
     if (!this.ramping) return;
     this.speed = rampSpeed(this.speed);
+    if (this.missed && !this.sighed && this.speed >= MISS_SIGH_SPEED) {
+      this.sighed = true;
+      this.audio.emit({ type: 'feverMissed' });
+    }
     if (this.speed >= 1) this.ramping = false;
   }
 

@@ -65,6 +65,16 @@ import {
 export type AttemptPhase = 'aim' | 'shot' | 'over';
 export type AttemptResult = 'won' | 'lost';
 
+/** The shot ahead as seen from the last orange peg (Attempt.lastOrangeLook). */
+export interface LastOrangeLook {
+  /** Ticks until a ball lights it, or -1. */
+  readonly hitIn: number;
+  /** Smallest free gap between a ball and the peg before then, in px. */
+  readonly gap: number;
+}
+
+const NOTHING_AHEAD: LastOrangeLook = { hitIn: -1, gap: Infinity };
+
 export interface AttemptInit {
   /** Stable id of the level (campaign slot or file name), stored in records. */
   readonly levelId: string;
@@ -501,8 +511,20 @@ export class Attempt implements AttemptView {
    * exactly one orange peg is left and a shot is running.
    */
   ticksToLastOrange(maxTicks: number): number {
+    return this.lastOrangeLook(maxTicks).hitIn;
+  }
+
+  /**
+   * The shot run ahead on a private world copy, seen from the last orange peg: the ticks until a
+   * ball lights it (-1 if none does within `maxTicks`), and the smallest free gap in px between
+   * a ball's edge and the peg's outline before then, now included (Infinity when there is no
+   * ball). For the Fever slow motion and its near miss (spec 6 and 14.2). Exact apart from
+   * powers and stuck handling that would act meanwhile. Nothing to see (-1, Infinity) unless
+   * exactly one orange peg is left and a shot is running.
+   */
+  lastOrangeLook(maxTicks: number): LastOrangeLook {
     const c = this.c;
-    if (c.phase !== 'shot' || c.fever || c.orangeLeft !== 1) return -1;
+    if (c.phase !== 'shot' || c.fever || c.orangeLeft !== 1) return NOTHING_AHEAD;
     let target = -1;
     for (const i of this.level.scoringBodies) {
       const body = this.world.bodies[i];
@@ -511,16 +533,26 @@ export class Attempt implements AttemptView {
         break;
       }
     }
-    if (target < 0) return -1;
+    if (target < 0) return NOTHING_AHEAD;
     this.scratch ??= new World(this.level);
     const w = this.scratch;
     w.copyFrom(this.world);
+    let gap = Infinity;
+    const measure = (): void => {
+      for (const b of w.balls) {
+        gap = Math.min(gap, w.distanceToElement(target, b.x, b.y) - b.radius);
+      }
+    };
+    measure();
     for (let t = 1; t <= maxTicks; t++) {
       w.step();
-      for (const e of w.events) if (e.type === 'pegLit' && e.element === target) return t;
-      if (w.ballsInPlay === 0) return -1;
+      for (const e of w.events) {
+        if (e.type === 'pegLit' && e.element === target) return { hitIn: t, gap: 0 };
+      }
+      if (w.ballsInPlay === 0) break;
+      measure();
     }
-    return -1;
+    return { hitIn: -1, gap };
   }
 
   /** The attempt so far: replaying it gives the same events and score (record.ts). */

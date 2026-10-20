@@ -87,6 +87,8 @@ export function routeEvent(e: AudioEvent, letter: number): Route {
         music: 'start',
         endRoll: true,
       };
+    case 'feverMissed':
+      return { cues: [cue('sigh')], music: null, endRoll: true };
     case 'feverLetter':
       return only(cue('letter', letter));
     case 'feverBucket':

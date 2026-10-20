@@ -316,6 +316,36 @@ describe('Fever', () => {
     two.step();
     expect(two.ticksToLastOrange(200)).toBe(-1);
   });
+
+  it('sees how close the ball will pass the last orange peg', () => {
+    /** The only orange peg `offset` px from the ball's path at tick 25 (16 just touches). */
+    function passBy(offset: number): Attempt {
+      const exit = { x: (FEVER_HOLE_X[1] ?? 0) * scale, y: 200 };
+      const { points } = shotPath(dropLevel(exit, [BLUE]), DOWN);
+      const at = beside(pointAt(points, 25), offset, 1);
+      const a = newAttempt(
+        dropLevel(exit, [BLUE, { kind: 'peg', id: 1, x: at.x, y: at.y }]),
+        fixedColors(1),
+      );
+      a.launch(DOWN);
+      a.step();
+      return a;
+    }
+    const near = passBy(19).lastOrangeLook(200);
+    expect(near.hitIn).toBe(-1);
+    expect(near.gap).toBeGreaterThan(2.8);
+    expect(near.gap).toBeLessThan(3.05);
+    const far = passBy(30).lastOrangeLook(200);
+    expect(far.hitIn).toBe(-1);
+    expect(far.gap).toBeGreaterThan(13.8);
+    expect(far.gap).toBeLessThan(14.05);
+    // Too short a look ends before the ball gets there.
+    expect(passBy(19).lastOrangeLook(3).gap).toBeGreaterThan(20);
+    const hit = newAttempt(feverDrop(1, [BLUE]), fixedColors(1));
+    hit.launch(DOWN);
+    hit.step();
+    expect(hit.lastOrangeLook(200)).toEqual({ hitIn: hit.ticksToLastOrange(200), gap: 0 });
+  });
 });
 
 describe('stuck ball', () => {

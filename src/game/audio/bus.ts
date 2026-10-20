@@ -75,6 +75,8 @@ export type AudioEvent =
   | { readonly type: 'slowMotion' }
   /** The last orange peg lit (cymbal, gong, music). */
   | { readonly type: 'feverStart'; readonly fullClear: boolean }
+  /** Slow motion ended without the hit: the crowd sighs (research 4.7, "Fever missed"). */
+  | { readonly type: 'feverMissed' }
   /** One letter of the Fever title flew in or out (whoosh). */
   | { readonly type: 'feverLetter' }
   /** A ball landed in a Fever bucket (0 = leftmost). */

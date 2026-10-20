@@ -79,9 +79,24 @@ export const SLOW_MOTION_HOLD_MS = 3000;
 /** Speed gained per tick while ramping back to normal: 20 per mille (research 4.7). */
 export const SLOW_MOTION_RAMP = 0.02;
 
+/**
+ * A near miss: a ball that will pass the last orange peg this close (free gap in px, ball edge to
+ * peg outline) within the lead starts slow motion too, and a sigh follows if it never lights the
+ * peg (research 4.7, "Fever missed"). Teggle's choice (spec 14.2): the original's trigger
+ * distance is in a function the decompilation does not have.
+ */
+export const NEAR_MISS_GAP = 4;
+/** On a miss the crowd sighs as slow motion ramps back past this speed (the original's 900). */
+export const MISS_SIGH_SPEED = 0.9;
+
 /** True when a predicted hit `ticksToHit` ticks away should start slow motion. */
 export function slowMotionDue(ticksToHit: number): boolean {
   return ticksToHit >= 0 && ticksToHit <= SLOW_MOTION_LEAD_TICKS;
+}
+
+/** True when the shot ahead (hit in ticks or -1, smallest gap in px) calls for slow motion. */
+export function lastOrangeClose(hitIn: number, gap: number): boolean {
+  return slowMotionDue(hitIn) || gap <= NEAR_MISS_GAP;
 }
 
 /** The next tick's speed while ramping back from slow motion. */
