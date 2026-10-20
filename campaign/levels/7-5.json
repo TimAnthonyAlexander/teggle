@@ -1,26 +1,25 @@
 {
   "id": "7-5",
   "name": "The Pergola",
-  "draft": true,
   "concept": {
-    "subject": "A long garden pergola of stone pillars and round arches on two tiers, hung with wisteria, on the highest terrace.",
-    "composition": "A row of six round arches on slender pillars spans the lower half from edge to edge, the arches' tops at half height; on each side of the open top center an upper tier of three smaller arches stands on the lower row, reaching a quarter of the height. Long wisteria clusters hang inside every arch; stone steps lead up along the bottom.",
-    "layout": "34 round pegs and 110 bricks, the stage's finale. The architecture template's colonnade builds the arches, pillars and upper tiers from bricks; the wisteria clusters hanging inside the arches are short peg strings, the only pegs on the board."
+    "subject": "A wisteria pergola walk on the highest terrace in late spring, seen down its length: pale stone pillars and dark crossbeams receding to the far end, lilac wisteria hanging from every beam over a gravel walk.",
+    "composition": "The near crossbeam spans the whole width at about a sixth of the height, on two broad pillars at the side edges. Behind it the frames shrink toward the far end in the middle: the second crossbeam at four tenths of the height on pillars at about 0.29 and 0.71 of the width, then ever smaller pillars. Wisteria hangs in a canopy across the top and in clusters from the beams, its trunks climbing beside the second left pillar and the near right one; the gravel walk runs down the middle of the lower half between gardens.",
+    "layout": "34 round pegs and 110 bricks, the stage's finale. The near crossbeam is two brick rows sloping slightly down to the walls, and two wisteria limbs hanging from it beside the cannon are brick slides that curve down and out to the near pillars, each of which is two joined columns of standing bricks. The second crossbeam's middle is a peaked solid under the cannon and its ends are brick rows over the second pillars; the third crossbeam is two brick rows under the solid with a gap in the middle. The second, third and fourth pillars and the trunks beside the second pair are brick columns leaning slightly outward at the foot, and the walk's edges are brick rows below the pillar bases. The wisteria clusters are short peg strings: in the corners outside the near pillars, under the limbs over the gardens, between the second and third pillars and under the third crossbeam. The two top bricks of each limb cannot be orange."
   },
   "plan": {
     "archetypes": ["architecture", "outline"],
-    "templates": ["outline", "architecture"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 34,
     "bricks": 110,
     "difficulty": {
       "target": 0.25,
-      "note": "The stage's hardest: the wisteria pegs hang inside the arches, reachable only through the arches' mouths."
+      "note": "The stage's hardest. The solid middle of the second crossbeam shelters the third crossbeam and the wisteria hanging under it, which are reached only from the sides between the pillars. Each limb is a slide that one shot rides from top to bottom, but its two top bricks cannot be orange."
     }
   },
   "background": {
     "id": "petal-terraces-pergola",
-    "prompt": "A long garden pergola stands on the highest terrace of a sunny flower garden in late spring. A row of six round arches on slender pale stone pillars spans the lower half of the picture from edge to edge, the arches' tops at about half the picture height; on each side of the open top center, an upper tier of three smaller arches stands on top of the lower row, reaching up to about one quarter of the height. Long clusters of wisteria blossoms in soft lilac-pink and cream hang inside every arch. Stone steps lead up to the pergola along the bottom; a clear, soft sky behind; the lower corners are plain stone.",
+    "prompt": "A photo of a wisteria pergola walk in late spring, seen down its length under a pale blue sky. The near crossbeam, dark and straight, spans the whole width at about 0.13 to 0.17 of the height, on broad pale stone pillars at about 0.05 to 0.11 and 0.87 to 0.95 of the width that run to the bottom edge. The second crossbeam lies at about 0.36 to 0.39 of the height from 0.22 to 0.70 of the width, on pillars at about 0.28 to 0.31 and 0.69 to 0.72 of the width that end at about 0.83 of the height; smaller pillars and beams recede toward the far end of the walk at the middle of the width, a little above 0.55 of the height. Lilac wisteria hangs in a canopy across the top third and in clusters from every beam; a dark trunk climbs beside the second left pillar and another, larger, beside the near right one. A pale gravel walk runs down the middle of the lower half between gardens of green bushes and trees; the lower corners are the near pillars' plain stone.",
     "picture": {
       "ref": "pexels:36996236",
       "kind": "photo",
@@ -42,6 +41,26 @@
   },
   "recipe": {
     "seed": 705,
-    "targetCount": 144
+    "targetCount": 144,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [315, 220],
+            [458, 204],
+            [601, 220],
+            [601, 228],
+            [458, 214],
+            [315, 228]
+          ]
+        }
+      ]
+    },
+    "edits": [
+      { "at": [344.64, 122.07], "canBeOrange": false },
+      { "at": [314.81, 142.37], "canBeOrange": false },
+      { "at": [571.36, 122.07], "canBeOrange": false },
+      { "at": [601.19, 142.37], "canBeOrange": false }
+    ]
   }
 }
