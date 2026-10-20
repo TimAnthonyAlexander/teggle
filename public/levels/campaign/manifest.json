@@ -115,6 +115,14 @@
           "file": "campaign/3-2.json",
           "lines": "campaign/3-2.lines.json",
           "background": "golden-rooftops-lanterns"
+        },
+        {
+          "id": "3-3",
+          "number": 13,
+          "name": "The Bell Tower",
+          "file": "campaign/3-3.json",
+          "lines": "campaign/3-3.lines.json",
+          "background": "golden-rooftops-bell"
         }
       ]
     }
