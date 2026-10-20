@@ -1,0 +1,945 @@
+{
+  "formatVersion": 1,
+  "name": "Helter Skelter",
+  "background": "ribbon-fair-helter-skelter",
+  "board": {
+    "width": 916,
+    "height": 560
+  },
+  "provenance": {
+    "generatorVersion": "1.2.0",
+    "seed": 801,
+    "recipe": {
+      "name": "Helter Skelter",
+      "stage": 8,
+      "targetCount": 159,
+      "parts": [
+        {
+          "template": "solids",
+          "params": {
+            "polygons": [
+              {
+                "points": [
+                  [
+                    358,
+                    146
+                  ],
+                  [
+                    447,
+                    202
+                  ],
+                  [
+                    441,
+                    212
+                  ],
+                  [
+                    352,
+                    156
+                  ]
+                ]
+              }
+            ],
+            "rods": [],
+            "circles": []
+          }
+        },
+        {
+          "template": "outline",
+          "params": {
+            "paths": [
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    300,
+                    151
+                  ],
+                  [
+                    145,
+                    247
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    623,
+                    152
+                  ],
+                  [
+                    774,
+                    248
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    318,
+                    66
+                  ],
+                  [
+                    318,
+                    32
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    596,
+                    66
+                  ],
+                  [
+                    596,
+                    32
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    623,
+                    45
+                  ],
+                  [
+                    658,
+                    52
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    241,
+                    127
+                  ],
+                  [
+                    228.4,
+                    80
+                  ],
+                  [
+                    194,
+                    45.6
+                  ],
+                  [
+                    147,
+                    33
+                  ],
+                  [
+                    100,
+                    45.6
+                  ],
+                  [
+                    65.6,
+                    80
+                  ],
+                  [
+                    53,
+                    127
+                  ],
+                  [
+                    58.7,
+                    159.1
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    183,
+                    165
+                  ],
+                  [
+                    147,
+                    117
+                  ],
+                  [
+                    45,
+                    256
+                  ]
+                ],
+                "corners": [
+                  1
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    76,
+                    264
+                  ],
+                  [
+                    109,
+                    269
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    24,
+                    179
+                  ],
+                  [
+                    28,
+                    212
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    569,
+                    139
+                  ],
+                  [
+                    532,
+                    172
+                  ],
+                  [
+                    478,
+                    208
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    390,
+                    240
+                  ],
+                  [
+                    189,
+                    259
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    478,
+                    240
+                  ],
+                  [
+                    725,
+                    262
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    412,
+                    266
+                  ],
+                  [
+                    381,
+                    318
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    460,
+                    266
+                  ],
+                  [
+                    490,
+                    318
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    512,
+                    280
+                  ],
+                  [
+                    512,
+                    281
+                  ]
+                ],
+                "spacing": 80,
+                "keepSpacing": true
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    525,
+                    314
+                  ],
+                  [
+                    531,
+                    345
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    360,
+                    325
+                  ],
+                  [
+                    122,
+                    346
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    790,
+                    276
+                  ],
+                  [
+                    799,
+                    310
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    136,
+                    272
+                  ],
+                  [
+                    127,
+                    306
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    555,
+                    327
+                  ],
+                  [
+                    795,
+                    348
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    410,
+                    350
+                  ],
+                  [
+                    378,
+                    362
+                  ],
+                  [
+                    345,
+                    381
+                  ],
+                  [
+                    304,
+                    405
+                  ],
+                  [
+                    253,
+                    430
+                  ],
+                  [
+                    201,
+                    449
+                  ],
+                  [
+                    150,
+                    465
+                  ],
+                  [
+                    99,
+                    478
+                  ],
+                  [
+                    44,
+                    490
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    481,
+                    352
+                  ],
+                  [
+                    504,
+                    368
+                  ],
+                  [
+                    539,
+                    390
+                  ],
+                  [
+                    585,
+                    419
+                  ],
+                  [
+                    637,
+                    444
+                  ],
+                  [
+                    714,
+                    468
+                  ],
+                  [
+                    791,
+                    487
+                  ],
+                  [
+                    874,
+                    502
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    731,
+                    168
+                  ],
+                  [
+                    891,
+                    201
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    813,
+                    128
+                  ],
+                  [
+                    817,
+                    158
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    734,
+                    128
+                  ],
+                  [
+                    713.1,
+                    117.8
+                  ],
+                  [
+                    698.9,
+                    97.4
+                  ],
+                  [
+                    696.7,
+                    72.7
+                  ],
+                  [
+                    707.2,
+                    50.1
+                  ],
+                  [
+                    727.6,
+                    35.9
+                  ],
+                  [
+                    744,
+                    33
+                  ],
+                  [
+                    760.4,
+                    35.9
+                  ],
+                  [
+                    780.8,
+                    50.1
+                  ],
+                  [
+                    791.3,
+                    72.7
+                  ],
+                  [
+                    789.1,
+                    97.4
+                  ],
+                  [
+                    774.9,
+                    117.8
+                  ],
+                  [
+                    754,
+                    128
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    744,
+                    61
+                  ],
+                  [
+                    744,
+                    97
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    143,
+                    60
+                  ],
+                  [
+                    151,
+                    90
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    108,
+                    87
+                  ],
+                  [
+                    100,
+                    117
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    186,
+                    87
+                  ],
+                  [
+                    194,
+                    117
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    242,
+                    60
+                  ],
+                  [
+                    282,
+                    52
+                  ]
+                ],
+                "spacing": 40
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    858,
+                    152
+                  ],
+                  [
+                    890,
+                    168
+                  ]
+                ],
+                "spacing": 40
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    160,
+                    503
+                  ],
+                  [
+                    720,
+                    503
+                  ]
+                ],
+                "spacing": 34.01
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    375,
+                    205
+                  ],
+                  [
+                    330,
+                    186
+                  ],
+                  [
+                    285,
+                    206
+                  ]
+                ],
+                "spacing": 46
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    560,
+                    182
+                  ],
+                  [
+                    610,
+                    200
+                  ],
+                  [
+                    660,
+                    216
+                  ]
+                ],
+                "spacing": 34.01
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    172,
+                    298
+                  ],
+                  [
+                    340,
+                    298
+                  ]
+                ],
+                "spacing": 37.33
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    575,
+                    296
+                  ],
+                  [
+                    751,
+                    296
+                  ]
+                ],
+                "spacing": 39.11
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    300,
+                    368
+                  ],
+                  [
+                    240,
+                    384
+                  ],
+                  [
+                    180,
+                    398
+                  ],
+                  [
+                    120,
+                    410
+                  ],
+                  [
+                    60,
+                    422
+                  ]
+                ],
+                "spacing": 34.01
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    580,
+                    370
+                  ],
+                  [
+                    640,
+                    388
+                  ],
+                  [
+                    700,
+                    404
+                  ],
+                  [
+                    760,
+                    418
+                  ],
+                  [
+                    820,
+                    432
+                  ],
+                  [
+                    880,
+                    444
+                  ]
+                ],
+                "spacing": 36.37
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    655,
+                    100
+                  ],
+                  [
+                    655,
+                    101
+                  ]
+                ],
+                "spacing": 80,
+                "keepSpacing": true
+              }
+            ]
+          }
+        }
+      ],
+      "fill": "none"
+    }
+  },
+  "elements": [
+    {"kind":"polygon","id":1,"x":399.5,"y":179,"rotation":0,"vertices":[{"x":-41.5,"y":-33},{"x":47.5,"y":23},{"x":41.5,"y":33},{"x":-47.5,"y":-23}]},
+    {"kind":"brick","id":2,"x":284.840059,"y":160.389383,"rotation":-1.016267,"length":35.664229},
+    {"kind":"brick","id":3,"x":253.67003,"y":179.694691,"rotation":-1.016267,"length":35.664229},
+    {"kind":"brick","id":4,"x":222.5,"y":199,"rotation":-1.016267,"length":35.664229},
+    {"kind":"brick","id":5,"x":191.32997,"y":218.305309,"rotation":-1.016267,"length":35.664229},
+    {"kind":"brick","id":6,"x":160.159941,"y":237.610617,"rotation":-1.016267,"length":35.664229},
+    {"kind":"brick","id":7,"x":637.762443,"y":161.385394,"rotation":1.004496,"length":34.98659},
+    {"kind":"brick","id":8,"x":668.131222,"y":180.692697,"rotation":1.004496,"length":34.98659},
+    {"kind":"brick","id":9,"x":698.5,"y":200,"rotation":1.004496,"length":34.98659},
+    {"kind":"brick","id":10,"x":728.868778,"y":219.307303,"rotation":1.004496,"length":34.98659},
+    {"kind":"brick","id":11,"x":759.237557,"y":238.614606,"rotation":1.004496,"length":34.98659},
+    {"kind":"brick","id":12,"x":318,"y":49,"rotation":3.141593,"length":34},
+    {"kind":"brick","id":13,"x":596,"y":49,"rotation":3.141593,"length":34},
+    {"kind":"brick","id":14,"x":640.5,"y":48.5,"rotation":1.373401,"length":35.693137},
+    {"kind":"brick","id":15,"x":237.267142,"y":109.664269,"rotation":-2.929504,"length":35.466141},
+    {"kind":"curvedBrick","id":16,"x":225.49835,"y":75.351808,"rotation":0.556544,"innerRadius":66.110261,"sector":0.462696},
+    {"kind":"curvedBrick","id":17,"x":200.171132,"y":49.54605,"rotation":0.969566,"innerRadius":79.883765,"sector":0.394744},
+    {"kind":"curvedBrick","id":18,"x":166.851409,"y":35.280358,"rotation":1.356631,"innerRadius":90.268659,"sector":0.353834},
+    {"kind":"curvedBrick","id":19,"x":130.638112,"y":34.572757,"rotation":1.747116,"innerRadius":87.940112,"sector":0.362236},
+    {"kind":"curvedBrick","id":20,"x":96.78418,"y":47.560118,"rotation":2.134084,"innerRadius":77.680066,"sector":0.404714},
+    {"kind":"curvedBrick","id":21,"x":70.470612,"y":72.536473,"rotation":2.527737,"innerRadius":78.793375,"sector":0.39953},
+    {"kind":"curvedBrick","id":22,"x":55.99393,"y":105.733718,"rotation":2.909889,"innerRadius":109.826103,"sector":0.296081},
+    {"kind":"curvedBrick","id":23,"x":54.59029,"y":141.845908,"rotation":-3.011243,"innerRadius":105.810813,"sector":0.305972},
+    {"kind":"brick","id":24,"x":172.756807,"y":151.342409,"rotation":-2.498092,"length":34.143978},
+    {"kind":"brick","id":25,"x":160.05239,"y":134.403186,"rotation":-2.498092,"length":6.204078},
+    {"kind":"brick","id":26,"x":117.47517,"y":157.234818,"rotation":-0.633061,"length":34.143978},
+    {"kind":"brick","id":27,"x":96.683462,"y":185.568616,"rotation":-0.633061,"length":34.143978},
+    {"kind":"brick","id":28,"x":75.891754,"y":213.902414,"rotation":-0.633061,"length":34.143978},
+    {"kind":"brick","id":29,"x":55.100046,"y":242.236211,"rotation":-0.633061,"length":34.143978},
+    {"kind":"brick","id":30,"x":92.5,"y":266.5,"rotation":1.420425,"length":33.376639},
+    {"kind":"brick","id":31,"x":26,"y":195.5,"rotation":0.120624,"length":33.24154},
+    {"kind":"brick","id":32,"x":555.176347,"y":151.669623,"rotation":-0.82893,"length":37.50268},
+    {"kind":"curvedBrick","id":33,"x":525.858503,"y":176.57972,"rotation":-0.935149,"innerRadius":265.617403,"sector":0.136075},
+    {"kind":"brick","id":34,"x":493.764315,"y":197.84461,"rotation":-0.998508,"length":37.50443},
+    {"kind":"brick","id":35,"x":373.664818,"y":241.544122,"rotation":-1.476549,"length":32.816002},
+    {"kind":"brick","id":36,"x":339.998891,"y":244.726473,"rotation":-1.476549,"length":32.816002},
+    {"kind":"brick","id":37,"x":306.332964,"y":247.908824,"rotation":-1.476549,"length":32.816002},
+    {"kind":"brick","id":38,"x":272.667036,"y":251.091176,"rotation":-1.476549,"length":32.816002},
+    {"kind":"brick","id":39,"x":239.001109,"y":254.273527,"rotation":-1.476549,"length":32.816002},
+    {"kind":"brick","id":40,"x":205.335182,"y":257.455878,"rotation":-1.476549,"length":32.816002},
+    {"kind":"brick","id":41,"x":495.215976,"y":241.533407,"rotation":1.481962,"length":34.56826},
+    {"kind":"brick","id":42,"x":530.643984,"y":244.688938,"rotation":1.481962,"length":34.56826},
+    {"kind":"brick","id":43,"x":566.071992,"y":247.844469,"rotation":1.481962,"length":34.56826},
+    {"kind":"brick","id":44,"x":601.5,"y":251,"rotation":1.481962,"length":34.56826},
+    {"kind":"brick","id":45,"x":636.928008,"y":254.155531,"rotation":1.481962,"length":34.56826},
+    {"kind":"brick","id":46,"x":672.356016,"y":257.311062,"rotation":1.481962,"length":34.56826},
+    {"kind":"brick","id":47,"x":707.784024,"y":260.466593,"rotation":1.481962,"length":34.56826},
+    {"kind":"brick","id":48,"x":404.378016,"y":278.785263,"rotation":-0.537587,"length":29.769622},
+    {"kind":"brick","id":49,"x":388.621984,"y":305.214737,"rotation":-0.537587,"length":29.769622},
+    {"kind":"brick","id":50,"x":467.375069,"y":278.783454,"rotation":0.523278,"length":29.516662},
+    {"kind":"brick","id":51,"x":482.624931,"y":305.216546,"rotation":0.523278,"length":29.516662},
+    {"kind":"peg","id":52,"x":512,"y":280.5},
+    {"kind":"brick","id":53,"x":528,"y":329.5,"rotation":0.191184,"length":31.575307},
+    {"kind":"brick","id":54,"x":343.426913,"y":326.462331,"rotation":-1.482789,"length":33.274953},
+    {"kind":"brick","id":55,"x":309.284609,"y":329.474887,"rotation":-1.482789,"length":33.274953},
+    {"kind":"brick","id":56,"x":275.142304,"y":332.487444,"rotation":-1.482789,"length":33.274953},
+    {"kind":"brick","id":57,"x":241,"y":335.5,"rotation":-1.482789,"length":33.274953},
+    {"kind":"brick","id":58,"x":206.857696,"y":338.512556,"rotation":-1.482789,"length":33.274953},
+    {"kind":"brick","id":59,"x":172.715391,"y":341.525113,"rotation":-1.482789,"length":33.274953},
+    {"kind":"brick","id":60,"x":138.573087,"y":344.537669,"rotation":-1.482789,"length":33.274953},
+    {"kind":"brick","id":61,"x":794.5,"y":293,"rotation":0.258771,"length":35.171011},
+    {"kind":"brick","id":62,"x":131.5,"y":289,"rotation":-0.258771,"length":35.171011},
+    {"kind":"brick","id":63,"x":571.715917,"y":328.462643,"rotation":1.483519,"length":33.559571},
+    {"kind":"brick","id":64,"x":606.143945,"y":331.475095,"rotation":1.483519,"length":33.559571},
+    {"kind":"brick","id":65,"x":640.571972,"y":334.487548,"rotation":1.483519,"length":33.559571},
+    {"kind":"brick","id":66,"x":675,"y":337.5,"rotation":1.483519,"length":33.559571},
+    {"kind":"brick","id":67,"x":709.428028,"y":340.512452,"rotation":1.483519,"length":33.559571},
+    {"kind":"brick","id":68,"x":743.856055,"y":343.524905,"rotation":1.483519,"length":33.559571},
+    {"kind":"brick","id":69,"x":778.284083,"y":346.537357,"rotation":1.483519,"length":33.559571},
+    {"kind":"curvedBrick","id":70,"x":393.516193,"y":355.790603,"rotation":1.942141,"innerRadius":371.732795,"sector":0.091523},
+    {"kind":"brick","id":71,"x":361.202679,"y":371.581595,"rotation":-1.044467,"length":34.68269},
+    {"kind":"brick","id":72,"x":330.331101,"y":389.733076,"rotation":-1.033983,"length":34.943145},
+    {"kind":"brick","id":73,"x":299.041955,"y":407.399217,"rotation":-1.080217,"length":34.939488},
+    {"kind":"brick","id":74,"x":266.901518,"y":423.448859,"rotation":-1.135289,"length":34.936821},
+    {"kind":"brick","id":75,"x":233.773809,"y":437.309537,"rotation":-1.213662,"length":34.937809},
+    {"kind":"brick","id":76,"x":199.8971,"y":449.298391,"rotation":-1.24714,"length":34.943169},
+    {"kind":"brick","id":77,"x":165.661493,"y":460.230556,"rotation":-1.276453,"length":34.941714},
+    {"kind":"brick","id":78,"x":131.071228,"y":469.968359,"rotation":-1.316345,"length":34.941827},
+    {"kind":"brick","id":79,"x":495.246366,"y":361.785953,"rotation":0.968911,"length":34.567258},
+    {"kind":"brick","id":80,"x":524.997819,"y":381.264516,"rotation":1.012731,"length":34.570845},
+    {"kind":"brick","id":81,"x":555.003739,"y":400.364826,"rotation":0.994971,"length":34.570544},
+    {"kind":"curvedBrick","id":82,"x":585.217294,"y":419.119895,"rotation":-2.086878,"innerRadius":397.997044,"sector":0.084733},
+    {"kind":"curvedBrick","id":83,"x":616.855108,"y":435.362028,"rotation":-2.003945,"innerRadius":378.364094,"sector":0.089017},
+    {"kind":"curvedBrick","id":84,"x":649.800073,"y":448.736221,"rotation":-1.911808,"innerRadius":413.548079,"sector":0.081622},
+    {"kind":"brick","id":85,"x":683.753368,"y":459.320417,"rotation":1.285566,"length":34.569832},
+    {"kind":"brick","id":86,"x":717.973777,"y":469.02121,"rotation":1.303407,"length":34.57059},
+    {"kind":"brick","id":87,"x":752.39268,"y":477.987236,"rotation":1.328587,"length":34.569987},
+    {"kind":"brick","id":88,"x":787.044495,"y":485.998067,"rotation":1.35867,"length":34.569311},
+    {"kind":"brick","id":89,"x":746.608246,"y":171.219201,"rotation":1.367398,"length":31.873537},
+    {"kind":"brick","id":90,"x":778.804123,"y":177.8596,"rotation":1.367398,"length":31.873537},
+    {"kind":"brick","id":91,"x":811,"y":184.5,"rotation":1.367398,"length":31.873537},
+    {"kind":"brick","id":92,"x":843.195877,"y":191.1404,"rotation":1.367398,"length":31.873537},
+    {"kind":"brick","id":93,"x":875.391754,"y":197.780799,"rotation":1.367398,"length":31.873537},
+    {"kind":"brick","id":94,"x":815,"y":143,"rotation":0.132552,"length":30.265492},
+    {"kind":"curvedBrick","id":95,"x":723.303819,"y":123.564476,"rotation":-2.055565,"innerRadius":87.399708,"sector":0.237454},
+    {"kind":"curvedBrick","id":96,"x":704.909715,"y":108.66807,"rotation":-2.528231,"innerRadius":42.785398,"sector":0.406645},
+    {"kind":"curvedBrick","id":97,"x":696.559033,"y":87.751706,"rotation":-2.997571,"innerRadius":40.444041,"sector":0.436795},
+    {"kind":"curvedBrick","id":98,"x":698.6926,"y":65.244274,"rotation":2.809888,"innerRadius":38.871904,"sector":0.442657},
+    {"kind":"curvedBrick","id":99,"x":711.595227,"y":45.711846,"rotation":2.311374,"innerRadius":37.048693,"sector":0.50399},
+    {"kind":"curvedBrick","id":100,"x":730.862256,"y":34.74435,"rotation":1.85888,"innerRadius":30.252067,"sector":0.469769},
+    {"kind":"curvedBrick","id":101,"x":750.298063,"y":33.345245,"rotation":1.432636,"innerRadius":35.53948,"sector":0.40232},
+    {"kind":"curvedBrick","id":102,"x":769.527207,"y":40.667932,"rotation":1.003884,"innerRadius":50.837086,"sector":0.348438},
+    {"kind":"curvedBrick","id":103,"x":785.254082,"y":56.496874,"rotation":0.539659,"innerRadius":38.039135,"sector":0.456075},
+    {"kind":"curvedBrick","id":104,"x":791.898223,"y":78.284606,"rotation":0.057315,"innerRadius":37.168353,"sector":0.468208},
+    {"kind":"curvedBrick","id":105,"x":787.945519,"y":100.21413,"rotation":-0.411014,"innerRadius":36.115573,"sector":0.452678},
+    {"kind":"curvedBrick","id":106,"x":769.603462,"y":121.301732,"rotation":-0.975991,"innerRadius":41.671448,"sector":0.657495},
+    {"kind":"brick","id":107,"x":744,"y":79,"rotation":0,"length":36},
+    {"kind":"brick","id":108,"x":147,"y":75,"rotation":0.260602,"length":31.048349},
+    {"kind":"brick","id":109,"x":104,"y":102,"rotation":-0.260602,"length":31.048349},
+    {"kind":"brick","id":110,"x":190,"y":102,"rotation":0.260602,"length":31.048349},
+    {"kind":"peg","id":111,"x":282,"y":52},
+    {"kind":"peg","id":112,"x":858,"y":152},
+    {"kind":"peg","id":113,"x":160,"y":503},
+    {"kind":"peg","id":114,"x":195,"y":503},
+    {"kind":"peg","id":115,"x":230,"y":503},
+    {"kind":"peg","id":116,"x":265,"y":503},
+    {"kind":"peg","id":117,"x":300,"y":503},
+    {"kind":"peg","id":118,"x":335,"y":503},
+    {"kind":"peg","id":119,"x":370,"y":503},
+    {"kind":"peg","id":120,"x":405,"y":503},
+    {"kind":"peg","id":121,"x":440,"y":503},
+    {"kind":"peg","id":122,"x":475,"y":503},
+    {"kind":"peg","id":123,"x":510,"y":503},
+    {"kind":"peg","id":124,"x":545,"y":503},
+    {"kind":"peg","id":125,"x":580,"y":503},
+    {"kind":"peg","id":126,"x":615,"y":503},
+    {"kind":"peg","id":127,"x":650,"y":503},
+    {"kind":"peg","id":128,"x":685,"y":503},
+    {"kind":"peg","id":129,"x":375,"y":205},
+    {"kind":"peg","id":130,"x":329.800963,"y":186.008639},
+    {"kind":"peg","id":131,"x":285,"y":206},
+    {"kind":"peg","id":132,"x":593.084247,"y":194.059674},
+    {"kind":"peg","id":133,"x":626.419348,"y":205.40082},
+    {"kind":"peg","id":134,"x":660,"y":216},
+    {"kind":"peg","id":135,"x":172,"y":298},
+    {"kind":"peg","id":136,"x":205.6,"y":298},
+    {"kind":"peg","id":137,"x":239.2,"y":298},
+    {"kind":"peg","id":138,"x":272.8,"y":298},
+    {"kind":"peg","id":139,"x":575,"y":296},
+    {"kind":"peg","id":140,"x":610.2,"y":296},
+    {"kind":"peg","id":141,"x":645.4,"y":296},
+    {"kind":"peg","id":142,"x":680.6,"y":296},
+    {"kind":"peg","id":143,"x":715.8,"y":296},
+    {"kind":"peg","id":144,"x":751,"y":296},
+    {"kind":"peg","id":145,"x":300,"y":368},
+    {"kind":"peg","id":146,"x":266.066471,"y":377.188699},
+    {"kind":"peg","id":147,"x":232.027435,"y":385.975028},
+    {"kind":"peg","id":148,"x":197.812819,"y":394.052502},
+    {"kind":"peg","id":149,"x":163.446136,"y":401.454417},
+    {"kind":"peg","id":150,"x":128.9495,"y":408.229061},
+    {"kind":"peg","id":151,"x":94.472939,"y":415.105412},
+    {"kind":"peg","id":152,"x":580,"y":370},
+    {"kind":"peg","id":153,"x":612.864216,"y":379.995745},
+    {"kind":"peg","id":154,"x":645.831781,"y":389.642476},
+    {"kind":"peg","id":155,"x":678.987082,"y":398.62418},
+    {"kind":"peg","id":156,"x":712.30065,"y":406.998708},
+    {"kind":"peg","id":157,"x":745.771575,"y":414.722722},
+    {"kind":"peg","id":158,"x":779.217464,"y":422.55421},
+    {"kind":"peg","id":159,"x":812.66398,"y":430.382565},
+    {"kind":"peg","id":160,"x":655,"y":100.5}
+  ]
+}
