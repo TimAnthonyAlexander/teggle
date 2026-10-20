@@ -1,0 +1,1133 @@
+{
+  "formatVersion": 1,
+  "name": "Pinwheel Garden",
+  "background": "petal-terraces-pinwheels",
+  "board": {
+    "width": 916,
+    "height": 560
+  },
+  "provenance": {
+    "generatorVersion": "1.2.0",
+    "seed": 701,
+    "recipe": {
+      "name": "Pinwheel Garden",
+      "stage": 7,
+      "targetCount": 155,
+      "parts": [
+        {
+          "template": "solids",
+          "params": {
+            "polygons": [
+              {
+                "points": [
+                  [
+                    384,
+                    206
+                  ],
+                  [
+                    398,
+                    196
+                  ],
+                  [
+                    420,
+                    186
+                  ],
+                  [
+                    458,
+                    177
+                  ],
+                  [
+                    496,
+                    186
+                  ],
+                  [
+                    518,
+                    196
+                  ],
+                  [
+                    532,
+                    206
+                  ],
+                  [
+                    500,
+                    212
+                  ],
+                  [
+                    458,
+                    214
+                  ],
+                  [
+                    416,
+                    212
+                  ]
+                ]
+              }
+            ],
+            "rods": [],
+            "circles": []
+          }
+        },
+        {
+          "template": "outline",
+          "params": {
+            "paths": [
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    371,
+                    112
+                  ],
+                  [
+                    296,
+                    172
+                  ],
+                  [
+                    216,
+                    222
+                  ],
+                  [
+                    136,
+                    260
+                  ],
+                  [
+                    56,
+                    292
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    545,
+                    112
+                  ],
+                  [
+                    620,
+                    172
+                  ],
+                  [
+                    700,
+                    222
+                  ],
+                  [
+                    780,
+                    260
+                  ],
+                  [
+                    860,
+                    292
+                  ],
+                  [
+                    895,
+                    304
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    258.8,
+                    307.8
+                  ],
+                  [
+                    274.9,
+                    312.3
+                  ],
+                  [
+                    290,
+                    319.4
+                  ],
+                  [
+                    303.7,
+                    328.9
+                  ],
+                  [
+                    315.7,
+                    340.6
+                  ]
+                ],
+                "group": "wheel-left"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    334.5,
+                    373.2
+                  ],
+                  [
+                    338.6,
+                    389.3
+                  ],
+                  [
+                    340,
+                    406
+                  ],
+                  [
+                    338.6,
+                    422.7
+                  ],
+                  [
+                    334.5,
+                    438.8
+                  ]
+                ],
+                "group": "wheel-left"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    315.7,
+                    471.4
+                  ],
+                  [
+                    303.7,
+                    483.1
+                  ],
+                  [
+                    290,
+                    492.6
+                  ],
+                  [
+                    274.9,
+                    499.7
+                  ],
+                  [
+                    258.8,
+                    504.2
+                  ]
+                ],
+                "group": "wheel-left"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    221.2,
+                    504.2
+                  ],
+                  [
+                    205.1,
+                    499.7
+                  ],
+                  [
+                    190,
+                    492.6
+                  ],
+                  [
+                    176.3,
+                    483.1
+                  ],
+                  [
+                    164.3,
+                    471.4
+                  ]
+                ],
+                "group": "wheel-left"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    145.5,
+                    438.8
+                  ],
+                  [
+                    141.4,
+                    422.7
+                  ],
+                  [
+                    140,
+                    406
+                  ],
+                  [
+                    141.4,
+                    389.3
+                  ],
+                  [
+                    145.5,
+                    373.2
+                  ]
+                ],
+                "group": "wheel-left"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    164.3,
+                    340.6
+                  ],
+                  [
+                    176.3,
+                    328.9
+                  ],
+                  [
+                    190,
+                    319.4
+                  ],
+                  [
+                    205.1,
+                    312.3
+                  ],
+                  [
+                    221.2,
+                    307.8
+                  ]
+                ],
+                "group": "wheel-left"
+              },
+              {
+                "mode": "pegs",
+                "closed": true,
+                "points": [
+                  [
+                    240,
+                    350
+                  ],
+                  [
+                    279.6,
+                    366.4
+                  ],
+                  [
+                    296,
+                    406
+                  ],
+                  [
+                    279.6,
+                    445.6
+                  ],
+                  [
+                    240,
+                    462
+                  ],
+                  [
+                    200.4,
+                    445.6
+                  ],
+                  [
+                    184,
+                    406
+                  ],
+                  [
+                    200.4,
+                    366.4
+                  ]
+                ],
+                "spacing": 44,
+                "keepSpacing": true,
+                "group": "wheel-left"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    240,
+                    402
+                  ],
+                  [
+                    240,
+                    410
+                  ]
+                ]
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    673,
+                    349
+                  ],
+                  [
+                    666.4,
+                    320.8
+                  ],
+                  [
+                    649.2,
+                    295.1
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    642.7,
+                    366.5
+                  ],
+                  [
+                    615,
+                    358.2
+                  ],
+                  [
+                    584.1,
+                    360.2
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    642.7,
+                    401.5
+                  ],
+                  [
+                    621.6,
+                    421.3
+                  ],
+                  [
+                    607.9,
+                    449.1
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    673,
+                    419
+                  ],
+                  [
+                    679.6,
+                    447.2
+                  ],
+                  [
+                    696.8,
+                    472.9
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    703.3,
+                    401.5
+                  ],
+                  [
+                    731,
+                    409.8
+                  ],
+                  [
+                    761.9,
+                    407.8
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "bricks",
+                "closed": false,
+                "points": [
+                  [
+                    703.3,
+                    366.5
+                  ],
+                  [
+                    724.4,
+                    346.7
+                  ],
+                  [
+                    738.1,
+                    318.9
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    642.7,
+                    267
+                  ],
+                  [
+                    642.7,
+                    275
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    560,
+                    349.7
+                  ],
+                  [
+                    560,
+                    357.7
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    590.3,
+                    462.7
+                  ],
+                  [
+                    590.3,
+                    470.7
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    703.3,
+                    493
+                  ],
+                  [
+                    703.3,
+                    501
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    786,
+                    410.3
+                  ],
+                  [
+                    786,
+                    418.3
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    755.7,
+                    297.3
+                  ],
+                  [
+                    755.7,
+                    305.3
+                  ]
+                ],
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": true,
+                "points": [
+                  [
+                    631.9,
+                    327.4
+                  ],
+                  [
+                    701.5,
+                    320.1
+                  ],
+                  [
+                    742.6,
+                    376.7
+                  ],
+                  [
+                    714.1,
+                    440.6
+                  ],
+                  [
+                    644.5,
+                    447.9
+                  ],
+                  [
+                    603.4,
+                    391.3
+                  ]
+                ],
+                "spacing": 73,
+                "keepSpacing": true,
+                "group": "flower-right"
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    673,
+                    380
+                  ],
+                  [
+                    673,
+                    388
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    180,
+                    34
+                  ],
+                  [
+                    120,
+                    47
+                  ],
+                  [
+                    60,
+                    64
+                  ]
+                ],
+                "spacing": 41
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    736,
+                    34
+                  ],
+                  [
+                    796,
+                    47
+                  ],
+                  [
+                    856,
+                    64
+                  ]
+                ],
+                "spacing": 41
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    262,
+                    40
+                  ],
+                  [
+                    190,
+                    76
+                  ],
+                  [
+                    112,
+                    106
+                  ],
+                  [
+                    30,
+                    126
+                  ]
+                ],
+                "spacing": 41
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    654,
+                    40
+                  ],
+                  [
+                    726,
+                    76
+                  ],
+                  [
+                    804,
+                    106
+                  ],
+                  [
+                    886,
+                    126
+                  ]
+                ],
+                "spacing": 41
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    338,
+                    80
+                  ],
+                  [
+                    268,
+                    134
+                  ],
+                  [
+                    192,
+                    180
+                  ],
+                  [
+                    115,
+                    216
+                  ],
+                  [
+                    32,
+                    244
+                  ]
+                ],
+                "spacing": 41
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    578,
+                    80
+                  ],
+                  [
+                    648,
+                    134
+                  ],
+                  [
+                    724,
+                    180
+                  ],
+                  [
+                    801,
+                    216
+                  ],
+                  [
+                    884,
+                    244
+                  ]
+                ],
+                "spacing": 41
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    150,
+                    297
+                  ],
+                  [
+                    108,
+                    314
+                  ],
+                  [
+                    66,
+                    332
+                  ],
+                  [
+                    30,
+                    358
+                  ]
+                ],
+                "spacing": 45
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    822,
+                    322
+                  ],
+                  [
+                    862,
+                    336
+                  ],
+                  [
+                    890,
+                    366
+                  ],
+                  [
+                    866,
+                    398
+                  ]
+                ],
+                "spacing": 45
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    216,
+                    264
+                  ],
+                  [
+                    262,
+                    254
+                  ],
+                  [
+                    308,
+                    234
+                  ],
+                  [
+                    356,
+                    226
+                  ],
+                  [
+                    402,
+                    234
+                  ],
+                  [
+                    458,
+                    238
+                  ],
+                  [
+                    514,
+                    234
+                  ],
+                  [
+                    560,
+                    226
+                  ],
+                  [
+                    606,
+                    232
+                  ]
+                ],
+                "spacing": 46
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    300,
+                    282
+                  ],
+                  [
+                    346,
+                    270
+                  ]
+                ],
+                "spacing": 46
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    560,
+                    268
+                  ],
+                  [
+                    560,
+                    276
+                  ]
+                ]
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    392,
+                    300
+                  ],
+                  [
+                    425,
+                    280
+                  ],
+                  [
+                    458,
+                    273
+                  ],
+                  [
+                    491,
+                    280
+                  ],
+                  [
+                    524,
+                    300
+                  ]
+                ],
+                "spacing": 36
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    397,
+                    340
+                  ],
+                  [
+                    519,
+                    340
+                  ]
+                ],
+                "spacing": 41
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    378,
+                    390
+                  ],
+                  [
+                    520,
+                    390
+                  ]
+                ],
+                "spacing": 36
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    376,
+                    440
+                  ],
+                  [
+                    528,
+                    440
+                  ]
+                ],
+                "spacing": 38
+              },
+              {
+                "mode": "pegs",
+                "closed": false,
+                "points": [
+                  [
+                    360,
+                    490
+                  ],
+                  [
+                    556,
+                    490
+                  ]
+                ],
+                "spacing": 39
+              }
+            ],
+            "groups": [
+              {
+                "id": "wheel-left",
+                "note": "The left pinwheel, a striped wheel, turning clockwise about its hub",
+                "pivot": [
+                  240,
+                  406
+                ],
+                "movement": {
+                  "type": "rotateAroundCircle",
+                  "period": 1600,
+                  "reverse": true
+                }
+              },
+              {
+                "id": "flower-right",
+                "note": "The right pinwheel, a flower of six petals, turning counterclockwise about its hub",
+                "pivot": [
+                  673,
+                  384
+                ],
+                "movement": {
+                  "type": "rotateAroundCircle",
+                  "period": 1600
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "fill": "none"
+    }
+  },
+  "elements": [
+    {"kind":"polygon","id":1,"x":458,"y":199.1,"rotation":0,"vertices":[{"x":-74,"y":6.9},{"x":-60,"y":-3.1},{"x":-38,"y":-13.1},{"x":0,"y":-22.1},{"x":38,"y":-13.1},{"x":60,"y":-3.1},{"x":74,"y":6.9},{"x":42,"y":12.9},{"x":0,"y":14.9},{"x":-42,"y":12.9}]},
+    {"kind":"curvedBrick","id":2,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":99.98425,"pathRotation":1.216777},"rotation":1.212737,"innerRadius":90.31618,"sector":0.32851},
+    {"kind":"curvedBrick","id":3,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.006052,"pathRotation":0.877329},"rotation":0.88311,"innerRadius":90.778252,"sector":0.327001},
+    {"kind":"curvedBrick","id":4,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.001628,"pathRotation":0.169497},"rotation":0.164258,"innerRadius":90.884563,"sector":0.326213},
+    {"kind":"curvedBrick","id":5,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.001628,"pathRotation":-0.169497},"rotation":-0.164258,"innerRadius":90.884563,"sector":0.326213},
+    {"kind":"curvedBrick","id":6,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.006052,"pathRotation":-0.877329},"rotation":-0.88311,"innerRadius":90.778252,"sector":0.327001},
+    {"kind":"curvedBrick","id":7,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":99.98425,"pathRotation":-1.216777},"rotation":-1.212737,"innerRadius":90.31618,"sector":0.32851},
+    {"kind":"curvedBrick","id":8,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":99.98425,"pathRotation":-1.924815},"rotation":-1.928856,"innerRadius":90.31618,"sector":0.32851},
+    {"kind":"curvedBrick","id":9,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.006052,"pathRotation":-2.264264},"rotation":-2.258482,"innerRadius":90.778252,"sector":0.327001},
+    {"kind":"curvedBrick","id":10,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.001628,"pathRotation":-2.972096},"rotation":-2.977334,"innerRadius":90.884563,"sector":0.326213},
+    {"kind":"curvedBrick","id":11,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.001628,"pathRotation":2.972096},"rotation":2.977334,"innerRadius":90.884563,"sector":0.326213},
+    {"kind":"curvedBrick","id":12,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":100.006052,"pathRotation":2.264264},"rotation":2.258482,"innerRadius":90.778252,"sector":0.327001},
+    {"kind":"curvedBrick","id":13,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":99.98425,"pathRotation":1.924815},"rotation":1.928856,"innerRadius":90.31618,"sector":0.32851},
+    {"kind":"peg","id":14,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56,"pathRotation":1.570796}},
+    {"kind":"peg","id":15,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56.002857,"pathRotation":0.785398}},
+    {"kind":"peg","id":16,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56}},
+    {"kind":"peg","id":17,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56.002857,"pathRotation":-0.785398}},
+    {"kind":"peg","id":18,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56,"pathRotation":-1.570796}},
+    {"kind":"peg","id":19,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56.002857,"pathRotation":-2.356194}},
+    {"kind":"peg","id":20,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56,"pathRotation":-3.141593}},
+    {"kind":"peg","id":21,"x":240,"y":406,"movement":{"type":"rotateAroundCircle","reverse":true,"period":1600,"radius":56.002857,"pathRotation":2.356194}},
+    {"kind":"curvedBrick","id":22,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":49.572279,"pathRotation":1.625725},"rotation":0.257355,"innerRadius":144.521158,"sector":0.190775},
+    {"kind":"curvedBrick","id":23,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":78.915857,"pathRotation":1.766943},"rotation":0.582726,"innerRadius":231.23236,"sector":0.118098},
+    {"kind":"curvedBrick","id":24,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":49.554801,"pathRotation":2.673706},"rotation":1.307161,"innerRadius":145.121037,"sector":0.190015},
+    {"kind":"curvedBrick","id":25,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":78.902636,"pathRotation":2.814995},"rotation":1.628654,"innerRadius":235.624601,"sector":0.115972},
+    {"kind":"curvedBrick","id":26,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":49.572982,"pathRotation":-2.562875},"rotation":2.352235,"innerRadius":143.695372,"sector":0.191932},
+    {"kind":"curvedBrick","id":27,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":78.936293,"pathRotation":-2.421524},"rotation":2.676879,"innerRadius":233.717002,"sector":0.116978},
+    {"kind":"curvedBrick","id":28,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":49.572279,"pathRotation":-1.515867},"rotation":-2.884238,"innerRadius":144.521158,"sector":0.190775},
+    {"kind":"curvedBrick","id":29,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":78.915857,"pathRotation":-1.374649},"rotation":-2.558867,"innerRadius":231.23236,"sector":0.118098},
+    {"kind":"curvedBrick","id":30,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":49.554801,"pathRotation":-0.467886},"rotation":-1.834431,"innerRadius":145.121037,"sector":0.190015},
+    {"kind":"curvedBrick","id":31,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":78.902636,"pathRotation":-0.326598},"rotation":-1.512938,"innerRadius":235.624601,"sector":0.115972},
+    {"kind":"curvedBrick","id":32,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":49.572982,"pathRotation":0.578718},"rotation":-0.789358,"innerRadius":143.695372,"sector":0.191932},
+    {"kind":"curvedBrick","id":33,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":78.936293,"pathRotation":0.720069},"rotation":-0.464714,"innerRadius":233.717002,"sector":0.116978},
+    {"kind":"peg","id":34,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":116.991837,"pathRotation":1.832775}},
+    {"kind":"peg","id":35,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":116.991837,"pathRotation":2.879614}},
+    {"kind":"peg","id":36,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":116.955462,"pathRotation":-2.356194}},
+    {"kind":"peg","id":37,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":116.991837,"pathRotation":-1.308817}},
+    {"kind":"peg","id":38,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":116.991837,"pathRotation":-0.261979}},
+    {"kind":"peg","id":39,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":116.955462,"pathRotation":0.785398}},
+    {"kind":"peg","id":40,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":69.948338,"pathRotation":2.198857}},
+    {"kind":"peg","id":41,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":69.967185,"pathRotation":1.151487}},
+    {"kind":"peg","id":42,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":69.981744,"pathRotation":0.10448}},
+    {"kind":"peg","id":43,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":69.948338,"pathRotation":-0.942736}},
+    {"kind":"peg","id":44,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":69.967185,"pathRotation":-1.990105}},
+    {"kind":"peg","id":45,"x":673,"y":384,"movement":{"type":"rotateAroundCircle","period":1600,"radius":69.981744,"pathRotation":-3.037113}},
+    {"kind":"brick","id":46,"x":357.242532,"y":123.312102,"rotation":-0.882634,"length":35.621993},
+    {"kind":"brick","id":47,"x":328.896436,"y":146.498907,"rotation":-0.888177,"length":35.621203},
+    {"kind":"brick","id":48,"x":299.893278,"y":168.833142,"rotation":-0.941354,"length":35.616078},
+    {"kind":"brick","id":49,"x":269.750306,"y":189.603094,"rotation":-0.993398,"length":35.619786},
+    {"kind":"brick","id":50,"x":238.638736,"y":208.901761,"rotation":-1.037728,"length":35.619797},
+    {"kind":"brick","id":51,"x":206.656333,"y":226.713136,"rotation":-1.087751,"length":35.617771},
+    {"kind":"brick","id":52,"x":173.83669,"y":242.933397,"rotation":-1.135589,"length":35.620811},
+    {"kind":"brick","id":53,"x":140.443491,"y":257.960648,"rotation":-1.160107,"length":35.621812},
+    {"kind":"brick","id":54,"x":106.649069,"y":272.059588,"rotation":-1.190994,"length":35.621732},
+    {"kind":"brick","id":55,"x":72.587676,"y":285.512478,"rotation":-1.197982,"length":35.622404},
+    {"kind":"brick","id":56,"x":558.770887,"y":123.323257,"rotation":0.882628,"length":35.656891},
+    {"kind":"brick","id":57,"x":587.144452,"y":146.531587,"rotation":0.888223,"length":35.656093},
+    {"kind":"brick","id":58,"x":616.177448,"y":168.884163,"rotation":0.941503,"length":35.650969},
+    {"kind":"brick","id":59,"x":646.352281,"y":189.669342,"rotation":0.993549,"length":35.654673},
+    {"kind":"brick","id":60,"x":677.496666,"y":208.981251,"rotation":1.037917,"length":35.65469},
+    {"kind":"brick","id":61,"x":709.513876,"y":226.80171,"rotation":1.088045,"length":35.65265},
+    {"kind":"brick","id":62,"x":742.368851,"y":243.029295,"rotation":1.135806,"length":35.655726},
+    {"kind":"brick","id":63,"x":775.791564,"y":258.076709,"rotation":1.159523,"length":35.656939},
+    {"kind":"brick","id":64,"x":809.571969,"y":272.303331,"rotation":1.184885,"length":35.656708},
+    {"kind":"brick","id":65,"x":843.671507,"y":285.749713,"rotation":1.205457,"length":35.656919},
+    {"kind":"brick","id":66,"x":878.130798,"y":298.232573,"rotation":1.241364,"length":35.655754},
+    {"kind":"peg","id":67,"x":240,"y":406},
+    {"kind":"peg","id":68,"x":673,"y":384},
+    {"kind":"peg","id":69,"x":180,"y":34},
+    {"kind":"peg","id":70,"x":139.622113,"y":42.456045},
+    {"kind":"peg","id":71,"x":99.611914,"y":52.477143},
+    {"kind":"peg","id":72,"x":60,"y":64},
+    {"kind":"peg","id":73,"x":736,"y":34},
+    {"kind":"peg","id":74,"x":776.377887,"y":42.456045},
+    {"kind":"peg","id":75,"x":816.388086,"y":52.477143},
+    {"kind":"peg","id":76,"x":856,"y":64},
+    {"kind":"peg","id":77,"x":262,"y":40},
+    {"kind":"peg","id":78,"x":225.176389,"y":58.974913},
+    {"kind":"peg","id":79,"x":187.85839,"y":76.941936},
+    {"kind":"peg","id":80,"x":149.591288,"y":92.797419},
+    {"kind":"peg","id":81,"x":110.494573,"y":106.466097},
+    {"kind":"peg","id":82,"x":70.395608,"y":116.824221},
+    {"kind":"peg","id":83,"x":30,"y":126},
+    {"kind":"peg","id":84,"x":654,"y":40},
+    {"kind":"peg","id":85,"x":690.823611,"y":58.974913},
+    {"kind":"peg","id":86,"x":728.14161,"y":76.941936},
+    {"kind":"peg","id":87,"x":766.408712,"y":92.797419},
+    {"kind":"peg","id":88,"x":805.505427,"y":106.466097},
+    {"kind":"peg","id":89,"x":845.604392,"y":116.824221},
+    {"kind":"peg","id":90,"x":886,"y":126},
+    {"kind":"peg","id":91,"x":338,"y":80},
+    {"kind":"peg","id":92,"x":307.544414,"y":104.17543},
+    {"kind":"peg","id":93,"x":276.712976,"y":127.864121},
+    {"kind":"peg","id":94,"x":244.418301,"y":149.512287},
+    {"kind":"peg","id":95,"x":211.064885,"y":169.494983},
+    {"kind":"peg","id":96,"x":176.822538,"y":187.91327},
+    {"kind":"peg","id":97,"x":141.737634,"y":204.669467},
+    {"kind":"peg","id":98,"x":105.820071,"y":219.55315},
+    {"kind":"peg","id":99,"x":69.010436,"y":232.074241},
+    {"kind":"peg","id":100,"x":32,"y":244},
+    {"kind":"peg","id":101,"x":578,"y":80},
+    {"kind":"peg","id":102,"x":608.455586,"y":104.17543},
+    {"kind":"peg","id":103,"x":639.287024,"y":127.864121},
+    {"kind":"peg","id":104,"x":671.581699,"y":149.512287},
+    {"kind":"peg","id":105,"x":704.935115,"y":169.494983},
+    {"kind":"peg","id":106,"x":739.177462,"y":187.91327},
+    {"kind":"peg","id":107,"x":774.262366,"y":204.669467},
+    {"kind":"peg","id":108,"x":810.179929,"y":219.55315},
+    {"kind":"peg","id":109,"x":846.989564,"y":232.074241},
+    {"kind":"peg","id":110,"x":884,"y":244},
+    {"kind":"peg","id":111,"x":150,"y":297},
+    {"kind":"peg","id":112,"x":108.136984,"y":313.943069},
+    {"kind":"peg","id":113,"x":66.628859,"y":331.651438},
+    {"kind":"peg","id":114,"x":30,"y":358},
+    {"kind":"peg","id":115,"x":822,"y":322},
+    {"kind":"peg","id":116,"x":861.395269,"y":335.62404},
+    {"kind":"peg","id":117,"x":889.873511,"y":364.971508},
+    {"kind":"peg","id":118,"x":866,"y":398},
+    {"kind":"peg","id":119,"x":216,"y":264},
+    {"kind":"peg","id":120,"x":259.298457,"y":254.834594},
+    {"kind":"peg","id":121,"x":299.74218,"y":236.94151},
+    {"kind":"peg","id":122,"x":342.702059,"y":226.712713},
+    {"kind":"peg","id":123,"x":386.459488,"y":231.086418},
+    {"kind":"peg","id":124,"x":430.311606,"y":236.863084},
+    {"kind":"peg","id":125,"x":474.551638,"y":237.565724},
+    {"kind":"peg","id":126,"x":518.611068,"y":233.332015},
+    {"kind":"peg","id":127,"x":562.180978,"y":225.987032},
+    {"kind":"peg","id":128,"x":606,"y":232},
+    {"kind":"peg","id":129,"x":300,"y":282},
+    {"kind":"peg","id":130,"x":346,"y":270},
+    {"kind":"peg","id":131,"x":560,"y":272},
+    {"kind":"peg","id":132,"x":392,"y":300},
+    {"kind":"peg","id":133,"x":422.826105,"y":280.921629},
+    {"kind":"peg","id":134,"x":458,"y":273},
+    {"kind":"peg","id":135,"x":493.173895,"y":280.921629},
+    {"kind":"peg","id":136,"x":524,"y":300},
+    {"kind":"peg","id":137,"x":397,"y":340},
+    {"kind":"peg","id":138,"x":437.666667,"y":340},
+    {"kind":"peg","id":139,"x":478.333333,"y":340},
+    {"kind":"peg","id":140,"x":519,"y":340},
+    {"kind":"peg","id":141,"x":378,"y":390},
+    {"kind":"peg","id":142,"x":413.5,"y":390},
+    {"kind":"peg","id":143,"x":449,"y":390},
+    {"kind":"peg","id":144,"x":484.5,"y":390},
+    {"kind":"peg","id":145,"x":520,"y":390},
+    {"kind":"peg","id":146,"x":376,"y":440},
+    {"kind":"peg","id":147,"x":414,"y":440},
+    {"kind":"peg","id":148,"x":452,"y":440},
+    {"kind":"peg","id":149,"x":490,"y":440},
+    {"kind":"peg","id":150,"x":528,"y":440},
+    {"kind":"peg","id":151,"x":360,"y":490},
+    {"kind":"peg","id":152,"x":399.2,"y":490},
+    {"kind":"peg","id":153,"x":438.4,"y":490},
+    {"kind":"peg","id":154,"x":477.6,"y":490},
+    {"kind":"peg","id":155,"x":516.8,"y":490},
+    {"kind":"peg","id":156,"x":556,"y":490}
+  ]
+}

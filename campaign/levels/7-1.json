@@ -1,28 +1,30 @@
 {
   "id": "7-1",
   "name": "Pinwheel Garden",
-  "draft": true,
   "concept": {
-    "subject": "Two big garden pinwheels spinning on tall sticks above curving flower beds, a garland of blossoms arched between them.",
-    "composition": "The pinwheels turn in the lower half at a quarter and three quarters of the width and three fifths of the height, each half the picture height across, with five curved blades. A garland of small blossoms arches across the middle at a third of the height, below the open top center; curving beds edged with pale stone run along the bottom and between the pinwheels; low hedges fill the lower corners.",
-    "layout": "110 round pegs and 45 bricks. The two pinwheels are the rotating template's windmill pair: sails of straight bricks along five spokes with pegs at the sail tips, turning in opposite directions around static hub pegs. The garland is a peg arc over the middle, blossoms in the beds are peg clusters, and the beds' stone edging is short brick slides that lean toward the middle."
+    "subject": "Two garden pinwheels on slender sticks turning against a soft gray spring sky, a striped wheel on the left and a flower of six petals on the right, under drifting banks of cloud.",
+    "composition": "The pinwheels stand in the lower half, the striped wheel's hub at about a quarter of the width and seven tenths of the height, the flower's hub at about three quarters of the width and a little higher, the wheel about two fifths of the picture high and the flower a little larger, their sticks running down to the bottom edge. The wheel has a rainbow rim broken by white stripes, a second ring inside it and a disc of colored vanes; the flower has six broad petals in red, orange, yellow and green with open holes around its hub. Above them is cloud: a dark bank sloping from the top middle down to the right edge, whose dark tip reaches in under the open top center, a bright bank in the upper left and a band of bright cloud across the middle, over the gap between the pinwheels. The lower corners are plain sky.",
+    "layout": "110 round pegs and 45 bricks. The two pinwheels turn in opposite directions about still hub pegs, each a group of traced lines on rotateAroundCircle: the striped wheel's rim is six arcs of curved bricks with the white stripes as slots between them, around a ring of eight pegs where its vanes meet the inner ring; the flower's six petals are blades of two bricks swept like a pinwheel's vanes, each with a peg at its round tip and a peg in each open hole between them. Two long brick slides follow the cloud edges from just beside the cannon down to the walls, a row of pegs follows each one in the sky above it and two shorter rows fill each upper corner. The dark tip of the cloud under the cannon is a solid with a peaked top, a shelter over the band of bright cloud whose pegs arch across the middle above both pinwheels; the bright cloud between the pinwheels is staggered rows of pegs, and short rows mark the gray clouds under the slides' lower ends at the walls."
   },
   "plan": {
     "archetypes": ["rotating", "outline"],
-    "templates": ["outline", "rotating"],
+    "templates": ["solids", "outline"],
     "fill": "none",
     "pegs": 110,
     "bricks": 45,
-    "moving": [{ "what": "the two pinwheels' sails and tip pegs", "type": "rotateAroundCircle" }],
+    "moving": [
+      { "what": "the striped wheel's rim and its ring of pegs", "type": "rotateAroundCircle" },
+      { "what": "the flower's petals, petal tips and holes", "type": "rotateAroundCircle" }
+    ],
     "features": ["Rotating windmill bricks (spec 8): two garden pinwheels"],
     "difficulty": {
       "target": 0.3,
-      "note": "The stage opener and its easiest level: the pinwheels turn low at the sides, and the garland and the beds are open to direct shots."
+      "note": "The stage opener and its easiest level: a plain shot from the cannon rides either slide down to its wall, and the solid cloud tip under the cannon turns straight shots away from the band of bright cloud, the line that holds the most orange pegs."
     }
   },
   "background": {
     "id": "petal-terraces-pinwheels",
-    "prompt": "Terraced flower gardens on a sunny hillside in late spring. Two big garden pinwheels on tall slender sticks spin in the lower half of the picture, centered at about one quarter and three quarters of the width and about three fifths of the height, each about half the picture height across, with five broad curved blades in cream and dusty rose around a round center. A garland of small blossoms in blush pink and cream arches across the middle of the picture between them at about one third of the height, below the open top center. Curving flower beds edged with pale stone run along the bottom and between the pinwheels, with butter-yellow and soft peach blossoms and muted sage leaves. A clear, soft sky; the lower corners are low gray-green hedges.",
+    "prompt": "A photo of two garden pinwheels on slender dark sticks against a soft gray, cloudy spring sky. The pinwheels stand in the lower half: on the left a round striped wheel, its hub at about a quarter of the width and seven tenths of the height, about two fifths of the picture high, with a rainbow rim broken by small white stripes, a second ring inside it and a disc of colored vanes; on the right a flower of six broad petals in muted red, orange, yellow and green with open holes around its hub, at about three quarters of the width and a little higher, about half the picture high. Their sticks run down to the bottom edge. Above them the sky is soft cloud: a darker bank slopes from the top middle down to the right edge, its tip reaching in under the open top center, a brighter bank fills the upper left and a band of bright cloud crosses the middle between the pinwheels. The lower corners are plain sky.",
     "picture": {
       "ref": "pexels:12615038",
       "kind": "photo",
@@ -44,6 +46,24 @@
   },
   "recipe": {
     "seed": 701,
-    "targetCount": 155
+    "targetCount": 155,
+    "solids": {
+      "polygons": [
+        {
+          "points": [
+            [384, 206],
+            [398, 196],
+            [420, 186],
+            [458, 177],
+            [496, 186],
+            [518, 196],
+            [532, 206],
+            [500, 212],
+            [458, 214],
+            [416, 212]
+          ]
+        }
+      ]
+    }
   }
 }
