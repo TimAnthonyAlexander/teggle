@@ -4,11 +4,11 @@
   "concept": {
     "subject": "The fair's Ferris wheel seen from below against a clear afternoon sky: a double red rim, steel spokes and polygon rings around a turning hub on an A-frame, and cars hanging from the rim.",
     "composition": "The wheel fills the board. Its hub sits at half the width and about two thirds of the height; the front rim runs from just under the top edge at the center down both sides to about 8 and 92 percent of the width, and the back rim follows it a little inside. Spokes radiate from the hub to the rim joints, crossed by polygon rings. A car hangs under the top center, a little left of it, two more at the upper left and upper right, one on each side at about half height, and two in the lower corners; the A-frame legs run from the hub to the bottom center.",
-    "layout": "43 round pegs and 101 bricks, the stage's finale. The hub section is the rotating template's single wheel on the picture's hub: a ring of curved bricks broken into four slots, a ring of pegs and six spoke pegs turning around a static hub peg, under a solid crown traced on the inner ring's top. The front and back rims are long brick arcs from beside the cannon down to the flippers, at least 40 px apart, so the channel between them is a slide from either side of the cannon. The back rim's ends beside the cannon and the left front rim's end are solid, and the top car is a solid over the crown. Brick and peg spokes run from the turning hub out toward the back rim; the other cars are brick floors with peg seat backs; bolts, rivets, a hanger rod and the cars' hanger rings outside the rim fill out the count."
+    "layout": "43 round pegs and 101 bricks, the stage's finale. The hub section is the rotating template's single wheel on the picture's hub: a ring of curved bricks broken into four slots, a ring of pegs and six spoke pegs turning around a static hub peg. The front and back rims are long brick arcs from beside the cannon down to the flippers, at least 40 px apart, so the channel between them is a slide from either side of the cannon. No solids: the top of the turning section is open to the cannon. Brick and peg spokes run from the turning hub out toward the back rim; the other cars are brick floors with peg seat backs; bolts, rivets, a hanger rod and the cars' hanger rings outside the rim fill out the count."
   },
   "plan": {
     "archetypes": ["rotating", "outline"],
-    "templates": ["solids", "outline", "rotating"],
+    "templates": ["outline", "rotating"],
     "fill": "none",
     "pegs": 43,
     "bricks": 101,
@@ -16,7 +16,7 @@
     "features": ["Brick-heavy throughout (spec 8): 101 of 144 objects"],
     "difficulty": {
       "target": 0.16,
-      "note": "The stage's hardest. A shot at about 70 degrees to either side rides the channel between the rims and lights eight to ten bricks, but the solid rim ends beside the cannon keep the channel's first bricks out of the orange draw, so many orange pegs gather on the turning hub section, which only shots through the top opening reach, past the solid top car and the crown, and through four slots."
+      "note": "The stage's finale. A shot at about 70 degrees to either side rides the channel between the rims and lights eight to ten bricks. Its five solids (three rim ends, the top car and a crown over the turning ring) made it near impossible in play, so they were removed on 2026-10-21: it clears 43% against the 16% target, easier than its stage on purpose."
     }
   },
   "background": {
@@ -44,63 +44,6 @@
   "recipe": {
     "seed": 805,
     "targetCount": 144,
-    "solids": {
-      "polygons": [
-        {
-          "points": [
-            [418, 136],
-            [462, 146],
-            [452, 166],
-            [392, 166],
-            [379, 146]
-          ]
-        },
-        {
-          "points": [
-            [543.5, 217.9],
-            [502.8, 198.9],
-            [458, 188],
-            [413.2, 198.9],
-            [372.5, 217.9],
-            [376, 224],
-            [415.6, 207.6],
-            [458, 202],
-            [500.4, 207.6],
-            [540, 224]
-          ]
-        },
-        {
-          "points": [
-            [333.1, 39.4],
-            [318.9, 43.4],
-            [303.9, 48],
-            [310.6, 66.8],
-            [324.2, 62.7],
-            [338.9, 58.6]
-          ]
-        },
-        {
-          "points": [
-            [348.7, 83.5],
-            [335.7, 87.9],
-            [322.2, 92.2],
-            [328.5, 111.2],
-            [341.8, 106.9],
-            [355.3, 102.5]
-          ]
-        },
-        {
-          "points": [
-            [569.3, 82.6],
-            [582.5, 87],
-            [596.2, 92.1],
-            [588.6, 110.6],
-            [576, 106],
-            [562.7, 101.4]
-          ]
-        }
-      ]
-    },
     "parts": [
       {
         "template": "rotating",
